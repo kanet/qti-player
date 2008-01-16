@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_options">Options</string>
+
+    <string name="app_name">QTI Player</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_content">No content</string>
+    <string name="options">Options</string>
+    <string name="save">Save</string>
+    <string name="toc_url">TOC address</string>
+</resources>
