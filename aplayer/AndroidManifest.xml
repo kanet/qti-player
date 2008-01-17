@@ -9,5 +9,6 @@
         </activity>
         <activity class=".OptionsActivity" android:label="@string/options" />
         <activity class=".PlayerActivity"/>
+        <activity class=".TocActivity"/>
     </application>
 </manifest> 

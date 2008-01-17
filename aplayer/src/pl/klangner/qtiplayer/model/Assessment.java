@@ -26,13 +26,18 @@ public class Assessment {
 	
 	
 	// --------------------------------------------------------------------------
+	public String getDescription() {
+		return description;
+	}
+	
+	// --------------------------------------------------------------------------
 	public List<Item> getItems(){
 		return items;
 	}
 	
 	// --------------------------------------------------------------------------
 	public String getTitle() {
-		return "simple title";
+		return title;
 	}
 	
 	// --------------------------------------------------------------------------
@@ -72,19 +77,20 @@ public class Assessment {
 	// SAX parser for manifest file
 	private DefaultHandler manifestHandler  = new DefaultHandler(){
 
+		// ------------------------------------------
 		public void startElement (String uri, String name, String qName, Attributes atts){
+			
+			path = path + "/" + name;
 			if (name.compareTo("resource") == 0){
 				item = new Item(atts.getValue("identifier"), atts.getValue("href"));
 				items.add(item);
 			} 
-			else if (name.compareTo("title") == 0){
-				title = true;
-			}
 			else if (name.compareTo("langstring") == 0){
 				langstring = new String();
 			}
 		}
 		
+		// ------------------------------------------
 		public void characters (char ch[], int start, int length){
 
 			if(langstring != null){
@@ -92,29 +98,41 @@ public class Assessment {
 			}
 		}
 
+		// ------------------------------------------
 		public void endElement (String uri, String name, String qName){
+			
+			path = path.substring(0, path.lastIndexOf('/'));
 			if (name.compareTo("resource") == 0){
 				item = null;
 			}
-			else if (name.compareTo("title") == 0){
-				title = false;
-			}
 			else if (name.compareTo("langstring") == 0){
-				if(item != null && title){
+				if(ASSESSMENT_TITLE.compareTo(path) == 0){
+					title = langstring;
+				}else if(ASSESSMENT_DESC.compareTo(path) == 0){
+					description = langstring;
+				}else if(RESOURCE_TITLE.compareTo(path) == 0){
 					item.setTitle(langstring);
+				}else if(RESOURCE_DESC.compareTo(path) == 0){
+					item.setDescritpion(langstring);
 				}
-				
+
 				langstring = null;
 			}
 		}
 		
-		private Item	item = null;
-		private boolean	title = false;
+		private Item		item = null;
+		private String	path = "";
 		private String	langstring = null;
+		private static final String ASSESSMENT_TITLE = "/manifest/metadata/lom/general/title";
+		private static final String ASSESSMENT_DESC = "/manifest/metadata/lom/general/description";
+		private static final String RESOURCE_TITLE = "/manifest/resources/resource/metadata/lom/general/title";
+		private static final String RESOURCE_DESC = "/manifest/resources/resource/metadata/lom/general/description";
 	};
 	
 	// --------------------------------------------------------------------------
 	// Private members
+	private String 			description;
 	private List<Item>	items;
+	private String 			title;
 
 }

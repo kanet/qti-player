@@ -12,6 +12,11 @@ public class Item {
 	}
 	
 	// --------------------------------------------------------------------------
+	public String getDescription(){
+		return description;
+	}
+	
+	// --------------------------------------------------------------------------
 	public String getHref(){
 		return href;
 	}
@@ -32,6 +37,11 @@ public class Item {
 	}
 	
 	// --------------------------------------------------------------------------
+	protected void setDescritpion(String desc) {
+		this.description = desc;
+	}
+
+	// --------------------------------------------------------------------------
 	protected void setTitle(String new_title){
 		this.title = new_title;
 	}
@@ -39,8 +49,9 @@ public class Item {
 	
 	// --------------------------------------------------------------------------
 	// Private members
+	private String description;
+	private String href;
 	private String id;
 	private String title;
-	private String href;
 	
 }

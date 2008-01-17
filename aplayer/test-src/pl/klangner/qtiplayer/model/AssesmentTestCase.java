@@ -18,9 +18,14 @@ public class AssesmentTestCase extends TestCase {
 	}
 
 	// --------------------------------------------------------------------------
-	/**
-	 * Pobranie wiadomości użytkownika telefonu 
-	 */
+	public void testDescritpion(){
+		
+		Assessment a = new Assessment("http://localhost:8800/data/package1");
+		
+		assertEquals("This is an example Contentpackage containing a number of QTI v2.1 items", a.getDescription());
+	}
+
+	// --------------------------------------------------------------------------
 	public void testResourcesCount(){
 		
 		Assessment toc = new Assessment("http://localhost:8800/data/package1");
@@ -30,9 +35,6 @@ public class AssesmentTestCase extends TestCase {
 	}
 
 	// --------------------------------------------------------------------------
-	/**
-	 * Pobranie wiadomości użytkownika telefonu 
-	 */
 	public void testTitle(){
 		
 		Assessment a = new Assessment("http://localhost:8800/data/package1");
@@ -41,9 +43,6 @@ public class AssesmentTestCase extends TestCase {
 	}
 
 	// --------------------------------------------------------------------------
-	/**
-	 * Pobranie wiadomości użytkownika telefonu 
-	 */
 	public void testResourcesId(){
 		
 		Assessment toc = new Assessment("http://localhost:8800/data/package1");
@@ -55,9 +54,6 @@ public class AssesmentTestCase extends TestCase {
 	}
 
 	// --------------------------------------------------------------------------
-	/**
-	 * Pobranie wiadomości użytkownika telefonu 
-	 */
 	public void testResourcesTitle(){
 		
 		Assessment toc = new Assessment("http://localhost:8800/data/package1");

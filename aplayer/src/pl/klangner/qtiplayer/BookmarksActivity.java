@@ -33,7 +33,7 @@ public class BookmarksActivity extends ListActivity {
   public boolean onCreateOptionsMenu(Menu menu) {
     boolean result = super.onCreateOptionsMenu(menu);
 
-    menu.add(0, R.string.menu_options, R.string.menu_options);
+    menu.add(0, R.string.menu_edit_bookmark, R.string.menu_edit_bookmark);
     return result;
   }
 
@@ -44,7 +44,7 @@ public class BookmarksActivity extends ListActivity {
   public boolean onOptionsItemSelected(Item item) {
   	switch (item.getId()) {
 
-  	case R.string.menu_options: 
+  	case R.string.menu_edit_bookmark: 
   		options();
   		break;
 
@@ -63,7 +63,7 @@ public class BookmarksActivity extends ListActivity {
     ContentURI 	uri;
     
 		try {
-			uri = new ContentURI("content://bookmark/" + position);
+			uri = new ContentURI("content://assessment/" + position);
 	    Intent i = new Intent(Intent.VIEW_ACTION, uri, this, PlayerActivity.class);
 	    startActivity(i);
 		} catch (URISyntaxException e) {
