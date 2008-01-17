@@ -16,18 +16,23 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class TableOfContent {
+public class Assessment {
 
 	// --------------------------------------------------------------------------
-	public TableOfContent(String url){
+	public Assessment(String url){
 		
 		load(url);
 	}
 	
 	
 	// --------------------------------------------------------------------------
-	public List<TocItem> getItems(){
+	public List<Item> getItems(){
 		return items;
+	}
+	
+	// --------------------------------------------------------------------------
+	public String getTitle() {
+		return "simple title";
 	}
 	
 	// --------------------------------------------------------------------------
@@ -42,7 +47,7 @@ public class TableOfContent {
 		
 		try {
 
-			items = new ArrayList<TocItem>();
+			items = new ArrayList<Item>();
       int statusCode = client.executeMethod(method);
 
       if (statusCode == HttpStatus.SC_OK) {
@@ -69,7 +74,7 @@ public class TableOfContent {
 
 		public void startElement (String uri, String name, String qName, Attributes atts){
 			if (name.compareTo("resource") == 0){
-				item = new TocItem(atts.getValue("identifier"), atts.getValue("href"));
+				item = new Item(atts.getValue("identifier"), atts.getValue("href"));
 				items.add(item);
 			} 
 			else if (name.compareTo("title") == 0){
@@ -103,13 +108,13 @@ public class TableOfContent {
 			}
 		}
 		
-		private TocItem	item = null;
+		private Item	item = null;
 		private boolean	title = false;
 		private String	langstring = null;
 	};
 	
 	// --------------------------------------------------------------------------
 	// Private members
-	private List<TocItem>	items;
-	
+	private List<Item>	items;
+
 }

@@ -1,9 +1,9 @@
 package pl.klangner.qtiplayer;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
-import pl.klangner.qtiplayer.adapter.TocAdapter;
-import pl.klangner.qtiplayer.model.TableOfContent;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.net.ContentURI;
@@ -11,9 +11,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Menu.Item;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-public class TocActivity extends ListActivity {
+public class BookmarksActivity extends ListActivity {
 	
 	// --------------------------------------------------------------------------
   /** Called when the activity is first created. */
@@ -21,7 +23,7 @@ public class TocActivity extends ListActivity {
     super.onCreate(icicle);
     
     setContentView(R.layout.home);
-	  loadTOC();
+	  loadBookmarks();
   }
 
 	// --------------------------------------------------------------------------
@@ -61,8 +63,8 @@ public class TocActivity extends ListActivity {
     ContentURI 	uri;
     
 		try {
-			uri = new ContentURI("content://???/");
-	    Intent i = new Intent(Intent.VIEW_ACTION, uri, this, ItemActivity.class);
+			uri = new ContentURI("content://bookmark/" + position);
+	    Intent i = new Intent(Intent.VIEW_ACTION, uri, this, PlayerActivity.class);
 	    startActivity(i);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
@@ -76,7 +78,7 @@ public class TocActivity extends ListActivity {
   protected void onActivityResult(int requestCode, int resultCode, String data, Bundle extras) {
   	super.onActivityResult(requestCode, resultCode, data, extras);
       
-  	loadTOC();
+  	loadBookmarks();
   }
   
 	// --------------------------------------------------------------------------
@@ -84,26 +86,24 @@ public class TocActivity extends ListActivity {
    * edit options
    */
   private void options() {
-  	Intent i = new Intent(this, OptionsActivity.class);
+  	Intent i = new Intent(this, EditBookmarkActivity.class);
   	startSubActivity(i, 0);
   }
     
   // --------------------------------------------------------------------------
-	private void loadTOC() {
+	private void loadBookmarks() {
 		
-		Preferences	pref = new Preferences(this);
-		
-  	toc = new TableOfContent(pref.getServer());
-  	setTitle(pref.getServer());
+		Preferences		pref = new Preferences(this);
+		List<String>	bookmarks = new ArrayList<String>();
 
+		bookmarks.add(pref.getServer());
     // Now create an array adapter and set it to display using our row
-  	TocAdapter adapter = new TocAdapter(this, toc.getItems());
+  	BaseAdapter adapter = new ArrayAdapter<String>(this, R.layout.text_row, bookmarks);
     setListAdapter(adapter);    
 		
 	}
 	
 	// --------------------------------------------------------------------------
 	// Private members
-	private TableOfContent	toc;
 	
 }

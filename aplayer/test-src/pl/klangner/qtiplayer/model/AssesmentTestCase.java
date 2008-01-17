@@ -2,12 +2,12 @@ package pl.klangner.qtiplayer.model;
 
 import java.util.List;
 
-import pl.klangner.qtiplayer.model.TableOfContent;
-import pl.klangner.qtiplayer.model.TocItem;
+import pl.klangner.qtiplayer.model.Assessment;
+import pl.klangner.qtiplayer.model.Item;
 import pl.klangner.qtiplayer.server.NanoHTTPD;
 import junit.framework.TestCase;
 
-public class TocTestCase extends TestCase {
+public class AssesmentTestCase extends TestCase {
 
 	// --------------------------------------------------------------------------
 	protected void setUp() throws Exception {
@@ -23,8 +23,8 @@ public class TocTestCase extends TestCase {
 	 */
 	public void testResourcesCount(){
 		
-		TableOfContent toc = new TableOfContent("http://localhost:8800/data/package1");
-		List<TocItem> items = toc.getItems();
+		Assessment toc = new Assessment("http://localhost:8800/data/package1");
+		List<Item> items = toc.getItems();
 		
 		assertEquals(4, items.size());
 	}
@@ -33,13 +33,24 @@ public class TocTestCase extends TestCase {
 	/**
 	 * Pobranie wiadomości użytkownika telefonu 
 	 */
+	public void testTitle(){
+		
+		Assessment a = new Assessment("http://localhost:8800/data/package1");
+		
+		assertEquals("Example Contentpackage with QTI v2.1 items", a.getTitle());
+	}
+
+	// --------------------------------------------------------------------------
+	/**
+	 * Pobranie wiadomości użytkownika telefonu 
+	 */
 	public void testResourcesId(){
 		
-		TableOfContent toc = new TableOfContent("http://localhost:8800/data/package1");
-		List<TocItem> items = toc.getItems();
+		Assessment toc = new Assessment("http://localhost:8800/data/package1");
+		List<Item> items = toc.getItems();
 		
 		assertEquals(4, items.size());
-		TocItem item = items.get(0);
+		Item item = items.get(0);
 		assertEquals("RES-BCA84FC0-53F9-ABBD-C3FE-BDB5B825CA9E", item.getId());
 	}
 
@@ -49,11 +60,11 @@ public class TocTestCase extends TestCase {
 	 */
 	public void testResourcesTitle(){
 		
-		TableOfContent toc = new TableOfContent("http://localhost:8800/data/package1");
-		List<TocItem> items = toc.getItems();
+		Assessment toc = new Assessment("http://localhost:8800/data/package1");
+		List<Item> items = toc.getItems();
 		
 		assertEquals(4, items.size());
-		TocItem item = items.get(0);
+		Item item = items.get(0);
 		assertEquals("Monty Hall (Take 1)", item.getTitle());
 	}
 

@@ -1,10 +1,10 @@
 package pl.klangner.qtiplayer.model;
 
 
-public class TocItem {
+public class Item {
 
 	// --------------------------------------------------------------------------
-	protected TocItem(String id, String href){
+	protected Item(String id, String href){
 		
 		this.id = id;
 		this.title = id;
