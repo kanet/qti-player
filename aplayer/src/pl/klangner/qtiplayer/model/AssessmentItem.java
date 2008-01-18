@@ -1,10 +1,13 @@
 package pl.klangner.qtiplayer.model;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class Item {
+
+public class AssessmentItem {
 
 	// --------------------------------------------------------------------------
-	protected Item(String id, String href){
+	protected AssessmentItem(String id, String href){
 		
 		this.id = id;
 		this.title = id;
@@ -24,6 +27,11 @@ public class Item {
 	// --------------------------------------------------------------------------
 	public String getId(){
 		return id;
+	}
+	
+	// --------------------------------------------------------------------------
+	public List<Module> getModules(){
+		return modules;
 	}
 	
 	// --------------------------------------------------------------------------
@@ -49,9 +57,11 @@ public class Item {
 	
 	// --------------------------------------------------------------------------
 	// Private members
-	private String description;
-	private String href;
-	private String id;
-	private String title;
+	private String 				description;
+	private String 				href;
+	private String 				id;
+	private boolean				is_loaded = false;
+	private String 				title;
+	private List<Module>	modules = new ArrayList<Module>();
 	
 }

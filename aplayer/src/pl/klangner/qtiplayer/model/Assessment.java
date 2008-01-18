@@ -31,7 +31,7 @@ public class Assessment {
 	}
 	
 	// --------------------------------------------------------------------------
-	public List<Item> getItems(){
+	public List<AssessmentItem> getItems(){
 		return items;
 	}
 	
@@ -52,7 +52,7 @@ public class Assessment {
 		
 		try {
 
-			items = new ArrayList<Item>();
+			items = new ArrayList<AssessmentItem>();
       int statusCode = client.executeMethod(method);
 
       if (statusCode == HttpStatus.SC_OK) {
@@ -82,7 +82,7 @@ public class Assessment {
 			
 			path = path + "/" + name;
 			if (name.compareTo("resource") == 0){
-				item = new Item(atts.getValue("identifier"), atts.getValue("href"));
+				item = new AssessmentItem(atts.getValue("identifier"), atts.getValue("href"));
 				items.add(item);
 			} 
 			else if (name.compareTo("langstring") == 0){
@@ -120,7 +120,7 @@ public class Assessment {
 			}
 		}
 		
-		private Item		item = null;
+		private AssessmentItem		item = null;
 		private String	path = "";
 		private String	langstring = null;
 		private static final String ASSESSMENT_TITLE = "/manifest/metadata/lom/general/title";
@@ -132,7 +132,7 @@ public class Assessment {
 	// --------------------------------------------------------------------------
 	// Private members
 	private String 			description;
-	private List<Item>	items;
+	private List<AssessmentItem>	items;
 	private String 			title;
 
 }

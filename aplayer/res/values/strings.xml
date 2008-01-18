@@ -6,9 +6,12 @@
 
     <string name="app_name">QTI Player</string>
     <string name="cancel">Cancel</string>
+    <string name="finish">Finish</string>
+    <string name="next">Next</string>
     <string name="no_content">No content</string>
     <string name="options">Options</string>
-    <string name="save">Save</string>
+    <string name="previous">Previous</string>
+    <string name="save">Save</string> 
     <string name="start">Start</string>
     <string name="toc_url">TOC address</string>
 </resources>

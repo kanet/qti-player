@@ -2,7 +2,7 @@ package pl.klangner.qtiplayer.adapter;
 
 import java.util.List;
 
-import pl.klangner.qtiplayer.model.Item;
+import pl.klangner.qtiplayer.model.AssessmentItem;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 public class ItemAdapter extends BaseAdapter {
 	
 	// --------------------------------------------------------------------------
-  public ItemAdapter(Context c, List<Item> items) {
+  public ItemAdapter(Context c, List<AssessmentItem> items) {
   	
   	this.context = c;
   	this.items = items;
@@ -22,7 +22,7 @@ public class ItemAdapter extends BaseAdapter {
   // --------------------------------------------------------------------------
   public View getView(int position, View convertView, ViewGroup parent) {
     
-  	Item 	item  = items.get(position);
+  	AssessmentItem 	item  = items.get(position);
   	TextView 	view;
 
   	view = new TextView(context);
@@ -49,6 +49,6 @@ public class ItemAdapter extends BaseAdapter {
 	// --------------------------------------------------------------------------
   // Private members
   private Context 			context;
-  private List<Item> items;
+  private List<AssessmentItem> items;
 
 }

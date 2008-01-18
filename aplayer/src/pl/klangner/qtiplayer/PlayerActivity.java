@@ -1,6 +1,7 @@
 package pl.klangner.qtiplayer;
 
 import pl.klangner.qtiplayer.model.Assessment;
+import pl.klangner.qtiplayer.model.AssessmentItem;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ public class PlayerActivity extends Activity {
     super.onCreate(icicle);
     
 	  loadAssessment();
-    setContentView(new StartView(this, assessment));
+	  loadAboutView();
   }
 
 	// --------------------------------------------------------------------------
@@ -58,12 +59,61 @@ public class PlayerActivity extends Activity {
 		Preferences		pref = new Preferences(this);
 		
 		assessment = new Assessment(pref.getServer());
-  	setTitle(assessment.getTitle());
 
 	}
 	
 	// --------------------------------------------------------------------------
+	private void loadAboutView() {
+  	setTitle(assessment.getTitle());
+    setContentView(new StartView(this, new ContentManagerImpl()));
+	}
+
+	// --------------------------------------------------------------------------
+	private void loadPageView(int index) {
+		AssessmentItem item = assessment.getItems().get(index);
+		setTitle(item.getTitle());
+    setContentView(new PageView(this, new ContentManagerImpl()));
+	}
+
+	// --------------------------------------------------------------------------
 	// Private members
 	private Assessment	assessment;
+	
+	
+	// ==========================================================================
+	// Inner class
+	// ==========================================================================
+	private class ContentManagerImpl implements ContentManager{
+
+		// ---------------------------------------------------------------------
+		public Assessment getAssessment() {
+			return assessment;
+		}
+
+		// ---------------------------------------------------------------------
+		public int getCurrentPage() {
+			return index;
+		}
+
+		// ---------------------------------------------------------------------
+		public void goToPage(int page) {
+			index = page;
+			switch(page){
+				case ContentManager.ABOUT_PAGE:
+					loadAboutView();
+					break;
+					
+				case ContentManager.SUMMARY_PAGE:
+					break;
+					
+				default:
+					loadPageView(index);
+					break;
+			}
+		}
+
+		// ---------------------------------------------------------------------
+		private int index;
+	};
 	
 }
