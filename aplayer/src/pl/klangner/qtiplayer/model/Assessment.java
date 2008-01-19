@@ -52,6 +52,7 @@ public class Assessment {
 		
 		try {
 
+			this.url = url;
 			items = new ArrayList<AssessmentItem>();
       int statusCode = client.executeMethod(method);
 
@@ -82,7 +83,7 @@ public class Assessment {
 			
 			path = path + "/" + name;
 			if (name.compareTo("resource") == 0){
-				item = new AssessmentItem(atts.getValue("identifier"), atts.getValue("href"));
+				item = new AssessmentItem(url, atts.getValue("identifier"), atts.getValue("href"));
 				items.add(item);
 			} 
 			else if (name.compareTo("langstring") == 0){
@@ -134,5 +135,6 @@ public class Assessment {
 	private String 			description;
 	private List<AssessmentItem>	items;
 	private String 			title;
+	private String			url;
 
 }

@@ -1,6 +1,9 @@
 package pl.klangner.qtiplayer;
 
+import java.util.List;
+
 import pl.klangner.qtiplayer.model.AssessmentItem;
+import pl.klangner.qtiplayer.model.Module;
 import android.content.Context;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -9,11 +12,11 @@ import android.widget.TextView;
 public class PageView extends LinearLayout {
 
 	// --------------------------------------------------------------------------
-	public PageView(Context context, ContentManager navigation) {
+	public PageView(Context context, ContentManager cm) {
 		super(context);
 		
-		this.navigation = navigation;
-		item = navigation.getAssessment().getItems().get(navigation.getCurrentPage());
+		manager = cm;
+		item = manager.getAssessment().getItems().get(manager.getCurrentPage());
 		
 		createView();
 	}
@@ -22,7 +25,6 @@ public class PageView extends LinearLayout {
 	private void createView() {
 
 		Context 			context = getContext();
-		TextView			about_view = new TextView(context);
 		TextView			counter_view = new TextView(context);
 		LinearLayout	navi_panel;
 		LayoutParams	lp;
@@ -30,9 +32,6 @@ public class PageView extends LinearLayout {
 		setOrientation(VERTICAL);
 		lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		lp.gravity = 1;
-		about_view.setLayoutParams(lp);
-		about_view.setPadding(10, 10, 10, 10);
-		about_view.setText(navigation.getAssessment().getDescription());
 		
 		prev_button = new Button(context);
 		prev_button.setText(R.string.previous);
@@ -54,14 +53,39 @@ public class PageView extends LinearLayout {
 		navi_panel.addView(next_button);
 		navi_panel.addView(end_button);
 		
-		addView(about_view);
+		addView(createContentView());
 		addView(navi_panel);
 		
 	}
 
 	// --------------------------------------------------------------------------
+	private LinearLayout createContentView() {
+
+		Context 			context = getContext();
+		TextView			view;
+		LinearLayout	layout = new LinearLayout(context);
+		LayoutParams	lp;
+		List<Module>	modules = item.getModules();
+
+		lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		layout.setOrientation(VERTICAL);
+		layout.setLayoutParams(lp);
+		
+		for(Module module : modules) {
+
+			view = new TextView(context);
+			view.setLayoutParams(lp);
+			view.setText(module.toString());
+			layout.addView(view);
+		}
+		
+		return layout;
+		
+	}
+
+	// --------------------------------------------------------------------------
 	// Private members
-	private ContentManager 	navigation;
+	private ContentManager 	manager;
 	private AssessmentItem	item;
 	private Button					prev_button;
 	private Button					next_button;

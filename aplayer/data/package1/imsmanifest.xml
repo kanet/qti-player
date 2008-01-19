@@ -89,7 +89,7 @@ http://www.imsglobal.org/xsd/imsmd_v1p2 http://www.imsglobal.org/xsd/imsmd_v1p2p
 			<file href="example/blue_door.png"/>
 			<file href="example/open_goat.png"/>
 		</resource>
-		<resource identifier="RES-B38DF83F-A291-86DA-4EC3-B2CEBD1515A4" type="imsqti_item_xmlv2p0" href="Example/choice.xml">
+		<resource identifier="RES-B38DF83F-A291-86DA-4EC3-B2CEBD1515A4" type="imsqti_item_xmlv2p0" href="example/choice.xml">
 			<metadata>
 				<imsmd:lom>
 					<imsmd:general>
