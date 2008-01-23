@@ -1,0 +1,70 @@
+/* CSS file */
+
+
+global {
+  font-size: 14;
+}
+
+.startview {
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background-color: #ffbbbb;
+	horizontal-align: center;
+}
+
+.pageview {
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	horizontal-align: left;
+}
+
+.resultview {
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background-color: #bbbbff;
+	horizontal-align: center;
+}
+
+.pageheader {
+	left: 0;
+	right: 0;
+	top: 0;
+	background-color: #ffffcc;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	horizontal-align: center;
+	vertical-align: middle;
+}
+
+.pagebody {
+	left: 0;
+	right: 0;
+	top: 50;
+	bottom: 50;
+	background-color: #ffffff;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.pagefooter {
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #cccccc;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	vertical-align: middle;
+}
+

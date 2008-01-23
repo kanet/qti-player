@@ -18,6 +18,7 @@ package
 			assessment = a;
 			controller = c;
 			
+			styleName = "resultview";
 			createLayout();
 		}
 		

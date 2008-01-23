@@ -62,6 +62,12 @@ import flash.net.*;
 		}
 		
 		// ------------------------------------------------------------------------
+		public function get url() :String
+		{
+			return _url;
+		}
+		
+		// ------------------------------------------------------------------------
 		public function load(location :String) :void
 		{
 			_url = location;
@@ -76,7 +82,7 @@ import flash.net.*;
 		
 		// ------------------------------------------------------------------------
 		public function loaded(f :Function) :void{
-			on_load = f;
+			on_loaded = f;
 		}
 		
 		
@@ -105,10 +111,10 @@ import flash.net.*;
      		_items.push(item);
      	}
      	
-     	on_load();
-   }
+     	on_loaded();
+		}
    
-		// ------------------------------------------------------------------------
+	  // ------------------------------------------------------------------------
 		// Private members
 		private var _copyright :String;			
 		private var _description :String;			
@@ -117,6 +123,6 @@ import flash.net.*;
 		private var _items:Array;
 		// The object used to load the XML
 		private var url_loader:URLLoader;
-		private var on_load:Function;
+		private var on_loaded:Function;
 	}
 }

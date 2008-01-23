@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
-	backgroundColor="white" xmlns:local="*" creationComplete="load()">
-
-	<mx:Box id="view_box" width="100%"/>
+	backgroundColor="white" xmlns:local="*" layout="absolute" creationComplete="load()">
+	
+	<mx:Style source="default.css" />
 	
 	<mx:Script>
 	  <![CDATA[
+	  	import mx.core.Container;
 	  	import model.Assessment;
 	  	
 	    public function showStartView() : void{
@@ -20,9 +21,9 @@
 	    	showView(new ResultView(assessment, controller));
 	    }
 	    
-	    private function showView(view: Box) : void{
-	    	view_box.removeAllChildren();
-	    	view_box.addChild(view);
+	    private function showView(view: Container) : void{
+	    	removeAllChildren();
+	    	addChild(view);
 	    }
 
 	    private function load() : void{
