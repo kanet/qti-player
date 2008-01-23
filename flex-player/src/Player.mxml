@@ -17,7 +17,7 @@
 	    }
 	    
 	    public function showSummaryView() : void{
-	    	
+	    	showView(new ResultView(assessment, controller));
 	    }
 	    
 	    private function showView(view: Box) : void{
