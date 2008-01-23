@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+	backgroundColor="white" xmlns:local="*" creationComplete="load()">
+
+	<mx:Box id="view_box" width="100%"/>
+	
+	<mx:Script>
+	  <![CDATA[
+	  	import model.Assessment;
+	  	
+	    public function showAboutView() : void{
+	    	showView(new AboutView());
+	    }
+
+	    public function showPageView() : void{
+	    	showView(new PageView());
+	    }
+	    
+	    public function showSummaryView() : void{
+	    	
+	    }
+	    
+	    private function showView(view: View) : void{
+	    	view.assessment = assessment;
+	    	view.controller = controller;
+	    	view_box.removeAllChildren();
+	    	view_box.addChild(view);
+	    }
+
+	    private function load() : void{
+	    	
+	    	controller = new Controller(this);
+	    	assessment = new Assessment("../data/package1");
+	    	assessment.loaded(showAboutView);
+	    }
+
+			private var assessment :Assessment;	   
+			private var controller: Controller; 
+	  ]]>
+	</mx:Script>
+	
+
+</mx:Application>

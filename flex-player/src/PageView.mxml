@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<local:View xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="*">
+
+	<mx:Script>
+	  <![CDATA[
+	  ]]>
+	</mx:Script>
+
+	<mx:Box id="assessment_panel" direction="horizontal" width="100%" backgroundColor="#bbbbff">
+  	<mx:Text name="title_box" text="{assessment.title}"/>	
+	</mx:Box>
+	
+	<mx:Text id="body" text="tu znajduje się ćwiczenie"/>
+	
+	<mx:Box id="navigation_panel" direction="horizontal" width="100%" backgroundColor="#bbbbff">
+		<mx:Button label="Previous"/>
+		<mx:Text text="Page 1/4"/>
+		<mx:Button label="Finish"/>
+		<mx:Button label="Next"/>
+	</mx:Box>
+	
+</local:View>
