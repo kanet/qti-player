@@ -8,21 +8,19 @@
 	  <![CDATA[
 	  	import model.Assessment;
 	  	
-	    public function showAboutView() : void{
-	    	showView(new AboutView());
+	    public function showStartView() : void{
+	    	showView(new StartView(assessment, controller));
 	    }
 
 	    public function showPageView() : void{
-	    	showView(new PageView());
+	    	showView(new PageView(assessment, controller));
 	    }
 	    
 	    public function showSummaryView() : void{
 	    	
 	    }
 	    
-	    private function showView(view: View) : void{
-	    	view.assessment = assessment;
-	    	view.controller = controller;
+	    private function showView(view: Box) : void{
 	    	view_box.removeAllChildren();
 	    	view_box.addChild(view);
 	    }
@@ -31,7 +29,7 @@
 	    	
 	    	controller = new Controller(this);
 	    	assessment = new Assessment("../data/package1");
-	    	assessment.loaded(showAboutView);
+	    	assessment.loaded(showStartView);
 	    }
 
 			private var assessment :Assessment;	   

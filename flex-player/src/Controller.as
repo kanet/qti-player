@@ -3,9 +3,9 @@ package
 	public class Controller
 	{
 		/** First page */
-		public static const ABOUT_PAGE:int = -1;
+		public static const START_PAGE:int = -1;
 		/** Last page */
-		public static const SUMMARY_PAGE:int = -2;
+		public static const RESULT_PAGE:int = -2;
 		
 		// ------------------------------------------------------------------------
 		public function Controller(p:Player)
@@ -25,10 +25,10 @@ package
 		{
 			_index = page;
 			
-			if(index == ABOUT_PAGE){
-				player.showAboutView();
+			if(index == START_PAGE){
+				player.showStartView();
 			}
-			else if(index == SUMMARY_PAGE){
+			else if(index == RESULT_PAGE){
 				player.showSummaryView();
 			}
 			else{
