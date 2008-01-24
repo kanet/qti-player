@@ -29,7 +29,7 @@
 	    private function load() : void{
 	    	
 	    	controller = new Controller(this);
-	    	assessment = new Assessment("../data/package1");
+	    	assessment = new Assessment("../data/test");
 	    	assessment.loaded(showStartView);
 	    }
 

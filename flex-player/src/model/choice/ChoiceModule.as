@@ -34,6 +34,21 @@ package model.choice
 				sc.text = scn.*[0];
 				options.push(sc);
 			}
+			
+			// Randomize options
+			if(_shuffle){
+ 				var temp:Array = new Array();
+				for each(var i:SimpleChoice in options){
+					temp.push(i);
+				}
+
+				options = new Array();
+				while (temp.length > 0){
+					var index:int = int(Math.random()*temp.length);
+					options.push(temp[index]);
+					temp.splice(index,1);
+				}
+			}
 		}
 		
 		// ------------------------------------------------------------------------
