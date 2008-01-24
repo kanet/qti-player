@@ -1,6 +1,7 @@
 package model{
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.utils.Dictionary;
 	
 	import model.choice.ChoiceModule;
 	import model.text.TextModule;
@@ -47,6 +48,18 @@ package model{
 		public function get url() :String
 		{
 			return _href.substr(0, _href.lastIndexOf("/"));
+		}
+		
+		// ------------------------------------------------------------------------
+		public function getState(key:String) :String
+		{
+			return _states[key];
+		}
+		
+		// ------------------------------------------------------------------------
+		public function setState(key:String, value:String) :void
+		{
+			_states[key] = value;
 		}
 		
 		// ------------------------------------------------------------------------
@@ -115,6 +128,7 @@ package model{
 		private var _title :String;
 		private var _is_loaded :Boolean;
 		private var _modules: Array;
+		private var _states:Dictionary = new Dictionary();
 		/** The object used to load the XML */
 		private var url_loader:URLLoader;
 		private var on_loaded:Function;			

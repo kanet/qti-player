@@ -1,10 +1,14 @@
 package model.choice
 {
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	
 	import model.IItem;
 	import model.IModule;
 	
 	import mx.containers.HBox;
 	import mx.containers.VBox;
+	import mx.controls.Button;
 	import mx.controls.CheckBox;
 	import mx.controls.RadioButton;
 	import mx.controls.Text;
@@ -56,6 +60,7 @@ package model.choice
 		{
 			var box:VBox = new VBox();
 			var text_box:Text;
+			var	button:Button;
 				
 			text_box = new Text();
 			text_box.text = prompt;
@@ -68,12 +73,15 @@ package model.choice
 				text_box = new Text();
 				text_box.text = sc.text;
 				if(_max_choices != 1){
-					var check:CheckBox = new CheckBox();
-					hbox.addChild(check);
+					button = new CheckBox();
 				}else{
-					var radio:RadioButton = new RadioButton();
-					hbox.addChild(radio);
+					button = new RadioButton();
 				}
+				
+				button.id = sc.identifier;
+				button.addEventListener(Event.CHANGE, optionClicked);
+				button.selected = (_item.getState(button.id) != null);					
+				hbox.addChild(button);
 				hbox.addChild(text_box);
 				hbox.styleName = "simplechoice";
 				box.addChild(hbox);
@@ -83,11 +91,25 @@ package model.choice
 		}
 				
 		// ------------------------------------------------------------------------
+		private function optionClicked(e:Event): void{
+			var button:Button = Button(e.target);
+			
+			_item.setState(button.id, "1");
+			if(_max_choices == 1 && last_button){
+				_item.setState(last_button.id, null);
+			}
+			
+			last_button = button;
+		}
+		
+		// ------------------------------------------------------------------------
 		// Private members
 		private var _item : IItem;
 		private var prompt : String;
 		private var options :Array;
 		private var _shuffle:Boolean;
-		private var _max_choices: int; 
+		private var _max_choices: int;
+		/** Last selected button */
+		private var last_button:Button; 
 	}
 }
