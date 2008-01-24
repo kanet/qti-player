@@ -3,13 +3,12 @@ package model{
 	import flash.net.URLRequest;
 	
 	import model.choice.ChoiceModule;
-	import model.IModule;
 	import model.text.TextModule;
 	
 
 
 	[Bindable]
-	public class Item
+	public class Item implements IItem
 	{
 		
 		// ------------------------------------------------------------------------	
@@ -18,24 +17,6 @@ package model{
 			_id = identifier;
 			_title = identifier;
 			_is_loaded = false
-		}
-		
-		// ------------------------------------------------------------------------
-		public function get description() :String
-		{
-			return _description;
-		}
-		
-		// ------------------------------------------------------------------------
-		public function set description(value : String) :void
-		{
-			_description = value;
-		}
-		
-		// ------------------------------------------------------------------------
-		public function get href() :String
-		{
-			return _href;
 		}
 		
 		// ------------------------------------------------------------------------
@@ -63,6 +44,12 @@ package model{
 		}
 		
 		// ------------------------------------------------------------------------
+		public function get url() :String
+		{
+			return _href.substr(0, _href.lastIndexOf("/"));
+		}
+		
+		// ------------------------------------------------------------------------
 		public function load(server: String, f :Function) :void
 		{
 			on_loaded = f;
@@ -71,7 +58,8 @@ package model{
 				return;
 			}
 			
-			var url_request:URLRequest = new URLRequest(server + "/" + href);
+			_href = server + "/" + _href;
+			var url_request:URLRequest = new URLRequest(_href);
 			url_loader = new URLLoader( );
 			// Register to be notified when the XML finishes loading
 			url_loader.addEventListener(Event.COMPLETE, xml_loaded);
@@ -105,9 +93,9 @@ package model{
      		var m:IModule = null;
      		
      		if(node.localName().toString() == "p")
-	     		m = new TextModule();
+	     		m = new TextModule(this);
 	     	else if(node.localName().toString() == "choiceInteraction")
-	     		m = new ChoiceModule();
+	     		m = new ChoiceModule(this);
 
      		if(m){
 	     		m.load(node);

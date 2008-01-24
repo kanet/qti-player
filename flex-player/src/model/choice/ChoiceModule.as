@@ -1,9 +1,11 @@
 package model.choice
 {
+	import model.IItem;
 	import model.IModule;
 	
 	import mx.containers.HBox;
 	import mx.containers.VBox;
+	import mx.controls.CheckBox;
 	import mx.controls.RadioButton;
 	import mx.controls.Text;
 	import mx.core.UIComponent;
@@ -11,9 +13,9 @@ package model.choice
 	public class ChoiceModule implements IModule
 	{
 		// ------------------------------------------------------------------------
-		public function ChoiceModule()
+		public function ChoiceModule(i:IItem)
 		{
-			super();
+			_item = i;
 		}
 
 		// ------------------------------------------------------------------------
@@ -22,6 +24,8 @@ package model.choice
 			var qti2p1NS:Namespace = new Namespace("http://www.imsglobal.org/xsd/imsqti_v2p1");
 			
 			prompt = node.qti2p1NS::prompt[0];
+			_max_choices = node.@maxChoices;
+			_shuffle = (node.@shuffle == "true");
 			options = new Array();
 			for each (var scn:XML in node.qti2p1NS::simpleChoice){
 				var sc: SimpleChoice = new SimpleChoice();
@@ -45,11 +49,16 @@ package model.choice
 			
 			for each(var sc :SimpleChoice in options){
 				var hbox:HBox = new HBox();
-				var radio:RadioButton = new RadioButton();
 				
 				text_box = new Text();
 				text_box.text = sc.text;
-				hbox.addChild(radio);
+				if(_max_choices != 1){
+					var check:CheckBox = new CheckBox();
+					hbox.addChild(check);
+				}else{
+					var radio:RadioButton = new RadioButton();
+					hbox.addChild(radio);
+				}
 				hbox.addChild(text_box);
 				hbox.styleName = "simplechoice";
 				box.addChild(hbox);
@@ -60,7 +69,10 @@ package model.choice
 				
 		// ------------------------------------------------------------------------
 		// Private members
+		private var _item : IItem;
 		private var prompt : String;
-		private var options :Array; 
+		private var options :Array;
+		private var _shuffle:Boolean;
+		private var _max_choices: int; 
 	}
 }
