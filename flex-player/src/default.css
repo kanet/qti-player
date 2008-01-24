@@ -68,3 +68,17 @@ global {
 	vertical-align: middle;
 }
 
+.itemtitle{
+  font-size: 18;
+  font-weight:	bold;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.prompt{
+  font-weight:	bold;
+}
+
+.simplechoice{
+  padding-left: 10px;
+}

@@ -2,8 +2,9 @@ package model{
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	
-	import module.IModule;
-	import module.TextModule;
+	import model.choice.ChoiceModule;
+	import model.IModule;
+	import model.text.TextModule;
 	
 
 
@@ -103,12 +104,13 @@ package model{
      		
      		var m:IModule = null;
      		
-     		if(node.localName().toString() == "p"){
+     		if(node.localName().toString() == "p")
 	     		m = new TextModule();
-	     		m.load(node);
-	     	}
+	     	else if(node.localName().toString() == "choiceInteraction")
+	     		m = new ChoiceModule();
 
      		if(m){
+	     		m.load(node);
 	     		_modules.push(m);
 	     	}
      	}

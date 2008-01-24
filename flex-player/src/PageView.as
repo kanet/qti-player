@@ -5,8 +5,7 @@ package
 	
 	import model.Assessment;
 	import model.Item;
-	
-	import module.TextModule;
+	import model.IModule;
 	
 	import mx.containers.Box;
 	import mx.containers.Canvas;
@@ -48,8 +47,11 @@ package
 			
 			// Create body
 			ititle.text = item.title;
+			ititle.styleName = "itemtitle";
 			body.addChild(ititle);
-			createPage(body);
+			for each(var m:IModule in item.modules){
+				body.addChild(m.getView());
+			}
 			body.styleName = "pagebody";
 			
 			// Create footer			
@@ -91,21 +93,6 @@ package
 		// ------------------------------------------------------------------------
 		private function resultPage(e:Event): void{
 			controller.switchToPage(Controller.RESULT_PAGE);
-		}
-		
-		// ------------------------------------------------------------------------
-		private function createPage(parent :Box): void
-		{
-			for each(var tm:TextModule in item.modules){
-				var text_box:Text = new Text();
-				
-				text_box.text = tm.text;
-				parent.addChild(text_box);
-
-				text_box = new Text();
-				text_box.text = "----------------------------------------------";
-				parent.addChild(text_box);
-			}
 		}
 		
 		// ------------------------------------------------------------------------
