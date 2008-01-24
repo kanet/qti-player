@@ -45,50 +45,6 @@ http://www.imsglobal.org/xsd/imsmd_v1p2 http://www.imsglobal.org/xsd/imsmd_v1p2p
 	</metadata>
 	<organizations/>
 	<resources>
-		<resource identifier="RES-BCA84FC0-53F9-ABBD-C3FE-BDB5B825CA9E" type="imsqti_item_xmlv2p1" href="example/adaptive.xml">
-			<metadata>
-				<imsmd:lom>
-					<imsmd:general>
-						<imsmd:identifier>adaptive</imsmd:identifier>
-						<imsmd:title>
-							<imsmd:langstring xml:lang="en">Monty Hall (Take 1)</imsmd:langstring>
-						</imsmd:title>
-						<imsmd:description>
-							<imsmd:langstring xml:lang="en">This example takes a famous mathematical problem and presents it to the user as a game.</imsmd:langstring>
-						</imsmd:description>
-					</imsmd:general>
-					<imsmd:lifecycle>
-						<imsmd:version>
-							<imsmd:langstring xml:lang="en">1.0</imsmd:langstring>
-						</imsmd:version>
-						<imsmd:status>
-							<imsmd:source>
-								<imsmd:langstring xml:lang="x-none">LOMv1.0</imsmd:langstring>
-							</imsmd:source>
-							<imsmd:value>
-								<imsmd:langstring xml:lang="x-none">Draft</imsmd:langstring>
-							</imsmd:value>
-						</imsmd:status>
-					</imsmd:lifecycle>
-					<imsmd:technical>
-						<imsmd:format>text/x-imsqti-item-xml</imsmd:format>
-						<imsmd:format>image/png</imsmd:format>
-					</imsmd:technical>
-				</imsmd:lom>
-				<imsqti:qtiMetadata>
-					<imsqti:timeDependent>false</imsqti:timeDependent>
-					<imsqti:interactionType>choiceInteraction</imsqti:interactionType>
-					<imsqti:feedbackType>adaptive</imsqti:feedbackType>
-					<imsqti:solutionAvailable>true</imsqti:solutionAvailable>
-				</imsqti:qtiMetadata>
-			</metadata>
-			<file href="example/adaptive.xml"/>
-			<file href="example/green_door.png"/>
-			<file href="example/open_car.png"/>
-			<file href="example/red_door.png"/>
-			<file href="example/blue_door.png"/>
-			<file href="example/open_goat.png"/>
-		</resource>
 		<resource identifier="RES-B38DF83F-A291-86DA-4EC3-B2CEBD1515A4" type="imsqti_item_xmlv2p0" href="example/choice.xml">
 			<metadata>
 				<imsmd:lom>
@@ -166,47 +122,6 @@ http://www.imsglobal.org/xsd/imsmd_v1p2 http://www.imsglobal.org/xsd/imsmd_v1p2p
 				</imsqti:qtiMetadata>
 			</metadata>
 			<file href="example/choice_multiple.xml"/>
-		</resource>
-		<resource identifier="RES-1CDACE46-DD7B-719F-0D4D-BDA579A862AB" type="imsqti_item_xmlv2p1" href="example/hotspot.xml">
-			<metadata>
-
-				<imsmd:lom>
-					<imsmd:general>
-						<imsmd:identifier>hotspot</imsmd:identifier>
-						<imsmd:title>
-							<imsmd:langstring xml:lang="en">UK Airports (Take 1)</imsmd:langstring>
-						</imsmd:title>
-						<imsmd:description>
-							<imsmd:langstring xml:lang="en">This example illustrates the hotspotInteraction.</imsmd:langstring>
-						</imsmd:description>
-					</imsmd:general>
-					<imsmd:lifecycle>
-						<imsmd:version>
-							<imsmd:langstring xml:lang="en">1.0</imsmd:langstring>
-						</imsmd:version>
-						<imsmd:status>
-							<imsmd:source>
-								<imsmd:langstring xml:lang="x-none">LOMv1.0</imsmd:langstring>
-							</imsmd:source>
-							<imsmd:value>
-								<imsmd:langstring xml:lang="x-none">Draft</imsmd:langstring>
-							</imsmd:value>
-						</imsmd:status>
-					</imsmd:lifecycle>
-					<imsmd:technical>
-						<imsmd:format>text/x-imsqti-item-xml</imsmd:format>
-						<imsmd:format>image/png</imsmd:format>
-					</imsmd:technical>
-				</imsmd:lom>
-				<imsqti:qtiMetadata>
-					<imsqti:timeDependent>false</imsqti:timeDependent>
-					<imsqti:interactionType>hotspotInteraction</imsqti:interactionType>
-					<imsqti:feedbackType>none</imsqti:feedbackType>
-					<imsqti:solutionAvailable>true</imsqti:solutionAvailable>
-				</imsqti:qtiMetadata>
-			</metadata>
-			<file href="example/hotspot.xml"/>
-			<file href="example/ukair.png"/>
 		</resource>
 	</resources>
 </manifest>
