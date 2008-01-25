@@ -33,7 +33,6 @@ package
 			var body:Box = new VBox();
 			var footer:Box = new HBox();
 			var atitle:Text = new Text();
-			var ititle:Text = new Text();
 			var prev_button:Button = new Button();
 			var next_button:Button = new Button();
 			var finish_button:Button = new Button();
@@ -46,9 +45,6 @@ package
 			header.styleName = "pageheader";
 			
 			// Create body
-			ititle.text = item.title;
-			ititle.styleName = "itemtitle";
-			body.addChild(ititle);
 			for each(var m:IModule in item.modules){
 				body.addChild(m.getView());
 			}

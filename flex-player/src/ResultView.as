@@ -7,6 +7,9 @@ package
 	import model.Item;
 	
 	import mx.containers.Box;
+	import mx.containers.Grid;
+	import mx.containers.GridItem;
+	import mx.containers.GridRow;
 	import mx.controls.Button;
 	import mx.controls.Text;
 	
@@ -25,29 +28,68 @@ package
 		// ------------------------------------------------------------------------
 		private function createLayout() : void{
 			var title:Text = new Text();
-			var desc:Text = new Text();
-			var start_button:Button = new Button();
-			var copyright:Text = new Text();
-
-			opaqueBackground= 0xbbffbb;
-			percentWidth=100;
+			var result_box:Text = new Text();
+			var reset_button:Button = new Button();
 
 			// Create header			
 			title.text = assessment.title;
-			desc.text = assessment.description;
-			start_button.label = "Retake";
-			start_button.addEventListener(MouseEvent.CLICK, start_test);
-			copyright.text = assessment.copyright;
+			reset_button.label = "Reset";
+			reset_button.addEventListener(MouseEvent.CLICK, startTest);
+			
+			var score:int = 0;
+			var max:int = 0;
+			for each(var item:Item in assessment.items){
+				score += item.score;
+				max += item.maxScore;
+			}
+			
+			result_box.text = "You scored: " + (score/max*100) + "% (" + score + "/" + max +" points)";
 			
 			addChild(title);
-			addChild(desc);
-			addChild(start_button);
-			addChild(copyright);
+			addChild(result_box);
+			addChild(createResultGrid());
+			addChild(reset_button);
 			
 		}
 
 		// ------------------------------------------------------------------------
-		private function start_test(e:Event): void{
+		private function createResultGrid() : Grid{
+			var grid:Grid = new Grid();
+			var row:GridRow;
+
+			// Create header
+			row = new GridRow();
+			row.addChild(createCell("Page name"));
+			row.addChild(createCell("Score"));
+			row.addChild(createCell("Max score"));
+			row.styleName = "resultgridheader";
+			grid.addChild(row);
+			
+			// Add pages
+      for each(var item:Item in assessment.items){
+				row = new GridRow();
+				row.addChild(createCell(item.title));
+				row.addChild(createCell(item.score.toString()));
+				row.addChild(createCell(item.maxScore.toString()));
+				grid.addChild(row);
+      }
+      
+      grid.styleName = "resultgrid";
+			return grid;
+		}
+
+		// ------------------------------------------------------------------------
+		private function createCell(label:String) : GridItem{
+			var cell:GridItem = new GridItem();
+			var text:Text = new Text();
+			
+			text.text = label;
+			cell.addChild(text);
+			return cell;
+		}
+		
+		// ------------------------------------------------------------------------
+		private function startTest(e:Event): void{
 			controller.switchToPage(0);
 		}
 		

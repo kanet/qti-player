@@ -68,11 +68,11 @@ import flash.net.*;
 		}
 		
 		// ------------------------------------------------------------------------
-		public function load(location :String) :void
+		public function load(test_url :String) :void
 		{
-			_url = location;
+			_url = test_url.substr(0, test_url.lastIndexOf("/"));
 			
-			var url_request:URLRequest = new URLRequest(location + "/imsmanifest.xml");
+			var url_request:URLRequest = new URLRequest(test_url);
 			url_loader = new URLLoader( );
 			// Register to be notified when the XML finishes loading
 			url_loader.addEventListener(Event.COMPLETE, xml_loaded);
@@ -90,24 +90,18 @@ import flash.net.*;
 		/** Method invoked automatically when the XML finishes loading */
 		private function xml_loaded(e:Event):void {
 			var node:XML;
-			var cp1p1NS:Namespace = new Namespace("http://www.imsglobal.org/xsd/imscp_v1p1");
-			var imsmdNS:Namespace = new Namespace("http://www.imsglobal.org/xsd/imsmd_v1p2");
-    	var manifest:XML = new XML(url_loader.data);
+			var qti2p1NS:Namespace = new Namespace("http://www.imsglobal.org/xsd/imsqti_v2p1");
+
+    	var assessmentTest:XML = new XML(url_loader.data);
     	// Load test metadata
-    	node = manifest.cp1p1NS::metadata.imsmdNS::lom.imsmdNS::general.imsmdNS::title[0];
-     	title = node.imsmdNS::langstring[0].toString();
-    	node = manifest.cp1p1NS::metadata.imsmdNS::lom.imsmdNS::general.imsmdNS::description[0];
-     	description = node.imsmdNS::langstring[0].toString();
-    	node = manifest.cp1p1NS::metadata.imsmdNS::lom.imsmdNS::rights.imsmdNS::description[0];
-     	copyright = node.imsmdNS::langstring[0].toString();
+     	title = assessmentTest.@title;
      	// Load items
      	_items = new Array();
      	var item: Item;
-     	for each (var resource:XML in manifest.cp1p1NS::resources.cp1p1NS::resource){
-     		item = new Item(resource.@identifier);
-     		item.href = resource.@href
-    		node = resource.cp1p1NS::metadata.imsmdNS::lom.imsmdNS::general.imsmdNS::title[0];
-     		item.title = node.imsmdNS::langstring[0].toString();
+     	for each (var air:XML in assessmentTest.qti2p1NS::testPart.qti2p1NS::assessmentSection.qti2p1NS::assessmentItemRef){
+     		item = new Item(air.@identifier);
+     		item.href = air.@href
+//     		item.title = node.imsmdNS::langstring[0].toString();
      		_items.push(item);
      	}
      	

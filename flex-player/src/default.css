@@ -68,13 +68,6 @@ global {
 	vertical-align: middle;
 }
 
-.itemtitle{
-  font-size: 18;
-  font-weight:	bold;
-	padding-top: 5px;
-	padding-bottom: 5px;
-}
-
 .prompt{
   font-weight:	bold;
 }
@@ -82,3 +75,13 @@ global {
 .simplechoice{
   padding-left: 10px;
 }
+
+.resultgrid {
+	background-color: white;
+}
+
+.resultgridheader {
+  font-weight:	bold;
+}
+
+
