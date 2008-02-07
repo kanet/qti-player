@@ -1,9 +1,8 @@
 package module.choice{
 	
 	import flash.events.Event;
-	import flash.events.MouseEvent;
 	
-	import model.IItem;
+	import module.IItem;
 	import module.IModule;
 	
 	import mx.containers.HBox;

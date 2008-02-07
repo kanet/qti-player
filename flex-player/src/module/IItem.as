@@ -1,4 +1,4 @@
-package model
+package module
 {
 	
 	public interface IItem

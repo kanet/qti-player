@@ -3,6 +3,7 @@ package model{
 	import flash.net.URLRequest;
 	import flash.utils.Dictionary;
 	
+	import module.IItem;
 	import module.IModule;
 	import module.choice.ChoiceModule;
 	import module.text.TextModule;
@@ -76,6 +77,10 @@ package model{
 		}
 		
 		// ------------------------------------------------------------------------
+		/**
+		 * Ponieważ ladowanie danych odbywa się asynchronicznie to funkcja ta jako
+		 * drugi parametr potrzebuje wskaznik do funkcji, ktora ma byc wywolana po zaladowaniu dokumentu
+		 */
 		public function load(server: String, f :Function) :void
 		{
 			on_loaded = f;

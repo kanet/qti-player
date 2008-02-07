@@ -44,7 +44,7 @@ package view{
 
 		// ------------------------------------------------------------------------
 		private function start_test(e:Event): void{
-			controller.switchToPage(0);
+			controller.switchToPage();
 		}
 		
 		// ------------------------------------------------------------------------

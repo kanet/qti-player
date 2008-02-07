@@ -1,7 +1,6 @@
 package module.text
 {
-	import model.IItem;
-	
+	import module.IItem;
 	import module.IModule;
 	import module.util.Picture;
 	

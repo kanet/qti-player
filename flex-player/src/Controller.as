@@ -2,10 +2,6 @@ package
 {
 	public class Controller
 	{
-		/** First page */
-		public static const START_PAGE:int = -1;
-		/** Last page */
-		public static const RESULT_PAGE:int = -2;
 		
 		// ------------------------------------------------------------------------
 		public function Controller(p:Player)
@@ -14,31 +10,31 @@ package
 		}
 
 		// ------------------------------------------------------------------------
-		public function get index() :int
+		public function switchToPage() :void
 		{
-			return _index;
+			player.showPageView();
 		}
 		
+		// ------------------------------------------------------------------------
+		public function showTestIntro() :void
+		{
+			player.showStartView();
+		}
 		
 		// ------------------------------------------------------------------------
-		public function switchToPage(page: int) :void
+		public function finishTest() :void
 		{
-			_index = page;
-			
-			if(index == START_PAGE){
-				player.showStartView();
-			}
-			else if(index == RESULT_PAGE){
-				player.showSummaryView();
-			}
-			else{
-				player.showPageView();
-			}
+			player.showSummaryView();
 		}
 		
 		// ------------------------------------------------------------------------
 		// Private members
-		private var _index: int;
+				/** First page */
+		private static const START_STATE:int = 1;
+		private static const SHOW_RESULT_STATE:int = 2;
+		private static const TEST_STATE:int = 3;
+		private static const SHOW_ERRORS_STATE:int = 4;
+		
 		private var player:Player;
 	}
 }

@@ -4,6 +4,7 @@ package view{
 	
 	import model.Assessment;
 	import model.Item;
+	
 	import module.IModule;
 	
 	import mx.containers.Box;
@@ -20,20 +21,16 @@ package view{
 			super();
 			assessment = a;
 			controller = c;
-			
+			createLayout();
 			styleName = "pageview";
-			item = assessment.items[controller.index];
-			item.load(assessment.url, createLayout);
+			loadPage(0);
 		}
 		
 		// ------------------------------------------------------------------------
 		private function createLayout() : void{
 			var header:Box = new HBox();
-			var body:Box = new VBox();
 			var footer:Box = new HBox();
 			var atitle:Text = new Text();
-			var prev_button:Button = new Button();
-			var next_button:Button = new Button();
 			var finish_button:Button = new Button();
 			var counter:Text = new Text();
 
@@ -43,51 +40,64 @@ package view{
 			header.height = 50;
 			header.styleName = "pageheader";
 			
-			// Create body
-			for each(var m:IModule in item.modules){
-				body.addChild(m.getView());
-			}
-			body.styleName = "pagebody";
-			
 			// Create footer			
 			prev_button.label = "Previous";
 			prev_button.addEventListener(MouseEvent.CLICK, prevPage);
-			if( controller.index == 0)
-				prev_button.enabled = false;
 			footer.addChild(prev_button);
-			counter.text = (controller.index+1) + "/" + assessment.items.length;
+			counter.text = (currentPage+1) + "/" + assessment.items.length;
 			footer.addChild(counter);
 			finish_button.label = "Finish";
 			finish_button.addEventListener(MouseEvent.CLICK, resultPage);
 			footer.addChild(finish_button);
 			next_button.label = "Next";
 			next_button.addEventListener(MouseEvent.CLICK, nextPage);
-			if( controller.index+1 == assessment.items.length)
-				next_button.enabled = false;
 			footer.addChild(next_button);
 			footer.height = 50;
 			footer.styleName = "pagefooter";
 			
 			// Add panels
+			_body.styleName = "pagebody";
 			addChild(header);
-			addChild(body);
+			addChild(_body);
 			addChild(footer);
 				
 		}
 
 		// ------------------------------------------------------------------------
+		private function createBody() : void{
+			
+			// Create body
+			_body.removeAllChildren();
+			for each(var m:IModule in item.modules){
+				_body.addChild(m.getView());
+			}
+			
+			prev_button.enabled = (currentPage > 0);
+			next_button.enabled = ( currentPage+1 < assessment.items.length);
+			
+		}
+
+		// ------------------------------------------------------------------------
+		private function loadPage(index:int) : void{
+			
+			currentPage = index;
+			item = assessment.items[currentPage];
+			item.load(assessment.url, createBody);
+		}
+		
+		// ------------------------------------------------------------------------
 		private function prevPage(e:Event): void{
-			controller.switchToPage(controller.index-1);
+			loadPage(currentPage-1);
 		}
 		
 		// ------------------------------------------------------------------------
 		private function nextPage(e:Event): void{
-			controller.switchToPage(controller.index+1);
+			loadPage(currentPage+1);
 		}
 		
 		// ------------------------------------------------------------------------
 		private function resultPage(e:Event): void{
-			controller.switchToPage(Controller.RESULT_PAGE);
+			controller.finishTest();
 		}
 		
 		// ------------------------------------------------------------------------
@@ -95,5 +105,10 @@ package view{
     private var assessment:Assessment;
     private var controller:Controller;
 		private var item:Item;
+		private var currentPage:int;
+		private var _body:Box = new VBox();
+		private	var prev_button:Button = new Button();
+		private var next_button:Button = new Button();
+		
 	}
 }
