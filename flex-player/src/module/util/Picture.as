@@ -1,4 +1,4 @@
-package model.util
+package module.util
 {
 	public class Picture
 	{

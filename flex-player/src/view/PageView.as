@@ -1,11 +1,10 @@
-package
-{
+package view{
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
 	import model.Assessment;
 	import model.Item;
-	import model.IModule;
+	import module.IModule;
 	
 	import mx.containers.Box;
 	import mx.containers.Canvas;

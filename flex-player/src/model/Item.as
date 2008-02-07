@@ -3,8 +3,9 @@ package model{
 	import flash.net.URLRequest;
 	import flash.utils.Dictionary;
 	
-	import model.choice.ChoiceModule;
-	import model.text.TextModule;
+	import module.IModule;
+	import module.choice.ChoiceModule;
+	import module.text.TextModule;
 	
 
 

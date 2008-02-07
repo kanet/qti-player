@@ -1,8 +1,9 @@
-package model.text
+package module.text
 {
 	import model.IItem;
-	import model.IModule;
-	import model.util.Picture;
+	
+	import module.IModule;
+	import module.util.Picture;
 	
 	import mx.controls.Image;
 	import mx.controls.Text;

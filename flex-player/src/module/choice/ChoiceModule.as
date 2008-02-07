@@ -1,10 +1,10 @@
-package model.choice
-{
+package module.choice{
+	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
 	import model.IItem;
-	import model.IModule;
+	import module.IModule;
 	
 	import mx.containers.HBox;
 	import mx.containers.VBox;

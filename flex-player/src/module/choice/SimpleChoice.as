@@ -1,4 +1,4 @@
-package model.choice
+package module.choice
 {
 	public class SimpleChoice
 	{

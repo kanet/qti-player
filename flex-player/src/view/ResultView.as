@@ -1,5 +1,4 @@
-package
-{
+package view{
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	

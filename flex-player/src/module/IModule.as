@@ -1,5 +1,4 @@
-package model
-{
+package module{
 	import mx.core.UIComponent;
 	
 	public interface IModule

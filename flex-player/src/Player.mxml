@@ -8,6 +8,9 @@
 	  <![CDATA[
 	  	import mx.core.Container;
 	  	import model.Assessment;
+	  	import view.StartView;
+	  	import view.PageView;
+	  	import view.ResultView;
 	  	
 	    public function showStartView() : void{
 	    	showView(new StartView(assessment, controller));
