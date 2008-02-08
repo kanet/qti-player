@@ -8,6 +8,8 @@ package model{
 	import module.choice.ChoiceModule;
 	import module.text.TextModule;
 	
+	import mx.controls.Alert;
+	
 
 
 	[Bindable]
@@ -37,13 +39,21 @@ package model{
 		// ------------------------------------------------------------------------
 		public function get maxScore() :int
 		{
-			return 2;
+			return _correct_values.length;
 		}
 		
 		// ------------------------------------------------------------------------
 		public function get score() :int
 		{
-			return 1;
+			var score:int = 0;
+
+
+      for each(var id:String in _correct_values){
+				if(_states[id] != null)
+					score ++;
+      }
+      
+      return score;
 		}
 		
 		// ------------------------------------------------------------------------
@@ -73,7 +83,19 @@ package model{
 		// ------------------------------------------------------------------------
 		public function setState(key:String, value:String) :void
 		{
-			_states[key] = value;
+			if(value != null)
+				_states[key] = value;
+			else
+				delete _states[key];
+			
+		}
+		
+		// ------------------------------------------------------------------------
+		public function reset() :void
+		{
+      for (var id:String in _states){
+				delete _states[id];
+      }
 		}
 		
 		// ------------------------------------------------------------------------
@@ -117,6 +139,14 @@ package model{
 			var qti2p1NS:Namespace = new Namespace("http://www.imsglobal.org/xsd/imsqti_v2p1");
     	var assessmentItem:XML = new XML(url_loader.data);
     	
+    	// Load response
+    	_correct_values = new Array();
+    	for each (var value:XML in assessmentItem.qti2p1NS::responseDeclaration.
+    		qti2p1NS::correctResponse.qti2p1NS::value)
+    	{
+    		_correct_values.push(value.toString());
+    	}
+    	
      	// Load modules
      	_modules = new Array();
      	for each (var node:XML in assessmentItem.qti2p1NS::itemBody[0].*){
@@ -146,7 +176,11 @@ package model{
 		private var _title :String;
 		private var _is_loaded :Boolean;
 		private var _modules: Array;
+		private var _correct_values: Array;
+		/** Interaction state */
 		private var _states:Dictionary = new Dictionary();
+		/** Interaction response */
+		private var _response:Dictionary = new Dictionary();
 		/** The object used to load the XML */
 		private var url_loader:URLLoader;
 		private var on_loaded:Function;			

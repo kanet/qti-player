@@ -89,6 +89,7 @@ package view{
 		
 		// ------------------------------------------------------------------------
 		private function startTest(e:Event): void{
+			assessment.reset();
 			controller.switchToPage();
 		}
 		

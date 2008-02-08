@@ -81,6 +81,15 @@ import flash.net.*;
 		}
 		
 		// ------------------------------------------------------------------------
+		public function reset() :void{
+			
+			for each(var i:Item in _items){
+				i.reset();
+			}
+		}
+		
+		
+		// ------------------------------------------------------------------------
 		public function loaded(f :Function) :void{
 			on_loaded = f;
 		}

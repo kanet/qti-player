@@ -93,7 +93,13 @@ package module.choice{
 		private function optionClicked(e:Event): void{
 			var button:Button = Button(e.target);
 			
-			_item.setState(button.id, "1");
+			if(button.selected){
+				_item.setState(button.id, "1");
+			}
+			else{
+				_item.setState(button.id, null);
+			}
+			
 			if(_max_choices == 1 && last_button){
 				_item.setState(last_button.id, null);
 			}
