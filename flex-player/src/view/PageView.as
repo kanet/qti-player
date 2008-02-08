@@ -28,38 +28,35 @@ package view{
 		
 		// ------------------------------------------------------------------------
 		private function createLayout() : void{
+			var content:Box = new VBox();
 			var header:Box = new HBox();
 			var footer:Box = new HBox();
 			var atitle:Text = new Text();
-			var finish_button:Button = new Button();
 			var counter:Text = new Text();
 
 			// Create header			
 			atitle.text = assessment.title;
 			header.addChild(atitle);
-			header.height = 50;
+			prev_button.label = "<";
+			prev_button.addEventListener(MouseEvent.CLICK, prevPage);
+			header.addChild(prev_button);
+			counter.text = (currentPage+1) + "/" + assessment.items.length;
+			header.addChild(counter);
+			next_button.label = ">";
+			next_button.addEventListener(MouseEvent.CLICK, nextPage);
+			header.addChild(next_button);
 			header.styleName = "pageheader";
 			
 			// Create footer			
-			prev_button.label = "Previous";
-			prev_button.addEventListener(MouseEvent.CLICK, prevPage);
-			footer.addChild(prev_button);
-			counter.text = (currentPage+1) + "/" + assessment.items.length;
-			footer.addChild(counter);
-			finish_button.label = "Finish";
-			finish_button.addEventListener(MouseEvent.CLICK, resultPage);
-			footer.addChild(finish_button);
-			next_button.label = "Next";
-			next_button.addEventListener(MouseEvent.CLICK, nextPage);
-			footer.addChild(next_button);
-			footer.height = 50;
+			footer.addChild(submit_button);
 			footer.styleName = "pagefooter";
 			
 			// Add panels
 			_body.styleName = "pagebody";
-			addChild(header);
-			addChild(_body);
-			addChild(footer);
+			content.addChild(header);
+			content.addChild(_body);
+			content.addChild(footer);
+			addChild(content);
 				
 		}
 
@@ -73,7 +70,18 @@ package view{
 			}
 			
 			prev_button.enabled = (currentPage > 0);
-			next_button.enabled = ( currentPage+1 < assessment.items.length);
+			if( currentPage+1 < assessment.items.length){
+				next_button.enabled = true;
+				submit_button.label = "Next question";
+				submit_button.removeEventListener(MouseEvent.CLICK, resultPage);
+				submit_button.addEventListener(MouseEvent.CLICK, nextPage);
+			}
+			else{
+				next_button.enabled = false;
+				submit_button.label = "Finish test";
+			submit_button.removeEventListener(MouseEvent.CLICK, nextPage);
+				submit_button.addEventListener(MouseEvent.CLICK, resultPage);
+			}
 			
 		}
 
@@ -109,6 +117,7 @@ package view{
 		private var _body:Box = new VBox();
 		private	var prev_button:Button = new Button();
 		private var next_button:Button = new Button();
+		private var submit_button:Button = new Button();
 		
 	}
 }
