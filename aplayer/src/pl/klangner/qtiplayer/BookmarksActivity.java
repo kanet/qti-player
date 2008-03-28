@@ -1,12 +1,11 @@
 package pl.klangner.qtiplayer;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.net.ContentURI;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -60,15 +59,11 @@ public class BookmarksActivity extends ListActivity {
   protected void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
 
-    ContentURI 	uri;
+    Uri 	uri;
     
-		try {
-			uri = new ContentURI("content://assessment/" + position);
-	    Intent i = new Intent(Intent.VIEW_ACTION, uri, this, PlayerActivity.class);
-	    startActivity(i);
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+		uri = Uri.parse("content://assessment/" + position);
+    Intent i = new Intent(Intent.VIEW_ACTION, uri, this, PlayerActivity.class);
+    startActivity(i);
   }
   
 	// --------------------------------------------------------------------------
