@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem version="2.0">
+<properties>
+<property name="width">840</property>
+<property name="height">717</property>
+</properties>
+<stylesheet href="default.css"></stylesheet>
+
+<layout>
+<table cols="1" rows="3">
+<col width="840"></col>
+<row></row>
+<row></row>
+<row></row>
+<layer name="player">
+<tr>
+<td align="justify" valign="bottom"><module ref="image1"></module>
+</td>
+</tr>
+<tr>
+<td align="justify" valign="justify"><table cols="3" rows="1">
+<col width="5"></col>
+<col width="830"></col>
+<col width="5"></col>
+<row></row>
+<layer name="background">
+<tr>
+<td></td>
+<td align="justify" valign="justify"><module ref="shape23"></module>
+</td>
+<td></td>
+</tr>
+</layer>
+<layer name="frame">
+<tr>
+<td></td>
+<td align="justify" padding-top="15" valign="justify"><table cols="1" rows="1">
+<col></col>
+<row></row>
+<layer>
+<tr>
+<td align="justify" padding-top="7" valign="justify"><module ref="shape21"></module>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+<td></td>
+</tr>
+</layer>
+<layer name="title+screen">
+<tr>
+<td align="right" valign="justify"><module ref="shape22"></module>
+</td>
+<td align="justify" padding-bottom="16" padding-left="15" padding-right="15" padding-top="15" valign="justify"><table cols="1" rows="2">
+<col></col>
+<row></row>
+<row></row>
+<layer>
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col></col>
+<row></row>
+<layer name="title">
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col width="800"></col>
+<row></row>
+<layer name="title_gfx">
+<tr>
+<td align="justify" valign="justify"><table cols="2" rows="1">
+<col width="15"></col>
+<col width="785"></col>
+<row></row>
+<layer>
+<tr>
+<td align="justify" valign="justify"><module ref="shape13"></module>
+</td>
+<td align="justify" valign="justify"><module ref="shape14"></module>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+<layer name="title_gfx1">
+<tr>
+<td align="justify"><module ref="shape15"></module>
+</td>
+</tr>
+</layer>
+<layer name="title_body">
+<tr>
+<td align="justify" valign="justify"><table cols="2" rows="1">
+<col width="761"></col>
+<col width="39"></col>
+<row></row>
+<layer name="title_in">
+<tr>
+<td align="justify" padding-bottom="3" padding-left="23" padding-right="8" padding-top="10" valign="bottom"><module ref="title"></module>
+</td>
+<td><table cols="1" rows="1">
+<col width="34"></col>
+<row></row>
+<layer name="fullscreen_button_gfx">
+<tr>
+<td align="right"><module ref="image5"></module>
+</td>
+</tr>
+</layer>
+<layer name="fullscreen_button">
+<tr>
+<td align="justify" padding-left="5" padding-right="5"><module ref="close_popup"></module>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col></col>
+<row></row>
+<layer name="screen">
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col width="800"></col>
+<row></row>
+<layer name="screen_gfx">
+<tr>
+<td align="justify" valign="justify"><module ref="shape20"></module>
+</td>
+</tr>
+</layer>
+<layer name="screen_module">
+<tr>
+<td align="justify" valign="justify"><module ref="slide"></module>
+</td>
+</tr>
+</layer>
+<layer name="screen_download_progress">
+<tr>
+<td align="center" valign="middle"><module ref="downloadProgress"></module>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+<td valign="justify"><module ref="shape24"></module>
+</td>
+</tr>
+</layer>
+<layer name="drag">
+<tr>
+<td></td>
+<td align="justify" padding-left="15" padding-right="50"><module ref="drag_popup"></module>
+</td>
+<td></td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+<tr>
+<td align="justify"><module ref="image6"></module>
+</td>
+</tr>
+</layer>
+</table>
+</layout>
+<stylesheet href="default.css"/>
+<itemBody>
+<image id="image1" src="shadow_up800.png">
+</image>
+<shape id="shape23">
+<style>
+<background color="#FFFFFF" style="solid"></background>
+</style>
+</shape>
+<shape id="shape21" minWidth="1">
+<style>
+<border color="#DFE1EB" style="solid" width="1"></border>
+</style>
+</shape>
+<shape id="shape22" minWidth="1" width="5">
+<style>
+<background style="gradient"></background>
+<backgroundGradient alphas="0.039215688,0.39215687" colors="#000000,#000000" ratios="0,100" rotation="0"></backgroundGradient>
+<border style="none"></border>
+</style>
+</shape>
+<shape id="shape13" width="15">
+<style>
+<background alpha="1.0" color="#C1CCD8" style="solid"></background>
+</style>
+</shape>
+<shape id="shape14" minWidth="1">
+<style>
+<background alpha="1.0" color="#E5E7ED" style="solid"></background>
+</style>
+</shape>
+<shape height="8" id="shape15" minWidth="1">
+<style>
+<borderBottom color="#FFFFFF" style="solid" width="1"></borderBottom>
+</style>
+</shape>
+<simpleText id="title">
+<style>
+<font weight="bold"></font>
+</style>
+</simpleText>
+<image id="image5" src="button24_background.png">
+</image>
+<button id="close_popup" src="close_icon.swf">
+</button>
+<shape height="600" id="shape20" minWidth="1" width="800">
+<style>
+<background alpha="1.0" color="#F3F5F8" style="solid"></background>
+</style>
+</shape>
+<image id="slide">
+<style>
+<sizeMode val="stretch"></sizeMode>
+</style>
+</image>
+<progress height="4" id="downloadProgress" width="100">
+<style>
+<background alpha="1.0" color="#FFFFFF" style="solid"></background>
+</style>
+</progress>
+<shape id="shape24" minWidth="1" width="5">
+<style>
+<background style="gradient"></background>
+<backgroundGradient alphas="0.3019608,0.050980393" colors="#000000,#000000" ratios="0,100"></backgroundGradient>
+<border style="none"></border>
+</style>
+</shape>
+<button id="drag_popup" src="drag.swf">
+</button>
+<image id="image6" src="shadow_down800.png">
+</image>
+</itemBody>
+</assessmentItem>

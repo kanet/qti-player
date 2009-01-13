@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem version="2.0">
+<properties>
+<property name="width">600</property>
+<property name="height">600</property>
+</properties>
+<stylesheet href="default.css"></stylesheet>
+
+<layout>
+<table cols="1" rows="1">
+<col width="1!"></col>
+<row></row>
+<layer name="slideshow_standard">
+<tr>
+<td align="center" padding-top="10" valign="justify"><table cols="1" rows="1">
+<col></col>
+<row></row>
+<layer name="slideshow_body">
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="2">
+<col></col>
+<row></row>
+<row></row>
+<layer name="slideshow">
+<tr>
+<td valign="justify"><table cols="1" rows="1">
+<col></col>
+<row></row>
+<layer name="title">
+<tr>
+<td valign="justify"><table cols="3" rows="1">
+<col width="15"></col>
+<col width="331"></col>
+<col width="15"></col>
+<row></row>
+<layer>
+<tr>
+<td align="justify" valign="justify"><module ref="shape22"></module>
+</td>
+<td align="justify" valign="justify"><module ref="title"></module>
+</td>
+<td align="justify" valign="justify"><module ref="shape23"></module>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col></col>
+<row></row>
+<layer name="panel">
+<tr>
+<td padding-left="0" valign="justify"><table cols="1" rows="1">
+<col></col>
+<row></row>
+<layer name="player_panel_gfx">
+<tr>
+<td valign="justify"><module ref="image1"></module>
+</td>
+</tr>
+</layer>
+<layer name="player_panel_buttons">
+<tr>
+<td align="justify" padding-top="5"><table cols="7" rows="1">
+<col width="44"></col>
+<col width="40"></col>
+<col width="149"></col>
+<col width="37"></col>
+<col width="38"></col>
+<col width="39"></col>
+<col width="15"></col>
+<row></row>
+<layer name="player_panel_buttons_in">
+<tr>
+<td align="right" padding-right="1"><module ref="playPause"></module>
+</td>
+<td padding-left="2"><module ref="stop"></module>
+</td>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col></col>
+<row></row>
+<layer name="slider">
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col></col>
+<row></row>
+<layer name="progress_download">
+<tr>
+<td align="justify" valign="middle"><module ref="downloadProgress"></module>
+</td>
+</tr>
+</layer>
+<layer name="slider">
+<tr>
+<td align="justify" valign="middle"><module ref="playProgress"></module>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+<td align="justify"><table cols="1" rows="2">
+<col></col>
+<row></row>
+<row></row>
+<layer name="timers">
+<tr>
+<td align="justify" valign="bottom"><module ref="playTime"></module>
+</td>
+</tr>
+<tr>
+<td align="justify" padding-top="-1"><module ref="totalTime"></module>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+<td align="right" padding-right="4" padding-top="9"><module ref="mute"></module>
+</td>
+<td align="justify" padding-top="12"><module ref="volume"></module>
+</td>
+<td></td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</layout>
+<stylesheet href="default.css"/>
+<itemBody>
+<shape id="shape22" width="15">
+<style>
+<background alpha="1.0" color="#C1CCD8" style="solid"></background>
+</style>
+</shape>
+<simpleText id="title">
+<style>
+<background alpha="1.0" color="#E5E7ED" style="solid"></background>
+<backgroundGradient rotation="0"></backgroundGradient>
+<font weight="bold"></font>
+<padding left="8" right="8" top="3"></padding>
+</style>
+</simpleText>
+<shape id="shape23" width="15">
+<style>
+<background alpha="1.0" color="#C1CCD8" style="solid"></background>
+</style>
+</shape>
+<image id="image1" src="audio_panel.png">
+<style>
+<background style="none"></background>
+<border style="none"></border>
+</style>
+</image>
+<twoStateButton id="playPause" src="playpause_icon.swf">
+</twoStateButton>
+<button id="stop" src="stop_icon.swf">
+</button>
+<progress id="downloadProgress">
+</progress>
+<slider id="playProgress">
+</slider>
+<simpleText id="playTime">
+<style>
+<color val="#FFFFFF"></color>
+<font size="10"></font>
+</style>
+</simpleText>
+<simpleText id="totalTime">
+<style>
+<color val="#FFFFFF"></color>
+<font size="10"></font>
+</style>
+</simpleText>
+<twoStateButton id="mute" src="mute_icon.swf">
+</twoStateButton>
+<slider id="volume">
+</slider>
+</itemBody>
+</assessmentItem>

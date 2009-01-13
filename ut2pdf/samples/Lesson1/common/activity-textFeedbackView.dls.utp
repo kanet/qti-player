@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem version="2.0">
+<properties>
+<property name="width">400</property>
+<property name="height">300</property>
+</properties>
+<stylesheet href="default.css"></stylesheet>
+
+<layout>
+<table cols="1" rows="1">
+<col></col>
+<row></row>
+<layer>
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col></col>
+<row></row>
+<layer name="feedback">
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col></col>
+<row></row>
+<layer name="feedback_gfx">
+<tr>
+<td align="justify" valign="justify"><table cols="3" rows="1">
+<col width="15"></col>
+<col></col>
+<col width="15"></col>
+<row></row>
+<layer name="feedback_gfx_in">
+<tr>
+<td align="justify" valign="justify"><table cols="1" hidden="true" rows="1">
+<col></col>
+<row></row>
+<layer>
+<tr>
+<td align="justify" valign="justify"><module ref="shape20"></module>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+<td align="justify" valign="justify"><table cols="1" hidden="true" rows="1">
+<col></col>
+<row></row>
+<layer>
+<tr>
+<td align="justify" valign="justify"><module ref="shape21"></module>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+<td align="justify" valign="justify"><module ref="shape22"></module>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+<layer name="feedback_body">
+<tr>
+<td align="justify" padding-bottom="5" padding-left="22" padding-right="22" padding-top="5" valign="justify"><table cols="1" hidden="true" rows="1">
+<col></col>
+<row></row>
+<layer>
+<tr>
+<td align="justify" valign="justify"><module ref="dummy1"></module>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</layout>
+<stylesheet href="default.css"/>
+<itemBody>
+<shape id="shape20" minWidth="1" width="15">
+<style>
+<background color="#75BCF7" style="solid"></background>
+<border bottomLeftRadius="15,15"></border>
+<borderTop color="#FFFFFF" style="solid" width="1"></borderTop>
+</style>
+</shape>
+<shape id="shape21" minWidth="1">
+<style>
+<background color="#B2D9FF" style="solid"></background>
+<borderTop color="#FFFFFF" style="solid" width="1"></borderTop>
+</style>
+</shape>
+<shape id="shape22" width="15">
+<style>
+<background color="#75BCF7" style="solid"></background>
+<border bottomRightRadius="15,15"></border>
+<borderTop color="#FFFFFF" style="solid" width="1"></borderTop>
+</style>
+</shape>
+<dummy id="dummy1">
+</dummy>
+</itemBody>
+</assessmentItem>

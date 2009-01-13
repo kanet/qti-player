@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><assessmentItem version="2.0">
+<properties>
+<property name="width">700</property>
+<property name="height">500</property>
+</properties>
+<stylesheet href="../common/default.css"/>
+
+<layout>
+<table cols="1" rows="2">
+<col/>
+<row/>
+<row/>
+<layer>
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col/>
+<row/>
+<layer name="guide_gfx">
+<tr>
+<td align="justify" valign="justify"><table cols="3" rows="1">
+<col width="15"/>
+<col/>
+<col width="15"/>
+<row/>
+<layer name="guide_gfx_in">
+<tr>
+<td align="justify" valign="justify"><module ref="shape_g1"/>
+</td>
+<td align="justify" valign="justify"><module ref="shape2"/>
+</td>
+<td align="justify" valign="justify"><module ref="shape_g2"/>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+<layer name="guide_body">
+<tr>
+<td align="justify" valign="justify"><module ref="dummy1"/>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+<tr>
+<td align="justify" valign="justify"><table cols="2" rows="1">
+<col width="1!"/>
+<col width="377"/>
+<row/>
+<layer name="content_body">
+<tr>
+<td align="justify" padding-bottom="20" padding-top="20"><table cols="1" rows="1">
+<col/>
+<row/>
+<layer name="activity_all_gfx">
+<tr>
+<td align="justify" valign="justify"><module ref="shape19"/>
+</td>
+</tr>
+</layer>
+<layer name="activity_all">
+<tr>
+<td align="justify" padding-bottom="15" padding-top="20"><table cols="1" rows="5">
+<col/>
+<row/>
+<row/>
+<row/>
+<row/>
+<row/>
+<layer name="activity_components">
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col/>
+<row/>
+<layer name="instruction">
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col/>
+<row/>
+<layer name="instruction_gfx">
+<tr>
+<td align="justify" valign="justify"><table cols="3" rows="1">
+<col width="15"/>
+<col/>
+<col width="15"/>
+<row/>
+<layer name="insdtruction_body_in">
+<tr>
+<td align="justify" valign="justify"><module ref="shape_i1"/>
+</td>
+<td align="justify" valign="justify"><module ref="shape21"/>
+</td>
+<td align="justify" valign="justify"><module ref="shape_i2"/>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+<layer name="instruction_body">
+<tr>
+<td align="justify" padding-bottom="4" padding-left="15" padding-right="15" padding-top="4" valign="justify"><table cols="1" rows="2">
+<col/>
+<row/>
+<row/>
+<layer name="instruction_body_in">
+<tr>
+<td align="justify" valign="justify"><module ref="dummy2"/>
+</td>
+</tr>
+<tr>
+<td align="right" padding-bottom="1" padding-top="4"><module ref="Result Progress Bar4"/>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col/>
+<row/>
+<layer name="sourcelist">
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col/>
+<row/>
+<layer name="sourcelist_gfx">
+<tr>
+<td align="justify" valign="justify"><table cols="3" rows="1">
+<col width="15"/>
+<col/>
+<col width="15"/>
+<row/>
+<layer name="sourcelist_gfx_in">
+<tr>
+<td align="justify" valign="justify"><module ref="shape23"/>
+</td>
+<td align="justify" valign="justify"><module ref="shape24"/>
+</td>
+<td align="justify" valign="justify"><module ref="shape25"/>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+<layer name="sourcelist_body">
+<tr>
+<td align="justify" padding-bottom="0" padding-left="15" padding-right="15" padding-top="0" valign="justify"><module ref="sourcelist"/>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col/>
+<row/>
+<layer name="activity">
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col/>
+<row/>
+<layer name="activity_gfx">
+<tr>
+<td align="justify" padding-left="15" padding-right="15" valign="justify"><module ref="shape26"/>
+</td>
+</tr>
+</layer>
+<layer name="activity_body">
+<tr>
+<td align="justify" padding-left="15" padding-right="15" valign="justify"><module ref="dummy3"/>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+<tr>
+<td align="justify" valign="justify"><module ref="Text Feedback Area1"/>
+</td>
+</tr>
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col/>
+<row/>
+<layer name="panel">
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col/>
+<row/>
+<layer name="panel_gfx">
+<tr>
+<td align="justify"><table cols="1" rows="1">
+<col/>
+<row/>
+<layer name="panel_gfx_in">
+<tr>
+<td align="justify"><module ref="shape30"/>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+<layer name="panel_buttons_gfx">
+<tr>
+<td align="justify" valign="justify"><table cols="1" rows="1">
+<col/>
+<row/>
+<layer name="player_buttons_gfx_in">
+<tr>
+<td align="right" padding-right="14" padding-top="5"><module ref="image3"/>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+<layer name="panel_buttons">
+<tr>
+<td align="right" padding-bottom="5" padding-right="19" padding-top="10"><table cols="3" rows="1">
+<col/>
+<col/>
+<col/>
+<row/>
+<layer name="panel_buttons_in">
+<tr>
+<td align="right" padding-right="3"><module ref="markCorrectButton3"/>
+</td>
+<td align="right" padding-right="3"><module ref="showAnswersButton3"/>
+</td>
+<td align="right"><module ref="resetButton3"/>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+<td align="justify" padding-bottom="10" padding-left="15" padding-top="10"><table cols="1" rows="1">
+<col/>
+<row/>
+<layer name="resources_all">
+<tr>
+<td align="justify" valign="justify"><module ref="dummy4"/>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</td>
+</tr>
+</layer>
+</table>
+</layout>
+<stylesheet href="../common/default.css"/>
+<itemBody>
+<shape id="shape_g1">
+<style>
+<background color="#BDBECC" style="solid"/>
+</style>
+</shape>
+<shape id="shape2" minWidth="1">
+<style>
+<background color="#E5E7ED" style="solid"/>
+</style>
+</shape>
+<shape id="shape_g2">
+<style>
+<background color="#BDBECC" style="solid"/>
+</style>
+</shape>
+<simpleText class="" id="dummy1">The Golden Retriever is a large breed of dog, historically developed as a gundog to retrieve shot waterfowl and upland game during hunting. As such they were bred to have a soft mouth to retrieve game undamaged and an instinctive love of water. Their versatility sees them employed in a variety of roles including illegal drug detection, search and rescue, as hunting dogs and as guide dogs. Its friendly, biddable nature and patient demeanor has also made it one of the most popular family dogs (by registration) in the world today.
+<style>
+<padding bottom="5" left="21" right="21" top="5"/>
+</style>
+</simpleText>
+
+<shape id="shape19">
+<style>
+<background color="#E5E7ED" style="solid"/>
+<border radius="15,15"/>
+</style>
+</shape>
+<shape id="shape_i1" minWidth="1" width="15">
+<style>
+<background color="#75BCF7" style="solid"/>
+<borderBottom color="#FFFFFF" style="solid" width="1"/>
+</style>
+</shape>
+<shape id="shape21" minWidth="1">
+<style>
+<background color="#B2D9FF" style="solid"/>
+<borderBottom color="#FFFFFF" style="solid" width="1"/>
+</style>
+</shape>
+<shape id="shape_i2" width="15">
+<style>
+<background color="#75BCF7" style="solid"/>
+<borderBottom color="#FFFFFF" style="solid" width="1"/>
+</style>
+</shape>
+<simpleText class="" id="dummy2">How will you describe Golden Retriver?
+<style>
+<color val="#333333"/>
+<font weight="bold"/>
+<padding left="7" right="7"/>
+</style>
+</simpleText>
+
+<resultProgress id="Result Progress Bar4">
+</resultProgress>
+<shape id="shape23" minWidth="1" width="15">
+<style>
+<background color="#8BACF5" style="solid"/>
+<borderBottom color="#FFFFFF" style="solid" width="1"/>
+</style>
+</shape>
+<shape id="shape24" minWidth="1">
+<style>
+<background color="#BAD0FF" style="solid"/>
+<borderBottom color="#FFFFFF" style="solid" width="1"/>
+</style>
+</shape>
+<shape id="shape25" width="15">
+<style>
+<background color="#8BACF5" style="solid"/>
+<borderBottom color="#FFFFFF" style="solid" width="1"/>
+</style>
+</shape>
+			<!-- cannot find module for dummy 'sourcelist'!-->
+
+<shape id="shape26">
+<style>
+<background color="#FFFFFF" style="solid"/>
+</style>
+</shape>
+<choiceInteraction class="" id="dummy3" maxChoices="1" minChoices="1">
+	<feedbacks>
+		<feedback>
+			<condition>
+				<and>
+					<countCondition count="2" operator="&gt;=">
+		<propertyCondition property="wrong"/>
+					</countCondition>
+				</and>
+			</condition>
+		<action>
+			<showText>Tip: Golden retrivers are generally equally friendly with strangers and those familiar to them.</showText>
+		</action>
+		</feedback>
+	</feedbacks>
+	<simpleChoice weight="1">kindly, friendly and confident</simpleChoice>	
+	<simpleChoice weight="0">one man dog</simpleChoice>	
+	<simpleChoice weight="0">guard dog</simpleChoice>	
+	<simpleChoice weight="0">agressive and untrusty</simpleChoice>	
+
+</choiceInteraction>
+
+<textFeedbackView id="Text Feedback Area1" skin.id="activity"><skin src="../common/activity-textFeedbackView.dls.utp"/>
+</textFeedbackView>
+<shape height="22" id="shape30" minWidth="1">
+<style>
+<background style="none"/>
+<borderBottom color="#FFFFFF" style="solid" width="1"/>
+</style>
+</shape>
+<image id="image3" src="../common/activity_panel.swf">
+<style>
+<background style="none"/>
+<border style="none"/>
+<padding bottom="0" left="0" right="0" top="0"/>
+</style>
+</image>
+<markCorrectButton id="markCorrectButton3" src="../common/check_icon.swf">
+</markCorrectButton>
+<showAnswersButton id="showAnswersButton3" src="../common/showanswers_icon.swf">
+</showAnswersButton>
+<resetButton id="resetButton3" src="../common/reset_icon.swf">
+</resetButton>
+<imagePlayer class="" id="dummy4">
+<slideShow title="">
+	<slide>
+	<source height="240" src="media/sid.jpg" width="320"/>
+	</slide>
+</slideShow>
+
+</imagePlayer>
+
+</itemBody>
+</assessmentItem>
