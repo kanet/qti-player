@@ -17,6 +17,14 @@ public class PageTestCase {
 	}
 
 	// ----------------------------------------------------------------------------------------------
+	@Test
+	public void testModuleCount() throws IOException{
+		Page		page = loadPage(0);
+			
+		assertEquals(5, page.countModules());
+	}
+
+	// ----------------------------------------------------------------------------------------------
 	private Page loadPage(int index) throws IOException{
 		Lesson 	lesson = new Lesson();
 		Page		page;

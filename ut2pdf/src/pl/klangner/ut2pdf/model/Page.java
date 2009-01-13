@@ -10,6 +10,17 @@ public class Page extends AbstractModel{
 
 	// ----------------------------------------------------------------------------------------------
 	/**
+	 * Modules are the following subtags of <itemBody>
+	 * 	* simpleText
+	 *  * imagePlayer
+	 *  * choiceInteraction
+	 */
+	public int countModules() {
+		return -1;
+	}
+
+	// ----------------------------------------------------------------------------------------------
+	/**
 	 * Get Lesson name from DOM 
 	 */
 	public String getTitle(){
@@ -19,4 +30,5 @@ public class Page extends AbstractModel{
 	// ----------------------------------------------------------------------------------------------
 	// Private members
 	private String	title;
+
 }

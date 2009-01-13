@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import pl.klangner.ut2pdf.model.Lesson;
+import pl.klangner.ut2pdf.model.Page;
 
 import com.lowagie.text.Chapter;
 import com.lowagie.text.Document;
@@ -38,7 +39,11 @@ public class Ut2Pdf {
 			document.add(chapter);
 			
 			for(int i = 0; i < lesson.getPageCount(); i++){
-//				Page
+				Page page = lesson.getPage(i);
+				p = new Paragraph(page.getTitle(), h2Font);
+				p.setSpacingAfter(20);
+				chapter = new Chapter(p, 1);
+				document.add(chapter);
 			}
 			
 			// Add questions
@@ -55,19 +60,7 @@ public class Ut2Pdf {
 //				list.add(new ListItem("\n _________________________________"));
 //			}
 //			document.add(list);
-//
-//			// Add answers
-//			p = new Paragraph("Answers", h2Font);
-//			p.setSpacingAfter(20);
-//			chapter = new Chapter(p, 1);
-//			chapter.setNumberDepth(0);
-//			document.add(chapter);
-//			list = new List(true, 20);
-//			list.add(new ListItem("C A B"));
-//			list.add(new ListItem("D# A F"));
-//			list.add(new ListItem("G D F#"));
-//			document.add(list);
-			
+
 		} catch (DocumentException de) {
 			System.err.println(de.getMessage());
 		} catch (IOException ioe) {
@@ -81,7 +74,7 @@ public class Ut2Pdf {
 	// ----------------------------------------------------------------------------------------------
 	// Private members
 	private static final Font h1Font = FontFactory.getFont(FontFactory.HELVETICA, 18, Font.BOLD);
-//	private static final Font h2Font = FontFactory.getFont(FontFactory.HELVETICA, 16, Font.BOLD);
+	private static final Font h2Font = FontFactory.getFont(FontFactory.HELVETICA, 16, Font.BOLD);
 //	private static final Font h3Font = FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD);
 //	private static final Font promptFont = FontFactory.getFont(FontFactory.HELVETICA, 14);
 //	private static final Font pFont = FontFactory.getFont(FontFactory.HELVETICA, 12);

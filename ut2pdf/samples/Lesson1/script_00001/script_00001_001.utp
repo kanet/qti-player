@@ -298,7 +298,9 @@
 </layer>
 </table>
 </layout>
+
 <stylesheet href="../common/default.css"/>
+
 <itemBody>
 <shape id="shape_g1">
 <style>
