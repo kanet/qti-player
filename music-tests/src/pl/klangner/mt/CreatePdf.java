@@ -2,8 +2,11 @@ package pl.klangner.mt;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Iterator;
 
-import pl.klangner.mt.model.Chord;
+import pl.klangner.mt.activity.Activity;
+import pl.klangner.mt.activity.ChordActivity;
+import pl.klangner.mt.activity.Question;
 
 import com.lowagie.text.Chapter;
 import com.lowagie.text.Document;
@@ -23,9 +26,13 @@ public class CreatePdf {
 	 */
 	public static void main(String[] args) {
 		
-		Chapter 	chapter;
-		List 			list;
-		Paragraph	p;
+		Activity				activity = new ChordActivity();
+		java.util.List<Question>	questions;
+		Iterator<Question>				it;
+		Chapter 				chapter;
+		List 						list;
+		Paragraph				p;
+		
 
 		
 		Document document = new Document();
@@ -48,14 +55,15 @@ public class CreatePdf {
 			p.setSpacingAfter(20);
 			chapter = new Chapter(p, 1);
 			document.add(chapter);
-			p = new Paragraph("In the following questions provide all notes starting from root note.", promptFont);
+			p = new Paragraph(activity.getInstruction(), promptFont);
 			p.setSpacingAfter(10);
 			document.add(p);
 
+			questions = activity.getQuestions(QUESTION_COUNT);
 			list = new List(true, 20);
-			for(int i = 0; i < 10; i++){
-				Chord chord = Chord.getRandom();
-				list.add(new ListItem(chord.getName() + "\n _________________________________"));
+			for(it = questions.iterator(); it.hasNext();){
+				Question q = it.next();
+				list.add(new ListItem(q.getQuestion() + "\n _________________________________"));
 			}
 			document.add(list);
 
@@ -66,9 +74,10 @@ public class CreatePdf {
 			chapter.setNumberDepth(0);
 			document.add(chapter);
 			list = new List(true, 20);
-			list.add(new ListItem("C A B"));
-			list.add(new ListItem("D# A F"));
-			list.add(new ListItem("G D F#"));
+			for(it = questions.iterator(); it.hasNext();){
+				Question q = it.next();
+				list.add(new ListItem(q.getAnswer()));
+			}
 			document.add(list);
 			
 		} catch (DocumentException de) {
@@ -89,6 +98,7 @@ public class CreatePdf {
 //	private static final Font h3Font = FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD);
 	private static final Font promptFont = FontFactory.getFont(FontFactory.HELVETICA, 14);
 //	private static final Font pFont = FontFactory.getFont(FontFactory.HELVETICA, 12);
+	private static final int QUESTION_COUNT = 10;
 
 
 }

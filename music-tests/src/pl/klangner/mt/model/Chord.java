@@ -1,28 +1,19 @@
 package pl.klangner.mt.model;
 
-import java.util.Random;
+import java.util.List;
+import java.util.Vector;
+
 
 public class Chord {
 
-	public static final int CHORD_MAJOR = 1;
-	public static final int CHORD_MINOR = 2;
-	public static final int CHORD_5 = 3;
+	public static final int CHORD_MAJOR = 0;
+	public static final int CHORD_MINOR = 1;
+	public static final int CHORD_5 = 2;
+	public static final int MAX_CHORD_TYPE = 3;
 	
 	// ----------------------------------------------------------------------------------------------
-	/**
-	 * Create random chord object
-	 */
-	public static Chord getRandom(){
-		Random random = new Random();
-		Chord chord = new Chord(random.nextInt(noteName.length), random.nextInt(chordTypeName.length));
-		
-		return chord;
-	}
-	
-	// ----------------------------------------------------------------------------------------------
-	public Chord(int rootNote, int type){
-		assert( type >= 0 && type < chordTypeName.length);
-		assert( rootNote >= 0 && rootNote < noteName.length);
+	public Chord(Note rootNote, int type){
+		assert( type >= 0 && type < MAX_CHORD_TYPE);
 		
 		this.root = rootNote;
 		this.type = type;
@@ -30,21 +21,45 @@ public class Chord {
 	
 	// ----------------------------------------------------------------------------------------------
 	public String getName(){
-		return noteName[root] + " " + chordTypeName[type];
+		return root.getName() + " " + chordTypes[type][0];
+	}
+	
+	// ----------------------------------------------------------------------------------------------
+	/**
+	 * Return number of notes in this chord
+	 */
+	public int getNoteCount(){
+		return ((int[])chordTypes[type][1]).length + 1;
+	}
+	
+	// ----------------------------------------------------------------------------------------------
+	/**
+	 * Return number of notes in this chord
+	 */
+	public List<Note> getNotes(){
+		Vector<Note>		notes = new Vector<Note>();
+		int[]						intervals = (int[])chordTypes[type][1];
+		
+		notes.add(root);
+		for(int i = 0; i < intervals.length; i++){
+			notes.add(root.getIntervalNote(intervals[i]));
+		}
+		
+		return notes;
 	}
 	
 	// ----------------------------------------------------------------------------------------------
 	// Private members
-	private int 		root;
+	private Note 		root;
 	private int			type;
 	
-	private static final String[] noteName = {
-		"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"
+	/**
+	 * Check record contains name and intervals used to build chord
+	 */
+	private static final Object[][] chordTypes = {
+		{"Major", new int[]{4, 7}},
+		{"Minor", new int[]{3, 7}},
+		{"5", new int[]{7}}
 	};
-
-	private static final String[] chordTypeName = {
-		"Major",
-		"Minor",
-		"5"
-	};
+	
 }
