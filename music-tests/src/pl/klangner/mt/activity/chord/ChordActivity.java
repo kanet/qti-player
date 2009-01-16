@@ -2,17 +2,17 @@ package pl.klangner.mt.activity.chord;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
-import pl.klangner.mt.activity.Activity;
 import pl.klangner.mt.activity.Task;
 import pl.klangner.mt.model.Chord;
 import pl.klangner.mt.model.Note;
 
 
-abstract class ChordActivity implements Activity{
+abstract class ChordActivity{
 
 	// ----------------------------------------------------------------------------------------------
 	protected ChordActivity(String instruction){
@@ -23,9 +23,17 @@ abstract class ChordActivity implements Activity{
 	//----------------------------------------------------------------------------------------------
 	public void generate(String path) throws IOException{
 		
-		FileWriter writer = new FileWriter("output/index.xml");
+		FileWriter 	writer = new FileWriter(path + "/activity.xml");
+		List<Task>	tasks = createActivity(10);
 		
 		writer.write("<activity>\n");
+		writer.write("<prompt>" + instruction + "</prompt>");
+		for(Iterator<Task> it = tasks.iterator(); it.hasNext();){
+			Task task = it.next();
+			writer.write("<question>" + task.getQuestion() + "</question>");
+			writer.write("<answer>" + task.getAnswer() + "</answer>");
+		}
+		
 		writer.write("</activity>");
 		
 		writer.close();

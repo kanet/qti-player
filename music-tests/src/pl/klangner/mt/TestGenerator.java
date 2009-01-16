@@ -1,25 +1,25 @@
 package pl.klangner.mt;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+
+import pl.klangner.mt.activity.chord.ChordNotesActivity;
+import pl.klangner.mt.activity.chord.Notes2ChordActivity;
 
 public class TestGenerator {
 
 	// ----------------------------------------------------------------------------------------------
 	public static void main(String[] args) throws IOException {
 
-		FileWriter writer = new FileWriter("output/index.xml");
+		ChordNotesActivity cna = new ChordNotesActivity();
+		Notes2ChordActivity nca = new Notes2ChordActivity();
 		
 		// Create path for 1 activity
-		createPath("output/activity1");
+		createPath("output/chord2notes");
+		createPath("output/notes2chord");
 		
-		writer.write("<assessment title='Chord building'>\n");
-		writer.write("</activity href='activity1/activity.xml>");
-		writer.write("</activity href='activity2/activity.xml>");
-		writer.write("</assessment>");
-		
-		writer.close();
+		cna.generate("output/chord2notes");
+		nca.generate("output/notes2chord");
 	}
 	
 	// ----------------------------------------------------------------------------------------------
