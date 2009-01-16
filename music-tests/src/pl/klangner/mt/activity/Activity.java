@@ -1,13 +1,10 @@
 package pl.klangner.mt.activity;
 
-import java.util.List;
+import java.io.IOException;
 
 public interface Activity {
 
-	/** Get instruction for this type of activity */
-	public String getInstruction();
-	
-	/** Generate count number of random questions  */
-	public List<Question> getQuestions(int count);
+	/** Generate activity as XML file in a given path */
+	public void generate(String path) throws IOException;
 	
 }

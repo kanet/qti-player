@@ -1,9 +1,9 @@
 package pl.klangner.mt.activity;
 
-public class Question {
+public class Task {
 
 	// ----------------------------------------------------------------------------------------------
-	public Question(String q, String a){
+	public Task(String q, String a){
 		
 		question = q;
 		answer = a;

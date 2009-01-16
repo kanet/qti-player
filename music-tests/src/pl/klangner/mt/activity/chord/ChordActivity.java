@@ -1,13 +1,16 @@
 package pl.klangner.mt.activity.chord;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
 import pl.klangner.mt.activity.Activity;
-import pl.klangner.mt.activity.Question;
+import pl.klangner.mt.activity.Task;
 import pl.klangner.mt.model.Chord;
 import pl.klangner.mt.model.Note;
+
 
 abstract class ChordActivity implements Activity{
 
@@ -17,34 +20,36 @@ abstract class ChordActivity implements Activity{
 		this.instruction = instruction;
 	}
 	
-	
-	// ----------------------------------------------------------------------------------------------
-	/**
-	 * Get instruction for this type of activity
-	 */
-	public String getInstruction(){
-		return instruction;
+	//----------------------------------------------------------------------------------------------
+	public void generate(String path) throws IOException{
+		
+		FileWriter writer = new FileWriter("output/index.xml");
+		
+		writer.write("<activity>\n");
+		writer.write("</activity>");
+		
+		writer.close();
 	}
 	
 	// ----------------------------------------------------------------------------------------------
 	/**
 	 * Generate count number of random questions
 	 */
-	public List<Question> getQuestions(int count){
+	private List<Task> createActivity(int count){
 		
 		Random 					random = new Random();
 		List<Chord>			chords = createChordList();
-		List<Question>	questions = new Vector<Question>();
+		List<Task>	questions = new Vector<Task>();
 		
 		for( int i = 0; i < count && chords.size() > 0; i ++ ){
 			int					index;
 			Chord				chord;
-			Question		q;
+			Task		q;
 			
 			index = random.nextInt(chords.size());
 			chord = chords.get(index);
 			chords.remove(index);
-			q = chord2question(chord);
+			q = createTask(chord);
 			questions.add(q);
 		}
 		
@@ -55,7 +60,7 @@ abstract class ChordActivity implements Activity{
 	/**
 	 * Convert chord to question
 	 */
-	protected Question chord2question(Chord chord) {
+	protected Task createTask(Chord chord) {
 		return null;
 	}
 

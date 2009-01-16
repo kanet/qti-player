@@ -1,4 +1,4 @@
-package pl.klangner.testgen;
+package pl.klangner.mt;
 
 import java.io.File;
 import java.io.FileWriter;

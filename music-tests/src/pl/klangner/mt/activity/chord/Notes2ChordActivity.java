@@ -3,7 +3,7 @@ package pl.klangner.mt.activity.chord;
 import java.util.List;
 import java.util.Random;
 
-import pl.klangner.mt.activity.Question;
+import pl.klangner.mt.activity.Task;
 import pl.klangner.mt.model.Chord;
 import pl.klangner.mt.model.Note;
 
@@ -18,7 +18,7 @@ public class Notes2ChordActivity extends ChordActivity {
 	/**
 	 * Show chord notes in random order. Guess chord name
 	 */
-	protected Question chord2question(Chord chord){
+	protected Task createTask(Chord chord){
 		
 		Random 			random = new Random();
 		String			question = new String();
@@ -34,7 +34,7 @@ public class Notes2ChordActivity extends ChordActivity {
 			notes.remove(index);
 		}
 
-		return new Question(question, chord.getName());
+		return new Task(question, chord.getName());
 	}
 
 }
