@@ -27,11 +27,11 @@ abstract class ChordActivity{
 		List<Task>	tasks = createActivity(10);
 		
 		writer.write("<activity>\n");
-		writer.write("<prompt>" + instruction + "</prompt>");
+		writer.write("<prompt>" + instruction + "</prompt>\n");
 		for(Iterator<Task> it = tasks.iterator(); it.hasNext();){
 			Task task = it.next();
-			writer.write("<question>" + task.getQuestion() + "</question>");
-			writer.write("<answer>" + task.getAnswer() + "</answer>");
+			writer.write("<question>" + task.getQuestion() + "</question>\n");
+			writer.write("<answer>" + task.getAnswer() + "</answer>\n");
 		}
 		
 		writer.write("</activity>");
