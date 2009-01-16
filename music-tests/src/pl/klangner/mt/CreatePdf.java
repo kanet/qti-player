@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import pl.klangner.mt.activity.Activity;
-import pl.klangner.mt.activity.ChordActivity;
 import pl.klangner.mt.activity.Question;
+import pl.klangner.mt.activity.chord.ChordNotesActivity;
 
 import com.lowagie.text.Chapter;
 import com.lowagie.text.Document;
@@ -21,12 +21,9 @@ import com.lowagie.text.pdf.PdfWriter;
 public class CreatePdf {
 
 	// ----------------------------------------------------------------------------------------------
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		
-		Activity				activity = new ChordActivity();
+		Activity				activity = new ChordNotesActivity();
 		java.util.List<Question>	questions;
 		Iterator<Question>				it;
 		Chapter 				chapter;
@@ -37,7 +34,7 @@ public class CreatePdf {
 		
 		Document document = new Document();
 		try {
-			PdfWriter.getInstance(document, new FileOutputStream("ChordsWorkbook.pdf"));
+			PdfWriter.getInstance(document, new FileOutputStream("output/ChordsWorkbook.pdf"));
 			document.open();
 
 			// Create first page
@@ -71,7 +68,6 @@ public class CreatePdf {
 			p = new Paragraph("Answers", h2Font);
 			p.setSpacingAfter(20);
 			chapter = new Chapter(p, 1);
-			chapter.setNumberDepth(0);
 			document.add(chapter);
 			list = new List(true, 20);
 			for(it = questions.iterator(); it.hasNext();){
