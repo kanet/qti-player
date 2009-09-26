@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<assessmentTest xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd" 
+                identifier="RTEST-13" 
+                title="Minimal Assessment Test">
+
+<testPart>
+  <assessmentSection identifier="sectionA" title="Section A" visible="true">
+  	<assessmentItemRef identifier="choice" href="items/choice.xml"/>
+  	<assessmentItemRef identifier="associate" href="items/associate.xml"/>
+  	<assessmentItemRef identifier="choice_fixed" href="items/choice_fixed.xml"/>
+  	<assessmentItemRef identifier="choice_multiple" href="items/choice_multiple.xml"/>
+  	<assessmentItemRef identifier="match" href="items/match.xml"/>
+	</assessmentSection>
+</testPart>
+</assessmentTest>
