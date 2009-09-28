@@ -5,6 +5,7 @@ import java.util.Vector;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
+import com.klangner.qtiplayer.client.model.modules.ChoiceModule;
 import com.klangner.qtiplayer.client.model.modules.DebugModule;
 import com.klangner.qtiplayer.client.model.modules.IModule;
 import com.klangner.qtiplayer.client.model.modules.TextModule;
@@ -79,6 +80,8 @@ public class AssessmentItem extends AbstractXMLDocument{
 
 		if(node.getNodeName().compareTo("p") == 0)
 			return new TextModule(node);
+		else if(node.getNodeName().compareTo("choiceInteraction") == 0)
+			return new ChoiceModule(node);
 		else if(node.getNodeType() == Node.ELEMENT_NODE)
 			return new DebugModule(node);
 		else
