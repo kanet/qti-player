@@ -1,14 +1,14 @@
 package com.klangner.qtiplayer.server;
 
-import com.klangner.qtiplayer.client.GreetingService;
+//import com.klangner.qtiplayer.client.GreetingService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * The server side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class GreetingServiceImpl extends RemoteServiceServlet implements
-		GreetingService {
+public class GreetingServiceImpl extends RemoteServiceServlet /*implements
+		GreetingService*/ {
 
 	public String greetServer(String input) {
 		String serverInfo = getServletContext().getServerInfo();

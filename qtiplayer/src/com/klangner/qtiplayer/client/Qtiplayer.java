@@ -18,7 +18,13 @@ import com.klangner.qtiplayer.client.model.IDocumentLoaded;
  */
 public class Qtiplayer implements EntryPoint {
 
+	/** Normal work mode */
+	private static int SHOW_ACTIVITY_MODE = 0;
+	/** Show results mode */
+	private static int SHOW_RESULT_MODE = 1;
+
 	private Assessment			assessment;
+	private	int							workMode;
 	private int							currentItemIndex;
 	AssessmentItem					currentItem;
 	private VerticalPanel 	body;
@@ -75,7 +81,15 @@ public class Qtiplayer implements EntryPoint {
 		
 		Button nextButton = new Button();
 		
-		if(currentItemIndex+1 < assessment.getItemCount()){
+		if(SHOW_ACTIVITY_MODE == workMode){
+			nextButton.setText("Check");
+			nextButton.addClickHandler(new ClickHandler(){
+				public void onClick(ClickEvent event) {
+					checkScore();
+				}
+			});
+		}
+		else if(currentItemIndex+1 < assessment.getItemCount()){
 			nextButton.setText("Next");
 			nextButton.addClickHandler(new ClickHandler(){
 				public void onClick(ClickEvent event) {
@@ -85,10 +99,17 @@ public class Qtiplayer implements EntryPoint {
 		}
 		else{
 			nextButton.setText("Finish");
+			nextButton.addClickHandler(new ClickHandler(){
+				public void onClick(ClickEvent event) {
+					showAssessmentResult();
+				}
+			});
 		}
 		
 		body.clear();
-		body.add(new Label(currentItem.getTitle()));
+		for(int i = 0; i < currentItem.getModuleCount(); i++){
+			body.add(currentItem.getModule(i).getView());
+		}
 		body.add(nextButton);
 	}
 	
@@ -117,6 +138,7 @@ public class Qtiplayer implements EntryPoint {
 
 		currentItem = new AssessmentItem();
 		currentItemIndex = index;
+		workMode = SHOW_ACTIVITY_MODE;
 
 		currentItem.load(url, new IDocumentLoaded(){
 
@@ -125,6 +147,28 @@ public class Qtiplayer implements EntryPoint {
 			}
 		});
 
+	}
+	
+	/**
+	 * Check score
+	 * @param index
+	 */
+	private void checkScore(){
+
+		workMode = SHOW_RESULT_MODE;
+		createItemViews();
+
+	}
+	
+	/**
+	 * Show assessment item in body part of player
+	 * @param index
+	 */
+	private void showAssessmentResult(){
+		
+		workMode = SHOW_RESULT_MODE;
+		body.clear();
+		body.add(new Label("Well done"));
 	}
 	 
 }
