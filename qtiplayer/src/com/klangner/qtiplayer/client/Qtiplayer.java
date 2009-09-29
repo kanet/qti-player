@@ -5,10 +5,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.klangner.qtiplayer.client.model.Assessment;
 import com.klangner.qtiplayer.client.model.AssessmentItem;
 import com.klangner.qtiplayer.client.model.IDocumentLoaded;
@@ -24,10 +21,10 @@ public class Qtiplayer implements EntryPoint {
 	private static int SHOW_RESULT_MODE = 1;
 
 	private Assessment			assessment;
+	private PlayerView			playerView;
 	private	int							workMode;
 	private int							currentItemIndex;
-	AssessmentItem					currentItem;
-	private VerticalPanel 	body;
+	private AssessmentItem	currentItem;
 	
 	/**
 	 * This is the entry point method.
@@ -45,33 +42,9 @@ public class Qtiplayer implements EntryPoint {
 	 * Create user interface
 	 */
 	private void createViews() {
-		VerticalPanel playerPanel = new VerticalPanel();
-		Label					label;
-		Label 				header = new Label();
-		Label 				feedback = new Label();
-		Label 				footer = new Label();
 		
-
-		playerPanel.setStyleName("qp-player");
-		header.setText(assessment.getTitle());
-		header.setStyleName("qp-header");
-		playerPanel.add(header);
-
-		body = new VerticalPanel();
-		body.setStyleName("qp-body");
-		label = new Label("There are: " + assessment.getItemCount() + " items.");
-		body.add(label);
-		playerPanel.add(body);
-		
-		feedback.setText("feeback");
-		feedback.setStyleName("qp-feedback");
-		playerPanel.add(feedback);
-		
-		footer.setText("Footer");
-		footer.setStyleName("qp-footer");
-		playerPanel.add(footer);
-
-		RootPanel.get("player").add(playerPanel);
+		playerView = new PlayerView(assessment);
+		RootPanel.get("player").add(playerView.getView());
 	}
 	
 	/**
@@ -79,38 +52,32 @@ public class Qtiplayer implements EntryPoint {
 	 */
 	private void createItemViews(){
 		
-		Button nextButton = new Button();
-		
 		if(SHOW_ACTIVITY_MODE == workMode){
-			nextButton.setText("Check");
-			nextButton.addClickHandler(new ClickHandler(){
+			playerView.getCheckButton().setText("Check");
+			playerView.getCheckButton().addClickHandler(new ClickHandler(){
 				public void onClick(ClickEvent event) {
 					checkScore();
 				}
 			});
 		}
 		else if(currentItemIndex+1 < assessment.getItemCount()){
-			nextButton.setText("Next");
-			nextButton.addClickHandler(new ClickHandler(){
+			playerView.getCheckButton().setText("Next");
+			playerView.getCheckButton().addClickHandler(new ClickHandler(){
 				public void onClick(ClickEvent event) {
 					showItem(currentItemIndex+1);
 				}
 			});
 		}
 		else{
-			nextButton.setText("Finish");
-			nextButton.addClickHandler(new ClickHandler(){
+			playerView.getCheckButton().setText("Finish");
+			playerView.getCheckButton().addClickHandler(new ClickHandler(){
 				public void onClick(ClickEvent event) {
 					showAssessmentResult();
 				}
 			});
 		}
-		
-		body.clear();
-		for(int i = 0; i < currentItem.getModuleCount(); i++){
-			body.add(currentItem.getModule(i).getView());
-		}
-		body.add(nextButton);
+
+		playerView.showAssessmentItem(currentItem);
 	}
 	
 	/**
@@ -167,8 +134,7 @@ public class Qtiplayer implements EntryPoint {
 	private void showAssessmentResult(){
 		
 		workMode = SHOW_RESULT_MODE;
-		body.clear();
-		body.add(new Label("Well done"));
+		playerView.showResultPage();
 	}
 	 
 }

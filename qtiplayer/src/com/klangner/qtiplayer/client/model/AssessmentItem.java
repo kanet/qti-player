@@ -5,10 +5,10 @@ import java.util.Vector;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
-import com.klangner.qtiplayer.client.model.modules.ChoiceModule;
-import com.klangner.qtiplayer.client.model.modules.DebugModule;
-import com.klangner.qtiplayer.client.model.modules.IModule;
-import com.klangner.qtiplayer.client.model.modules.TextModule;
+import com.klangner.qtiplayer.client.modules.ChoiceModule;
+import com.klangner.qtiplayer.client.modules.DebugModule;
+import com.klangner.qtiplayer.client.modules.IModule;
+import com.klangner.qtiplayer.client.modules.TextModule;
 
 
 public class AssessmentItem extends AbstractXMLDocument{
