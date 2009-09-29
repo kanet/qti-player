@@ -64,10 +64,12 @@ public class AssessmentItem extends AbstractXMLDocument{
     modules = new Vector<IModule>(nodes.getLength());
     
     for(int i = 0; i < nodes.getLength(); i++){
-    	module = createModuleFromNode(nodes.item(i));
+    	if(nodes.item(i).getNodeType() == Node.ELEMENT_NODE){
+    		module = createModuleFromNode((Element)nodes.item(i));
 
-    	if(null != module)
-    		modules.add(module);
+    		if(null != module)
+    			modules.add(module);
+    	}
     }
 	}
 
@@ -76,7 +78,7 @@ public class AssessmentItem extends AbstractXMLDocument{
 	 * @param node - dom node
 	 * @return new module or null if can't create module for given node
 	 */
-	private IModule createModuleFromNode(Node node) {
+	private IModule createModuleFromNode(Element node) {
 
 		if(node.getNodeName().compareTo("p") == 0)
 			return new TextModule(node);

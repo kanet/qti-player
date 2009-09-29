@@ -48,8 +48,8 @@ public class Qtiplayer implements EntryPoint {
 		VerticalPanel playerPanel = new VerticalPanel();
 		Label					label;
 		Label 				header = new Label();
-		Label 	feedback = new Label();
-		Label 	footer = new Label();
+		Label 				feedback = new Label();
+		Label 				footer = new Label();
 		
 
 		playerPanel.setStyleName("qp-player");

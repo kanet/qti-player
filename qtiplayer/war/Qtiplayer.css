@@ -22,3 +22,13 @@
 .qp-footer{
 	background-color: lightgrey;
 }
+
+
+/** choice styles */
+.qp-choice-prompt{
+	font-weight: bold;
+}
+
+.qp-choice-option{
+	margin-left: 20px;
+}
