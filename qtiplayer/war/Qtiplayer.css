@@ -23,14 +23,18 @@
 	background-color: lightgreen;
 }
 
-.qp-checkbutton{
-}
-
 .qp-footer{
 	margin-top: 10px;
-	background-color: lightgrey;
 	padding: 4px;
-	font-size: 120%;
+}
+
+.qp-check-button{
+}
+
+.qp-next-button{
+}
+
+.qp-finish-button{
 }
 
 

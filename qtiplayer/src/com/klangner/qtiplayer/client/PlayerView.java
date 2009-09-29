@@ -1,6 +1,7 @@
 package com.klangner.qtiplayer.client;
 
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -15,8 +16,12 @@ public class PlayerView {
 	private VerticalPanel 	bodyPanel;
 	/** Assessment item feedback */
 	private Label 					feedbackLabel;
-	/** Check/Next/Finish button */ 
+	/** Check button */ 
 	private Button					checkButton;
+	/** Next button */ 
+	private Button					nextButton;
+	/** Finish button */ 
+	private Button					finishButton;
 	
 	/**
 	 * constructor
@@ -34,15 +39,29 @@ public class PlayerView {
 	}
 	
 	/**
+	 * @return next button
+	 */
+	public Button getNextButton(){
+		return nextButton;
+	}
+	
+	/**
+	 * @return finish button
+	 */
+	public Button getFinishButton(){
+		return finishButton;
+	}
+	
+	/**
 	 * @return view with player
 	 */
 	public Widget getView(){
-		VerticalPanel playerPanel = new VerticalPanel();
-		Label					label;
-		Label 				header = new Label();
-		Label 				footer = new Label();
-		
+		VerticalPanel 	playerPanel = new VerticalPanel();
+		Label						label;
+		Label 					header = new Label();
+		HorizontalPanel	footer = new HorizontalPanel();
 
+		
 		playerPanel.setStyleName("qp-player");
 		header.setText(assessment.getTitle());
 		header.setStyleName("qp-header");
@@ -58,14 +77,20 @@ public class PlayerView {
 		feedbackLabel.setStyleName("qp-feedback");
 		playerPanel.add(feedbackLabel);
 
-		checkButton = new Button("Check");
-		checkButton.setStyleName("qp-checkbutton");
-		playerPanel.add(checkButton);
-		
-		footer.setText("Footer");
 		footer.setStyleName("qp-footer");
 		playerPanel.add(footer);
 
+		checkButton = new Button("Check");
+		checkButton.setStyleName("qp-check-button");
+		footer.add(checkButton);
+		nextButton = new Button("Next");
+		nextButton.setStyleName("qp-next-button");
+		footer.add(nextButton);
+		
+		finishButton = new Button("Finish");
+		finishButton.setStyleName("qp-finish-button");
+		footer.add(finishButton);
+		
 		return playerPanel;
 	}
 	
