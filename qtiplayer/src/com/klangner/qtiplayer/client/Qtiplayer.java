@@ -19,7 +19,6 @@ public class Qtiplayer implements EntryPoint {
 	private PlayerView					playerView;
 	private int									currentItemIndex;
 	private AssessmentItem			currentItem;
-	private ResponseProcessing	responseProcessing;
 	
 	/**
 	 * This is the entry point method.
@@ -69,7 +68,6 @@ public class Qtiplayer implements EntryPoint {
 	 */
 	private void showCurrentItem(){
 		
-		responseProcessing = new ResponseProcessing(currentItem);
 		playerView.showAssessmentItem(currentItem);
 		
 		playerView.getCheckButton().setVisible(true);
@@ -127,7 +125,7 @@ public class Qtiplayer implements EntryPoint {
 			playerView.getFinishButton().setVisible(true);
 		}
 
-		playerView.showFeedback(responseProcessing.getFeedback());
+		playerView.showFeedback(currentItem.getResponseProcesing().getFeedback());
 	}
 	
 	/**

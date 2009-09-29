@@ -1,6 +1,5 @@
-package com.klangner.qtiplayer.client;
+package com.klangner.qtiplayer.client.model;
 
-import com.klangner.qtiplayer.client.model.AssessmentItem;
 
 public class ResponseProcessing {
 

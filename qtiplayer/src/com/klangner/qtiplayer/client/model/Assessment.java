@@ -7,7 +7,7 @@ import com.google.gwt.xml.client.NodeList;
 public class Assessment extends AbstractXMLDocument{
 
 	/** Array with references to items */
-	private String[]	itemRefs;
+	private String[]			itemRefs;
 
 	/**
 	 * @return item ref

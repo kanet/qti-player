@@ -13,6 +13,8 @@ import com.klangner.qtiplayer.client.modules.TextModule;
 
 public class AssessmentItem extends AbstractXMLDocument{
 
+	/** check result for this item */
+	private ResponseProcessing	responseProcessing;
 	private Vector<IModule>	modules;
 	
 	/**
@@ -42,6 +44,13 @@ public class AssessmentItem extends AbstractXMLDocument{
 	}
 	
 	/**
+	 * @return response processing
+	 */
+	public ResponseProcessing getResponseProcesing(){
+		return responseProcessing;
+	}
+	
+	/**
 	 * fix urls
 	 * Load modules
 	 */
@@ -58,7 +67,10 @@ public class AssessmentItem extends AbstractXMLDocument{
     	Element element = (Element)nodes.item(i);
     	element.setAttribute("src", getBaseUrl() + element.getAttribute("src"));
     }
-    
+
+    // Create response processing
+    responseProcessing = new ResponseProcessing(this);
+
     // Load modules
     nodes = itemBody.getChildNodes();
     modules = new Vector<IModule>(nodes.getLength());
