@@ -69,7 +69,9 @@ public class AssessmentItem extends AbstractXMLDocument{
     }
 
     // Create response processing
-    responseProcessing = new ResponseProcessing(this);
+    nodes = getDom().getElementsByTagName("responseDeclaration");
+    if(nodes.getLength() > 0)
+    	responseProcessing = new ResponseProcessing((Element)nodes.item(0));
 
     // Load modules
     nodes = itemBody.getChildNodes();
