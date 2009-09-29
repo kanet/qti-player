@@ -23,6 +23,7 @@ public class ChoiceModule implements IModule {
 	public Widget getView() {
 		VerticalPanel vp = new VerticalPanel();
 		
+		vp.setStyleName("qp-choice-module");
 		vp.add(getPromptView());
 		vp.add(getOptionsView());
 		

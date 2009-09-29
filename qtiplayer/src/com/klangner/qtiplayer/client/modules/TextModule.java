@@ -13,7 +13,11 @@ public class TextModule implements IModule {
 	}
 	
 	public Widget getView() {
-		return new HTML(text);
+		HTML htmlLabel;
+		
+		htmlLabel = new HTML(text);
+		htmlLabel.setStyleName("qp-text-module");
+		return htmlLabel;
 	}
 
 }

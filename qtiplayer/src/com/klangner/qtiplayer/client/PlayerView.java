@@ -12,7 +12,9 @@ public class PlayerView {
 	/** Show this assessment */
 	private Assessment			assessment;
 	/** Body panel. AssessmentItem view will be shown there */
-	private VerticalPanel 	body;
+	private VerticalPanel 	bodyPanel;
+	/** Assessment item feedback */
+	private Label 					feedbackLabel;
 	/** Check/Next/Finish button */ 
 	private Button					checkButton;
 	
@@ -38,7 +40,6 @@ public class PlayerView {
 		VerticalPanel playerPanel = new VerticalPanel();
 		Label					label;
 		Label 				header = new Label();
-		Label 				feedback = new Label();
 		Label 				footer = new Label();
 		
 
@@ -47,15 +48,15 @@ public class PlayerView {
 		header.setStyleName("qp-header");
 		playerPanel.add(header);
 
-		body = new VerticalPanel();
-		body.setStyleName("qp-body");
+		bodyPanel = new VerticalPanel();
+		bodyPanel.setStyleName("qp-body");
 		label = new Label("There are: " + assessment.getItemCount() + " items.");
-		body.add(label);
-		playerPanel.add(body);
+		bodyPanel.add(label);
+		playerPanel.add(bodyPanel);
 		
-		feedback.setText("feeback");
-		feedback.setStyleName("qp-feedback");
-		playerPanel.add(feedback);
+		feedbackLabel = new Label();
+		feedbackLabel.setStyleName("qp-feedback");
+		playerPanel.add(feedbackLabel);
 
 		checkButton = new Button("Check");
 		checkButton.setStyleName("qp-checkbutton");
@@ -74,10 +75,14 @@ public class PlayerView {
 	 */
 	public void showAssessmentItem(AssessmentItem assessmentItem){
 
-		body.clear();
+		bodyPanel.clear();
 		for(int i = 0; i < assessmentItem.getModuleCount(); i++){
-			body.add(assessmentItem.getModule(i).getView());
+			bodyPanel.add(assessmentItem.getModule(i).getView());
 		}
+	}
+	
+	public void showFeedback(String feedback){
+		feedbackLabel.setText(feedback);
 	}
 	
 	/**
@@ -86,8 +91,8 @@ public class PlayerView {
 	 */
 	public void showResultPage(){
 
-		body.clear();
-		body.add(new Label("Well done"));
+		bodyPanel.clear();
+		bodyPanel.add(new Label("Well done"));
 	}
 	
 }

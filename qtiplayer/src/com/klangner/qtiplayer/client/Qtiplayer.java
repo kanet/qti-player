@@ -50,7 +50,7 @@ public class Qtiplayer implements EntryPoint {
 	/**
 	 * create view for assessment item
 	 */
-	private void createItemViews(){
+	private void showCurrentItem(){
 		
 		if(SHOW_ACTIVITY_MODE == workMode){
 			playerView.getCheckButton().setText("Check");
@@ -110,7 +110,7 @@ public class Qtiplayer implements EntryPoint {
 		currentItem.load(url, new IDocumentLoaded(){
 
 			public void finishedLoading() {
-				createItemViews();
+				showCurrentItem();
 			}
 		});
 
@@ -123,8 +123,8 @@ public class Qtiplayer implements EntryPoint {
 	private void checkScore(){
 
 		workMode = SHOW_RESULT_MODE;
-		createItemViews();
-
+		showCurrentItem();
+		playerView.showFeedback("not implemented yet!");
 	}
 	
 	/**

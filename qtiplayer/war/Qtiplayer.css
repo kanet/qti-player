@@ -9,10 +9,14 @@
 	
 .qp-header{
 	background-color: lightgrey;
+	padding: 4px;
+	font-size: 120%;
 }
 
 .qp-body{
 	background-color: white;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 .qp-feedback{
@@ -23,11 +27,28 @@
 }
 
 .qp-footer{
+	margin-top: 10px;
 	background-color: lightgrey;
+	padding: 4px;
+	font-size: 120%;
 }
 
 
-/** choice styles */
+/**
+ * TextModule styles
+ */
+.qp-text-module{
+	margin-top: 5px;
+}
+
+
+/** 
+ * ChoiceModule styles 
+ */
+.qp-choice-module{
+	margin-top: 5px;
+}
+
 .qp-choice-prompt{
 	font-weight: bold;
 }
