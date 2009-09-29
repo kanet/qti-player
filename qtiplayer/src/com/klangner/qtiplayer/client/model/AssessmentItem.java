@@ -97,7 +97,7 @@ public class AssessmentItem extends AbstractXMLDocument{
 		if(node.getNodeName().compareTo("p") == 0)
 			return new TextModule(node);
 		else if(node.getNodeName().compareTo("choiceInteraction") == 0)
-			return new ChoiceModule(node);
+			return new ChoiceModule(node, responseProcessing);
 		else if(node.getNodeType() == Node.ELEMENT_NODE)
 			return new DebugModule(node);
 		else

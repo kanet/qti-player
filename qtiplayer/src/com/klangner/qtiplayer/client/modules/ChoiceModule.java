@@ -9,12 +9,15 @@ import com.google.gwt.xml.client.NodeList;
 
 public class ChoiceModule implements IModule {
 
-	private static int choiceID = 1;
-	private Element	choiceNode;
+	private static int 	choiceID = 1;
+	private Element			choiceNode;
+	private IResponse 	response;
 	
-	public ChoiceModule(Element choiceNode){
+	
+	public ChoiceModule(Element choiceNode, IResponse response){
 		
 		this.choiceNode = choiceNode;
+		this.response = response;
 	}
 	
 	/**
