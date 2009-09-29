@@ -5,6 +5,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.klangner.qtiplayer.client.model.Assessment;
 import com.klangner.qtiplayer.client.model.AssessmentItem;
@@ -15,16 +16,12 @@ import com.klangner.qtiplayer.client.model.IDocumentLoaded;
  */
 public class Qtiplayer implements EntryPoint {
 
-	/** Normal work mode */
-	private static int SHOW_ACTIVITY_MODE = 0;
-	/** Show results mode */
-	private static int SHOW_RESULT_MODE = 1;
-
-	private Assessment			assessment;
-	private PlayerView			playerView;
-	private	int							workMode;
-	private int							currentItemIndex;
-	private AssessmentItem	currentItem;
+	private Assessment					assessment;
+	private PlayerView					playerView;
+	private int									currentItemIndex;
+	private AssessmentItem			currentItem;
+	private ResponseProcessing	responseProcessing;
+	private HandlerRegistration	handlerRegistration;
 	
 	/**
 	 * This is the entry point method.
@@ -41,10 +38,13 @@ public class Qtiplayer implements EntryPoint {
 	/**
 	 * Create user interface
 	 */
-	private void createViews() {
+	private void initialize() {
 		
 		playerView = new PlayerView(assessment);
 		RootPanel.get("player").add(playerView.getView());
+
+		// Switch to first item
+		loadAssessmentItem(0);
 	}
 	
 	/**
@@ -52,31 +52,17 @@ public class Qtiplayer implements EntryPoint {
 	 */
 	private void showCurrentItem(){
 		
-		if(SHOW_ACTIVITY_MODE == workMode){
-			playerView.getCheckButton().setText("Check");
-			playerView.getCheckButton().addClickHandler(new ClickHandler(){
-				public void onClick(ClickEvent event) {
-					checkScore();
-				}
-			});
-		}
-		else if(currentItemIndex+1 < assessment.getItemCount()){
-			playerView.getCheckButton().setText("Next");
-			playerView.getCheckButton().addClickHandler(new ClickHandler(){
-				public void onClick(ClickEvent event) {
-					showItem(currentItemIndex+1);
-				}
-			});
-		}
-		else{
-			playerView.getCheckButton().setText("Finish");
-			playerView.getCheckButton().addClickHandler(new ClickHandler(){
-				public void onClick(ClickEvent event) {
-					showAssessmentResult();
-				}
-			});
-		}
+		if(handlerRegistration != null)
+			handlerRegistration.removeHandler();
+		
+		playerView.getCheckButton().setText("Check");
+		handlerRegistration = playerView.getCheckButton().addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				checkItemScore();
+			}
+		});
 
+		responseProcessing = new ResponseProcessing(currentItem);
 		playerView.showAssessmentItem(currentItem);
 	}
 	
@@ -89,8 +75,7 @@ public class Qtiplayer implements EntryPoint {
 		assessment.load(url, new IDocumentLoaded(){
 
 			public void finishedLoading() {
-        createViews();
-        showItem(0);
+        initialize();
 			}
 		});
 	}
@@ -100,12 +85,11 @@ public class Qtiplayer implements EntryPoint {
 	 * Show assessment item in body part of player
 	 * @param index
 	 */
-	private void showItem(int index){
+	private void loadAssessmentItem(int index){
 		String 					url = assessment.getItemRef(index);
 
 		currentItem = new AssessmentItem();
 		currentItemIndex = index;
-		workMode = SHOW_ACTIVITY_MODE;
 
 		currentItem.load(url, new IDocumentLoaded(){
 
@@ -120,11 +104,29 @@ public class Qtiplayer implements EntryPoint {
 	 * Check score
 	 * @param index
 	 */
-	private void checkScore(){
+	private void checkItemScore(){
 
-		workMode = SHOW_RESULT_MODE;
-		showCurrentItem();
-		playerView.showFeedback("not implemented yet!");
+		if(handlerRegistration != null)
+			handlerRegistration.removeHandler();
+		
+		if(currentItemIndex+1 < assessment.getItemCount()){
+			playerView.getCheckButton().setText("Next");
+			handlerRegistration = playerView.getCheckButton().addClickHandler(new ClickHandler(){
+				public void onClick(ClickEvent event) {
+					loadAssessmentItem(currentItemIndex+1);
+				}
+			});
+		}
+		else{
+			playerView.getCheckButton().setText("Finish");
+			handlerRegistration = playerView.getCheckButton().addClickHandler(new ClickHandler(){
+				public void onClick(ClickEvent event) {
+					showAssessmentResult();
+				}
+			});
+		}
+
+		playerView.showFeedback(responseProcessing.getFeedback());
 	}
 	
 	/**
@@ -133,7 +135,6 @@ public class Qtiplayer implements EntryPoint {
 	 */
 	private void showAssessmentResult(){
 		
-		workMode = SHOW_RESULT_MODE;
 		playerView.showResultPage();
 	}
 	 

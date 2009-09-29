@@ -76,6 +76,7 @@ public class PlayerView {
 	public void showAssessmentItem(AssessmentItem assessmentItem){
 
 		bodyPanel.clear();
+		feedbackLabel.setText("");
 		for(int i = 0; i < assessmentItem.getModuleCount(); i++){
 			bodyPanel.add(assessmentItem.getModule(i).getView());
 		}
