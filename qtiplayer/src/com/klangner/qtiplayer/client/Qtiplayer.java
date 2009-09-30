@@ -134,6 +134,9 @@ public class Qtiplayer implements EntryPoint {
 	 */
 	private void showAssessmentResult(){
 		
+		playerView.getCheckButton().setVisible(false);
+		playerView.getNextButton().setVisible(false);
+		playerView.getFinishButton().setVisible(false);
 		playerView.showResultPage();
 	}
 	 

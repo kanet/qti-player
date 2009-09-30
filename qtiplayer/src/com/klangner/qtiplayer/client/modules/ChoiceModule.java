@@ -1,5 +1,7 @@
 package com.klangner.qtiplayer.client.modules;
 
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -49,6 +51,7 @@ public class ChoiceModule implements IModule {
 			radioButton.setStyleName("qp-choice-option");
 			radioButton.setName(option.getAttribute("identifier"));
 			radioButton.setText(option.getFirstChild().getNodeValue());
+			radioButton.addValueChangeHandler(new OptionHandler());
 			panel.add(radioButton);
 		}
 		
@@ -72,4 +75,15 @@ public class ChoiceModule implements IModule {
 		return label;
 		
 	}
+	
+	class OptionHandler implements ValueChangeHandler<Boolean>{
+
+		public void onValueChange(ValueChangeEvent<Boolean> event) {
+			RadioButton radioButton = (RadioButton)event.getSource();
+			if(radioButton.getValue())
+				response.set(radioButton.getName());
+			else
+				response.unset(radioButton.getName());
+		}
+	};
 }

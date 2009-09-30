@@ -118,6 +118,7 @@ public class PlayerView {
 	public void showResultPage(){
 
 		bodyPanel.clear();
+		showFeedback("");
 		bodyPanel.add(new Label("Well done"));
 	}
 	

@@ -1,5 +1,7 @@
 package com.klangner.qtiplayer.client.model;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 
 import com.google.gwt.xml.client.Element;
@@ -10,7 +12,9 @@ import com.klangner.qtiplayer.client.modules.IResponse;
 public class ResponseProcessing implements IResponse{
 
 	/** List of correct ids */
-	private Vector<String> correctResponses;
+	private Vector<String> 	correctResponses;
+	/** Values set by set IResponse interface */
+	private Set<String>			values;
 	
 	/**
 	 * constructor
@@ -20,6 +24,7 @@ public class ResponseProcessing implements IResponse{
     NodeList nodes = responseDeclarationNode.getElementsByTagName("value");
 
 		correctResponses = new Vector<String>();
+		values = new HashSet<String>();
 
 		for(int i = 0; i < nodes.getLength(); i++){
     	correctResponses.add( nodes.item(i).getFirstChild().getNodeValue() );
@@ -30,20 +35,23 @@ public class ResponseProcessing implements IResponse{
 	 * @return feedback based on score
 	 */
 	public String getFeedback(){
-		if(correctResponses.size() > 0)
-			return correctResponses.get(0);
-		else
-			return "There is no feedback yet.";
+		int maxPoints = correctResponses.size();
+		int score = 0;
+		
+		for(int i = 0; i < correctResponses.size(); i++){
+			if( values.contains(correctResponses.elementAt(i)) )
+					score ++;
+		}
+		
+		return "Score: " + score + " out of " + maxPoints + " points";
 	}
 
 	/**
 	 * implementation of IResponse interface
 	 * @param key
-	 * @param value
 	 */
-	public void set(String key, String value) {
-		// TODO Auto-generated method stub
-		
+	public void set(String key) {
+		values.add(key);
 	}
 
 	/**
@@ -51,7 +59,6 @@ public class ResponseProcessing implements IResponse{
 	 * @param key
 	 */
 	public void unset(String key) {
-		// TODO Auto-generated method stub
-		
+		values.remove(key);
 	}
 }
