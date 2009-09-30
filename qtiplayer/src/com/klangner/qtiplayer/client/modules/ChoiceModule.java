@@ -3,7 +3,7 @@ package com.klangner.qtiplayer.client.modules;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -76,15 +76,16 @@ public class ChoiceModule implements IModule {
 	 */
 	private Widget getPromptView(){
 		
-		Label	label = new Label();
+		HTML	promptHTML = new HTML();
 		NodeList prompts = choiceNode.getElementsByTagName("prompt");
 		
-		label.setStyleName("qp-choice-prompt");
+		promptHTML.setStyleName("qp-choice-prompt");
 		if(prompts.getLength() > 0){
-			label.setText(prompts.item(0).getFirstChild().getNodeValue());
+			// TODO Zamienic to na html
+			promptHTML.setHTML(prompts.item(0).getFirstChild().getNodeValue());
 		}
 		
-		return label;
+		return promptHTML;
 		
 	}
 	

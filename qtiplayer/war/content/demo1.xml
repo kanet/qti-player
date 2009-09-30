@@ -9,6 +9,7 @@
   <assessmentSection identifier="sectionA" title="Section A" visible="true">
   	<assessmentItemRef identifier="choice" href="demo1/choice.xml"/>
   	<assessmentItemRef identifier="choice_multiple" href="demo1/choice_multiple.xml"/>
+  	<assessmentItemRef identifier="choice_math" href="demo1/math.xml"/>
 	</assessmentSection>
 </testPart>
 </assessmentTest>
