@@ -12,6 +12,8 @@ public class PlayerView {
 
 	/** Show this assessment */
 	private Assessment			assessment;
+	/** Counter label */
+	private Label						counterLabel;
 	/** Body panel. AssessmentItem view will be shown there */
 	private VerticalPanel 	bodyPanel;
 	/** Assessment item feedback */
@@ -58,13 +60,18 @@ public class PlayerView {
 	public Widget getView(){
 		VerticalPanel 	playerPanel = new VerticalPanel();
 		Label						label;
-		Label 					header = new Label();
+		HorizontalPanel header = new HorizontalPanel();
 		HorizontalPanel	footer = new HorizontalPanel();
 
 		
 		playerPanel.setStyleName("qp-player");
-		header.setText(assessment.getTitle());
 		header.setStyleName("qp-header");
+		label = new Label(assessment.getTitle());
+		label.setStyleName("qp-assessment-title");
+		header.add(label);
+		counterLabel = new Label("1/" + assessment.getItemCount());
+		counterLabel.setStyleName("qp-page-counter");
+		header.add(counterLabel);
 		playerPanel.add(header);
 
 		bodyPanel = new VerticalPanel();
@@ -93,6 +100,15 @@ public class PlayerView {
 		
 		return playerPanel;
 	}
+	
+	/**
+	 * Update page counter
+	 * @param pageNumber 1 based page index
+	 */
+	public void setCurrentPage(int pageNumber){
+		counterLabel.setText(pageNumber + "/" + assessment.getItemCount());		
+	}
+	
 	
 	/**
 	 * Create view for given assessment item and show it in player

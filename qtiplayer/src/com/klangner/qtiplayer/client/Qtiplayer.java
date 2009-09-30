@@ -73,6 +73,7 @@ public class Qtiplayer implements EntryPoint {
 	private void showCurrentItem(){
 		
 		playerView.showAssessmentItem(currentItem);
+		playerView.setCurrentPage(currentItemIndex+1);
 		
 		playerView.getCheckButton().setVisible(true);
 		playerView.getNextButton().setVisible(false);
