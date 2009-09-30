@@ -32,23 +32,27 @@ abstract class AbstractXMLDocument {
 		try {
 		  builder.sendRequest(null, new RequestCallback() {
 		    public void onError(Request request, Throwable exception) {
-		       // Couldn't connect to server (could be timeout, SOP violation, etc.)     
+		       // Couldn't connect to server (could be timeout, SOP violation, etc.)    
+		    	Window.alert("Error" + exception.toString());
 		    }
 
 		    public void onResponseReceived(Request request, Response response) {
 		      if (200 == response.getStatusCode()) {
 
+		      	Window.alert("OK");
 		  			dom = XMLParser.parse(response.getText());
 		  			initData();
 		      	listener.finishedLoading();
 		      } else {
 		        // Handle the error.  Can get the status text from response.getStatusText()
+		      	Window.alert("Wrong status: " + response.getStatusCode() + " " + response.getStatusText());
 		      }
 		    }       
 		  });
 		  
 		} catch (RequestException e) {
-		  // Couldn't connect to server        
+		  // Couldn't connect to server    
+			Window.alert("Can't connect to the server: " + e.toString());
 	  } catch (DOMException e) {
 	    Window.alert("Could not parse file: " + url);
 	  }

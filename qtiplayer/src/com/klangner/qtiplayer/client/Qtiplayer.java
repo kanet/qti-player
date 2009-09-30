@@ -3,6 +3,7 @@ package com.klangner.qtiplayer.client;
 import java.util.Vector;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -87,7 +88,7 @@ public class Qtiplayer implements EntryPoint {
 	private void loadAssessment(String url){
 		
 		assessment = new Assessment();
-		assessment.load(url, new IDocumentLoaded(){
+		assessment.load(GWT.getHostPageBaseURL() + url, new IDocumentLoaded(){
 
 			public void finishedLoading() {
         initialize();
