@@ -76,8 +76,6 @@ public class PlayerView {
 
 		bodyPanel = new VerticalPanel();
 		bodyPanel.setStyleName("qp-body");
-		label = new Label("There are: " + assessment.getItemCount() + " items.");
-		bodyPanel.add(label);
 		playerPanel.add(bodyPanel);
 		
 		feedbackLabel = new Label();

@@ -37,15 +37,15 @@ abstract class AbstractXMLDocument {
 		    }
 
 		    public void onResponseReceived(Request request, Response response) {
-		      if (200 == response.getStatusCode()) {
+		    	// StatusCode == 0 when loading from local file
+		      if (response.getStatusCode() == 200 || response.getStatusCode() == 0) {
 
-		      	Window.alert("OK");
 		  			dom = XMLParser.parse(response.getText());
 		  			initData();
 		      	listener.finishedLoading();
 		      } else {
 		        // Handle the error.  Can get the status text from response.getStatusText()
-		      	Window.alert("Wrong status: " + response.getStatusCode() + " " + response.getStatusText());
+		      	Window.alert("Wrong status: " + response.getText());
 		      }
 		    }       
 		  });
