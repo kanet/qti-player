@@ -1,5 +1,7 @@
 package com.klangner.qtiplayer.client;
 
+import java.util.Vector;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
@@ -9,6 +11,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.klangner.qtiplayer.client.model.Assessment;
 import com.klangner.qtiplayer.client.model.AssessmentItem;
 import com.klangner.qtiplayer.client.model.IDocumentLoaded;
+import com.klangner.qtiplayer.client.model.Result;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -19,6 +22,7 @@ public class Qtiplayer implements EntryPoint {
 	private PlayerView					playerView;
 	private int									currentItemIndex;
 	private AssessmentItem			currentItem;
+	private Vector<Result>			results = new Vector<Result>();
 	
 	/**
 	 * This is the entry point method.
@@ -125,6 +129,7 @@ public class Qtiplayer implements EntryPoint {
 			playerView.getFinishButton().setVisible(true);
 		}
 
+		results.add(currentItem.getResponseProcesing().getResult());
 		playerView.showFeedback(currentItem.getResponseProcesing().getFeedback());
 	}
 	
@@ -133,11 +138,19 @@ public class Qtiplayer implements EntryPoint {
 	 * @param index
 	 */
 	private void showAssessmentResult(){
+		int score = 0;
+		int max = 0;
+		
+		for(int i = 0; i < results.size(); i++){
+			Result result = results.elementAt(i);
+			score += result.getScore();
+			max += result.getMaxPoints();
+		}
 		
 		playerView.getCheckButton().setVisible(false);
 		playerView.getNextButton().setVisible(false);
 		playerView.getFinishButton().setVisible(false);
-		playerView.showResultPage();
+		playerView.showResultPage("Your score is: " + (int)((score * 100)/max) + "%");
 	}
 	 
 }

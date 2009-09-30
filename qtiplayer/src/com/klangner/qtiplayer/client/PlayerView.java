@@ -115,11 +115,11 @@ public class PlayerView {
 	 * Show view with assessment score
 	 * @param index of assessment item
 	 */
-	public void showResultPage(){
+	public void showResultPage(String message){
 
 		bodyPanel.clear();
 		showFeedback("");
-		bodyPanel.add(new Label("Well done"));
+		bodyPanel.add(new Label(message));
 	}
 	
 }

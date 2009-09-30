@@ -35,6 +35,15 @@ public class ResponseProcessing implements IResponse{
 	 * @return feedback based on score
 	 */
 	public String getFeedback(){
+		Result result = getResult();
+		
+		return "Score: " + result.getScore() + " out of " + result.getMaxPoints() + " points";
+	}
+
+	/**
+	 * @return assessment item score
+	 */
+	public Result getResult(){
 		int maxPoints = correctResponses.size();
 		int score = 0;
 		
@@ -43,7 +52,7 @@ public class ResponseProcessing implements IResponse{
 					score ++;
 		}
 		
-		return "Score: " + score + " out of " + maxPoints + " points";
+		return new Result(score, maxPoints);
 	}
 
 	/**
