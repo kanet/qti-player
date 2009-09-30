@@ -1,0 +1,71 @@
+/** Add css rules here for your application. */
+
+
+.qp-player{
+	padding: 5px;
+	width: 100%;
+}
+	
+	
+.qp-header{
+	width:	100%;
+	background-color: lightgrey;
+	padding: 4px;
+	font-size: 120%;
+}
+
+.qp-assessment-title{
+}
+
+.qp-page-counter{
+	width:	100%;
+	text-align:right;
+}
+
+.qp-body{
+	background-color: white;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.qp-feedback{
+	background-color: white;
+}
+
+.qp-footer{
+	margin-top: 10px;
+	padding: 4px;
+}
+
+.qp-check-button{
+}
+
+.qp-next-button{
+}
+
+.qp-finish-button{
+}
+
+
+/**
+ * TextModule styles
+ */
+.qp-text-module{
+	margin-top: 5px;
+}
+
+
+/** 
+ * ChoiceModule styles 
+ */
+.qp-choice-module{
+	margin-top: 5px;
+}
+
+.qp-choice-prompt{
+	font-weight: bold;
+}
+
+.qp-choice-option{
+	margin-left: 20px;
+}
