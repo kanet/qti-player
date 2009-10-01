@@ -81,7 +81,9 @@ public class ChoiceModule implements IModule {
 		// Add randomized nodes to shuffle table
 		if(shuffle){
 			for(int i = 0; i < options.getLength(); i++){
-				randomizedNodes.push((Element)options.item(i));
+				Element			option = (Element)options.item(i);
+				if(DomUtils.getAttribute(option, "fixed").compareTo("true") != 0)
+					randomizedNodes.push(option);
 			}
 		}
 		
