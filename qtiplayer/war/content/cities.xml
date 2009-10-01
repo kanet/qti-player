@@ -3,7 +3,7 @@
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                 xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd" 
                 identifier="RTEST-13" 
-                title="Quess city name quizz">
+                title="Guess city name quizz">
 
 <testPart>
   <assessmentSection identifier="sectionA" title="Section A" visible="true">
