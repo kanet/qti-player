@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
-import com.klangner.qtiplayer.client.util.DomUtils;
+import com.klangner.qtiplayer.client.util.XmlElement;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
 
 public class ChoiceModule implements IModule {
@@ -17,7 +17,7 @@ public class ChoiceModule implements IModule {
 	/** Id for grouping radio buttons */
 	private static int 	choiceID = 1;
 	/** root element for this module */
-	private Element			choiceNode;
+	private XmlElement	choiceElement;
 	/** Work mode single or multiple choice */
 	private boolean 		multi = false;
 	/** Suffle? */
@@ -28,10 +28,11 @@ public class ChoiceModule implements IModule {
 	
 	public ChoiceModule(Element choiceNode, IResponse response){
 		
-		this.choiceNode = choiceNode;
+		choiceElement = new XmlElement(choiceNode);
+
 		this.response = response;
-		this.multi = (DomUtils.getAttribute(choiceNode, "maxChoices").compareTo("1") != 0);
-		this.shuffle = (DomUtils.getAttribute(choiceNode, "shuffle").compareTo("true") == 0);
+		this.multi = (choiceElement.getAttributeAsInt("maxChoices") != 1);
+		this.shuffle = choiceElement.getAttributeAsBoolean("shuffle");
 	}
 	
 	/**
@@ -51,7 +52,7 @@ public class ChoiceModule implements IModule {
 	 * Create option button
 	 * @return
 	 */
-	private CheckBox createOptionButton(Element option){
+	private CheckBox createOptionButton(XmlElement option){
 		
 		CheckBox button;
 		
@@ -60,8 +61,8 @@ public class ChoiceModule implements IModule {
 		else
 			button = new RadioButton("choice"+choiceID);
 		button.setStyleName("qp-choice-option");
-		button.setName(option.getAttribute("identifier"));
-		button.setText(option.getFirstChild().getNodeValue());
+		button.setName(option.getAttributeAsString("identifier"));
+		button.setText(option.getTextAsHtml());
 		button.addValueChangeHandler(new OptionHandler());
 
 		return button;
@@ -75,24 +76,24 @@ public class ChoiceModule implements IModule {
 	private Widget getOptionsView(){
 		
 		VerticalPanel 	panel = new VerticalPanel();
-		NodeList 				options = choiceNode.getElementsByTagName("simpleChoice");
-		RandomizedSet<Element>	randomizedNodes = new RandomizedSet<Element>();
+		NodeList 				options = choiceElement.getElementsByTagName("simpleChoice");
+		RandomizedSet<XmlElement>	randomizedNodes = new RandomizedSet<XmlElement>();
 
 		// Add randomized nodes to shuffle table
 		if(shuffle){
 			for(int i = 0; i < options.getLength(); i++){
-				Element			option = (Element)options.item(i);
-				if(DomUtils.getAttribute(option, "fixed").compareTo("true") != 0)
+				XmlElement	option = new XmlElement((Element)options.item(i));
+				if(!option.getAttributeAsBoolean("fixed"))
 					randomizedNodes.push(option);
 			}
 		}
 		
 		// Create buttons
 		for(int i = 0; i < options.getLength(); i++){
-			Element			option = (Element)options.item(i);
+			XmlElement	option = new XmlElement((Element)options.item(i));
 			CheckBox button;
 			
-			if(shuffle && DomUtils.getAttribute(option, "fixed").compareTo("true") != 0){
+			if(shuffle && !option.getAttributeAsBoolean("fixed") ){
 				option = randomizedNodes.pull();
 			}
 			
@@ -112,12 +113,12 @@ public class ChoiceModule implements IModule {
 	private Widget getPromptView(){
 		
 		HTML	promptHTML = new HTML();
-		NodeList prompts = choiceNode.getElementsByTagName("prompt");
+		Element prompt = choiceElement.getElement("prompt");
 		
 		promptHTML.setStyleName("qp-choice-prompt");
-		if(prompts.getLength() > 0){
+		if(prompt != null){
 			// TODO Zamienic to na html
-			promptHTML.setHTML(prompts.item(0).getFirstChild().getNodeValue());
+			promptHTML.setHTML(prompt.getFirstChild().getNodeValue());
 		}
 		
 		return promptHTML;
