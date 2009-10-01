@@ -93,8 +93,14 @@ public class XmlElement {
 	 * @return contents of tag as html
 	 */
 	public String getTextAsHtml(){
-		// TODO not implemented properly yet
-		return element.getFirstChild().getNodeValue();
+		String		htmlText = new String();
+		NodeList	nodes = element.getChildNodes();
+		
+		for(int i = 0; i < nodes.getLength(); i ++){
+			htmlText = htmlText + nodes.item(i).toString();
+		}
+		
+		return htmlText;
 	}
 	
 }

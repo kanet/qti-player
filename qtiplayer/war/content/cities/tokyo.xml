@@ -42,7 +42,7 @@ identifier="choice" title="Unattended Luggage" adaptive="false" timeDependent="f
 		</p>
 
 		<choiceInteraction responseIdentifier="RESPONSE" shuffle="true" maxChoices="0">
-			<prompt>Can you quess which picture represents Tokyo?</prompt>
+			<prompt>Can you quess which pictures represent Tokyo?</prompt>
 			<simpleChoice identifier="ChoiceA"><img src="images/tokyo1.jpg"/></simpleChoice>
 			<simpleChoice identifier="ChoiceB"><img src="images/tokyo2.jpg"/></simpleChoice>
 			<simpleChoice identifier="ChoiceC"><img src="images/warsaw.jpg"/></simpleChoice>

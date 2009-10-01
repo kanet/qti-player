@@ -62,7 +62,7 @@ public class ChoiceModule implements IModule {
 			button = new RadioButton("choice"+choiceID);
 		button.setStyleName("qp-choice-option");
 		button.setName(option.getAttributeAsString("identifier"));
-		button.setText(option.getTextAsHtml());
+		button.setHTML(option.getTextAsHtml());
 		button.addValueChangeHandler(new OptionHandler());
 
 		return button;
