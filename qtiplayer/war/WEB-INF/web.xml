@@ -18,7 +18,7 @@
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>Qtiplayer.html</welcome-file>
+    <welcome-file>cities.html</welcome-file>
   </welcome-file-list>
 
 </web-app>

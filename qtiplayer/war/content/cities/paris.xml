@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Thie example adapted from the PET Handbook, copyright University of Cambridge ESOL Examinations -->
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd" 
+identifier="choice" title="Unattended Luggage" adaptive="false" timeDependent="false">
+	<responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">
+		<correctResponse>
+			<value>ChoiceA</value>
+		</correctResponse>
+	</responseDeclaration>
+	<!-- outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer">
+		<defaultValue>
+			<value>0</value>
+		</defaultValue>
+	</outcomeDeclaration-->
+	<itemBody>
+		<p>Look at the picture. Can you guess from the picture which city is it?</p>
+		<p>
+			<img src="images/eiffeltower.jpg" alt="Eiffel tower"/>
+		</p>
+		<choiceInteraction responseIdentifier="RESPONSE" shuffle="true" maxChoices="1">
+			<prompt>I think it is:</prompt>
+			<simpleChoice identifier="ChoiceA">Paris.</simpleChoice>
+			<simpleChoice identifier="ChoiceB">Berlin.</simpleChoice>
+			<simpleChoice identifier="ChoiceC">London.</simpleChoice>
+			<simpleChoice identifier="ChoiceD" fixed="true">None of the above.</simpleChoice>
+		</choiceInteraction>
+	</itemBody>
+	<!-- responseProcessing template="http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"/-->
+</assessmentItem>
