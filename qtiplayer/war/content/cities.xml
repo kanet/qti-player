@@ -3,11 +3,12 @@
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                 xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd" 
                 identifier="RTEST-13" 
-                title="Minimal Assessment Test">
+                title="Quess city name quizz">
 
 <testPart>
   <assessmentSection identifier="sectionA" title="Section A" visible="true">
-  	<assessmentItemRef identifier="choice" href="cities/paris.xml"/>
+  	<assessmentItemRef identifier="choice1" href="cities/paris.xml"/>
+  	<assessmentItemRef identifier="choice2" href="cities/tokyo.xml"/>
 	</assessmentSection>
 </testPart>
 </assessmentTest>
