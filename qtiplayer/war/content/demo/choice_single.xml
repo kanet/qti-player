@@ -2,7 +2,7 @@
 <!-- Thie example adapted from the PET Handbook, copyright University of Cambridge ESOL Examinations -->
 <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd" 
-identifier="choice" title="Unattended Luggage" adaptive="false" timeDependent="false">
+identifier="choice" title="Simple choice and picture inside a text." adaptive="false" timeDependent="false">
 	<responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">
 		<correctResponse>
 			<value>ChoiceA</value>
@@ -14,16 +14,18 @@ identifier="choice" title="Unattended Luggage" adaptive="false" timeDependent="f
 		</defaultValue>
 	</outcomeDeclaration-->
 	<itemBody>
-		<p>Look at the picture. Can you guess from the picture which city is it?</p>
+		<p>
+			This is simple choice interaction with no shuffled answers. 
+			Also you can see that text can contain pictures.
+		</p>
 		<p>
 			<img src="images/eiffeltower.jpg" alt="Eiffel tower"/>
 		</p>
-		<choiceInteraction responseIdentifier="RESPONSE" shuffle="true" maxChoices="1">
-			<prompt>I think it is:</prompt>
-			<simpleChoice identifier="ChoiceA">Paris.</simpleChoice>
-			<simpleChoice identifier="ChoiceB">Berlin.</simpleChoice>
-			<simpleChoice identifier="ChoiceC">London.</simpleChoice>
-			<simpleChoice identifier="ChoiceD" fixed="true">None of the above.</simpleChoice>
+		<choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1">
+			<prompt>Look at the picture. Can you guess from the picture which city is it?</prompt>
+			<simpleChoice identifier="ChoiceA">It is Paris.</simpleChoice>
+			<simpleChoice identifier="ChoiceB">It is Berlin.</simpleChoice>
+			<simpleChoice identifier="ChoiceC">It is London.</simpleChoice>
 		</choiceInteraction>
 	</itemBody>
 	<!-- responseProcessing template="http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"/-->
