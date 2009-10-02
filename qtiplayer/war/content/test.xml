@@ -7,6 +7,7 @@
 
 <testPart>
   <assessmentSection identifier="sectionA" title="Section A" visible="true">
+  	<assessmentItemRef identifier="order" href="test/order.xml"/>
   	<assessmentItemRef identifier="choice_fixed" href="test/choice_fixed.xml"/>
   	<assessmentItemRef identifier="choice_multiple" href="test/choice_multiple.xml"/>
   	<assessmentItemRef identifier="choice" href="test/choice.xml"/>
