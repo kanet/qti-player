@@ -117,7 +117,6 @@ public class ChoiceModule implements IModule {
 		
 		promptHTML.setStyleName("qp-choice-prompt");
 		if(prompt != null){
-			// TODO Zamienic to na html
 			promptHTML.setHTML(prompt.getFirstChild().getNodeValue());
 		}
 		

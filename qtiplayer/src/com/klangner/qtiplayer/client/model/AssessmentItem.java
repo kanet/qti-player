@@ -8,6 +8,7 @@ import com.google.gwt.xml.client.NodeList;
 import com.klangner.qtiplayer.client.modules.ChoiceModule;
 import com.klangner.qtiplayer.client.modules.DebugModule;
 import com.klangner.qtiplayer.client.modules.IModule;
+import com.klangner.qtiplayer.client.modules.OrderModule;
 import com.klangner.qtiplayer.client.modules.TextModule;
 
 
@@ -98,6 +99,8 @@ public class AssessmentItem extends AbstractXMLDocument{
 			return new TextModule(node);
 		else if(node.getNodeName().compareTo("choiceInteraction") == 0)
 			return new ChoiceModule(node, responseProcessing);
+		else if(node.getNodeName().compareTo("orderInteraction") == 0)
+			return new OrderModule(node, responseProcessing);
 		else if(node.getNodeType() == Node.ELEMENT_NODE)
 			return new DebugModule(node);
 		else
