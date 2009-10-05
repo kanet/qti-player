@@ -16,7 +16,7 @@ identifier="choice" title="Multiple choice" adaptive="false" timeDependent="fals
 	</outcomeDeclaration-->
 	<itemBody>
 		<p>
-			This item contains choice with multiple answers. The answers are shuffled. 
+			This item contains choice with multiple answers. The answers are shuffled (except the last one). 
 			This example also shows the use of picture and texts in choice.  
 		</p>
 
