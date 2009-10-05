@@ -100,22 +100,21 @@ public class PlayerView {
 	}
 	
 	/**
-	 * Update page counter
-	 * @param pageNumber 1 based page index
-	 */
-	public void setCurrentPage(int pageNumber){
-		counterLabel.setText(pageNumber + "/" + assessment.getItemCount());		
-	}
-	
-	
-	/**
 	 * Create view for given assessment item and show it in player
 	 * @param index of assessment item
 	 */
-	public void showAssessmentItem(AssessmentItem assessmentItem){
+	public void showAssessmentItem(AssessmentItem assessmentItem, int pageNumber){
 
+		Label itemTitleLabel = new Label();
+		
 		bodyPanel.clear();
 		feedbackLabel.setText("");
+
+		counterLabel.setText(pageNumber + "/" + assessment.getItemCount());		
+
+		itemTitleLabel.setText(pageNumber + ". " + assessmentItem.getTitle());
+		itemTitleLabel.setStyleName("qp-item-title");
+		bodyPanel.add(itemTitleLabel);
 		for(int i = 0; i < assessmentItem.getModuleCount(); i++){
 			bodyPanel.add(assessmentItem.getModule(i).getView());
 		}

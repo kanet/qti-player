@@ -28,6 +28,11 @@
 	margin-bottom: 10px;
 }
 
+.qp-item-title{
+	font-style: italic;
+	margin-bottom: 5px;
+}
+
 .qp-feedback{
 	background-color: white;
 }
