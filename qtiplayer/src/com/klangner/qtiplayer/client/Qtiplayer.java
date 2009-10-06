@@ -26,6 +26,17 @@ public class Qtiplayer implements EntryPoint {
 	private Vector<Result>			results = new Vector<Result>();
 	
 	/**
+	 * Send result to javascript native method
+	 * @param msg
+	 */
+	public static native void sendResult(int score, int max) /*-{
+		
+		if(typeof $wnd.qpSendResult == 'function') {
+			$wnd.qpSendResult(score, max);
+		}
+	}-*/;
+	
+	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
@@ -152,6 +163,7 @@ public class Qtiplayer implements EntryPoint {
 		playerView.getNextButton().setVisible(false);
 		playerView.getFinishButton().setVisible(false);
 		playerView.showResultPage("Your score is: " + (int)((score * 100)/max) + "%");
+		sendResult(score, max);
 	}
 	 
 }
