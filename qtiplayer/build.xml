@@ -83,6 +83,9 @@
     <copy todir="dist/build/qtiplayer">
       <fileset dir="war/qtiplayer"/>
     </copy>
+    <copy todir="dist/build/scorm">
+      <fileset dir="war/scorm"/>
+    </copy>
     <copy todir="dist/build/content/demo">
       <fileset dir="war/content/demo"/>
     </copy>
