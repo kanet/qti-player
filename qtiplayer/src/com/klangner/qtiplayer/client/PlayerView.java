@@ -116,7 +116,7 @@ public class PlayerView {
 		itemTitleLabel.setStyleName("qp-item-title");
 		bodyPanel.add(itemTitleLabel);
 		for(int i = 0; i < assessmentItem.getModuleCount(); i++){
-			bodyPanel.add(assessmentItem.getModule(i).getView());
+			bodyPanel.add(assessmentItem.getModule(i));
 		}
 	}
 	

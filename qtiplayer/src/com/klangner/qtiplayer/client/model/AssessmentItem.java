@@ -2,21 +2,20 @@ package com.klangner.qtiplayer.client.model;
 
 import java.util.Vector;
 
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
-import com.klangner.qtiplayer.client.widget.ChoiceModule;
-import com.klangner.qtiplayer.client.widget.DebugModule;
-import com.klangner.qtiplayer.client.widget.IModule;
-import com.klangner.qtiplayer.client.widget.OrderModule;
-import com.klangner.qtiplayer.client.widget.TextModule;
+import com.klangner.qtiplayer.client.widget.ChoiceWidget;
+import com.klangner.qtiplayer.client.widget.DebugWidget;
+import com.klangner.qtiplayer.client.widget.TextWidget;
 
 
 public class AssessmentItem extends AbstractXMLDocument{
 
 	/** check result for this item */
 	private ResponseProcessing	responseProcessing;
-	private Vector<IModule>	modules;
+	private Vector<Widget>			modules;
 	
 	/**
 	 * @return item title
@@ -40,7 +39,7 @@ public class AssessmentItem extends AbstractXMLDocument{
 	 * @param index
 	 * @return get module at given index
 	 */
-	public IModule getModule(int index){
+	public Widget getModule(int index){
 		return modules.get(index);
 	}
 	
@@ -59,7 +58,7 @@ public class AssessmentItem extends AbstractXMLDocument{
 
 		Node			itemBody = getDom().getElementsByTagName("itemBody").item(0); 
 		NodeList 	nodes;
-    IModule		module;
+    Widget		module;
 
     
     // Fix urls to images
@@ -76,7 +75,7 @@ public class AssessmentItem extends AbstractXMLDocument{
 
     // Load modules
     nodes = itemBody.getChildNodes();
-    modules = new Vector<IModule>(nodes.getLength());
+    modules = new Vector<Widget>(nodes.getLength());
     
     for(int i = 0; i < nodes.getLength(); i++){
     	if(nodes.item(i).getNodeType() == Node.ELEMENT_NODE){
@@ -93,18 +92,18 @@ public class AssessmentItem extends AbstractXMLDocument{
 	 * @param node - dom node
 	 * @return new module or null if can't create module for given node
 	 */
-	private IModule createModuleFromNode(Element node) {
+	private Widget createModuleFromNode(Element node) {
 
 		String nodeName = node.getNodeName();
 		
 		if(nodeName.compareTo("p") == 0 || nodeName.compareTo("blockquote") == 0)
-			return new TextModule(node);
+			return new TextWidget(node);
 		else if(nodeName.compareTo("choiceInteraction") == 0)
-			return new ChoiceModule(node, responseProcessing);
-		else if(nodeName.compareTo("orderInteraction") == 0)
-			return new OrderModule(node, responseProcessing);
+			return new ChoiceWidget(node, responseProcessing);
+//		else if(nodeName.compareTo("orderInteraction") == 0)
+//			return new OrderModule(node, responseProcessing);
 		else if(node.getNodeType() == Node.ELEMENT_NODE)
-			return new DebugModule(node);
+			return new DebugWidget(node);
 		else
 			return null;
 	}

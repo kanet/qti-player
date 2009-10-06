@@ -3,6 +3,7 @@ package com.klangner.qtiplayer.client.widget;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -12,7 +13,7 @@ import com.google.gwt.xml.client.NodeList;
 import com.klangner.qtiplayer.client.util.XmlElement;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
 
-public class ChoiceModule implements IModule {
+public class ChoiceWidget extends Composite{
 
 	/** Id for grouping radio buttons */
 	private static int 	choiceID = 1;
@@ -26,28 +27,23 @@ public class ChoiceModule implements IModule {
 	private IResponse 	response;
 	
 	
-	public ChoiceModule(Element choiceNode, IResponse response){
+	public ChoiceWidget(Element choiceNode, IResponse response){
 		
 		choiceElement = new XmlElement(choiceNode);
 
 		this.response = response;
 		this.multi = (choiceElement.getAttributeAsInt("maxChoices") != 1);
 		this.shuffle = choiceElement.getAttributeAsBoolean("shuffle");
-	}
-	
-	/**
-	 * Create view
-	 */
-	public Widget getView() {
+
 		VerticalPanel vp = new VerticalPanel();
 		
 		vp.setStyleName("qp-choice-module");
 		vp.add(getPromptView());
 		vp.add(getOptionsView());
 		
-		return vp;
+		initWidget(vp);
 	}
-
+	
 	/**
 	 * Create option button
 	 * @return
