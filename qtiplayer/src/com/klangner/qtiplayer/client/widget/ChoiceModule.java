@@ -1,4 +1,4 @@
-package com.klangner.qtiplayer.client.modules;
+package com.klangner.qtiplayer.client.widget;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;

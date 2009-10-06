@@ -6,7 +6,7 @@ import java.util.Vector;
 
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
-import com.klangner.qtiplayer.client.modules.IResponse;
+import com.klangner.qtiplayer.client.widget.IResponse;
 
 
 public class ResponseProcessing implements IResponse{

@@ -5,11 +5,11 @@ import java.util.Vector;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
-import com.klangner.qtiplayer.client.modules.ChoiceModule;
-import com.klangner.qtiplayer.client.modules.DebugModule;
-import com.klangner.qtiplayer.client.modules.IModule;
-import com.klangner.qtiplayer.client.modules.OrderModule;
-import com.klangner.qtiplayer.client.modules.TextModule;
+import com.klangner.qtiplayer.client.widget.ChoiceModule;
+import com.klangner.qtiplayer.client.widget.DebugModule;
+import com.klangner.qtiplayer.client.widget.IModule;
+import com.klangner.qtiplayer.client.widget.OrderModule;
+import com.klangner.qtiplayer.client.widget.TextModule;
 
 
 public class AssessmentItem extends AbstractXMLDocument{
@@ -95,11 +95,13 @@ public class AssessmentItem extends AbstractXMLDocument{
 	 */
 	private IModule createModuleFromNode(Element node) {
 
-		if(node.getNodeName().compareTo("p") == 0)
+		String nodeName = node.getNodeName();
+		
+		if(nodeName.compareTo("p") == 0 || nodeName.compareTo("blockquote") == 0)
 			return new TextModule(node);
-		else if(node.getNodeName().compareTo("choiceInteraction") == 0)
+		else if(nodeName.compareTo("choiceInteraction") == 0)
 			return new ChoiceModule(node, responseProcessing);
-		else if(node.getNodeName().compareTo("orderInteraction") == 0)
+		else if(nodeName.compareTo("orderInteraction") == 0)
 			return new OrderModule(node, responseProcessing);
 		else if(node.getNodeType() == Node.ELEMENT_NODE)
 			return new DebugModule(node);
