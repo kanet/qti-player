@@ -22,7 +22,7 @@ identifier="inlineChoice" title="Richard III (Take 2)" adaptive="false" timeDepe
 		</blockquote>
 		<blockquote>
 			<p>Now is the winter of our discontent<br/> Made glorious summer by this sun of
-                    <inlineChoiceInteraction responseIdentifier="RESPONSE" shuffle="false">
+                    <inlineChoiceInteraction responseIdentifier="RESPONSE" shuffle="true">
 					<inlineChoice identifier="G2">Gloucester</inlineChoice>
 					<inlineChoice identifier="L2">Lancaster</inlineChoice>
 					<inlineChoice identifier="Y2">York</inlineChoice>

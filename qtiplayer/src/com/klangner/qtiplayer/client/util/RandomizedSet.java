@@ -17,6 +17,14 @@ public class RandomizedSet<T> {
 	}
 	
 	/**
+	 * check if there are more elements
+	 * @return
+	 */
+	public boolean hasMore(){
+		return (elements.size() > 0);
+	}
+	
+	/**
 	 * return element from the set. element will be removed
 	 */
 	public T pull(){

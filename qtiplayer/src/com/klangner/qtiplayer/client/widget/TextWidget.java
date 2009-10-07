@@ -9,7 +9,6 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NamedNodeMap;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
-import com.klangner.qtiplayer.client.util.XmlElement;
 import com.klangner.qtiplayer.client.widget.inline.IOnChangeHandler;
 import com.klangner.qtiplayer.client.widget.inline.SelectionWidget;
 
@@ -117,21 +116,9 @@ public class TextWidget extends Widget{
 	 * @return Selection element
 	 */
 	private com.google.gwt.user.client.Element createInlineChoice(Element inlineChoiceElement){
-		NodeList nodes = inlineChoiceElement.getChildNodes();
-		SelectionWidget	listBox = new SelectionWidget(response);
+		SelectionWidget	listBox = new SelectionWidget(inlineChoiceElement, response);
 		String	id = Document.get().createUniqueId();
 
-		// Add to children list;
-		// Add no answer option
-		listBox.addItem("");
-		
-		for(int i = 0; i < nodes.getLength(); i++){
-			if(nodes.item(i).getNodeName().compareTo("inlineChoice") == 0){
-				XmlElement choiceElement = new XmlElement((Element)nodes.item(i));
-				listBox.addItem(choiceElement.getText(), choiceElement.getAttributeAsString("identifier"));
-			}
-		}
-		
 		// Add change handler
 		listBox.getElement().setId(id);
 		children.put(id, listBox);
