@@ -6,9 +6,8 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
-import com.google.gwt.xml.client.NamedNodeMap;
-import com.google.gwt.xml.client.Node;
-import com.google.gwt.xml.client.NodeList;
+import com.klangner.qtiplayer.client.util.IDomElementFactory;
+import com.klangner.qtiplayer.client.util.XmlElement;
 import com.klangner.qtiplayer.client.widget.inline.IOnChangeHandler;
 import com.klangner.qtiplayer.client.widget.inline.SelectionWidget;
 
@@ -22,7 +21,7 @@ public class TextWidget extends Widget{
 	/** response processing interface */
 	private IResponse 	response;
 	/** XML root */
-	private Element xmlRoot;
+	private XmlElement xmlRoot;
 	/** All sub widgets */
 	private HashMap<String, IOnChangeHandler>	children = new HashMap<String, IOnChangeHandler>();
 
@@ -33,12 +32,21 @@ public class TextWidget extends Widget{
 	 */
 	public TextWidget(Element node, IResponse 	response){
 
-		this.xmlRoot = node;
+		this.xmlRoot = new XmlElement(node);
 		this.response = response;
-		setElement(Document.get().createElement(node.getNodeName()));
-		setStyleName("qp-text-module");
 		
-		copyChildren(xmlRoot, getElement());
+		// Convert into text
+		xmlRoot.setDomElementFactory(new IDomElementFactory(){
+			public com.google.gwt.dom.client.Element createDomElement(Element xmlElement) {
+				return createInlineChoice( xmlElement );
+			}
+			public boolean isSupportedElement(String tagName) {
+				return (tagName.compareTo("inlineChoiceInteraction") == 0);
+			}
+		});
+		
+		setElement(xmlRoot.convertToHtml());
+		setStyleName("qp-text-module");
 		this.sinkEvents(Event.ONCHANGE);
 
 	}
@@ -61,54 +69,6 @@ public class TextWidget extends Widget{
 		}
 	}
 
-	
-  /**
-	 * copy content from XML into DOM
-	 * @param node
-	 * @param element 
-	 */
-	private void copyChildren(Element srcElement, com.google.gwt.dom.client.Element dstElement){
-		NodeList	nodes = srcElement.getChildNodes();
-		Document	doc = Document.get();
-		
-		for(int i = 0; i < nodes.getLength(); i++){
-			Node node = nodes.item(i);
-			if(node.getNodeType() == Node.TEXT_NODE){
-				dstElement.appendChild(doc.createTextNode(node.getNodeValue()));
-			}
-			else if(node.getNodeName().compareTo("inlineChoiceInteraction") == 0){
-				dstElement.appendChild( createInlineChoice((Element)node ) );
-			}
-			else{
-				Element xmlElement = (Element)node;
-				com.google.gwt.dom.client.Element domElement;
-				domElement = doc.createElement(node.getNodeName());
-				if(domElement != null){
-					dstElement.appendChild(domElement);
-					// Copy attributes
-					copyAttributes(xmlElement, domElement);
-					// Add children
-					copyChildren(xmlElement, domElement);
-				}
-			}
-		}
-	}
-
-	/**
-	 * copy html attributes from XML into DOM
-	 * @param srcElement
-	 * @param dstElement
-	 */
-	private void copyAttributes(Element srcElement, com.google.gwt.dom.client.Element dstElement){
-		NamedNodeMap attributes = srcElement.getAttributes();
-		
-		for(int i = 0; i < attributes.getLength(); i++){
-			Node attribute = attributes.item(i);
-			dstElement.setAttribute(attribute.getNodeName(), attribute.getNodeValue());
-		}
-	}
-
-	
 	/**
 	 * Create inline choice 
 	 * @param srcElement XML with content

@@ -8,7 +8,7 @@
 <testPart>
   <assessmentSection identifier="sectionA" title="Section A" visible="true">
   	<assessmentItemRef identifier="inline choice" href="test/inline_choice.xml"/>
-  	<!-- assessmentItemRef identifier="order" href="test/order.xml"/-->
+  	<assessmentItemRef identifier="text_entry" href="test/text_entry.xml"/>
   	<!-- assessmentItemRef identifier="choice_fixed" href="test/choice_fixed.xml"/-->
   	<assessmentItemRef identifier="choice" href="test/choice.xml"/>
   	<assessmentItemRef identifier="choice_multiple" href="test/choice_multiple.xml"/>
