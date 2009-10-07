@@ -1,5 +1,6 @@
 package com.klangner.qtiplayer.client.util;
 
+import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 
@@ -86,6 +87,25 @@ public class XmlElement {
 	 */
 	public NodeList getElementsByTagName(String tagName){
 		return element.getElementsByTagName(tagName);
+	}
+	
+	/**
+	 * get all TEXT nodes
+	 * @return contents of tag as html
+	 */
+	public String getText(){
+		String		text = new String();
+		NodeList	nodes = element.getChildNodes();
+		
+		for(int i = 0; i < nodes.getLength(); i ++){
+			Node node = nodes.item(i);
+		
+			if(node.getNodeType() == Node.TEXT_NODE){
+				text = text + node.getNodeValue();
+			}
+		}
+		
+		return text;
 	}
 	
 	/**

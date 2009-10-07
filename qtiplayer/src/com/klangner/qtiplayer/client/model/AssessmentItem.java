@@ -97,7 +97,7 @@ public class AssessmentItem extends AbstractXMLDocument{
 		String nodeName = node.getNodeName();
 		
 		if(nodeName.compareTo("p") == 0 || nodeName.compareTo("blockquote") == 0)
-			return new TextWidget(node);
+			return new TextWidget(node, responseProcessing);
 		else if(nodeName.compareTo("choiceInteraction") == 0)
 			return new ChoiceWidget(node, responseProcessing);
 //		else if(nodeName.compareTo("orderInteraction") == 0)

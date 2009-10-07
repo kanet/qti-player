@@ -5,6 +5,7 @@ identifier="inlineChoice" title="Richard III (Take 2)" adaptive="false" timeDepe
 	<responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">
 		<correctResponse>
 			<value>Y</value>
+			<value>L2</value>
 		</correctResponse>
 	</responseDeclaration>
 	<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer"/>
@@ -16,6 +17,15 @@ identifier="inlineChoice" title="Richard III (Take 2)" adaptive="false" timeDepe
 					<inlineChoice identifier="G">Gloucester</inlineChoice>
 					<inlineChoice identifier="L">Lancaster</inlineChoice>
 					<inlineChoice identifier="Y">York</inlineChoice>
+				</inlineChoiceInteraction>;<br/> And all the clouds that lour'd upon our house<br/>
+                In the deep bosom of the ocean buried.</p>
+		</blockquote>
+		<blockquote>
+			<p>Now is the winter of our discontent<br/> Made glorious summer by this sun of
+                    <inlineChoiceInteraction responseIdentifier="RESPONSE" shuffle="false">
+					<inlineChoice identifier="G2">Gloucester</inlineChoice>
+					<inlineChoice identifier="L2">Lancaster</inlineChoice>
+					<inlineChoice identifier="Y2">York</inlineChoice>
 				</inlineChoiceInteraction>;<br/> And all the clouds that lour'd upon our house<br/>
                 In the deep bosom of the ocean buried.</p>
 		</blockquote>
