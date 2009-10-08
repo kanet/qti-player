@@ -10,6 +10,7 @@ import com.klangner.qtiplayer.client.util.IDomElementFactory;
 import com.klangner.qtiplayer.client.util.XmlElement;
 import com.klangner.qtiplayer.client.widget.inline.IOnChangeHandler;
 import com.klangner.qtiplayer.client.widget.inline.SelectionWidget;
+import com.klangner.qtiplayer.client.widget.inline.TextEntryWidget;
 
 /**
  * Create Text which can contain gap and inline choice interactions.
@@ -23,7 +24,7 @@ public class TextWidget extends Widget{
 	/** XML root */
 	private XmlElement xmlRoot;
 	/** All sub widgets */
-	private HashMap<String, IOnChangeHandler>	children = new HashMap<String, IOnChangeHandler>();
+	private HashMap<String, IOnChangeHandler>	onChangeHandlers = new HashMap<String, IOnChangeHandler>();
 
 	
 	/**
@@ -38,10 +39,11 @@ public class TextWidget extends Widget{
 		// Convert into text
 		xmlRoot.setDomElementFactory(new IDomElementFactory(){
 			public com.google.gwt.dom.client.Element createDomElement(Element xmlElement) {
-				return createInlineChoice( xmlElement );
+				return createInlineWidget( xmlElement );
 			}
 			public boolean isSupportedElement(String tagName) {
-				return (tagName.compareTo("inlineChoiceInteraction") == 0);
+				return (tagName.compareTo("inlineChoiceInteraction") == 0 ||
+						tagName.compareTo("textEntryInteraction") == 0);
 			}
 		});
 		
@@ -62,7 +64,7 @@ public class TextWidget extends Widget{
 			com.google.gwt.dom.client.Element element = 
 				com.google.gwt.dom.client.Element.as(event.getEventTarget());
 			
-			IOnChangeHandler	handler = children.get(element.getId());
+			IOnChangeHandler	handler = onChangeHandlers.get(element.getId());
 			if(handler != null){
 				handler.onChange();
 			}
@@ -75,16 +77,25 @@ public class TextWidget extends Widget{
 	 * @param dstElement DOM element where this choice should be added
 	 * @return Selection element
 	 */
-	private com.google.gwt.user.client.Element createInlineChoice(Element inlineChoiceElement){
-		SelectionWidget	listBox = new SelectionWidget(inlineChoiceElement, response);
+	private com.google.gwt.user.client.Element createInlineWidget(Element element){
+		Widget	widget = null;
 		String	id = Document.get().createUniqueId();
 
-		// Add change handler
-		listBox.getElement().setId(id);
-		children.put(id, listBox);
+		if(element.getNodeName().compareTo("inlineChoiceInteraction") == 0){
+			widget = new SelectionWidget(element, response);	
+		}
+		else if(element.getNodeName().compareTo("textEntryInteraction") == 0){
+			widget = new TextEntryWidget(element, response);
+		}
 		
-		return listBox.getElement();
-		
+		if(widget != null){
+			widget.getElement().setId(id);
+			onChangeHandlers.put(id, (IOnChangeHandler)widget);
+			
+			return widget.getElement();
+		}
+
+		return null;
 	}
 	
 }

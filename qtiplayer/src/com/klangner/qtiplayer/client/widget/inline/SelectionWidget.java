@@ -11,7 +11,7 @@ public class SelectionWidget extends ListBox implements IOnChangeHandler{
 
 	/** response processing interface */
 	private IResponse 	response;
-	/** Suffle? */
+	/** Shuffle? */
 	private boolean 		shuffle = false;
 	/** Last selected value */
 	private String	lastValue = null;
