@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Thie example adapted from the PET Handbook, copyright University of Cambridge ESOL Examinations -->
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd" 
+identifier="choice" title="Video demo" adaptive="false" timeDependent="false">
+	<responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">
+		<correctResponse>
+			<value>ChoiceA</value>
+		</correctResponse>
+	</responseDeclaration>
+	<!-- outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer">
+		<defaultValue>
+			<value>0</value>
+		</defaultValue>
+	</outcomeDeclaration-->
+	<itemBody>
+	  <p>
+	  	It is possible to include video but only as links.
+	  </p>
+		<p>
+			<a href="images/man-cheetah-gazelle.3gp">Watch this movie</a> 
+			and try to answer following question.
+		</p>
+		<p>
+			Free movie from <a hreh="http://www.free-3gp-video.com">http://www.free-3gp-video.com</a>
+		</p>
+
+		<choiceInteraction responseIdentifier="RESPONSE" shuffle="true" maxChoices="1">
+			<prompt>Who won this race?</prompt>
+			<simpleChoice identifier="ChoiceA">Man.</simpleChoice>
+			<simpleChoice identifier="ChoiceB">Cheetah.</simpleChoice>
+			<simpleChoice identifier="ChoiceC">gazelle.</simpleChoice>
+		</choiceInteraction>
+	</itemBody>
+	<!-- responseProcessing template="http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"/-->
+</assessmentItem>

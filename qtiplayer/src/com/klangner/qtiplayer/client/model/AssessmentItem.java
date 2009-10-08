@@ -63,10 +63,11 @@ public class AssessmentItem extends AbstractXMLDocument{
     
     // Fix urls to images
     nodes = getDom().getElementsByTagName("img");
-    for(int i = 0; i < nodes.getLength(); i++){
-    	Element element = (Element)nodes.item(i);
-    	element.setAttribute("src", getBaseUrl() + element.getAttribute("src"));
-    }
+    fixLinks(nodes, "src");
+
+    // Fix urls to internal links
+    nodes = getDom().getElementsByTagName("a");
+    fixLinks(nodes, "href");
 
     // Create response processing
     nodes = getDom().getElementsByTagName("responseDeclaration");
@@ -106,6 +107,22 @@ public class AssessmentItem extends AbstractXMLDocument{
 			return new DebugWidget(node);
 		else
 			return null;
+	}
+
+	
+	/**
+	 * Fix links relative to xml file
+	 * @param nodes nodes to fix
+	 * @param attrName attribute name with link
+	 */
+	private void fixLinks(NodeList nodes, String attrName){
+
+    for(int i = 0; i < nodes.getLength(); i++){
+    	Element element = (Element)nodes.item(i);
+    	String link = element.getAttribute(attrName);
+    	if(link != null && !link.startsWith("http"))
+    		element.setAttribute(attrName, getBaseUrl() + link);
+    }
 	}
 	
 }
