@@ -9,11 +9,18 @@
     <title>QTI Player demo</title>
     
     <script type="text/javascript" language="javascript" src="qtiplayer/qtiplayer.nocache.js"></script>
+    <script language="javascript">
+    	function onPageLoaded(){
+    		// Load assessment
+    		qpLoadAssessment('content/demo.xml');
+    	}
+    </script>
+    
   </head>
 
-  <body>
+  <body onload="onPageLoaded();">
 
-	<div id="player">content/demo.xml</div>
+	<div id="player"/>
 	
   </body>
 </html>
