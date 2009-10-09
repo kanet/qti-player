@@ -19,13 +19,33 @@ import com.klangner.qtiplayer.client.model.Result;
  */
 public class Qtiplayer implements EntryPoint {
 
+	/** Wrap this tag */
+	private static final String	PLAYER_NODE_ID = "player";
+	/** Single instance handler */
+	private static Qtiplayer		theInstance;
+	/** Current assessment */
 	private Assessment					assessment;
+	/** Player view */
 	private PlayerView					playerView;
 	private int									currentItemIndex;
 	private AssessmentItem			currentItem;
 	private Vector<Result>			results = new Vector<Result>();
 	
 	/**
+	 * Load js interface
+	 * @param url
+	 */
+	 public static void load(String url) {
+		 theInstance.loadAssessment(url);
+	 }
+	 
+   public static native void defineAPIMethods() /*-{
+      $wnd.qpLoadAssessment = function(url) {
+        @com.klangner.qtiplayer.client.Qtiplayer::load(Ljava/lang/String;)(url);
+      }
+   }-*/;
+
+   /**
 	 * Send result to javascript native method
 	 * @param msg
 	 */
@@ -40,12 +60,9 @@ public class Qtiplayer implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-
-		Element element = RootPanel.get("player").getElement();
-		Node node = element.getFirstChild();
-		element.removeChild(node);
-		
-		loadAssessment(node.getNodeValue());
+		// Define js API
+		theInstance = this;
+		defineAPIMethods();
 	}
 	
 	/**
@@ -53,8 +70,13 @@ public class Qtiplayer implements EntryPoint {
 	 */
 	private void initialize() {
 		
+		RootPanel rootPanel = RootPanel.get(PLAYER_NODE_ID); 
+		Element element = rootPanel.getElement();
+		Node node = element.getFirstChild();
+		element.removeChild(node);
+		
 		playerView = new PlayerView(assessment);
-		RootPanel.get("player").add(playerView.getView());
+		rootPanel.add(playerView.getView());
 		
 		playerView.getCheckButton().addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
