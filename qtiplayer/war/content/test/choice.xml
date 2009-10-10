@@ -16,7 +16,7 @@ identifier="choice" title="Unattended Luggage" adaptive="false" timeDependent="f
 	<itemBody>
 		<p>Look at the text in the picture.</p>
 		<p>
-			<img src="images/sign.png" alt="NEVER LEAVE LUGGAGE UNATTENDED"/>
+			<img src="media/sign.png" alt="NEVER LEAVE LUGGAGE UNATTENDED"/>
 		</p>
 		<choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1">
 			<prompt>What does it say?</prompt>
