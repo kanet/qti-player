@@ -19,7 +19,7 @@ identifier="choice" title="Simple choice and picture inside a text." adaptive="f
 			Also you can see that text can contain pictures.
 		</p>
 		<p>
-			<img src="images/eiffeltower.jpg" alt="Eiffel tower"/>
+			<img src="media/eiffeltower.jpg" alt="Eiffel tower"/>
 		</p>
 		<choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1">
 			<prompt>Look at the picture. Can you guess from the picture which city is it?</prompt>
