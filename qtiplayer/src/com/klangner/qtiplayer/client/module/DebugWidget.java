@@ -1,4 +1,4 @@
-package com.klangner.qtiplayer.client.widget;
+package com.klangner.qtiplayer.client.module;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;

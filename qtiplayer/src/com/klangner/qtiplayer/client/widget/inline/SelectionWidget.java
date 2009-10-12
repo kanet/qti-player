@@ -3,9 +3,9 @@ package com.klangner.qtiplayer.client.widget.inline;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
+import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
 import com.klangner.qtiplayer.client.util.XmlElement;
-import com.klangner.qtiplayer.client.widget.IResponse;
 
 public class SelectionWidget extends ListBox implements IOnChangeHandler{
 

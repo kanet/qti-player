@@ -2,8 +2,8 @@ package com.klangner.qtiplayer.client.widget.inline;
 
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.xml.client.Element;
+import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.util.XmlElement;
-import com.klangner.qtiplayer.client.widget.IResponse;
 
 public class TextEntryWidget extends TextBox implements IOnChangeHandler{
 

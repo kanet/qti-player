@@ -7,11 +7,14 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.klangner.qtiplayer.client.model.Assessment;
 import com.klangner.qtiplayer.client.model.AssessmentItem;
+import com.klangner.qtiplayer.client.module.IModule;
 
 public class PlayerView {
 
 	/** Show this assessment */
 	private Assessment			assessment;
+	/** current item */
+	private AssessmentItem 	assessmentItem;
 	/** Counter label */
 	private Label						counterLabel;
 	/** Body panel. AssessmentItem view will be shown there */
@@ -107,6 +110,7 @@ public class PlayerView {
 
 		Label itemTitleLabel = new Label();
 		
+		this.assessmentItem = assessmentItem; 
 		bodyPanel.clear();
 		feedbackLabel.setText("");
 
@@ -117,6 +121,20 @@ public class PlayerView {
 		bodyPanel.add(itemTitleLabel);
 		for(int i = 0; i < assessmentItem.getModuleCount(); i++){
 			bodyPanel.add(assessmentItem.getModule(i));
+		}
+	}
+	
+	/**
+	 * Create view for given assessment item and show it in player
+	 * @param index of assessment item
+	 */
+	public void markErrors(){
+
+		for(int i = 0; i < assessmentItem.getModuleCount(); i++){
+			if(assessmentItem.getModule(i) instanceof IModule){
+				IModule module = (IModule)assessmentItem.getModule(i);
+				module.markErrors();
+			}
 		}
 	}
 	

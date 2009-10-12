@@ -1,4 +1,4 @@
-package com.klangner.qtiplayer.client.widget;
+package com.klangner.qtiplayer.client.module;
 
 public interface IResponse {
 

@@ -163,6 +163,7 @@ public class Qtiplayer implements EntryPoint {
 			playerView.getFinishButton().setVisible(true);
 		}
 
+		playerView.markErrors();
 		results.add(currentItem.getResponseProcesing().getResult());
 		playerView.showFeedback(currentItem.getResponseProcesing().getFeedback());
 	}

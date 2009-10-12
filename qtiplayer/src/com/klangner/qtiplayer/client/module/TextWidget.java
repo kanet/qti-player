@@ -1,4 +1,4 @@
-package com.klangner.qtiplayer.client.widget;
+package com.klangner.qtiplayer.client.module;
 
 import java.util.HashMap;
 

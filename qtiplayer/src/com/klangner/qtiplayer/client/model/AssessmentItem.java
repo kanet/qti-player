@@ -6,9 +6,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
-import com.klangner.qtiplayer.client.widget.ChoiceWidget;
-import com.klangner.qtiplayer.client.widget.DebugWidget;
-import com.klangner.qtiplayer.client.widget.TextWidget;
+import com.klangner.qtiplayer.client.module.ChoiceWidget;
+import com.klangner.qtiplayer.client.module.DebugWidget;
+import com.klangner.qtiplayer.client.module.TextWidget;
 
 
 public class AssessmentItem extends AbstractXMLDocument{
