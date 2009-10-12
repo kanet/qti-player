@@ -1,4 +1,4 @@
-package com.klangner.qtiplayer.client.module;
+package com.klangner.qtiplayer.client.module.text;
 
 import java.util.HashMap;
 
@@ -6,11 +6,9 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
+import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.util.IDomElementFactory;
 import com.klangner.qtiplayer.client.util.XmlElement;
-import com.klangner.qtiplayer.client.widget.inline.IOnChangeHandler;
-import com.klangner.qtiplayer.client.widget.inline.SelectionWidget;
-import com.klangner.qtiplayer.client.widget.inline.TextEntryWidget;
 
 /**
  * Create Text which can contain gap and inline choice interactions.

@@ -1,4 +1,4 @@
-package com.klangner.qtiplayer.client.widget.inline;
+package com.klangner.qtiplayer.client.module.text;
 
 public interface IOnChangeHandler {
 

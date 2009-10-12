@@ -1,4 +1,4 @@
-package com.klangner.qtiplayer.client.widget.inline;
+package com.klangner.qtiplayer.client.module.text;
 
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.xml.client.Element;
