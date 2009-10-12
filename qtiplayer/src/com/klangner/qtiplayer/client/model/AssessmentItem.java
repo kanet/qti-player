@@ -65,6 +65,10 @@ public class AssessmentItem extends AbstractXMLDocument{
     nodes = getDom().getElementsByTagName("img");
     fixLinks(nodes, "src");
 
+    // Fix urls to embed resources
+    nodes = getDom().getElementsByTagName("embed");
+    fixLinks(nodes, "src");
+
     // Fix urls to internal links
     nodes = getDom().getElementsByTagName("a");
     fixLinks(nodes, "href");
@@ -120,8 +124,13 @@ public class AssessmentItem extends AbstractXMLDocument{
     for(int i = 0; i < nodes.getLength(); i++){
     	Element element = (Element)nodes.item(i);
     	String link = element.getAttribute(attrName);
-    	if(link != null && !link.startsWith("http"))
+    	if(link != null && !link.startsWith("http")){
     		element.setAttribute(attrName, getBaseUrl() + link);
+    	}
+    	// Links open in new window
+    	if(element.getNodeName().compareTo("a") == 0){
+    		element.setAttribute( "target", "_blank");
+    	}
     }
 	}
 	
