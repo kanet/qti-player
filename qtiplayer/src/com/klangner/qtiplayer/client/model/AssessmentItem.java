@@ -6,9 +6,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
-import com.klangner.qtiplayer.client.module.ChoiceWidget;
 import com.klangner.qtiplayer.client.module.DebugWidget;
-import com.klangner.qtiplayer.client.module.text.TextWidget;
+import com.klangner.qtiplayer.client.module.choice.ChoiceModule;
+import com.klangner.qtiplayer.client.module.text.TextModule;
 
 
 public class AssessmentItem extends AbstractXMLDocument{
@@ -102,9 +102,9 @@ public class AssessmentItem extends AbstractXMLDocument{
 		String nodeName = node.getNodeName();
 		
 		if(nodeName.compareTo("p") == 0 || nodeName.compareTo("blockquote") == 0)
-			return new TextWidget(node, responseProcessing);
+			return new TextModule(node, responseProcessing);
 		else if(nodeName.compareTo("choiceInteraction") == 0)
-			return new ChoiceWidget(node, responseProcessing);
+			return new ChoiceModule(node, responseProcessing);
 //		else if(nodeName.compareTo("orderInteraction") == 0)
 //			return new OrderModule(node, responseProcessing);
 		else if(node.getNodeType() == Node.ELEMENT_NODE)

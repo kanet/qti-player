@@ -1,4 +1,4 @@
-package com.klangner.qtiplayer.client.module;
+package com.klangner.qtiplayer.client.module.choice;
 
 import java.util.Vector;
 
@@ -13,6 +13,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
+import com.klangner.qtiplayer.client.module.IModule;
+import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.util.XmlElement;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
 
@@ -21,7 +23,7 @@ import com.klangner.qtiplayer.client.util.RandomizedSet;
  * @author Krzysztof Langner
  *
  */
-public class ChoiceWidget extends Composite implements IModule{
+public class ChoiceModule extends Composite implements IModule{
 
 	/** root element for this module */
 	private XmlElement				choiceElement;
@@ -35,7 +37,7 @@ public class ChoiceWidget extends Composite implements IModule{
 	private IResponse 				response;
 	
 	
-	public ChoiceWidget(Element choiceNode, IResponse response){
+	public ChoiceModule(Element choiceNode, IResponse response){
 		
 		choiceElement = new XmlElement(choiceNode);
 

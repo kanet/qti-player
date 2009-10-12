@@ -15,7 +15,7 @@ import com.klangner.qtiplayer.client.util.XmlElement;
  * 
  * @author klangner
  */
-public class TextWidget extends Widget{
+public class TextModule extends Widget{
 	
 	/** response processing interface */
 	private IResponse 	response;
@@ -29,7 +29,7 @@ public class TextWidget extends Widget{
 	 * constructor 
 	 * @param node
 	 */
-	public TextWidget(Element node, IResponse 	response){
+	public TextModule(Element node, IResponse 	response){
 
 		this.xmlRoot = new XmlElement(node);
 		this.response = response;
