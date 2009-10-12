@@ -2,21 +2,16 @@ package com.klangner.qtiplayer.client.module.choice;
 
 import java.util.Vector;
 
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.klangner.qtiplayer.client.module.IModule;
 import com.klangner.qtiplayer.client.module.IResponse;
-import com.klangner.qtiplayer.client.util.XmlElement;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
+import com.klangner.qtiplayer.client.util.XmlElement;
 
 /**
  * Widget with choice implementation
@@ -26,15 +21,15 @@ import com.klangner.qtiplayer.client.util.RandomizedSet;
 public class ChoiceModule extends Composite implements IModule{
 
 	/** root element for this module */
-	private XmlElement				choiceElement;
+	private XmlElement			choiceElement;
 	/** Work mode single or multiple choice */
-	private boolean 					multi = false;
+	private boolean 				multi = false;
 	/** Shuffle? */
-	private boolean 					shuffle = false;
+	private boolean 				shuffle = false;
 	/** option widgets */
-	private Vector<CheckBox>	options;
+	private Vector<OptionWidget>	options;
 	/** response processing interface */
-	private IResponse 				response;
+	private IResponse 			response;
 	
 	
 	public ChoiceModule(Element choiceNode, IResponse response){
@@ -59,8 +54,8 @@ public class ChoiceModule extends Composite implements IModule{
 	 */
 	public void markErrors() {
 		
-		for(CheckBox option : options){
-			option.setText("ok");
+		for(OptionWidget option : options){
+			option.setEnabled(false);
 		}
 		
 	}
@@ -76,27 +71,7 @@ public class ChoiceModule extends Composite implements IModule{
 	 */
 	public void showCorrectAnswers() {
 	}
-	
-	/**
-	 * Create option button
-	 * @return
-	 */
-	private CheckBox createOptionButton(XmlElement option){
-		
-		CheckBox button;
-		
-		if(multi)
-			button = new CheckBox();
-		else
-			button = new RadioButton(Document.get().createUniqueId());
-		button.setStyleName("qp-choice-option");
-		button.setName(option.getAttributeAsString("identifier"));
-		button.setHTML(option.getTextAsHtml());
-		button.addValueChangeHandler(new OptionHandler());
 
-		return button;
-	}
-	
 	
 	/**
 	 * Get options view
@@ -108,7 +83,7 @@ public class ChoiceModule extends Composite implements IModule{
 		NodeList 				optionNodes = choiceElement.getElementsByTagName("simpleChoice");
 		RandomizedSet<XmlElement>	randomizedNodes = new RandomizedSet<XmlElement>();
 
-		options = new Vector<CheckBox>();
+		options = new Vector<OptionWidget>();
 		// Add randomized nodes to shuffle table
 		if(shuffle){
 			for(int i = 0; i < optionNodes.getLength(); i++){
@@ -120,14 +95,14 @@ public class ChoiceModule extends Composite implements IModule{
 		
 		// Create buttons
 		for(int i = 0; i < optionNodes.getLength(); i++){
-			XmlElement	option = new XmlElement((Element)optionNodes.item(i));
-			CheckBox button;
+			XmlElement		option = new XmlElement((Element)optionNodes.item(i));
+			OptionWidget 	button;
 			
 			if(shuffle && !option.getAttributeAsBoolean("fixed") ){
 				option = randomizedNodes.pull();
 			}
 			
-			button = createOptionButton(option);
+			button = new OptionWidget(option, response, multi);
 			options.add(button);
 			panel.add(button);
 		}
@@ -154,15 +129,4 @@ public class ChoiceModule extends Composite implements IModule{
 		
 	}
 	
-	class OptionHandler implements ValueChangeHandler<Boolean>{
-
-		public void onValueChange(ValueChangeEvent<Boolean> event) {
-			CheckBox button = (CheckBox)event.getSource();
-			if(button.getValue())
-				response.set(button.getName());
-			else
-				response.unset(button.getName());
-		}
-	}
-
 }

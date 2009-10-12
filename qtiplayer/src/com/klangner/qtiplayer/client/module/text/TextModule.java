@@ -6,6 +6,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
+import com.klangner.qtiplayer.client.module.IModule;
 import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.util.IDomElementFactory;
 import com.klangner.qtiplayer.client.util.XmlElement;
@@ -15,14 +16,14 @@ import com.klangner.qtiplayer.client.util.XmlElement;
  * 
  * @author klangner
  */
-public class TextModule extends Widget{
+public class TextModule extends Widget implements IModule{
 	
 	/** response processing interface */
 	private IResponse 	response;
 	/** XML root */
 	private XmlElement xmlRoot;
 	/** All sub widgets */
-	private HashMap<String, IOnChangeHandler>	onChangeHandlers = new HashMap<String, IOnChangeHandler>();
+	private HashMap<String, ITextControl>	controls = new HashMap<String, ITextControl>();
 
 	
 	/**
@@ -52,6 +53,28 @@ public class TextModule extends Widget{
 	}
 
 	/**
+	 * @see IModule#markErrors()
+	 */
+	public void markErrors() {
+		
+		for(ITextControl control : controls.values()){
+			control.setEnabled(false);
+		}
+	}
+
+	/**
+	 * @see IModule#reset()
+	 */
+	public void reset() {
+	}
+
+	/**
+	 * @see IModule#showCorrectAnswers()
+	 */
+	public void showCorrectAnswers() {
+	}
+	
+	/**
 	 * Catch inner controls events.
 	 * Since events are not fired for internal Widgets. All events should be handled in this function
 	 */
@@ -62,7 +85,7 @@ public class TextModule extends Widget{
 			com.google.gwt.dom.client.Element element = 
 				com.google.gwt.dom.client.Element.as(event.getEventTarget());
 			
-			IOnChangeHandler	handler = onChangeHandlers.get(element.getId());
+			ITextControl	handler = controls.get(element.getId());
 			if(handler != null){
 				handler.onChange();
 			}
@@ -88,12 +111,12 @@ public class TextModule extends Widget{
 		
 		if(widget != null){
 			widget.getElement().setId(id);
-			onChangeHandlers.put(id, (IOnChangeHandler)widget);
+			controls.put(id, (ITextControl)widget);
 			
 			return widget.getElement();
 		}
 
 		return null;
 	}
-	
+
 }

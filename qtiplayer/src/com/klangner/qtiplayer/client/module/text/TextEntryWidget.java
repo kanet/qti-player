@@ -5,7 +5,7 @@ import com.google.gwt.xml.client.Element;
 import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.util.XmlElement;
 
-public class TextEntryWidget extends TextBox implements IOnChangeHandler{
+public class TextEntryWidget extends TextBox implements ITextControl{
 
 	/** response processing interface */
 	private IResponse 	response;

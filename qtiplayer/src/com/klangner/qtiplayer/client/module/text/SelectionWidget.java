@@ -7,7 +7,7 @@ import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
 import com.klangner.qtiplayer.client.util.XmlElement;
 
-public class SelectionWidget extends ListBox implements IOnChangeHandler{
+public class SelectionWidget extends ListBox implements ITextControl{
 
 	/** response processing interface */
 	private IResponse 	response;
