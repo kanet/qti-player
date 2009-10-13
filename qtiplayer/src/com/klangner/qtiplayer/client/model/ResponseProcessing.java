@@ -56,6 +56,14 @@ public class ResponseProcessing implements IResponse{
 	}
 
 	/**
+	 * @see IResponse#isCorrect(String)
+	 */
+	public boolean isCorrectAnswer(String key) {
+
+		return correctResponses.contains(key);
+	}
+
+	/**
 	 * implementation of IResponse interface
 	 * @param key
 	 */
@@ -70,4 +78,5 @@ public class ResponseProcessing implements IResponse{
 	public void unset(String key) {
 		values.remove(key);
 	}
+
 }

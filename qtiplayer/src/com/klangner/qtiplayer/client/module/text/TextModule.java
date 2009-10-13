@@ -6,7 +6,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
-import com.klangner.qtiplayer.client.module.IModule;
+import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.util.IDomElementFactory;
 import com.klangner.qtiplayer.client.util.XmlElement;
@@ -16,7 +16,7 @@ import com.klangner.qtiplayer.client.util.XmlElement;
  * 
  * @author klangner
  */
-public class TextModule extends Widget implements IModule{
+public class TextModule extends Widget implements IActivity{
 	
 	/** response processing interface */
 	private IResponse 	response;
@@ -53,9 +53,9 @@ public class TextModule extends Widget implements IModule{
 	}
 
 	/**
-	 * @see IModule#markErrors()
+	 * @see IActivity#markAnswers()
 	 */
-	public void markErrors() {
+	public void markAnswers() {
 		
 		for(ITextControl control : controls.values()){
 			control.setEnabled(false);
@@ -63,13 +63,13 @@ public class TextModule extends Widget implements IModule{
 	}
 
 	/**
-	 * @see IModule#reset()
+	 * @see IActivity#reset()
 	 */
 	public void reset() {
 	}
 
 	/**
-	 * @see IModule#showCorrectAnswers()
+	 * @see IActivity#showCorrectAnswers()
 	 */
 	public void showCorrectAnswers() {
 	}

@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.klangner.qtiplayer.client.model.Assessment;
 import com.klangner.qtiplayer.client.model.AssessmentItem;
-import com.klangner.qtiplayer.client.module.IModule;
+import com.klangner.qtiplayer.client.module.IActivity;
 
 public class PlayerView {
 
@@ -131,9 +131,9 @@ public class PlayerView {
 	public void markErrors(){
 
 		for(int i = 0; i < assessmentItem.getModuleCount(); i++){
-			if(assessmentItem.getModule(i) instanceof IModule){
-				IModule module = (IModule)assessmentItem.getModule(i);
-				module.markErrors();
+			if(assessmentItem.getModule(i) instanceof IActivity){
+				IActivity module = (IActivity)assessmentItem.getModule(i);
+				module.markAnswers();
 			}
 		}
 	}

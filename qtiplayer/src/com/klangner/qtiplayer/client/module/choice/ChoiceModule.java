@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
-import com.klangner.qtiplayer.client.module.IModule;
+import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
 import com.klangner.qtiplayer.client.util.XmlElement;
@@ -18,7 +18,7 @@ import com.klangner.qtiplayer.client.util.XmlElement;
  * @author Krzysztof Langner
  *
  */
-public class ChoiceModule extends Composite implements IModule{
+public class ChoiceModule extends Composite implements IActivity{
 
 	/** root element for this module */
 	private XmlElement			choiceElement;
@@ -50,26 +50,31 @@ public class ChoiceModule extends Composite implements IModule{
 	}
 	
 	/**
-	 * @see IModule#markErrors()
+	 * @see IActivity#markAnswers()
 	 */
-	public void markErrors() {
+	public void markAnswers() {
 		
 		for(OptionWidget option : options){
-			option.setEnabled(false);
+			option.markAnswers();
 		}
-		
 	}
 
 	/**
-	 * @see IModule#reset()
+	 * @see IActivity#reset()
 	 */
 	public void reset() {
+		for(OptionWidget option : options){
+			option.reset();
+		}
 	}
 
 	/**
-	 * @see IModule#showCorrectAnswers()
+	 * @see IActivity#showCorrectAnswers()
 	 */
 	public void showCorrectAnswers() {
+		for(OptionWidget option : options){
+			option.showCorrectAnswers();
+		}
 	}
 
 	
