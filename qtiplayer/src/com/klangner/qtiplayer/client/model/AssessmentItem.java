@@ -62,16 +62,12 @@ public class AssessmentItem extends AbstractXMLDocument{
 
     
     // Fix urls to images
-    nodes = getDom().getElementsByTagName("img");
-    fixLinks(nodes, "src");
-
-    // Fix urls to embed resources
-    nodes = getDom().getElementsByTagName("embed");
-    fixLinks(nodes, "src");
-
-    // Fix urls to internal links
-    nodes = getDom().getElementsByTagName("a");
-    fixLinks(nodes, "href");
+    fixLinks("img", "src");
+    fixLinks("embed", "src");
+    fixLinks("sound", "src");
+    fixLinks("video", "src");
+    fixLinks("source", "src");
+    fixLinks("a", "href");
 
     // Create response processing
     nodes = getDom().getElementsByTagName("responseDeclaration");
@@ -116,10 +112,12 @@ public class AssessmentItem extends AbstractXMLDocument{
 	
 	/**
 	 * Fix links relative to xml file
-	 * @param nodes nodes to fix
+	 * @param tagName tag name
 	 * @param attrName attribute name with link
 	 */
-	private void fixLinks(NodeList nodes, String attrName){
+	private void fixLinks(String tagName, String attrName){
+
+    NodeList nodes = getDom().getElementsByTagName(tagName);
 
     for(int i = 0; i < nodes.getLength(); i++){
     	Element element = (Element)nodes.item(i);
@@ -128,7 +126,7 @@ public class AssessmentItem extends AbstractXMLDocument{
     		element.setAttribute(attrName, getBaseUrl() + link);
     	}
     	// Links open in new window
-    	if(element.getNodeName().compareTo("a") == 0){
+    	if(tagName.compareTo("a") == 0){
     		element.setAttribute( "target", "_blank");
     	}
     }

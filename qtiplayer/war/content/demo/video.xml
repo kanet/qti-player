@@ -15,15 +15,18 @@ identifier="choice" title="Video demo" adaptive="false" timeDependent="false">
 	</outcomeDeclaration-->
 	<itemBody>
 	  <p>
-	  	It is possible to include video but only as links.
+	  	It is possible to include sound:
 	  </p>
+	  <div>
+	  	<embed src="media/demo.mp3" autostart="false" hidden="false"/>
+	  </div>
+	  
 		<p>
-			<a href="media/man-cheetah-gazelle.3gp">Watch this movie</a> 
-			and try to answer following question.
+			And movie		
 		</p>
-		<p>
-			Free movie from <a hreh="http://www.free-3gp-video.com">http://www.free-3gp-video.com</a>
-		</p>
+	  <div>
+	  	<embed src="media/demo.mp4" autostart="false" hidden="false"/>
+	  </div>
 
 		<choiceInteraction responseIdentifier="RESPONSE" shuffle="true" maxChoices="1">
 			<prompt>Who won this race?</prompt>
