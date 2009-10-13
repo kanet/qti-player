@@ -31,9 +31,9 @@
     </script-->
     <script type="text/javascript" language="javascript" src="qtiplayer/qtiplayer.nocache.js"></script>
     <script language="javascript">
-    	function onPageLoaded(){
+    	function qpOnAppLoaded(){
     		// Load assessment
-    		qpLoadAssessment('content/test.xml');
+    		qpLoadAssessment('player', 'content/test.xml');
     	}
     </script>
     
@@ -44,7 +44,7 @@
   <!-- you can leave the body empty if you want  -->
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
-  <body onload="onPageLoaded();">
+  <body>
 
 	<div id="player"/>
 	

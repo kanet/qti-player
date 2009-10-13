@@ -9,18 +9,21 @@
     <title>QTI Player demo</title>
     
     <script type="text/javascript" language="javascript" src="qtiplayer/qtiplayer.nocache.js"></script>
-    <script language="javascript">
-			function qpOnAppLoaded(){
-				// Load assessment
-				qpLoadAssessment('player', 'content/demo.xml');
-			}
-    </script>
-    
+
   </head>
 
   <body>
+  
+ <noscript>
+    <div style="color:#fff;text-align:center;width:100%;position:absolute;top:200px">
+    You really, really need to enable JavaScript to view this page.<br/>
+    You know, it's about JavaScript.<br/>
+    <br/>
+    And it will make your life much easier, but it's up to you.
+    </div>
+  </noscript>  
 
-	<div id="player"/>
+	<div id="player">content/demo.xml</div>
 	
   </body>
 </html>

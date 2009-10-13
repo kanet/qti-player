@@ -20,7 +20,7 @@ import com.klangner.qtiplayer.client.model.Result;
 public class Qtiplayer implements EntryPoint {
 
 	/** Wrap this tag */
-	private static final String	PLAYER_NODE_ID = "player";
+	private static String	PLAYER_NODE_ID = "player";
 	/** Single instance handler */
 	private static Qtiplayer		theInstance;
 	/** Current assessment */
@@ -35,13 +35,19 @@ public class Qtiplayer implements EntryPoint {
 	 * Load js interface
 	 * @param url
 	 */
-	 public static void load(String url) {
+	 public static void load(String player_id, String url) {
+	   PLAYER_NODE_ID = player_id;
 		 theInstance.loadAssessment(url);
 	 }
 	 
-   public static native void defineAPIMethods() /*-{
-      $wnd.qpLoadAssessment = function(url) {
-        @com.klangner.qtiplayer.client.Qtiplayer::load(Ljava/lang/String;)(url);
+   private static native void initJavaScriptAPI() /*-{
+      $wnd.qpLoadAssessment = function(id, url) {
+        @com.klangner.qtiplayer.client.Qtiplayer::load(Ljava/lang/String;Ljava/lang/String;)(id, url);
+      }
+
+      // Call App loaded function
+      if(typeof $wnd.qpOnAppLoaded == 'function') {
+          $wnd.qpOnAppLoaded();
       }
    }-*/;
 
@@ -56,13 +62,14 @@ public class Qtiplayer implements EntryPoint {
 		}
 	}-*/;
 	
+    
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
 		// Define js API
 		theInstance = this;
-		defineAPIMethods();
+		initJavaScriptAPI();
 	}
 	
 	/**
@@ -73,7 +80,8 @@ public class Qtiplayer implements EntryPoint {
 		RootPanel rootPanel = RootPanel.get(PLAYER_NODE_ID); 
 		Element element = rootPanel.getElement();
 		Node node = element.getFirstChild();
-		element.removeChild(node);
+		if(node != null)
+		  element.removeChild(node);
 		
 		playerView = new PlayerView(assessment);
 		rootPanel.add(playerView.getView());
