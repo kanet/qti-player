@@ -59,6 +59,27 @@
 	margin-top: 5px;
 }
 
+.qp-text-textentry-correct{
+	padding-left: 20px;
+	background: url(images/correct_icon.png) no-repeat left center;
+}
+
+.qp-text-textentry-wrong{
+	padding-left: 20px;
+	background: url(images/wrong_icon.png) no-repeat left center;
+}
+
+.qp-text-choice-correct{
+	padding-left: 20px;
+	background: url(images/correct_icon.png) no-repeat left center;
+}
+
+.qp-text-choice-wrong{
+	padding-left: 20px;
+	background: url(images/wrong_icon.png) no-repeat left center;
+}
+
+
 
 /** 
  * ChoiceModule styles 

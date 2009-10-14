@@ -58,7 +58,9 @@ public class TextModule extends Widget implements IActivity{
 	public void markAnswers() {
 		
 		for(ITextControl control : controls.values()){
-			control.setEnabled(false);
+			if(control instanceof IActivity){
+				((IActivity)control).markAnswers();
+			}
 		}
 	}
 

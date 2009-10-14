@@ -3,11 +3,12 @@ package com.klangner.qtiplayer.client.module.text;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
+import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
 import com.klangner.qtiplayer.client.util.XmlElement;
 
-public class SelectionWidget extends ListBox implements ITextControl{
+public class SelectionWidget extends ListBox implements ITextControl, IActivity{
 
 	/** response processing interface */
 	private IResponse 	response;
@@ -44,6 +45,32 @@ public class SelectionWidget extends ListBox implements ITextControl{
 		response.set(lastValue);
 	}
 
+	/**
+	 * @see IActivity#markAnswers()
+	 */
+	public void markAnswers() {
+		setEnabled(false);
+		if( response.isCorrectAnswer(lastValue) )
+			setStyleName("qp-text-choice-correct");
+		else
+			setStyleName("qp-text-choice-wrong");
+	}
+
+	/**
+	 * @see IActivity#reset()
+	 */
+	public void reset() {
+		setEnabled(true);
+		setStyleName("");
+	}
+
+	/**
+	 * @see IActivity#showCorrectAnswers()
+	 */
+	public void showCorrectAnswers() {
+		setEnabled(false);
+	}
+	
 	/**
 	 * init widget view
 	 * @param element
