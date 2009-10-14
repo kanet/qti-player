@@ -10,10 +10,11 @@
     
     <script type="text/javascript" language="javascript" src="qtiplayer/qtiplayer.nocache.js"></script>
     <script language="javascript">
-			function qpOnAppLoaded(){
-				// Load assessment
-				qpLoadAssessment('player', 'content/demo.xml');
-			}
+      function qpOnAppLoaded(){
+        // Load assessment
+        var player = qpCreatePlayer('player');
+        player.load('content/demo.xml');
+      }
     </script>
     
   </head>
