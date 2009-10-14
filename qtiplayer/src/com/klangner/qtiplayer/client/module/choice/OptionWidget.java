@@ -1,6 +1,5 @@
 package com.klangner.qtiplayer.client.module.choice;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -10,7 +9,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IResponse;
-import com.klangner.qtiplayer.client.module.ModuleImageBundle;
 import com.klangner.qtiplayer.client.util.XmlElement;
 
 public class OptionWidget extends Composite implements IActivity{
@@ -45,19 +43,20 @@ public class OptionWidget extends Composite implements IActivity{
 	 * @see IActivity#markAnswers()
 	 */
 	public void markAnswers() {
-		ModuleImageBundle images = (ModuleImageBundle) GWT.create(ModuleImageBundle.class);
 
 		panel.clear();
 		if(button.getValue()){
 			if( response.isCorrectAnswer(button.getName()) )
-				panel.add(images.correct_icon().createImage());
+				button.setStyleName("qp-choice-selected-correct");
 			else
-				panel.add(images.wrong_icon().createImage());
+				button.setStyleName("qp-choice-selected-wrong");
 		}
-//		else{
-//			if( response.isCorrectAnswer(button.getName()) )
-//				panel.add(images.wrong_icon().createImage());
-//		}
+		else{
+			if( response.isCorrectAnswer(button.getName()) )
+				button.setStyleName("qp-choice-notselected-wrong");
+			else
+				button.setStyleName("qp-choice-notselected-correct");
+		}
 		
 		panel.add(button);
 		setEnabled(false);
@@ -69,6 +68,7 @@ public class OptionWidget extends Composite implements IActivity{
 	public void reset() {
 
 		panel.clear();
+		button.setStyleName("");
 		panel.add(button);
 		setEnabled(true);
 	}
