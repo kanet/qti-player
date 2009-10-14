@@ -33,7 +33,18 @@
     <script language="javascript">
     	function qpOnAppLoaded(){
     		// Load assessment
-    		qpLoadAssessment('player', 'content/test.xml');
+    		var player = qpCreatePlayer('player');
+    		player.load('content/test.xml');
+
+/*        
+    		// Send results via SCORM
+    		player.onAssessmentFinished = function(result){
+          doLMSInitialize();
+          doLMSSetScore(result.score, result.max);
+          doLMSCommit();
+          doLMSFinish();
+    		}
+ */
     	}
     </script>
     

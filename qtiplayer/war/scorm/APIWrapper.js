@@ -649,10 +649,3 @@ function doLMSSetExit(v) {
 	doLMSSetValue("cmi.core.exit",v);
 }
 
-function qpSendResult(score, max){
-	doLMSInitialize();
-	doLMSSetScore(score, max);
-	doLMSCommit();
-	doLMSFinish();
-}
-

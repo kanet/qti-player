@@ -10,5 +10,5 @@
   <inherits name="com.google.gwt.xml.XML" />
 
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='com.klangner.qtiplayer.client.Qtiplayer'/>
+  <entry-point class='com.klangner.qtiplayer.client.PlayerEntryPoint'/>
 </module>
