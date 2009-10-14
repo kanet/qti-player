@@ -78,17 +78,13 @@
 .qp-choice-selected-correct{
 	margin-left: -20px;
 	padding-left: 20px;
-	background-image: url(images/correct_icon.png);
-	background-repeat: no-repeat;
-	background-position: left center;
+	background: url(images/correct_icon.png) no-repeat left center;
 }
 
 .qp-choice-selected-wrong{
 	margin-left: -20px;
 	padding-left: 20px;
-	background-image: url(images/wrong_icon.png);
-	background-repeat: no-repeat;
-	background-position: left center;
+	background: url(images/wrong_icon.png) no-repeat left center;
 }
 
 .qp-choice-notselected-correct{
