@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<project name="qtiplayer" default="build" basedir=".">
-	<property name="player.version" value="0.2"/>
+<project name="qtiplayer" default="dist" basedir=".">
+	<property name="player.version" value="0.3"/>
   <!-- Configure path to GWT SDK -->
   <property name="gwt.sdk" location="/path/to/gwt.sdk" />
   <condition property="XstartOnFirstThread" value="-XstartOnFirstThread">
