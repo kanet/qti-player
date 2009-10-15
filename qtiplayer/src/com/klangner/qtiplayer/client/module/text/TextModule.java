@@ -2,7 +2,6 @@ package com.klangner.qtiplayer.client.module.text;
 
 import java.util.HashMap;
 
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
@@ -102,7 +101,6 @@ public class TextModule extends Widget implements IActivity{
 	 */
 	private com.google.gwt.user.client.Element createInlineWidget(Element element){
 		Widget	widget = null;
-		String	id = Document.get().createUniqueId();
 
 		if(element.getNodeName().compareTo("inlineChoiceInteraction") == 0){
 			widget = new SelectionWidget(element, response);	
@@ -112,8 +110,8 @@ public class TextModule extends Widget implements IActivity{
 		}
 		
 		if(widget != null){
-			widget.getElement().setId(id);
-			controls.put(id, (ITextControl)widget);
+		  ITextControl control = (ITextControl)widget;
+			controls.put(control.getID(), control);
 			
 			return widget.getElement();
 		}

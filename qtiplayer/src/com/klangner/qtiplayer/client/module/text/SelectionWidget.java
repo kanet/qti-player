@@ -1,5 +1,7 @@
 package com.klangner.qtiplayer.client.module.text;
 
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
@@ -8,10 +10,14 @@ import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
 import com.klangner.qtiplayer.client.util.XmlElement;
 
-public class SelectionWidget extends ListBox implements ITextControl, IActivity{
+public class SelectionWidget extends InlineHTML implements ITextControl, IActivity{
 
 	/** response processing interface */
 	private IResponse 	response;
+	/** widget id */
+	private String  id;
+	/** panel widget */
+	private ListBox  listBox;
 	/** Shuffle? */
 	private boolean 		shuffle = false;
 	/** Last selected value */
@@ -21,19 +27,32 @@ public class SelectionWidget extends ListBox implements ITextControl, IActivity{
 	 * constructor
 	 * @param response
 	 */
-	public SelectionWidget(Element element, IResponse 	response){
+	public SelectionWidget(Element element, IResponse response){
 		
 		XmlElement choiceElement = new XmlElement(element);
+
+		id = Document.get().createUniqueId();
 		this.response = response;
 		this.shuffle = choiceElement.getAttributeAsBoolean("shuffle");
 		
+    listBox = new ListBox();
 		if(shuffle)
 			initRandom(element);
 		else
 			init(element);
+
+		listBox.getElement().setId(id);
+		getElement().appendChild(listBox.getElement());
 	}
 	
-	/**
+  /**
+   * @see ITextControl#getID()
+   */
+  public String getID() {
+    return id;
+  }
+
+  /**
 	 * Process on change event 
 	 */
 	public void onChange(){
@@ -41,7 +60,7 @@ public class SelectionWidget extends ListBox implements ITextControl, IActivity{
 		if(lastValue != null)
 			response.unset(lastValue);
 		
-		lastValue = getValue(getSelectedIndex());
+		lastValue = listBox.getValue(listBox.getSelectedIndex());
 		response.set(lastValue);
 	}
 
@@ -49,7 +68,7 @@ public class SelectionWidget extends ListBox implements ITextControl, IActivity{
 	 * @see IActivity#markAnswers()
 	 */
 	public void markAnswers() {
-		setEnabled(false);
+	  listBox.setEnabled(false);
 		if( response.isCorrectAnswer(lastValue) )
 			setStyleName("qp-text-choice-correct");
 		else
@@ -60,7 +79,7 @@ public class SelectionWidget extends ListBox implements ITextControl, IActivity{
 	 * @see IActivity#reset()
 	 */
 	public void reset() {
-		setEnabled(true);
+	  listBox.setEnabled(true);
 		setStyleName("");
 	}
 
@@ -68,7 +87,7 @@ public class SelectionWidget extends ListBox implements ITextControl, IActivity{
 	 * @see IActivity#showCorrectAnswers()
 	 */
 	public void showCorrectAnswers() {
-		setEnabled(false);
+	  listBox.setEnabled(false);
 	}
 	
 	/**
@@ -79,12 +98,12 @@ public class SelectionWidget extends ListBox implements ITextControl, IActivity{
 		NodeList nodes = inlineChoiceElement.getChildNodes();
 
 		// Add no answer as first option
-		addItem("");
+		listBox.addItem("");
 		
 		for(int i = 0; i < nodes.getLength(); i++){
 			if(nodes.item(i).getNodeName().compareTo("inlineChoice") == 0){
 				XmlElement choiceElement = new XmlElement((Element)nodes.item(i));
-				addItem(choiceElement.getText(), choiceElement.getAttributeAsString("identifier"));
+				listBox.addItem(choiceElement.getText(), choiceElement.getAttributeAsString("identifier"));
 			}
 		}
 	}
@@ -98,9 +117,9 @@ public class SelectionWidget extends ListBox implements ITextControl, IActivity{
 		NodeList nodes = inlineChoiceElement.getChildNodes();
 
 		// Add no answer as first option
-		addItem("");
+		listBox.addItem("");
 		
-		// Add nodes to temporary listy
+		// Add nodes to temporary list
 		for(int i = 0; i < nodes.getLength(); i++){
 			if(nodes.item(i).getNodeName().compareTo("inlineChoice") == 0){
 				XmlElement choiceElement = new XmlElement((Element)nodes.item(i));
@@ -110,7 +129,9 @@ public class SelectionWidget extends ListBox implements ITextControl, IActivity{
 		
 		while(randomizedNodes.hasMore()){
 			XmlElement choiceElement = randomizedNodes.pull();
-			addItem(choiceElement.getText(), choiceElement.getAttributeAsString("identifier"));
+			listBox.addItem(choiceElement.getText(), choiceElement.getAttributeAsString("identifier"));
 		}
+		
 	}
+
 }
