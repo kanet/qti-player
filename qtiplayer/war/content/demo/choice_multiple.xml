@@ -25,7 +25,6 @@ identifier="choice" title="Multiple choice" adaptive="false" timeDependent="fals
 			<simpleChoice identifier="ChoiceA"><img src="media/tokyo1.jpg"/></simpleChoice>
 			<simpleChoice identifier="ChoiceB"><img src="media/tokyo2.jpg"/></simpleChoice>
 			<simpleChoice identifier="ChoiceC"><img src="media/warsaw.jpg"/></simpleChoice>
-			<simpleChoice identifier="ChoiceD"><img src="media/barcelona.jpg"/></simpleChoice>
 			<simpleChoice identifier="ChoiceE" fixed="true">None of the above.</simpleChoice>
 		</choiceInteraction>
 	</itemBody>

@@ -11,7 +11,7 @@
   	<assessmentItemRef identifier="choice_multiple" href="demo/choice_multiple.xml"/>
   	<assessmentItemRef identifier="inline_choice" href="demo/inline_choice.xml"/>
   	<assessmentItemRef identifier="text_entry" href="demo/text_entry.xml"/>
-  	<assessmentItemRef identifier="video" href="demo/video.xml"/>
+  	<!-- assessmentItemRef identifier="video" href="demo/video.xml"/-->
 	</assessmentSection>
 </testPart>
 </assessmentTest>

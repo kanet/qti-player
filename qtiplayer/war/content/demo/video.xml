@@ -18,14 +18,22 @@ identifier="choice" title="Video demo" adaptive="false" timeDependent="false">
 	  	It is possible to include sound:
 	  </p>
 	  <div>
-	  	<embed src="media/demo.mp3" autostart="false" hidden="false"/>
+	  	<sound src="media/demo.mp3" controls="true">
+		  	<source src="media/demo-sound.mp3"/>
+		  	<source src="media/demo-sound.ogg"/>
+	  		You need modern web browser to play this sound.
+	  	</sound>
 	  </div>
 	  
 		<p>
 			And movie		
 		</p>
 	  <div>
-	  	<embed src="media/demo.mp4" autostart="false" hidden="false"/>
+	  	<video controls="true">
+		  	<source src="media/demo.mp4"/>
+		  	<source src="media/demo.ogg"/>
+	  		You need modern web browser to display this video.
+		  </video>
 	  </div>
 
 		<choiceInteraction responseIdentifier="RESPONSE" shuffle="true" maxChoices="1">
