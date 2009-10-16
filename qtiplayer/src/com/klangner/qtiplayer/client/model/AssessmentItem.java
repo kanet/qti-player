@@ -159,12 +159,14 @@ public class AssessmentItem extends AbstractXMLDocument{
 	}
 
 	
+	/**
+	 * Inner class for module socket implementation
+	 */
 	private IModuleSocket	moduleSocket = new IModuleSocket(){
 
-		@Override
 		public IResponse getResponse(String id) {
 			return responsesMap.get(id);
 		}
-		
+
 	};
 }
