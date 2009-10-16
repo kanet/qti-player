@@ -7,24 +7,28 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.klangner.qtiplayer.client.module.IActivity;
+import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.util.XmlElement;
 
 public class OptionWidget extends Composite implements IActivity{
 
+	/** socket */
+//	private IModuleSocket moduleSocket;
+	/** response processing interface */
+	private IResponse 	response;
 	/** Option panel */
 	private HorizontalPanel	panel;
 	/** option button */
 	private CheckBox	button;
 	/** option identifier */
 	private String		identifier;
-	/** Response processing */
-	private IResponse response;
 	
-	public OptionWidget(XmlElement element, IResponse response, String id, boolean multi){
+	
+	public OptionWidget(XmlElement element, IModuleSocket moduleSocket, String id, boolean multi){
 		
-		this.response = response;
-		this.identifier = element.getAttributeAsString("identifier"); 
+//		this.moduleSocket = moduleSocket;
+		this.response = moduleSocket.getResponse(id); 
 		
 		panel = new HorizontalPanel();
 		panel.setStyleName("qp-choice-option");

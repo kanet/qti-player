@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.xml.client.Element;
 import com.klangner.qtiplayer.client.module.IActivity;
+import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.util.XmlElement;
 
@@ -21,14 +22,15 @@ public class TextEntryWidget extends InlineHTML implements ITextControl, IActivi
 
 	/**
 	 * constructor
-	 * @param response
+	 * @param moduleSocket
 	 */
-	public TextEntryWidget(Element element, IResponse 	response){
-		
-		XmlElement xmlElement = new XmlElement(element);
+	public TextEntryWidget(Element element, IModuleSocket moduleSocket){
+
+		XmlElement  xmlElement = new XmlElement(element);
+		String			responseIdentifier = xmlElement.getAttributeAsString("responseIdentifier"); 
 
     this.id = Document.get().createUniqueId();
-		this.response = response;
+		this.response = moduleSocket.getResponse(responseIdentifier);
 		textBox = new TextBox();
 		textBox.setMaxLength(xmlElement.getAttributeAsInt("expectedLength"));
 		textBox.getElement().setId(id);

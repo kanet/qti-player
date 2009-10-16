@@ -6,7 +6,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.klangner.qtiplayer.client.module.IActivity;
-import com.klangner.qtiplayer.client.module.IResponse;
+import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.util.IDomElementFactory;
 import com.klangner.qtiplayer.client.util.XmlElement;
 
@@ -18,9 +18,9 @@ import com.klangner.qtiplayer.client.util.XmlElement;
 public class TextModule extends Widget implements IActivity{
 	
 	/** response processing interface */
-	private IResponse 	response;
+	private IModuleSocket		moduleSocket;
 	/** XML root */
-	private XmlElement xmlRoot;
+	private XmlElement 			xmlRoot;
 	/** All sub widgets */
 	private HashMap<String, ITextControl>	controls = new HashMap<String, ITextControl>();
 
@@ -29,10 +29,10 @@ public class TextModule extends Widget implements IActivity{
 	 * constructor 
 	 * @param node
 	 */
-	public TextModule(Element node, IResponse 	response){
+	public TextModule(Element node, IModuleSocket	moduleSocket){
 
 		this.xmlRoot = new XmlElement(node);
-		this.response = response;
+		this.moduleSocket = moduleSocket;
 		
 		// Convert into text
 		xmlRoot.setDomElementFactory(new IDomElementFactory(){
@@ -103,10 +103,10 @@ public class TextModule extends Widget implements IActivity{
 		Widget	widget = null;
 
 		if(element.getNodeName().compareTo("inlineChoiceInteraction") == 0){
-			widget = new SelectionWidget(element, response);	
+			widget = new SelectionWidget(element, moduleSocket);	
 		}
 		else if(element.getNodeName().compareTo("textEntryInteraction") == 0){
-			widget = new TextEntryWidget(element, response);
+			widget = new TextEntryWidget(element, moduleSocket);
 		}
 		
 		if(widget != null){

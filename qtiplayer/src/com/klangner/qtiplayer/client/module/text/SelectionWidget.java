@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.klangner.qtiplayer.client.module.IActivity;
+import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
 import com.klangner.qtiplayer.client.util.XmlElement;
@@ -25,14 +26,15 @@ public class SelectionWidget extends InlineHTML implements ITextControl, IActivi
 
 	/**
 	 * constructor
-	 * @param response
+	 * @param moduleSocket
 	 */
-	public SelectionWidget(Element element, IResponse response){
+	public SelectionWidget(Element element, IModuleSocket moduleSocket){
 		
 		XmlElement choiceElement = new XmlElement(element);
+		String		 responseIdentifier = choiceElement.getAttributeAsString("responseIdentifier"); 
 
 		id = Document.get().createUniqueId();
-		this.response = response;
+		this.response = moduleSocket.getResponse(responseIdentifier);
 		this.shuffle = choiceElement.getAttributeAsBoolean("shuffle");
 		
     listBox = new ListBox();

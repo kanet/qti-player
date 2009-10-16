@@ -2,7 +2,6 @@ package com.klangner.qtiplayer.client.module.choice;
 
 import java.util.Vector;
 
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -10,7 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.klangner.qtiplayer.client.module.IActivity;
-import com.klangner.qtiplayer.client.module.IResponse;
+import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
 import com.klangner.qtiplayer.client.util.XmlElement;
 
@@ -30,14 +29,14 @@ public class ChoiceModule extends Composite implements IActivity{
 	/** option widgets */
 	private Vector<OptionWidget>	options;
 	/** response processing interface */
-	private IResponse 			response;
+	private IModuleSocket 	moduleSocket;
 	
 	
-	public ChoiceModule(Element choiceNode, IResponse response){
+	public ChoiceModule(Element choiceNode, IModuleSocket moduleSocket){
 		
 		choiceElement = new XmlElement(choiceNode);
 
-		this.response = response;
+		this.moduleSocket = moduleSocket;
 		this.multi = (choiceElement.getAttributeAsInt("maxChoices") != 1);
 		this.shuffle = choiceElement.getAttributeAsBoolean("shuffle");
 
@@ -88,7 +87,7 @@ public class ChoiceModule extends Composite implements IActivity{
 		VerticalPanel 	panel = new VerticalPanel();
 		NodeList 				optionNodes = choiceElement.getElementsByTagName("simpleChoice");
 		RandomizedSet<XmlElement>	randomizedNodes = new RandomizedSet<XmlElement>();
-		String					id = Document.get().createUniqueId();
+		String					responseIdentifier = choiceElement.getAttributeAsString("responseIdentifier");
 
 		options = new Vector<OptionWidget>();
 		// Add randomized nodes to shuffle table
@@ -109,7 +108,7 @@ public class ChoiceModule extends Composite implements IActivity{
 				option = randomizedNodes.pull();
 			}
 			
-			button = new OptionWidget(option, response, id, multi);
+			button = new OptionWidget(option, moduleSocket, responseIdentifier, multi);
 			options.add(button);
 			panel.add(button);
 		}

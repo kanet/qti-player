@@ -11,6 +11,8 @@ import com.klangner.qtiplayer.client.module.IResponse;
 
 public class ResponseProcessing implements IResponse{
 
+	/** Response id */
+	private String 					id;
 	/** List of correct ids */
 	private Vector<String> 	correctResponses;
 	/** Values set by IResponse interface */
@@ -26,6 +28,7 @@ public class ResponseProcessing implements IResponse{
 		correctResponses = new Vector<String>();
 		values = new HashSet<String>();
 
+		id = responseDeclarationNode.getAttribute("identifier");
 		for(int i = 0; i < nodes.getLength(); i++){
     	correctResponses.add( nodes.item(i).getFirstChild().getNodeValue() );
     }
@@ -40,6 +43,14 @@ public class ResponseProcessing implements IResponse{
 		return "Score: " + result.getScore() + " out of " + result.getMaxPoints() + " points";
 	}
 
+	/**
+	 * @return id
+	 */
+	public String getID(){
+		return id;
+	}
+	
+	
 	/**
 	 * @return assessment item score
 	 */
@@ -84,6 +95,15 @@ public class ResponseProcessing implements IResponse{
 	 */
 	public void reset() {
 		values.clear();
+	}
+	
+	/**
+	 * 
+	 */
+	public String toString(){
+		String text = new String();
+		
+		return text;
 	}
 
 }

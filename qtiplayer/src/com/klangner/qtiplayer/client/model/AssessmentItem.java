@@ -1,5 +1,6 @@
 package com.klangner.qtiplayer.client.model;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -7,6 +8,8 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.klangner.qtiplayer.client.module.DebugWidget;
+import com.klangner.qtiplayer.client.module.IModuleSocket;
+import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.module.choice.ChoiceModule;
 import com.klangner.qtiplayer.client.module.text.TextModule;
 
@@ -14,7 +17,7 @@ import com.klangner.qtiplayer.client.module.text.TextModule;
 public class AssessmentItem extends AbstractXMLDocument{
 
 	/** check result for this item */
-	private ResponseProcessing	responseProcessing;
+	private HashMap<String, ResponseProcessing> responsesMap = new HashMap<String, ResponseProcessing>();
 	private Vector<Widget>			modules;
 	
 	/**
@@ -44,11 +47,29 @@ public class AssessmentItem extends AbstractXMLDocument{
 	}
 	
 	/**
-	 * @return response processing
+	 * @return item result
 	 */
-	public ResponseProcessing getResponseProcesing(){
-		return responseProcessing;
+	public Result getResult(){
+
+		Result result = new Result();
+		
+		for(ResponseProcessing response: responsesMap.values()){
+			DebugWidget.alert(response.toString());
+			result.merge(response.getResult());
+		}
+		
+		return result;
 	}
+	
+	/** 
+	 * Reset score
+	 */
+	public void reset() {
+
+		for(ResponseProcessing response: responsesMap.values())
+			response.reset();
+	}
+	
 	
 	/**
 	 * fix urls
@@ -57,7 +78,9 @@ public class AssessmentItem extends AbstractXMLDocument{
 	protected void initData(){
 
 		Node			itemBody = getDom().getElementsByTagName("itemBody").item(0); 
+		ResponseProcessing	responseProcessing;
 		NodeList 	nodes;
+		Node			node;
     Widget		module;
 
     
@@ -71,8 +94,11 @@ public class AssessmentItem extends AbstractXMLDocument{
 
     // Create response processing
     nodes = getDom().getElementsByTagName("responseDeclaration");
-    if(nodes.getLength() > 0)
-    	responseProcessing = new ResponseProcessing((Element)nodes.item(0));
+    for(int i = 0; i < nodes.getLength(); i++){
+    	node = nodes.item(i);
+    	responseProcessing = new ResponseProcessing((Element)node);
+    	responsesMap.put(responseProcessing.getID(), responseProcessing);
+    }
 
     // Load modules
     nodes = itemBody.getChildNodes();
@@ -98,9 +124,9 @@ public class AssessmentItem extends AbstractXMLDocument{
 		String nodeName = node.getNodeName();
 		
 		if(nodeName.compareTo("p") == 0 || nodeName.compareTo("blockquote") == 0)
-			return new TextModule(node, responseProcessing);
+			return new TextModule(node, moduleSocket);
 		else if(nodeName.compareTo("choiceInteraction") == 0)
-			return new ChoiceModule(node, responseProcessing);
+			return new ChoiceModule(node, moduleSocket);
 //		else if(nodeName.compareTo("orderInteraction") == 0)
 //			return new OrderModule(node, responseProcessing);
 		else if(node.getNodeType() == Node.ELEMENT_NODE)
@@ -131,5 +157,14 @@ public class AssessmentItem extends AbstractXMLDocument{
     	}
     }
 	}
+
 	
+	private IModuleSocket	moduleSocket = new IModuleSocket(){
+
+		@Override
+		public IResponse getResponse(String id) {
+			return responsesMap.get(id);
+		}
+		
+	};
 }

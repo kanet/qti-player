@@ -187,7 +187,7 @@ public class Player {
    * Called when item is unloaded
    */
 	private void onItemFinished() {
-    results[currentItemIndex] = currentItem.getResponseProcesing().getResult();
+    results[currentItemIndex] = currentItem.getResult();
 	}
 
 
@@ -212,7 +212,7 @@ public class Player {
 
 		results[currentItemIndex] = null;
 		playerView.showFeedback("");
-		currentItem.getResponseProcesing().reset();
+		currentItem.reset();
 		for(int i = 0; i < currentItem.getModuleCount(); i++){
 			if(currentItem.getModule(i) instanceof IActivity){
 				IActivity module = (IActivity)currentItem.getModule(i);
@@ -253,6 +253,7 @@ public class Player {
    */
   private void showItemResult(){
 
+  	Result result = currentItem.getResult();
 		playerView.getCheckButton().setVisible(false);
 		playerView.getResetButton().setVisible(true);
     
@@ -264,7 +265,10 @@ public class Player {
     }
 
     markAnswers();
-    playerView.showFeedback(currentItem.getResponseProcesing().getFeedback());
+    String feedback = "Score: " + result.getScore() + " out of " + 
+    		result.getMaxPoints() + " points";
+
+    playerView.showFeedback(feedback);
   }
 
   

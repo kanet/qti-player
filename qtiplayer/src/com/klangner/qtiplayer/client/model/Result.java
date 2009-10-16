@@ -10,6 +10,15 @@ public class Result {
 	/**
 	 * constructor
 	 */
+	public Result(){
+	
+		this.score = 0;
+		this.maxPoints = 0;
+	}
+
+	/**
+	 * constructor
+	 */
 	public Result(int score, int max){
 	
 		this.score = score;
@@ -28,5 +37,14 @@ public class Result {
 	 */
 	public int getMaxPoints(){
 		return maxPoints;
+	}
+	
+	/**
+	 * Merge data from another result
+	 * @param result
+	 */
+	public void merge(Result result){
+		score += result.getScore();
+		maxPoints += result.getMaxPoints();
 	}
 }
