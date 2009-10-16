@@ -1,7 +1,5 @@
 package com.klangner.qtiplayer.client;
 
-import java.util.Vector;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -13,6 +11,7 @@ import com.klangner.qtiplayer.client.model.Assessment;
 import com.klangner.qtiplayer.client.model.AssessmentItem;
 import com.klangner.qtiplayer.client.model.IDocumentLoaded;
 import com.klangner.qtiplayer.client.model.Result;
+import com.klangner.qtiplayer.client.module.IActivity;
 
 /**
  * Main class with player API
@@ -31,9 +30,9 @@ public class Player {
   /** Current item index. 0 based */
   private int                 currentItemIndex;
   /** current item object */
-  private AssessmentItem      currentItem;
+  private AssessmentItem      currentItem = null;
   /** Item results */
-  private Vector<Result>      results = new Vector<Result>();
+  private Result[]      			results;
   
   
   /**
@@ -75,37 +74,41 @@ public class Player {
     assessment = new Assessment();
     assessment.load(GWT.getHostPageBaseURL() + url, new IDocumentLoaded(){
 
-      public void finishedLoading() {
-        initialize();
+    public void finishedLoading() {
+        onAssessmentLoaded();
       }
     });
   }
-  
+
   /**
-   * Check score
+   * Show assessment item in body part of player
    * @param index
    */
-  private void checkItemScore(){
+  private void loadAssessmentItem(int index){
+  	
+  	if(index >= 0 && index < assessment.getItemCount()){
+	    String  url = assessment.getItemRef(index);
 
-    playerView.getCheckButton().setVisible(false);
-    
-    if(currentItemIndex+1 < assessment.getItemCount()){
-      playerView.getNextButton().setVisible(true);
-    }
-    else{
-      playerView.getFinishButton().setVisible(true);
-    }
-
-    playerView.markErrors();
-    results.add(currentItem.getResponseProcesing().getResult());
-    playerView.showFeedback(currentItem.getResponseProcesing().getFeedback());
+	    // Unload last page
+	    if(currentItem != null)
+	    	onItemFinished();
+	    
+	    currentItem = new AssessmentItem();
+	    currentItemIndex = index;
+	    currentItem.load(url, new IDocumentLoaded(){
+	
+	      public void finishedLoading() {
+	        onItemLoaded();
+	      }
+	    });
+  	}
   }
-
+  
   
   /**
    * Create user interface
    */
-  private void initialize() {
+  private void onAssessmentLoaded() {
     
     RootPanel rootPanel = RootPanel.get(id); 
     Element element = rootPanel.getElement();
@@ -113,15 +116,29 @@ public class Player {
     if(node != null)
       element.removeChild(node);
     
+    results = new Result[assessment.getItemCount()];
+    
     playerView = new PlayerView(assessment);
     rootPanel.add(playerView.getView());
     
     playerView.getCheckButton().addClickHandler(new ClickHandler(){
       public void onClick(ClickEvent event) {
-        checkItemScore();
+        showItemResult();
       }
     });
-
+    
+    playerView.getResetButton().addClickHandler(new ClickHandler(){
+      public void onClick(ClickEvent event) {
+        resetActivities();
+      }
+    });
+    
+    playerView.getPrevButton().addClickHandler(new ClickHandler(){
+      public void onClick(ClickEvent event) {
+        loadAssessmentItem(currentItemIndex-1);
+      }
+    });
+    
     playerView.getNextButton().addClickHandler(new ClickHandler(){
       public void onClick(ClickEvent event) {
         loadAssessmentItem(currentItemIndex+1);
@@ -141,23 +158,73 @@ public class Player {
   
   
   /**
-   * Show assessment item in body part of player
-   * @param index
+   * create view for assessment item
    */
-  private void loadAssessmentItem(int index){
-    String  url = assessment.getItemRef(index);
+  private void onItemLoaded(){
+    
+		playerView.getCheckButton().setVisible(true);
+		playerView.getResetButton().setVisible(false);
 
-    currentItem = new AssessmentItem();
-    currentItemIndex = index;
-
-    currentItem.load(url, new IDocumentLoaded(){
-
-      public void finishedLoading() {
-        showCurrentItem();
-      }
-    });
-
+    playerView.getNextButton().setEnabled(false);
+    playerView.getPrevButton().setEnabled(false);
+    playerView.getFinishButton().setEnabled(false);
+    
+    if(currentItemIndex+1 < assessment.getItemCount()){
+      playerView.getNextButton().setEnabled(true);
+    }else{
+      playerView.getFinishButton().setEnabled(true);
+    }
+    
+    if(currentItemIndex > 0){
+      playerView.getPrevButton().setEnabled(true);
+    }
+    
+    playerView.showPage(currentItem, currentItemIndex+1);
+    
   }
+
+  /**
+   * Called when item is unloaded
+   */
+	private void onItemFinished() {
+    results[currentItemIndex] = currentItem.getResponseProcesing().getResult();
+	}
+
+
+	/**
+	 * Create view for given assessment item and show it in player
+	 * @param index of assessment item
+	 */
+	public void markAnswers(){
+
+		for(int i = 0; i < currentItem.getModuleCount(); i++){
+			if(currentItem.getModule(i) instanceof IActivity){
+				IActivity module = (IActivity)currentItem.getModule(i);
+				module.markAnswers();
+			}
+		}
+	}
+	
+	/**
+	 * Reset
+	 */
+	public void resetActivities(){
+
+		results[currentItemIndex] = null;
+		playerView.showFeedback("");
+		currentItem.getResponseProcesing().reset();
+		for(int i = 0; i < currentItem.getModuleCount(); i++){
+			if(currentItem.getModule(i) instanceof IActivity){
+				IActivity module = (IActivity)currentItem.getModule(i);
+				module.reset();
+			}
+		}
+
+		playerView.getCheckButton().setVisible(true);
+		playerView.getResetButton().setVisible(false);
+		
+	}
+	
   
   /**
    * Show assessment item in body part of player
@@ -166,32 +233,39 @@ public class Player {
   private void showAssessmentResult(){
     int score = 0;
     int max = 0;
-    
-    for(int i = 0; i < results.size(); i++){
-      Result result = results.elementAt(i);
-      score += result.getScore();
-      max += result.getMaxPoints();
+
+    // Unload page to get score
+    onItemFinished();
+    for(Result result : results){
+    	if(result != null){
+	      score += result.getScore();
+	      max += result.getMaxPoints();
+    	}
     }
     
-    playerView.getCheckButton().setVisible(false);
-    playerView.getNextButton().setVisible(false);
-    playerView.getFinishButton().setVisible(false);
-    playerView.showResultPage("Your score is: " + (int)((score * 100)/max) + "%");
+    playerView.showResultPage("Your score is: " + (int)((score * 100)/max) + "% " + score + " points.");
     onAssessmentFinished(jsObject, score, max);
   }
    
   /**
-   * create view for assessment item
+   * Check score
+   * @param index
    */
-  private void showCurrentItem(){
-    
-    playerView.showAssessmentItem(currentItem, currentItemIndex+1);
-    
-    playerView.getCheckButton().setVisible(true);
-    playerView.getNextButton().setVisible(false);
-    playerView.getFinishButton().setVisible(false);
-    
-  }
-  
+  private void showItemResult(){
 
+		playerView.getCheckButton().setVisible(false);
+		playerView.getResetButton().setVisible(true);
+    
+    if(currentItemIndex+1 < assessment.getItemCount()){
+      playerView.getNextButton().setVisible(true);
+    }
+    else{
+      playerView.getFinishButton().setVisible(true);
+    }
+
+    markAnswers();
+    playerView.showFeedback(currentItem.getResponseProcesing().getFeedback());
+  }
+
+  
 }

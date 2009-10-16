@@ -2,6 +2,7 @@ package com.klangner.qtiplayer.client.module.choice;
 
 import java.util.Vector;
 
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -87,6 +88,7 @@ public class ChoiceModule extends Composite implements IActivity{
 		VerticalPanel 	panel = new VerticalPanel();
 		NodeList 				optionNodes = choiceElement.getElementsByTagName("simpleChoice");
 		RandomizedSet<XmlElement>	randomizedNodes = new RandomizedSet<XmlElement>();
+		String					id = Document.get().createUniqueId();
 
 		options = new Vector<OptionWidget>();
 		// Add randomized nodes to shuffle table
@@ -107,7 +109,7 @@ public class ChoiceModule extends Composite implements IActivity{
 				option = randomizedNodes.pull();
 			}
 			
-			button = new OptionWidget(option, response, multi);
+			button = new OptionWidget(option, response, id, multi);
 			options.add(button);
 			panel.add(button);
 		}

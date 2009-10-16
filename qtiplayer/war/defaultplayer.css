@@ -38,6 +38,8 @@
 }
 
 .qp-footer{
+	width:	100%;
+	background-color: lightgrey;
 	margin-top: 10px;
 	padding: 4px;
 }
@@ -45,10 +47,18 @@
 .qp-check-button{
 }
 
+.qp-reset-button{
+}
+
+.qp-prev-button{
+	margin-left: 4px;
+}
+
 .qp-next-button{
 }
 
 .qp-finish-button{
+	margin-left: 4px;
 }
 
 

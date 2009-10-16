@@ -13,7 +13,7 @@ public class ResponseProcessing implements IResponse{
 
 	/** List of correct ids */
 	private Vector<String> 	correctResponses;
-	/** Values set by set IResponse interface */
+	/** Values set by IResponse interface */
 	private Set<String>			values;
 	
 	/**
@@ -77,6 +77,13 @@ public class ResponseProcessing implements IResponse{
 	 */
 	public void unset(String key) {
 		values.remove(key);
+	}
+
+	/**
+	 * Reset results
+	 */
+	public void reset() {
+		values.clear();
 	}
 
 }

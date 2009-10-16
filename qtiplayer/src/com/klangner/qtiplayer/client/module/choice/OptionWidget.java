@@ -1,6 +1,5 @@
 package com.klangner.qtiplayer.client.module.choice;
 
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -17,12 +16,15 @@ public class OptionWidget extends Composite implements IActivity{
 	private HorizontalPanel	panel;
 	/** option button */
 	private CheckBox	button;
+	/** option identifier */
+	private String		identifier;
 	/** Response processing */
 	private IResponse response;
 	
-	public OptionWidget(XmlElement element, IResponse response, boolean multi){
+	public OptionWidget(XmlElement element, IResponse response, String id, boolean multi){
 		
 		this.response = response;
+		this.identifier = element.getAttributeAsString("identifier"); 
 		
 		panel = new HorizontalPanel();
 		panel.setStyleName("qp-choice-option");
@@ -30,9 +32,8 @@ public class OptionWidget extends Composite implements IActivity{
 		if(multi)
 			button = new CheckBox();
 		else
-			button = new RadioButton(Document.get().createUniqueId());
+			button = new RadioButton(id);
 		button.setHTML(element.getTextAsHtml());
-		button.setName(element.getAttributeAsString("identifier"));
 		button.addValueChangeHandler(new OptionHandler());
 
 		panel.add(button);
@@ -44,21 +45,19 @@ public class OptionWidget extends Composite implements IActivity{
 	 */
 	public void markAnswers() {
 
-		panel.clear();
 		if(button.getValue()){
-			if( response.isCorrectAnswer(button.getName()) )
+			if( response.isCorrectAnswer(identifier) )
 				button.setStyleName("qp-choice-selected-correct");
 			else
 				button.setStyleName("qp-choice-selected-wrong");
 		}
 		else{
-			if( response.isCorrectAnswer(button.getName()) )
+			if( response.isCorrectAnswer(identifier) )
 				button.setStyleName("qp-choice-notselected-wrong");
 			else
 				button.setStyleName("qp-choice-notselected-correct");
 		}
 		
-		panel.add(button);
 		setEnabled(false);
 	}
 
@@ -67,10 +66,10 @@ public class OptionWidget extends Composite implements IActivity{
 	 */
 	public void reset() {
 
-		panel.clear();
 		button.setStyleName("");
-		panel.add(button);
+		button.setValue(false);
 		setEnabled(true);
+		
 	}
 
 	/**
@@ -96,9 +95,9 @@ public class OptionWidget extends Composite implements IActivity{
 		public void onValueChange(ValueChangeEvent<Boolean> event) {
 			CheckBox button = (CheckBox)event.getSource();
 			if(button.getValue())
-				response.set(button.getName());
+				response.set(identifier);
 			else
-				response.unset(button.getName());
+				response.unset(identifier);
 		}
 	}
 
