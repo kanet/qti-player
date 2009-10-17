@@ -9,7 +9,7 @@ import com.google.gwt.xml.client.NodeList;
 import com.klangner.qtiplayer.client.module.IResponse;
 
 
-public class ResponseProcessing implements IResponse{
+public class Response implements IResponse{
 
 	/** Response id */
 	private String 					id;
@@ -22,7 +22,7 @@ public class ResponseProcessing implements IResponse{
 	 * constructor
 	 * @param item associated with this processing
 	 */
-	public ResponseProcessing(Element responseDeclarationNode){
+	public Response(Element responseDeclarationNode){
     NodeList nodes = responseDeclarationNode.getElementsByTagName("value");
 
 		correctResponses = new Vector<String>();

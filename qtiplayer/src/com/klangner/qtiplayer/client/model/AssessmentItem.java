@@ -17,7 +17,7 @@ import com.klangner.qtiplayer.client.module.text.TextModule;
 public class AssessmentItem extends AbstractXMLDocument{
 
 	/** check result for this item */
-	private HashMap<String, ResponseProcessing> responsesMap = new HashMap<String, ResponseProcessing>();
+	private HashMap<String, Response> responsesMap = new HashMap<String, Response>();
 	private Vector<Widget>			modules;
 	
 	/**
@@ -53,7 +53,7 @@ public class AssessmentItem extends AbstractXMLDocument{
 
 		Result result = new Result();
 		
-		for(ResponseProcessing response: responsesMap.values()){
+		for(Response response: responsesMap.values()){
 			DebugWidget.alert(response.toString());
 			result.merge(response.getResult());
 		}
@@ -66,7 +66,7 @@ public class AssessmentItem extends AbstractXMLDocument{
 	 */
 	public void reset() {
 
-		for(ResponseProcessing response: responsesMap.values())
+		for(Response response: responsesMap.values())
 			response.reset();
 	}
 	
@@ -78,7 +78,7 @@ public class AssessmentItem extends AbstractXMLDocument{
 	protected void initData(){
 
 		Node			itemBody = getDom().getElementsByTagName("itemBody").item(0); 
-		ResponseProcessing	responseProcessing;
+		Response	responseProcessing;
 		NodeList 	nodes;
 		Node			node;
     Widget		module;
@@ -96,7 +96,7 @@ public class AssessmentItem extends AbstractXMLDocument{
     nodes = getDom().getElementsByTagName("responseDeclaration");
     for(int i = 0; i < nodes.getLength(); i++){
     	node = nodes.item(i);
-    	responseProcessing = new ResponseProcessing((Element)node);
+    	responseProcessing = new Response((Element)node);
     	responsesMap.put(responseProcessing.getID(), responseProcessing);
     }
 
