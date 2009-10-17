@@ -35,15 +35,6 @@ public class Response implements IResponse{
 	}
 	
 	/**
-	 * @return feedback based on score
-	 */
-	public String getFeedback(){
-		Result result = getResult();
-		
-		return "Score: " + result.getScore() + " out of " + result.getMaxPoints() + " points";
-	}
-
-	/**
 	 * @return id
 	 */
 	public String getID(){
@@ -97,13 +88,4 @@ public class Response implements IResponse{
 		values.clear();
 	}
 	
-	/**
-	 * 
-	 */
-	public String toString(){
-		String text = new String();
-		
-		return text;
-	}
-
 }

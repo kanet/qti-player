@@ -30,8 +30,7 @@ public class AssessmentItemTest extends GWTTestCase {
   		
   	});
   	
-  	delayTestFinish(500);
-
+  	delayTestFinish(2000);
   }
 
 }
