@@ -6,10 +6,12 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.klangner.qtiplayer.client.model.Assessment;
 import com.klangner.qtiplayer.client.model.AssessmentItem;
 import com.klangner.qtiplayer.client.model.IDocumentLoaded;
+import com.klangner.qtiplayer.client.model.LoadException;
 import com.klangner.qtiplayer.client.model.Result;
 import com.klangner.qtiplayer.client.module.IActivity;
 
@@ -72,12 +74,19 @@ public class Player {
   public void loadAssessment(String url){
     
     assessment = new Assessment();
-    assessment.load(GWT.getHostPageBaseURL() + url, new IDocumentLoaded(){
+    try {
+			assessment.load(GWT.getHostPageBaseURL() + url, new IDocumentLoaded(){
 
-    public void finishedLoading() {
-        onAssessmentLoaded();
-      }
-    });
+			public void finishedLoading() {
+			    onAssessmentLoaded();
+			  }
+			});
+		} catch (LoadException e) {
+			Label	errorLabel = new Label(e.getMessage());
+			errorLabel.setStyleName("qp-error");
+
+			RootPanel.get(id).add(errorLabel);
+		}
   }
 
   /**
@@ -95,12 +104,17 @@ public class Player {
 	    
 	    currentItem = new AssessmentItem();
 	    currentItemIndex = index;
-	    currentItem.load(url, new IDocumentLoaded(){
-	
-	      public void finishedLoading() {
-	        onItemLoaded();
-	      }
-	    });
+	    try {
+				currentItem.load(url, new IDocumentLoaded(){
+
+				  public void finishedLoading() {
+				    onItemLoaded();
+				  }
+				});
+			} catch (LoadException e) {
+				playerView.getCheckButton().setVisible(false);
+				playerView.showError(e.getMessage());
+			}
   	}
   }
   

@@ -22,8 +22,9 @@ public class AssessmentItemTest extends GWTTestCase {
 
   /**
    * Check if XML is loaded
+   * @throws LoadException 
    */
-  public void testLoad() {
+  public void testLoad() throws LoadException {
   	
   	item = new AssessmentItem();
 
@@ -41,8 +42,9 @@ public class AssessmentItemTest extends GWTTestCase {
 
   /**
    * Check if XML is loaded
+   * @throws LoadException 
    */
-  public void testResponse() {
+  public void testResponse() throws LoadException {
 
   	item = new AssessmentItem();
   	item.load(GWT.getModuleBaseURL() + "items/choice.xml", new IDocumentLoaded(){

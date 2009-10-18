@@ -5,7 +5,10 @@
 	padding: 5px;
 	width: 100%;
 }
-	
+
+.qp-error{
+	color:	red;
+}
 	
 .qp-header{
 	width:	100%;

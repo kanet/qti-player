@@ -131,6 +131,19 @@ public class PlayerView {
 	}
 	
 	/**
+	 * Show error instead of page
+	 */
+	public void showError(String message){
+
+		Label	errorLabel = new Label(message);
+		bodyPanel.clear();
+		feedbackLabel.setText("");
+
+		errorLabel.setStyleName("qp-error");
+		bodyPanel.add(errorLabel);
+	}
+	
+	/**
 	 * Create view for given assessment item and show it in player
 	 * @param index of assessment item
 	 */
