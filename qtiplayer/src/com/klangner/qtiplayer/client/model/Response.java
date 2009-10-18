@@ -88,4 +88,8 @@ public class Response implements IResponse{
 		values.clear();
 	}
 	
+	public String toString(){
+		
+		return "Id: " + id + "\n" + correctResponses; 
+	}
 }

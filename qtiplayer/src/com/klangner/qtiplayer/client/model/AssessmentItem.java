@@ -54,7 +54,6 @@ public class AssessmentItem extends AbstractXMLDocument{
 		Result result = new Result();
 		
 		for(Response response: responsesMap.values()){
-			DebugWidget.alert(response.toString());
 			result.merge(response.getResult());
 		}
 		
@@ -114,6 +113,15 @@ public class AssessmentItem extends AbstractXMLDocument{
     }
 	}
 
+	/**
+	 * Protected function to allow junit testing.
+	 * @return
+	 */
+	protected IModuleSocket	getModuleSocket(){
+		return moduleSocket;
+	}
+	
+	
 	/**
 	 * Create module based on passed xml node
 	 * @param node - dom node

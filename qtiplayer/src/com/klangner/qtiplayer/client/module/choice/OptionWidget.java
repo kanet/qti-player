@@ -25,10 +25,12 @@ public class OptionWidget extends Composite implements IActivity{
 	private String		identifier;
 	
 	
-	public OptionWidget(XmlElement element, IModuleSocket moduleSocket, String id, boolean multi){
+	public OptionWidget(XmlElement element, IModuleSocket moduleSocket, 
+			String responseId, boolean multi){
 		
 //		this.moduleSocket = moduleSocket;
-		this.response = moduleSocket.getResponse(id); 
+		this.response = moduleSocket.getResponse(responseId); 
+		this.identifier = element.getAttributeAsString("identifier");
 		
 		panel = new HorizontalPanel();
 		panel.setStyleName("qp-choice-option");
@@ -36,7 +38,7 @@ public class OptionWidget extends Composite implements IActivity{
 		if(multi)
 			button = new CheckBox();
 		else
-			button = new RadioButton(id);
+			button = new RadioButton(responseId);
 		button.setHTML(element.getTextAsHtml());
 		button.addValueChangeHandler(new OptionHandler());
 
