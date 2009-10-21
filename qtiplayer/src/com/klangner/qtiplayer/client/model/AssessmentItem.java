@@ -7,10 +7,10 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
-import com.klangner.qtiplayer.client.module.DebugWidget;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.module.choice.ChoiceModule;
+import com.klangner.qtiplayer.client.module.debug.DebugWidget;
 import com.klangner.qtiplayer.client.module.text.TextModule;
 
 

@@ -1,4 +1,4 @@
-package com.klangner.qtiplayer.client.module;
+package com.klangner.qtiplayer.client.module.debug;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
@@ -17,10 +17,5 @@ public class DebugWidget extends Composite{
 		htmlLabel.setStyleName("qp-text-module");
 		initWidget(htmlLabel);
 	}
-	
-	public static native void alert(String msg) /*-{
-	$wnd.alert(msg);
-}-*/;
-
 	
 }
