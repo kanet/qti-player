@@ -1,5 +1,6 @@
 package com.klangner.qtiplayer.client.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -9,17 +10,52 @@ import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IResponse;
+import com.klangner.qtiplayer.client.module.IStateful;
 import com.klangner.qtiplayer.client.module.choice.ChoiceModule;
 import com.klangner.qtiplayer.client.module.debug.DebugWidget;
 import com.klangner.qtiplayer.client.module.text.TextModule;
 
 
-public class AssessmentItem extends AbstractXMLDocument{
+public class AssessmentItem extends AbstractXMLDocument implements IStateful{
 
 	/** check result for this item */
 	private HashMap<String, Response> responsesMap = new HashMap<String, Response>();
 	private Vector<Widget>			modules;
 	
+  /**
+   * @see IStateful#getState()
+   */
+  public Serializable getState() {
+    Vector<Serializable>  state = new Vector<Serializable>();
+    
+    for(Widget module : modules){
+      if(module instanceof IStateful){
+        state.add(((IStateful)module).getState());
+      }
+    }
+    
+    return state;
+  }
+
+  /**
+   * @see IStateful#setState(Serializable)
+   */
+  @SuppressWarnings("unchecked")
+  public void setState(Serializable newState) {
+    
+    if(newState instanceof Vector){
+      Vector<Serializable> state = (Vector<Serializable>)newState;
+      
+      int index = 0;
+      for(Widget module : modules){
+        if(module instanceof IStateful){
+          ((IStateful)module).setState(state.get(index));
+          index ++;
+        }
+      }
+    }
+  }
+  
 	/**
 	 * @return item title
 	 */

@@ -1,5 +1,7 @@
 package com.klangner.qtiplayer.client.module.choice;
 
+import java.io.Serializable;
+
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -9,9 +11,10 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IResponse;
+import com.klangner.qtiplayer.client.module.IStateful;
 import com.klangner.qtiplayer.client.util.XmlElement;
 
-public class OptionWidget extends Composite implements IActivity{
+public class OptionWidget extends Composite implements IActivity, IStateful{
 
 	/** socket */
 //	private IModuleSocket moduleSocket;
@@ -83,6 +86,22 @@ public class OptionWidget extends Composite implements IActivity{
 	 */
 	public void showCorrectAnswers() {
 	}
+	
+  /**
+   * @see IStateful#getState()
+   */
+  public Serializable getState() {
+    return new Boolean(button.getValue());
+  }
+
+  /**
+   * @see IStateful#setState(Serializable)
+   */
+  public void setState(Serializable newState) {
+    Boolean state = (Boolean)newState;
+    button.setValue(state);
+  }
+  
 
 	/**
 	 * Make this widget read only

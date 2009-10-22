@@ -1,5 +1,7 @@
 package com.klangner.qtiplayer.client;
 
+import java.io.Serializable;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -35,6 +37,8 @@ public class Player {
   private AssessmentItem      currentItem = null;
   /** Item results */
   private Result[]      			results;
+  /** Item states */
+  private Serializable[]      states;
   
   
   /**
@@ -131,6 +135,7 @@ public class Player {
       element.removeChild(node);
     
     results = new Result[assessment.getItemCount()];
+    states = new Serializable[assessment.getItemCount()];
     
     playerView = new PlayerView(assessment);
     rootPanel.add(playerView.getView());
@@ -193,6 +198,10 @@ public class Player {
       playerView.getPrevButton().setEnabled(true);
     }
     
+    // Load state
+    if(states[currentItemIndex] != null)
+      currentItem.setState(states[currentItemIndex]);
+    
     playerView.showPage(currentItem, currentItemIndex+1);
     
   }
@@ -201,6 +210,7 @@ public class Player {
    * Called when item is unloaded
    */
 	private void onItemFinished() {
+	  states[currentItemIndex] = currentItem.getState();
     results[currentItemIndex] = currentItem.getResult();
 	}
 

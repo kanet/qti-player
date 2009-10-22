@@ -1,5 +1,6 @@
 package com.klangner.qtiplayer.client.module.choice;
 
+import java.io.Serializable;
 import java.util.Vector;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -10,6 +11,7 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
+import com.klangner.qtiplayer.client.module.IStateful;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
 import com.klangner.qtiplayer.client.util.XmlElement;
 
@@ -18,7 +20,7 @@ import com.klangner.qtiplayer.client.util.XmlElement;
  * @author Krzysztof Langner
  *
  */
-public class ChoiceModule extends Composite implements IActivity{
+public class ChoiceModule extends Composite implements IActivity, IStateful{
 
 	/** root element for this module */
 	private XmlElement			choiceElement;
@@ -78,6 +80,34 @@ public class ChoiceModule extends Composite implements IActivity{
 	}
 
 	
+  /**
+   * @see IStateful#getState()
+   */
+  public Serializable getState() {
+    Vector<Serializable>  state = new Vector<Serializable>();
+    
+    for(OptionWidget option : options){
+      state.add(option.getState());
+    }
+    
+    return state;
+  }
+
+  /**
+   * @see IStateful#setState(Serializable)
+   */
+  @SuppressWarnings("unchecked")
+  public void setState(Serializable newState) {
+
+    if(newState instanceof Vector){
+      Vector<Serializable> state = (Vector<Serializable>)newState;
+      
+      for(int i = 0; i < options.size(); i++){
+        options.get(i).setState(state.elementAt(i));
+      }
+    }
+  }
+  
 	/**
 	 * Get options view
 	 * @return
@@ -134,5 +164,5 @@ public class ChoiceModule extends Composite implements IActivity{
 		return promptHTML;
 		
 	}
-	
+
 }
