@@ -103,6 +103,15 @@ public class OptionWidget extends Composite implements IActivity, IStateful{
   }
   
 
+  /**
+   * Return module id
+   * @return
+   */
+  public String getId(){
+    return identifier;
+  }
+  
+  
 	/**
 	 * Make this widget read only
 	 */

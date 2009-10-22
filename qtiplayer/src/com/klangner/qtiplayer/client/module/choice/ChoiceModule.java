@@ -1,6 +1,7 @@
 package com.klangner.qtiplayer.client.module.choice;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Vector;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -84,10 +85,10 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
    * @see IStateful#getState()
    */
   public Serializable getState() {
-    Vector<Serializable>  state = new Vector<Serializable>();
+    HashMap<String, Serializable>  state = new HashMap<String, Serializable>();
     
     for(OptionWidget option : options){
-      state.add(option.getState());
+      state.put(option.getId(), option.getState());
     }
     
     return state;
@@ -99,11 +100,11 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
   @SuppressWarnings("unchecked")
   public void setState(Serializable newState) {
 
-    if(newState instanceof Vector){
-      Vector<Serializable> state = (Vector<Serializable>)newState;
+    if(newState instanceof HashMap){
+      HashMap<String, Serializable> state = (HashMap<String, Serializable>)newState;
       
-      for(int i = 0; i < options.size(); i++){
-        options.get(i).setState(state.elementAt(i));
+      for(OptionWidget option : options){
+        option.setState(state.get(option.getId()));
       }
     }
   }
