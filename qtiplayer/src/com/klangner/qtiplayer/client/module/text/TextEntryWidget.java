@@ -1,5 +1,7 @@
 package com.klangner.qtiplayer.client.module.text;
 
+import java.io.Serializable;
+
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
@@ -7,9 +9,10 @@ import com.google.gwt.xml.client.Element;
 import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IResponse;
+import com.klangner.qtiplayer.client.module.IStateful;
 import com.klangner.qtiplayer.client.util.XmlElement;
 
-public class TextEntryWidget extends InlineHTML implements ITextControl, IActivity{
+public class TextEntryWidget extends InlineHTML implements ITextControl, IActivity, IStateful{
 
 	/** response processing interface */
 	private IResponse 	response;
@@ -82,4 +85,21 @@ public class TextEntryWidget extends InlineHTML implements ITextControl, IActivi
 	public void showCorrectAnswers() {
 	  textBox.setEnabled(false);
 	}
+	
+  /**
+   * @see IStateful#getState()
+   */
+  public Serializable getState() {
+    return textBox.getText();
+  }
+
+  /**
+   * @see IStateful#setState(Serializable)
+   */
+  public void setState(Serializable newState) {
+    String state = (String)newState;
+    textBox.setText(state);
+  }
+  
+
 }

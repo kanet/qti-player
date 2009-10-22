@@ -1,12 +1,15 @@
 package com.klangner.qtiplayer.client.module.text;
 
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Vector;
 
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
+import com.klangner.qtiplayer.client.module.IStateful;
 import com.klangner.qtiplayer.client.util.IDomElementFactory;
 import com.klangner.qtiplayer.client.util.XmlElement;
 
@@ -15,7 +18,7 @@ import com.klangner.qtiplayer.client.util.XmlElement;
  * 
  * @author klangner
  */
-public class TextModule extends Widget implements IActivity{
+public class TextModule extends Widget implements IActivity, IStateful{
 	
 	/** response processing interface */
 	private IModuleSocket		moduleSocket;
@@ -67,13 +70,58 @@ public class TextModule extends Widget implements IActivity{
 	 * @see IActivity#reset()
 	 */
 	public void reset() {
+    for(ITextControl control : controls.values()){
+      if(control instanceof IActivity){
+        ((IActivity)control).reset();
+      }
+    }
 	}
 
 	/**
 	 * @see IActivity#showCorrectAnswers()
 	 */
 	public void showCorrectAnswers() {
+    for(ITextControl control : controls.values()){
+      if(control instanceof IActivity){
+        ((IActivity)control).showCorrectAnswers();
+      }
+    }
 	}
+	
+  /**
+   * @see IStateful#getState()
+   */
+  public Serializable getState() {
+    Vector<Serializable>  state = new Vector<Serializable>();
+    
+    for(ITextControl control : controls.values()){
+      if(control instanceof IStateful){
+        state.add( ((IStateful)control).getState() );
+      }
+    }
+    
+    return state;
+  }
+
+  /**
+   * @see IStateful#setState(Serializable)
+   */
+  @SuppressWarnings("unchecked")
+  public void setState(Serializable newState) {
+
+    if(newState instanceof Vector){
+      Vector<Serializable> state = (Vector<Serializable>)newState;
+
+      int index = 0;
+      for(ITextControl control : controls.values()){
+        if(control instanceof IStateful){
+          ((IStateful)control).setState( state.elementAt(index) );
+          index ++;
+        }
+      }
+    }
+  }
+  
 	
 	/**
 	 * Catch inner controls events.

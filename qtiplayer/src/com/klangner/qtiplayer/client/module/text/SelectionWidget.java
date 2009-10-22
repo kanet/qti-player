@@ -1,5 +1,7 @@
 package com.klangner.qtiplayer.client.module.text;
 
+import java.io.Serializable;
+
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.ListBox;
@@ -8,10 +10,11 @@ import com.google.gwt.xml.client.NodeList;
 import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IResponse;
+import com.klangner.qtiplayer.client.module.IStateful;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
 import com.klangner.qtiplayer.client.util.XmlElement;
 
-public class SelectionWidget extends InlineHTML implements ITextControl, IActivity{
+public class SelectionWidget extends InlineHTML implements ITextControl, IActivity, IStateful{
 
 	/** response processing interface */
 	private IResponse 	response;
@@ -92,6 +95,28 @@ public class SelectionWidget extends InlineHTML implements ITextControl, IActivi
 	  listBox.setEnabled(false);
 	}
 	
+  /**
+   * @see IStateful#getState()
+   */
+  public Serializable getState() {
+    return lastValue;
+  }
+
+  /**
+   * @see IStateful#setState(Serializable)
+   */
+  public void setState(Serializable newState) {
+    String state = (String)newState;
+    
+    lastValue = state;
+    for(int i = 0; i < listBox.getItemCount(); i++){
+      if( listBox.getValue(i).compareTo(state) == 0){
+        listBox.setSelectedIndex(i);
+        break;
+      }
+    }
+  }
+  
 	/**
 	 * init widget view
 	 * @param element
