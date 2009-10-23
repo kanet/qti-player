@@ -99,6 +99,7 @@ public class TextEntryWidget extends InlineHTML implements ITextControl, IActivi
   public void setState(Serializable newState) {
     String state = (String)newState;
     textBox.setText(state);
+    lastValue = state;
   }
   
 
