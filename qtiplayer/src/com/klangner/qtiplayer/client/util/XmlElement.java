@@ -70,16 +70,9 @@ public class XmlElement {
 	 * @param tagName
 	 * @return first element or null if not found
 	 */
-	public Element getElement(String tagName){
+	public Element getElement(){
 		
-		Element	node = null;
-		NodeList nodeList = element.getElementsByTagName(tagName);
-		
-		if(nodeList.getLength() > 0){
-			node = (Element)nodeList.item(0);
-		}
-		
-		return node;
+		return element;
 		
 	}
 	
@@ -91,25 +84,6 @@ public class XmlElement {
 	 */
 	public NodeList getElementsByTagName(String tagName){
 		return element.getElementsByTagName(tagName);
-	}
-	
-	/**
-	 * get all TEXT nodes
-	 * @return contents of tag as html
-	 */
-	public String getText(){
-		String		text = new String();
-		NodeList	nodes = element.getChildNodes();
-		
-		for(int i = 0; i < nodes.getLength(); i ++){
-			Node node = nodes.item(i);
-		
-			if(node.getNodeType() == Node.TEXT_NODE){
-				text = text + node.getNodeValue();
-			}
-		}
-		
-		return text;
 	}
 	
 	/**

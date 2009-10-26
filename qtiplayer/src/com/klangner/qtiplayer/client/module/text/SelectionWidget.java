@@ -12,6 +12,7 @@ import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.module.IStateful;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
+import com.klangner.qtiplayer.client.util.XMLUtil;
 import com.klangner.qtiplayer.client.util.XmlElement;
 
 public class SelectionWidget extends InlineHTML implements ITextControl, IActivity, IStateful{
@@ -129,8 +130,9 @@ public class SelectionWidget extends InlineHTML implements ITextControl, IActivi
 		
 		for(int i = 0; i < nodes.getLength(); i++){
 			if(nodes.item(i).getNodeName().compareTo("inlineChoice") == 0){
-				XmlElement choiceElement = new XmlElement((Element)nodes.item(i));
-				listBox.addItem(choiceElement.getText(), choiceElement.getAttributeAsString("identifier"));
+				Element choiceElement = (Element)nodes.item(i);
+				listBox.addItem(XMLUtil.getText(choiceElement), 
+				    XMLUtil.getAttributeAsString(choiceElement, "identifier"));
 			}
 		}
 	}
@@ -140,7 +142,7 @@ public class SelectionWidget extends InlineHTML implements ITextControl, IActivi
 	 * @param element
 	 */
 	private void initRandom(Element inlineChoiceElement){
-		RandomizedSet<XmlElement>	randomizedNodes = new RandomizedSet<XmlElement>();
+		RandomizedSet<Element>	randomizedNodes = new RandomizedSet<Element>();
 		NodeList nodes = inlineChoiceElement.getChildNodes();
 
 		// Add no answer as first option
@@ -149,14 +151,14 @@ public class SelectionWidget extends InlineHTML implements ITextControl, IActivi
 		// Add nodes to temporary list
 		for(int i = 0; i < nodes.getLength(); i++){
 			if(nodes.item(i).getNodeName().compareTo("inlineChoice") == 0){
-				XmlElement choiceElement = new XmlElement((Element)nodes.item(i));
-				randomizedNodes.push(choiceElement);
+				randomizedNodes.push((Element)nodes.item(i));
 			}
 		}
 		
 		while(randomizedNodes.hasMore()){
-			XmlElement choiceElement = randomizedNodes.pull();
-			listBox.addItem(choiceElement.getText(), choiceElement.getAttributeAsString("identifier"));
+			Element choiceElement = randomizedNodes.pull();
+      listBox.addItem(XMLUtil.getText(choiceElement), 
+          XMLUtil.getAttributeAsString(choiceElement, "identifier"));
 		}
 		
 	}

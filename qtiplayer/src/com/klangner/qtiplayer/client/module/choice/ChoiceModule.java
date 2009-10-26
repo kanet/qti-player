@@ -14,7 +14,7 @@ import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IStateful;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
-import com.klangner.qtiplayer.client.util.XmlElement;
+import com.klangner.qtiplayer.client.util.XMLUtil;
 
 /**
  * Widget with choice implementation
@@ -24,7 +24,7 @@ import com.klangner.qtiplayer.client.util.XmlElement;
 public class ChoiceModule extends Composite implements IActivity, IStateful{
 
 	/** root element for this module */
-	private XmlElement			choiceElement;
+	private Element			    choiceElement;
 	/** Work mode single or multiple choice */
 	private boolean 				multi = false;
 	/** Shuffle? */
@@ -37,11 +37,11 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
 	
 	public ChoiceModule(Element choiceNode, IModuleSocket moduleSocket){
 		
-		choiceElement = new XmlElement(choiceNode);
+		this.choiceElement = choiceNode;
 
 		this.moduleSocket = moduleSocket;
-		this.multi = (choiceElement.getAttributeAsInt("maxChoices") != 1);
-		this.shuffle = choiceElement.getAttributeAsBoolean("shuffle");
+		this.multi = (XMLUtil.getAttributeAsInt(choiceElement, "maxChoices") != 1);
+		this.shuffle = XMLUtil.getAttributeAsBoolean(choiceElement, "shuffle");
 
 		VerticalPanel vp = new VerticalPanel();
 		
@@ -117,25 +117,27 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
 		
 		VerticalPanel 	panel = new VerticalPanel();
 		NodeList 				optionNodes = choiceElement.getElementsByTagName("simpleChoice");
-		RandomizedSet<XmlElement>	randomizedNodes = new RandomizedSet<XmlElement>();
-		String					responseIdentifier = choiceElement.getAttributeAsString("responseIdentifier");
+		RandomizedSet<Element>	randomizedNodes = new RandomizedSet<Element>();
+		String					responseIdentifier = 
+		  XMLUtil.getAttributeAsString(choiceElement, "responseIdentifier");
 
+		
 		options = new Vector<OptionWidget>();
 		// Add randomized nodes to shuffle table
 		if(shuffle){
 			for(int i = 0; i < optionNodes.getLength(); i++){
-				XmlElement	option = new XmlElement((Element)optionNodes.item(i));
-				if(!option.getAttributeAsBoolean("fixed"))
+				Element	option = (Element)optionNodes.item(i);
+				if(!XMLUtil.getAttributeAsBoolean(option, "fixed"))
 					randomizedNodes.push(option);
 			}
 		}
 		
 		// Create buttons
 		for(int i = 0; i < optionNodes.getLength(); i++){
-			XmlElement		option = new XmlElement((Element)optionNodes.item(i));
+		  Element		option = (Element)optionNodes.item(i);
 			OptionWidget 	button;
 			
-			if(shuffle && !option.getAttributeAsBoolean("fixed") ){
+			if(shuffle && !XMLUtil.getAttributeAsBoolean(option, "fixed") ){
 				option = randomizedNodes.pull();
 			}
 			
@@ -155,7 +157,7 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
 	private Widget getPromptView(){
 		
 		HTML	promptHTML = new HTML();
-		Element prompt = choiceElement.getElement("prompt");
+		Element prompt = XMLUtil.getFirstElementWithTagName(choiceElement, "prompt");
 		
 		promptHTML.setStyleName("qp-choice-prompt");
 		if(prompt != null){

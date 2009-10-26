@@ -6,13 +6,16 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.xml.client.Element;
 import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.module.IStateful;
-import com.klangner.qtiplayer.client.util.XmlElement;
+import com.klangner.qtiplayer.client.util.XMLUtil;
 
 public class OptionWidget extends Composite implements IActivity, IStateful{
 
@@ -21,35 +24,33 @@ public class OptionWidget extends Composite implements IActivity, IStateful{
 	/** response processing interface */
 	private IResponse 	response;
 	/** Option panel */
-	private HorizontalPanel	panel;
+	private Panel	panel;
 	/** option button */
-	private CheckBox	button;
+	private CheckBox	 button;
+	/** feedback label */
+	private Label      feedbackLabel = null;
 	/** option identifier */
-	private String		identifier;
+	private String		 identifier;
+	/** feedback */
+	private String     feedback = null;
 	
 	
-	public OptionWidget(XmlElement element, IModuleSocket moduleSocket, 
+	public OptionWidget(Element element, IModuleSocket moduleSocket, 
 			String responseId, boolean multi){
 		
 //		this.moduleSocket = moduleSocket;
 		this.response = moduleSocket.getResponse(responseId); 
-		this.identifier = element.getAttributeAsString("identifier");
+		this.identifier = XMLUtil.getAttributeAsString(element, "identifier");
 		
-		panel = new HorizontalPanel();
+		panel = new VerticalPanel();
 		panel.setStyleName("qp-choice-option");
-		
-		if(multi)
-			button = new CheckBox();
-		else
-			button = new RadioButton(responseId);
-		button.setHTML(element.getTextAsHtml());
-		button.addValueChangeHandler(new OptionHandler());
 
-		panel.add(button);
+		createButton(element, responseId, multi);
+
 		initWidget(panel);
 	}
-	
-	/**
+
+  /**
 	 * @see IActivity#markAnswers()
 	 */
 	public void markAnswers() {
@@ -119,20 +120,67 @@ public class OptionWidget extends Composite implements IActivity, IStateful{
 		button.setEnabled(mode);
 	}
 	
+  /** 
+   * Create button
+   * @param element XML element
+   * @param multi check box or radio button?
+   */
+  private void createButton(Element element, String responseId, boolean multi) {
+
+    if(multi)
+      button = new CheckBox();
+    else
+      button = new RadioButton(responseId);
+    button.setHTML(XMLUtil.getText(element));
+    button.addValueChangeHandler(new OptionHandler());
+    
+    panel.add(button);
+
+    Element feedbackInline = XMLUtil.getFirstElementWithTagName(element, "feedbackInline");
+    
+    if(feedbackInline != null){
+      feedback = XMLUtil.getText(feedbackInline);
+      feedbackLabel = new Label();
+      panel.add(feedbackLabel);
+    }
+    
+  }
+
+  /**
+   * Show or hide feedback
+   * @param b
+   */
+  private void showFeedback(boolean show) {
+
+    if( feedbackLabel != null ){
+      if(show){
+        feedbackLabel.setText(feedback);
+      }
+      else{
+        feedbackLabel.setText("");
+      }
+    }
+  }
+	
 	/**
 	 * Handler for chech option.
 	 * @author klangner
 	 *
 	 */
-	class OptionHandler implements ValueChangeHandler<Boolean>{
+	private class OptionHandler implements ValueChangeHandler<Boolean>{
 
 		public void onValueChange(ValueChangeEvent<Boolean> event) {
 			CheckBox button = (CheckBox)event.getSource();
-			if(button.getValue())
+			if(button.getValue()){
 				response.set(identifier);
-			else
+				showFeedback(true);
+			}
+			else{
 				response.unset(identifier);
+				showFeedback(false);
+			}
 		}
+
 	}
 
 }
