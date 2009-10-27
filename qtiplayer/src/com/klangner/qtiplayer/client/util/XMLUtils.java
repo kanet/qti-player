@@ -4,7 +4,7 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 
-public class XMLUtil {
+public class XMLUtils {
 
   /**
    * Helper function for getting element attribute as string

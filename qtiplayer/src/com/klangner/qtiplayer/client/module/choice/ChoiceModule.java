@@ -14,7 +14,7 @@ import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IStateful;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
-import com.klangner.qtiplayer.client.util.XMLUtil;
+import com.klangner.qtiplayer.client.util.XMLUtils;
 
 /**
  * Widget with choice implementation
@@ -40,8 +40,8 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
 		this.choiceElement = choiceNode;
 
 		this.moduleSocket = moduleSocket;
-		this.multi = (XMLUtil.getAttributeAsInt(choiceElement, "maxChoices") != 1);
-		this.shuffle = XMLUtil.getAttributeAsBoolean(choiceElement, "shuffle");
+		this.multi = (XMLUtils.getAttributeAsInt(choiceElement, "maxChoices") != 1);
+		this.shuffle = XMLUtils.getAttributeAsBoolean(choiceElement, "shuffle");
 
 		VerticalPanel vp = new VerticalPanel();
 		
@@ -119,7 +119,7 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
 		NodeList 				optionNodes = choiceElement.getElementsByTagName("simpleChoice");
 		RandomizedSet<Element>	randomizedNodes = new RandomizedSet<Element>();
 		String					responseIdentifier = 
-		  XMLUtil.getAttributeAsString(choiceElement, "responseIdentifier");
+		  XMLUtils.getAttributeAsString(choiceElement, "responseIdentifier");
 
 		
 		options = new Vector<OptionWidget>();
@@ -127,7 +127,7 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
 		if(shuffle){
 			for(int i = 0; i < optionNodes.getLength(); i++){
 				Element	option = (Element)optionNodes.item(i);
-				if(!XMLUtil.getAttributeAsBoolean(option, "fixed"))
+				if(!XMLUtils.getAttributeAsBoolean(option, "fixed"))
 					randomizedNodes.push(option);
 			}
 		}
@@ -137,7 +137,7 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
 		  Element		option = (Element)optionNodes.item(i);
 			OptionWidget 	button;
 			
-			if(shuffle && !XMLUtil.getAttributeAsBoolean(option, "fixed") ){
+			if(shuffle && !XMLUtils.getAttributeAsBoolean(option, "fixed") ){
 				option = randomizedNodes.pull();
 			}
 			
@@ -157,7 +157,7 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
 	private Widget getPromptView(){
 		
 		HTML	promptHTML = new HTML();
-		Element prompt = XMLUtil.getFirstElementWithTagName(choiceElement, "prompt");
+		Element prompt = XMLUtils.getFirstElementWithTagName(choiceElement, "prompt");
 		
 		promptHTML.setStyleName("qp-choice-prompt");
 		if(prompt != null){

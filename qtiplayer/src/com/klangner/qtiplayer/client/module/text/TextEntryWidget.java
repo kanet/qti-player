@@ -10,7 +10,7 @@ import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.module.IStateful;
-import com.klangner.qtiplayer.client.util.XmlElement;
+import com.klangner.qtiplayer.client.util.XMLUtils;
 
 public class TextEntryWidget extends InlineHTML implements ITextControl, IActivity, IStateful{
 
@@ -29,13 +29,12 @@ public class TextEntryWidget extends InlineHTML implements ITextControl, IActivi
 	 */
 	public TextEntryWidget(Element element, IModuleSocket moduleSocket){
 
-		XmlElement  xmlElement = new XmlElement(element);
-		String			responseIdentifier = xmlElement.getAttributeAsString("responseIdentifier"); 
+		String			responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
 
     this.id = Document.get().createUniqueId();
 		this.response = moduleSocket.getResponse(responseIdentifier);
 		textBox = new TextBox();
-		textBox.setMaxLength(xmlElement.getAttributeAsInt("expectedLength"));
+		textBox.setMaxLength(XMLUtils.getAttributeAsInt(element, "expectedLength"));
 		textBox.getElement().setId(id);
     getElement().appendChild(textBox.getElement());
 	}

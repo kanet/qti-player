@@ -1,6 +1,6 @@
 package com.klangner.qtiplayer.client.util;
 
-public class WindowUtil {
+public class WindowUtils {
 
   /**
    * Show alert box

@@ -11,7 +11,7 @@ import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IStateful;
 import com.klangner.qtiplayer.client.util.IDomElementFactory;
-import com.klangner.qtiplayer.client.util.XmlElement;
+import com.klangner.qtiplayer.client.util.XmlConverter;
 
 /**
  * Create Text which can contain gap and inline choice interactions.
@@ -23,7 +23,7 @@ public class TextModule extends Widget implements IActivity, IStateful{
 	/** response processing interface */
 	private IModuleSocket		moduleSocket;
 	/** XML root */
-	private XmlElement 			xmlRoot;
+	private XmlConverter 			xmlRoot;
 	/** All sub widgets */
 	private HashMap<String, ITextControl>	controls = new HashMap<String, ITextControl>();
 
@@ -34,7 +34,7 @@ public class TextModule extends Widget implements IActivity, IStateful{
 	 */
 	public TextModule(Element node, IModuleSocket	moduleSocket){
 
-		this.xmlRoot = new XmlElement(node);
+		this.xmlRoot = new XmlConverter(node);
 		this.moduleSocket = moduleSocket;
 		
 		// Convert into text
@@ -48,7 +48,7 @@ public class TextModule extends Widget implements IActivity, IStateful{
 			}
 		});
 		
-		setElement(xmlRoot.convertToHtml());
+		setElement(xmlRoot.getAsDOM());
 		setStyleName("qp-text-module");
 		this.sinkEvents(Event.ONCHANGE);
 

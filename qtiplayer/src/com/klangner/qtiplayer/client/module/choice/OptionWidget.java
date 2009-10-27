@@ -15,7 +15,7 @@ import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.module.IStateful;
-import com.klangner.qtiplayer.client.util.XMLUtil;
+import com.klangner.qtiplayer.client.util.XMLUtils;
 
 public class OptionWidget extends Composite implements IActivity, IStateful{
 
@@ -40,7 +40,7 @@ public class OptionWidget extends Composite implements IActivity, IStateful{
 		
 //		this.moduleSocket = moduleSocket;
 		this.response = moduleSocket.getResponse(responseId); 
-		this.identifier = XMLUtil.getAttributeAsString(element, "identifier");
+		this.identifier = XMLUtils.getAttributeAsString(element, "identifier");
 		
 		panel = new VerticalPanel();
 		panel.setStyleName("qp-choice-option");
@@ -131,15 +131,15 @@ public class OptionWidget extends Composite implements IActivity, IStateful{
       button = new CheckBox();
     else
       button = new RadioButton(responseId);
-    button.setHTML(XMLUtil.getText(element));
+    button.setHTML(XMLUtils.getText(element));
     button.addValueChangeHandler(new OptionHandler());
     
     panel.add(button);
 
-    Element feedbackInline = XMLUtil.getFirstElementWithTagName(element, "feedbackInline");
+    Element feedbackInline = XMLUtils.getFirstElementWithTagName(element, "feedbackInline");
     
     if(feedbackInline != null){
-      feedback = XMLUtil.getText(feedbackInline);
+      feedback = XMLUtils.getText(feedbackInline);
       feedbackLabel = new Label();
       panel.add(feedbackLabel);
     }

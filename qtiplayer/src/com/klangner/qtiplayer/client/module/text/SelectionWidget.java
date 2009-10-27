@@ -12,8 +12,7 @@ import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.module.IStateful;
 import com.klangner.qtiplayer.client.util.RandomizedSet;
-import com.klangner.qtiplayer.client.util.XMLUtil;
-import com.klangner.qtiplayer.client.util.XmlElement;
+import com.klangner.qtiplayer.client.util.XMLUtils;
 
 public class SelectionWidget extends InlineHTML implements ITextControl, IActivity, IStateful{
 
@@ -34,12 +33,11 @@ public class SelectionWidget extends InlineHTML implements ITextControl, IActivi
 	 */
 	public SelectionWidget(Element element, IModuleSocket moduleSocket){
 		
-		XmlElement choiceElement = new XmlElement(element);
-		String		 responseIdentifier = choiceElement.getAttributeAsString("responseIdentifier"); 
+		String		 responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
 
 		id = Document.get().createUniqueId();
 		this.response = moduleSocket.getResponse(responseIdentifier);
-		this.shuffle = choiceElement.getAttributeAsBoolean("shuffle");
+		this.shuffle = XMLUtils.getAttributeAsBoolean(element, "shuffle");
 		
     listBox = new ListBox();
 		if(shuffle)
@@ -131,8 +129,8 @@ public class SelectionWidget extends InlineHTML implements ITextControl, IActivi
 		for(int i = 0; i < nodes.getLength(); i++){
 			if(nodes.item(i).getNodeName().compareTo("inlineChoice") == 0){
 				Element choiceElement = (Element)nodes.item(i);
-				listBox.addItem(XMLUtil.getText(choiceElement), 
-				    XMLUtil.getAttributeAsString(choiceElement, "identifier"));
+				listBox.addItem(XMLUtils.getText(choiceElement), 
+				    XMLUtils.getAttributeAsString(choiceElement, "identifier"));
 			}
 		}
 	}
@@ -157,8 +155,8 @@ public class SelectionWidget extends InlineHTML implements ITextControl, IActivi
 		
 		while(randomizedNodes.hasMore()){
 			Element choiceElement = randomizedNodes.pull();
-      listBox.addItem(XMLUtil.getText(choiceElement), 
-          XMLUtil.getAttributeAsString(choiceElement, "identifier"));
+      listBox.addItem(XMLUtils.getText(choiceElement), 
+          XMLUtils.getAttributeAsString(choiceElement, "identifier"));
 		}
 		
 	}
