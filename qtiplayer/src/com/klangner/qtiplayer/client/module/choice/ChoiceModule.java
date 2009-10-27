@@ -25,6 +25,8 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
 
 	/** root element for this module */
 	private Element			    choiceElement;
+	/** response id */
+	private String          responseIdentifier;
 	/** Work mode single or multiple choice */
 	private boolean 				multi = false;
 	/** Shuffle? */
@@ -42,6 +44,7 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
 		this.moduleSocket = moduleSocket;
 		this.multi = (XMLUtils.getAttributeAsInt(choiceElement, "maxChoices") != 1);
 		this.shuffle = XMLUtils.getAttributeAsBoolean(choiceElement, "shuffle");
+    responseIdentifier = XMLUtils.getAttributeAsString(choiceElement, "responseIdentifier");
 
 		VerticalPanel vp = new VerticalPanel();
 		
@@ -118,8 +121,6 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
 		VerticalPanel 	panel = new VerticalPanel();
 		NodeList 				optionNodes = choiceElement.getElementsByTagName("simpleChoice");
 		RandomizedSet<Element>	randomizedNodes = new RandomizedSet<Element>();
-		String					responseIdentifier = 
-		  XMLUtils.getAttributeAsString(choiceElement, "responseIdentifier");
 
 		
 		options = new Vector<OptionWidget>();
@@ -141,7 +142,7 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
 				option = randomizedNodes.pull();
 			}
 			
-			button = new OptionWidget(option, moduleSocket, responseIdentifier, multi);
+			button = new OptionWidget(option, moduleSocket, buttonGroup);
 			options.add(button);
 			panel.add(button);
 		}
@@ -167,5 +168,24 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
 		return promptHTML;
 		
 	}
+	
+	private IButtonGroup buttonGroup = new IButtonGroup(){
+
+    @Override
+    public void buttonSelected(OptionWidget option) {
+      if( !multi ){
+        for(OptionWidget child : options){
+          if( child != option)
+          child.uncheck();
+        }
+      }
+    }
+
+    @Override
+    public String getId() {
+      return responseIdentifier;
+    }
+	  
+	};
 
 }
