@@ -58,6 +58,7 @@ public class XmlConverter {
 	private void copyChildren(Element srcElement, com.google.gwt.dom.client.Element dstElement){
 		NodeList	nodes = srcElement.getChildNodes();
 		Document	doc = Document.get();
+		com.google.gwt.dom.client.Element domElement;
 		
 		for(int i = 0; i < nodes.getLength(); i++){
 			Node node = nodes.item(i);
@@ -65,11 +66,12 @@ public class XmlConverter {
 				dstElement.appendChild(doc.createTextNode(node.getNodeValue()));
 			}
 			else if(domElementFactory != null && domElementFactory.isSupportedElement(node.getNodeName())){
-				dstElement.appendChild( domElementFactory.createDomElement( (Element)node ) );
+			  domElement = domElementFactory.createDomElement( (Element)node );
+			  if( domElement != null )
+			    dstElement.appendChild( domElement );
 			}
 			else{
 				Element xmlElement = (Element)node;
-				com.google.gwt.dom.client.Element domElement;
 				domElement = doc.createElement(node.getNodeName());
 				dstElement.appendChild(domElement);
 				// Copy attributes

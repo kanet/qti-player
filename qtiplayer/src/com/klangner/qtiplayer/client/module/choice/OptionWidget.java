@@ -14,7 +14,9 @@ import com.klangner.qtiplayer.client.module.IActivity;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.module.IStateful;
+import com.klangner.qtiplayer.client.util.IDomElementFactory;
 import com.klangner.qtiplayer.client.util.XMLUtils;
+import com.klangner.qtiplayer.client.util.XmlConverter;
 
 public class OptionWidget extends Composite implements IActivity, IStateful{
 
@@ -138,8 +140,25 @@ public class OptionWidget extends Composite implements IActivity, IStateful{
    */
   private void createButton(Element element) {
 
+    XmlConverter  converter = new XmlConverter(element);
+    
+    // Do not import feedbackInline tag
+    converter.setDomElementFactory(new IDomElementFactory(){
+
+      public com.google.gwt.dom.client.Element createDomElement(Element xmlElement) {
+        // just skip this tag
+        return null;
+      }
+
+      @Override
+      public boolean isSupportedElement(String tagName) {
+        return (tagName.compareTo("feedbackInline") == 0);
+      }
+      
+    });
+    
     button = new CheckBox();
-    button.setHTML(XMLUtils.getText(element));
+    button.setHTML(converter.getTextAsHtml());
     button.addValueChangeHandler(new OptionHandler());
 
     panel.add(button);

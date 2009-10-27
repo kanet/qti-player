@@ -1,3 +1,5 @@
 = Milestone 0.3 =
 * New styles for choice to mark correct and wrong answers
-* Add styles to mark correct and wrong answers in text interaction (gap and choice)
+* Added styles to mark correct and wrong answers in text interaction (gap and choice)
+* New navigation buttons
+* Implemented choice feedbacks
