@@ -103,7 +103,13 @@ public class Player {
     
     assessment = new Assessment();
     try {
-			assessment.load(GWT.getHostPageBaseURL() + url, new IDocumentLoaded(){
+      String resolvedURL;
+      if( url.startsWith("http://") || url.startsWith("/") )
+        resolvedURL = url;
+      else
+        resolvedURL = GWT.getHostPageBaseURL() + url;
+      
+			assessment.load(resolvedURL, new IDocumentLoaded(){
 
 			public void finishedLoading() {
 			    onAssessmentLoaded();

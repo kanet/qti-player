@@ -1,3 +1,6 @@
+= Milestone 0.4 =
+* QTI files can be loaded form other domains (requires security settings)
+
 = Milestone 0.3 =
 * New styles for choice to mark correct and wrong answers
 * Added styles to mark correct and wrong answers in text interaction (gap and choice)
