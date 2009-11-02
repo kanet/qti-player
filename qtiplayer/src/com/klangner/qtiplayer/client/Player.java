@@ -39,6 +39,7 @@ import com.klangner.qtiplayer.client.model.AssessmentItem;
 import com.klangner.qtiplayer.client.model.IDocumentLoaded;
 import com.klangner.qtiplayer.client.model.LoadException;
 import com.klangner.qtiplayer.client.model.Result;
+import com.klangner.qtiplayer.client.model.XMLDocument;
 import com.klangner.qtiplayer.client.module.IActivity;
 
 /**
@@ -111,7 +112,7 @@ public class Player {
       
 			assessment.load(resolvedURL, new IDocumentLoaded(){
 
-			public void finishedLoading() {
+			public void finishedLoading(XMLDocument document) {
 			    onAssessmentLoaded();
 			  }
 			});
@@ -141,9 +142,9 @@ public class Player {
 	    try {
 				currentItem.load(url, new IDocumentLoaded(){
 
-				  public void finishedLoading() {
-				    onItemLoaded();
-				  }
+          public void finishedLoading(XMLDocument document) {
+            onItemLoaded();
+          }
 				});
 			} catch (LoadException e) {
 				playerView.getCheckButton().setVisible(false);

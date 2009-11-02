@@ -33,7 +33,7 @@ import com.google.gwt.xml.client.DOMException;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.XMLParser;
 
-abstract class AbstractXMLDocument {
+public abstract class XMLDocument {
 
 	/** DOM with assessment data */
 	private Document 	dom;
@@ -67,7 +67,7 @@ abstract class AbstractXMLDocument {
 
 		  			dom = XMLParser.parse(response.getText());
 		  			initData();
-		      	listener.finishedLoading();
+		      	listener.finishedLoading(XMLDocument.this);
 		      } else {
 		        // Handle the error.  Can get the status text from response.getStatusText()
 		      	errorString = "Wrong status: " + response.getText();

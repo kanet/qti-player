@@ -25,15 +25,13 @@ package com.klangner.qtiplayer.client.model;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
-import com.klangner.qtiplayer.client.module.IModuleSocket;
-import com.klangner.qtiplayer.client.module.IResponse;
 
 /**
  * GWT JUnit tests must extend GWTTestCase.
  */
-public class AssessmentItemTest extends GWTTestCase {
+public class AssessmentTest extends GWTTestCase {
 
-	private AssessmentItem	item;
+	private Assessment	assessment;
 	
 	
   /**
@@ -47,13 +45,14 @@ public class AssessmentItemTest extends GWTTestCase {
    * Check if XML is loaded
    * @throws LoadException 
    */
-  public void testLoad() throws LoadException {
+  public void testTitle() throws LoadException {
   	
-  	item = new AssessmentItem();
+    assessment = new Assessment();
 
-  	item.load(GWT.getModuleBaseURL() + "items/choice.xml", new IDocumentLoaded(){
+    assessment.load(GWT.getModuleBaseURL() + "simple_toc.xml", new IDocumentLoaded(){
 
 			public void finishedLoading(XMLDocument doc) {
+			  assertEquals("Minimal Assessment Test", assessment.getTitle());
 				finishTest();
 			}
   		
@@ -66,23 +65,29 @@ public class AssessmentItemTest extends GWTTestCase {
    * Check if XML is loaded
    * @throws LoadException 
    */
-  public void testResponse() throws LoadException {
+  public void testLoadTitles() throws LoadException {
+    
+    assessment = new Assessment();
 
-  	item = new AssessmentItem();
-  	item.load(GWT.getModuleBaseURL() + "items/choice.xml", new IDocumentLoaded(){
+    assessment.load(GWT.getModuleBaseURL() + "simple_toc.xml", new IDocumentLoaded(){
 
-			public void finishedLoading(XMLDocument doc) {
-				IModuleSocket socket = item.getModuleSocket();
-				IResponse response = socket.getResponse("RESPONSE");
-				
-				assertTrue( response.isCorrectAnswer("ChoiceA") );
-				
-				finishTest();
-			}
-  		
-  	});
-  	
-  	delayTestFinish(2000);
+      public void finishedLoading(XMLDocument doc) {
+        assertEquals("Minimal Assessment Test", assessment.getTitle());
+        
+        assessment.loadTitles(new IDocumentLoaded(){
+
+          public void finishedLoading(XMLDocument document) {
+            assertEquals("Richard III (Take 2)", assessment.getItemTitle(2));
+            finishTest();
+          }
+          
+        });
+        
+      }
+      
+    });
+    
+    delayTestFinish(5000);
   }
 
 }

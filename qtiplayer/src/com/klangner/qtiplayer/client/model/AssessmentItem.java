@@ -36,7 +36,7 @@ import com.klangner.qtiplayer.client.module.IResponse;
 import com.klangner.qtiplayer.client.module.IStateful;
 
 
-public class AssessmentItem extends AbstractXMLDocument implements IStateful{
+public class AssessmentItem extends XMLDocument implements IStateful{
 
   /** module factory */
   private ModuleFactory moduleFactory;

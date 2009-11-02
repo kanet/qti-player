@@ -31,8 +31,10 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.klangner.qtiplayer.client.model.Assessment;
+import com.klangner.qtiplayer.client.model.IDocumentLoaded;
+import com.klangner.qtiplayer.client.model.XMLDocument;
 
-public class AssessmentView {
+public class AssessmentEditorWidget {
 
 	/** model */
 	private Assessment 			assessment;
@@ -49,7 +51,7 @@ public class AssessmentView {
 	/**
 	 * Constructor
 	 */
-	public AssessmentView(Assessment assessment){
+	public AssessmentEditorWidget(Assessment assessment){
 
 		this.assessment = assessment;
 	}
@@ -83,7 +85,14 @@ public class AssessmentView {
 		
 		mainPanel.add(grid);
 		
-		update();
+		assessment.loadTitles(new IDocumentLoaded(){
+
+      @Override
+      public void finishedLoading(XMLDocument document) {
+        updateItemList();
+      }
+		  
+		});
 
 		return mainPanel;
 	}
@@ -91,14 +100,14 @@ public class AssessmentView {
 	/**
 	 * Update view when model changed
 	 */
-	public void update(){
+	private void updateItemList(){
 
 		Grid	grid = new Grid(assessment.getItemCount(), 3);
 		
 		itemsPanel.add(grid);
 		
 		for(int i = 0; i < assessment.getItemCount(); i++){
-			grid.setWidget(i, 0, new Label(assessment.getItemRef(i)));
+			grid.setWidget(i, 0, new Label(assessment.getItemTitle(i)));
 			grid.setWidget(i, 1, new Button("Up"));
 			grid.setWidget(i, 2, new Button("Down"));
 		}

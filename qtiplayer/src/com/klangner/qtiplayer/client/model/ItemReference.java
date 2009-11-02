@@ -23,10 +23,33 @@
 */
 package com.klangner.qtiplayer.client.model;
 
-public interface IDocumentLoaded {
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.Node;
 
-  /** 
-   * Document loaded. Ready to use 
-   */
-	void finishedLoading(XMLDocument document);
+
+/**
+ * Light version of assessment item. Used to read only item title
+ * @author klangner
+ *
+ */
+public class ItemReference extends XMLDocument{
+
+	/**
+	 * constructor
+	 */
+	public ItemReference(){
+	}
+	
+	
+	/**
+	 * @return item title
+	 */
+	public String getTitle(){
+
+    Node rootNode = getDom().getElementsByTagName("assessmentItem").item(0);
+    String title = ((Element)rootNode).getAttribute("title");
+    
+    return title;
+	}
+	
 }

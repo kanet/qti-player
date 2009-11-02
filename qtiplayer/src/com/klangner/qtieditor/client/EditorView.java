@@ -33,7 +33,7 @@ public class EditorView {
 	/** assessment editor panel */
 	private ItemView				itemView;
 	/** assessment editor panel */
-	private AssessmentView	assessmentView;
+	private AssessmentEditorWidget	assessmentView;
 	
 	
 	/**
@@ -41,7 +41,7 @@ public class EditorView {
 	 */
 	public EditorView(Assessment assessment){
 		
-		assessmentView = new AssessmentView(assessment);
+		assessmentView = new AssessmentEditorWidget(assessment);
 		itemView = new ItemView();
 	}
 	

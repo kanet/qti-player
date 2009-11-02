@@ -32,6 +32,7 @@ import com.klangner.qtiplayer.client.model.Assessment;
 import com.klangner.qtiplayer.client.model.AssessmentItem;
 import com.klangner.qtiplayer.client.model.IDocumentLoaded;
 import com.klangner.qtiplayer.client.model.LoadException;
+import com.klangner.qtiplayer.client.model.XMLDocument;
 
 public class Editor {
 
@@ -70,7 +71,7 @@ public class Editor {
     try {
 			assessment.load(GWT.getHostPageBaseURL() + url, new IDocumentLoaded(){
 
-			public void finishedLoading() {
+			public void finishedLoading(XMLDocument doc) {
 			    onAssessmentLoaded();
 			  }
 			});
@@ -93,7 +94,7 @@ public class Editor {
 	    try {
 				currentItem.load(url, new IDocumentLoaded(){
 
-				  public void finishedLoading() {
+				  public void finishedLoading(XMLDocument doc) {
 				    onItemLoaded();
 				  }
 				});
