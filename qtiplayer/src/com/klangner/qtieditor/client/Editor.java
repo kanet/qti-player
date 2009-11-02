@@ -76,7 +76,6 @@ public class Editor {
 			  }
 			});
 		} catch (LoadException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
   }
@@ -99,7 +98,6 @@ public class Editor {
 				  }
 				});
 			} catch (LoadException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
   	}

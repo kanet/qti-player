@@ -24,6 +24,7 @@
 package com.klangner.qtieditor.client;
 
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -34,7 +35,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.klangner.qtiplayer.client.model.AssessmentItem;
 
-public class ItemView {
+public class ItemEditor extends Composite{
 
 	/** Item editor panel */
 	private Panel 					mainPanel;
@@ -57,14 +58,16 @@ public class ItemView {
 	/**
 	 * Constructor
 	 */
-	public ItemView(){
+	public ItemEditor(){
+
+	  initWidget(createView());
 	}
 	
 	
 	/**
 	 * @return view with player
 	 */
-	public Widget getView(){
+	private Widget createView(){
 
 		mainPanel = new VerticalPanel();
 		mainPanel.setStyleName("qe-item-editor");

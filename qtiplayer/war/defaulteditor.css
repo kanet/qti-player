@@ -19,10 +19,13 @@
 	width:	100%;
 }
 
-
 .qe-label-column{
 	padding-left: 2px;
 	padding-right: 2px;
-	background-color: lightgrey;
-	frame: 1px solid green;
+	background-color: silver;
+	border: 1px solid green;
+}
+
+.qe-item-column{
+	width: 80%;
 }

@@ -31,9 +31,9 @@ import com.klangner.qtiplayer.client.model.AssessmentItem;
 public class EditorView {
 
 	/** assessment editor panel */
-	private ItemView				itemView;
+	private ItemEditor				itemView;
 	/** assessment editor panel */
-	private AssessmentEditorWidget	assessmentView;
+	private AssessmentEditor	assessmentEditor;
 	
 	
 	/**
@@ -41,8 +41,8 @@ public class EditorView {
 	 */
 	public EditorView(Assessment assessment){
 		
-		assessmentView = new AssessmentEditorWidget(assessment);
-		itemView = new ItemView();
+		assessmentEditor = new AssessmentEditor(assessment);
+		itemView = new ItemEditor();
 	}
 	
 	
@@ -54,8 +54,8 @@ public class EditorView {
 		TabPanel	tabPanel = new TabPanel();
 		
 		tabPanel.setStyleName("qe-tab-panel");
-		tabPanel.add(itemView.getView(), "Item");
-		tabPanel.add(assessmentView.getView(), "Assessment");
+		tabPanel.add(itemView, "Item");
+		tabPanel.add(assessmentEditor, "Assessment");
 		tabPanel.selectTab(0);
 		
 		return tabPanel;

@@ -24,61 +24,57 @@
 package com.klangner.qtieditor.client;
 
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.klangner.qtiplayer.client.model.Assessment;
 import com.klangner.qtiplayer.client.model.IDocumentLoaded;
 import com.klangner.qtiplayer.client.model.XMLDocument;
 
-public class AssessmentEditorWidget {
+public class AssessmentEditor extends Composite{
 
 	/** model */
-	private Assessment 			assessment;
-	/** assessment editor panel */
-	private Panel						mainPanel;
-	/** Item tool bar */
-	private Panel						toolbar;
-	/** Add button */
-	private Button					addButton;
+	private Assessment assessment;
+	/** title edit box */
+	private TextBox    titleTextBox;
 	/** Grid with items */
-	private Panel						itemsPanel;
+	private Panel      itemsPanel;
 	
 	
 	/**
 	 * Constructor
 	 */
-	public AssessmentEditorWidget(Assessment assessment){
+	public AssessmentEditor(Assessment assessment){
 
 		this.assessment = assessment;
+    initWidget(createView());
 	}
 	
 	
 	/**
+	 * Create editor view 
 	 * @return view with player
 	 */
-	public Widget getView(){
+	private Widget createView(){
 		
-		Grid	grid;
+	  Panel  mainPanel;
+		Grid	 grid;
 		
 		mainPanel = new VerticalPanel();
 		mainPanel.setStyleName("qe-assessment-editor");
 		
-		toolbar = new FlowPanel();
-		toolbar.setStyleName("qe-toolbar");
-		mainPanel.add(toolbar);
-		addButton = new Button("Add...");
-		toolbar.add(addButton);
-
-		mainPanel.add(toolbar);
-
 		grid = new Grid(2,2);
 		grid.getColumnFormatter().addStyleName(0, "qe-label-column");
+		
+		titleTextBox = new TextBox();
+		titleTextBox.setWidth("100%");
+		titleTextBox.setText(assessment.getTitle());
 		grid.setText(0, 0, "Title: ");
-		grid.setText(0, 1, assessment.getTitle());
+		grid.setWidget(0, 1, titleTextBox);
 		grid.setText(1, 0, "Items: ");
 		itemsPanel = new VerticalPanel();
 		grid.setWidget(1, 1, itemsPanel);
@@ -103,7 +99,8 @@ public class AssessmentEditorWidget {
 	private void updateItemList(){
 
 		Grid	grid = new Grid(assessment.getItemCount(), 3);
-		
+
+    grid.getColumnFormatter().addStyleName(0, "qe-item-column");
 		itemsPanel.add(grid);
 		
 		for(int i = 0; i < assessment.getItemCount(); i++){
