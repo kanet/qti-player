@@ -194,7 +194,6 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
 	
 	private IButtonGroup buttonGroup = new IButtonGroup(){
 
-    @Override
     public void buttonSelected(OptionWidget option) {
       if( !multi ){
         for(OptionWidget child : options){
@@ -204,7 +203,6 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
       }
     }
 
-    @Override
     public String getId() {
       return responseIdentifier;
     }

@@ -1,0 +1,28 @@
+/** Add css rules here for your application. */
+
+
+.qe-item-editor{
+	width: 100%;
+}
+
+.qe-tab-panel{
+	width:	100%;
+}
+
+.qe-toolbar{
+	width:	100%;
+	background-color: lightblue;
+	padding: 4px;
+	font-size: 120%;
+}
+.qe-module-table{
+	width:	100%;
+}
+
+
+.qe-label-column{
+	padding-left: 2px;
+	padding-right: 2px;
+	background-color: lightgrey;
+	frame: 1px solid green;
+}

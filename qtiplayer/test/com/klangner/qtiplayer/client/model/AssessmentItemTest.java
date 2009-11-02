@@ -53,7 +53,6 @@ public class AssessmentItemTest extends GWTTestCase {
 
   	item.load(GWT.getModuleBaseURL() + "items/choice.xml", new IDocumentLoaded(){
 
-			@Override
 			public void finishedLoading() {
 				finishTest();
 			}
@@ -72,7 +71,6 @@ public class AssessmentItemTest extends GWTTestCase {
   	item = new AssessmentItem();
   	item.load(GWT.getModuleBaseURL() + "items/choice.xml", new IDocumentLoaded(){
 
-			@Override
 			public void finishedLoading() {
 				IModuleSocket socket = item.getModuleSocket();
 				IResponse response = socket.getResponse("RESPONSE");

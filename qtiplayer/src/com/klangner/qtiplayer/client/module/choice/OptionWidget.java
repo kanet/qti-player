@@ -173,7 +173,6 @@ public class OptionWidget extends Composite implements IActivity, IStateful{
         return null;
       }
 
-      @Override
       public boolean isSupportedElement(String tagName) {
         return (tagName.compareTo("feedbackInline") == 0);
       }
