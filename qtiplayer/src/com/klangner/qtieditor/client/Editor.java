@@ -43,7 +43,7 @@ public class Editor {
   /** Assessment played by this player*/
   private Assessment          assessment;
   /** Editor view */
-  private EditorView					editorView;
+  private EditorWidget					editorView;
   /** current item object */
   private AssessmentItem      currentItem = null;
 
@@ -116,8 +116,8 @@ public class Editor {
     if(node != null)
       element.removeChild(node);
     
-    editorView = new EditorView(assessment);
-    rootPanel.add(editorView.getView());
+    editorView = new EditorWidget(assessment);
+    rootPanel.add(editorView);
     
     // Switch to first item
     loadAssessmentItem(0);

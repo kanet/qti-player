@@ -24,6 +24,7 @@
 package com.klangner.qtiplayer.client;
 
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -33,7 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.klangner.qtiplayer.client.model.Assessment;
 import com.klangner.qtiplayer.client.model.AssessmentItem;
 
-public class PlayerView {
+public class PlayerWidget extends Composite{
 
 	/** Show this assessment */
 	private Assessment			assessment;
@@ -63,8 +64,10 @@ public class PlayerView {
 	 * constructor
 	 * @param assessment to show
 	 */
-	public PlayerView(Assessment assessment){
+	public PlayerWidget(Assessment assessment){
 		this.assessment = assessment;
+		
+		initWidget(createView());
 	}
 	
 	/**
@@ -100,57 +103,6 @@ public class PlayerView {
 	 */
 	public Button getResetButton(){
 		return resetButton;
-	}
-	
-	/**
-	 * @return view with player
-	 */
-	public Widget getView(){
-		Label						label;
-		HorizontalPanel header = new HorizontalPanel();
-
-		playerPanel = new VerticalPanel();
-		playerPanel.setStyleName("qp-player");
-		header.setStyleName("qp-header");
-		label = new Label(assessment.getTitle());
-		label.setStyleName("qp-assessment-title");
-		header.add(label);
-		counterLabel = new Label("1/" + assessment.getItemCount());
-		counterLabel.setStyleName("qp-page-counter");
-		header.add(counterLabel);
-		playerPanel.add(header);
-
-		bodyPanel = new VerticalPanel();
-		bodyPanel.setStyleName("qp-body");
-		playerPanel.add(bodyPanel);
-		
-		feedbackLabel = new Label();
-		feedbackLabel.setStyleName("qp-feedback");
-		playerPanel.add(feedbackLabel);
-
-		footer = new FlowPanel();
-		footer.setStyleName("qp-footer");
-		playerPanel.add(footer);
-
-		checkButton = new Button("Check");
-		checkButton.setStyleName("qp-check-button");
-		footer.add(checkButton);
-		resetButton = new Button("Reset");
-		resetButton.setStyleName("qp-reset-button");
-		footer.add(resetButton);
-
-		prevButton = new Button("Previuos");
-		prevButton.setStyleName("qp-prev-button");
-		footer.add(prevButton);
-		nextButton = new Button("Next");
-		nextButton.setStyleName("qp-next-button");
-		footer.add(nextButton);
-		
-		finishButton = new Button("Finish");
-		finishButton.setStyleName("qp-finish-button");
-		footer.add(finishButton);
-		
-		return playerPanel;
 	}
 	
 	/**
@@ -204,4 +156,55 @@ public class PlayerView {
 		bodyPanel.add(new Label(message));
 	}
 	
+  /**
+   * @return view with player
+   */
+  private Widget createView(){
+    Label           label;
+    HorizontalPanel header = new HorizontalPanel();
+
+    playerPanel = new VerticalPanel();
+    playerPanel.setStyleName("qp-player");
+    header.setStyleName("qp-header");
+    label = new Label(assessment.getTitle());
+    label.setStyleName("qp-assessment-title");
+    header.add(label);
+    counterLabel = new Label("1/" + assessment.getItemCount());
+    counterLabel.setStyleName("qp-page-counter");
+    header.add(counterLabel);
+    playerPanel.add(header);
+
+    bodyPanel = new VerticalPanel();
+    bodyPanel.setStyleName("qp-body");
+    playerPanel.add(bodyPanel);
+    
+    feedbackLabel = new Label();
+    feedbackLabel.setStyleName("qp-feedback");
+    playerPanel.add(feedbackLabel);
+
+    footer = new FlowPanel();
+    footer.setStyleName("qp-footer");
+    playerPanel.add(footer);
+
+    checkButton = new Button("Check");
+    checkButton.setStyleName("qp-check-button");
+    footer.add(checkButton);
+    resetButton = new Button("Reset");
+    resetButton.setStyleName("qp-reset-button");
+    footer.add(resetButton);
+
+    prevButton = new Button("Previuos");
+    prevButton.setStyleName("qp-prev-button");
+    footer.add(prevButton);
+    nextButton = new Button("Next");
+    nextButton.setStyleName("qp-next-button");
+    footer.add(nextButton);
+    
+    finishButton = new Button("Finish");
+    finishButton.setStyleName("qp-finish-button");
+    footer.add(finishButton);
+    
+    return playerPanel;
+  }
+  
 }

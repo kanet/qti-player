@@ -23,12 +23,13 @@
 */
 package com.klangner.qtieditor.client;
 
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.klangner.qtiplayer.client.model.Assessment;
 import com.klangner.qtiplayer.client.model.AssessmentItem;
 
-public class EditorView {
+public class EditorWidget extends Composite{
 
 	/** assessment editor panel */
 	private ItemEditor				itemView;
@@ -39,28 +40,11 @@ public class EditorView {
 	/**
 	 * Constructor
 	 */
-	public EditorView(Assessment assessment){
+	public EditorWidget(Assessment assessment){
 		
-		assessmentEditor = new AssessmentEditor(assessment);
-		itemView = new ItemEditor();
+		initWidget(createView(assessment));
 	}
 	
-	
-	/**
-	 * @return view with player
-	 */
-	public Widget getView(){
-
-		TabPanel	tabPanel = new TabPanel();
-		
-		tabPanel.setStyleName("qe-tab-panel");
-		tabPanel.add(itemView, "Item");
-		tabPanel.add(assessmentEditor, "Assessment");
-		tabPanel.selectTab(0);
-		
-		return tabPanel;
-	}
-
 	
 	/**
 	 * Create view for given assessment item and show it in player
@@ -71,4 +55,22 @@ public class EditorView {
 			itemView.showPage(assessmentItem);
 	}
 	
+  /**
+   * @return view with player
+   */
+  private Widget createView(Assessment assessment){
+
+    TabPanel  tabPanel = new TabPanel();
+    
+    assessmentEditor = new AssessmentEditor(assessment);
+    itemView = new ItemEditor();
+    
+    tabPanel.setStyleName("qe-tab-panel");
+    tabPanel.add(itemView, "Item");
+    tabPanel.add(assessmentEditor, "Assessment");
+    tabPanel.selectTab(0);
+    
+    return tabPanel;
+  }
+
 }

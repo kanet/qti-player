@@ -55,7 +55,7 @@ public class Player {
   /** Assessment played by this player*/
   private Assessment          assessment;
   /** Player view */
-  private PlayerView          playerView;
+  private PlayerWidget          playerView;
   /** Current item index. 0 based */
   private int                 currentItemIndex;
   /** current item object */
@@ -168,8 +168,8 @@ public class Player {
     results = new Result[assessment.getItemCount()];
     states = new Serializable[assessment.getItemCount()];
     
-    playerView = new PlayerView(assessment);
-    rootPanel.add(playerView.getView());
+    playerView = new PlayerWidget(assessment);
+    rootPanel.add(playerView);
     
     playerView.getCheckButton().addClickHandler(new ClickHandler(){
       public void onClick(ClickEvent event) {
