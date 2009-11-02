@@ -10,11 +10,12 @@
 }
 
 .qe-toolbar{
-	width:	100%;
+	left:	4px;
+	right: 4px;
 	background-color: lightblue;
 	padding: 4px;
-	font-size: 120%;
 }
+
 .qe-module-table{
 	width:	100%;
 }

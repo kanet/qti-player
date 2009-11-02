@@ -66,8 +66,8 @@ public class EditorWidget extends Composite{
     itemView = new ItemEditor();
     
     tabPanel.setStyleName("qe-tab-panel");
-    tabPanel.add(itemView, "Item");
-    tabPanel.add(assessmentEditor, "Assessment");
+    tabPanel.add(itemView, "Page Editor");
+    tabPanel.add(assessmentEditor, "Assessment Editor");
     tabPanel.selectTab(0);
     
     return tabPanel;

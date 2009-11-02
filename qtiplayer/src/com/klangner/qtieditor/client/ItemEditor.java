@@ -25,7 +25,6 @@ package com.klangner.qtieditor.client;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
@@ -72,12 +71,12 @@ public class ItemEditor extends Composite{
 		mainPanel = new VerticalPanel();
 		mainPanel.setStyleName("qe-item-editor");
 		
-		toolbar = new FlowPanel();
+		toolbar = new HorizontalPanel();
 		toolbar.setStyleName("qe-toolbar");
 		mainPanel.add(toolbar);
 		addButton = new Button("Add...");
 		toolbar.add(addButton);
-		removeButton = new Button("Remove Item");
+		removeButton = new Button("Remove Page");
 		toolbar.add(removeButton);
 
 		prevButton = new Button("<<");
