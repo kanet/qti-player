@@ -27,13 +27,13 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.xml.client.Element;
 
-public class DebugWidget extends Composite{
+public class DebugModule extends Composite{
 
 	/**
 	 * constructor
 	 * @param node
 	 */
-	public DebugWidget(Element node){
+	public DebugModule(Element node){
 		HTML htmlLabel;
 		
 		htmlLabel = new HTML(node.toString());

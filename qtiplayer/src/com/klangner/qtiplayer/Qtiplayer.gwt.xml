@@ -11,4 +11,20 @@
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.klangner.qtiplayer.client.PlayerEntryPoint'/>
+  
+	<!-- Flash player as default value -->
+	<script src="video/AC_RunActiveContent.js" />
+	<script src="video/FAVideo.js" />
+  <replace-with class="com.klangner.qtiplayer.client.module.object.impl.FlashVideoImpl">
+    <when-type-is class="com.klangner.qtiplayer.client.module.object.impl.VideoImpl"/>
+  </replace-with>
+
+  <!-- Use video tag for iphone browser -->
+  <replace-with class="com.klangner.qtiplayer.client.module.object.impl.HTML5VideoImpl">
+    <when-type-is class="com.klangner.qtiplayer.client.module.object.impl.VideoImpl" />
+    <any>
+      <when-property-is name="user.agent" value="safari"/>
+    </any>
+  </replace-with>
+  
 </module>

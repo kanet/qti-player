@@ -158,6 +158,7 @@ public class AssessmentItem extends XMLDocument implements IStateful{
     fixLinks("video", "src");
     fixLinks("source", "src");
     fixLinks("a", "href");
+    fixLinks("object", "data");
 
     // Create response processing
     nodes = getDom().getElementsByTagName("responseDeclaration");

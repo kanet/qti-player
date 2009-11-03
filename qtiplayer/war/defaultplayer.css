@@ -12,7 +12,7 @@
 	
 .qp-header{
 	width:	100%;
-	background-color: lightgrey;
+	background-color: silver;
 	padding: 4px;
 	font-size: 120%;
 }
@@ -42,7 +42,7 @@
 
 .qp-footer{
 	width:	100%;
-	background-color: lightgrey;
+	background-color: silver;
 	margin-top: 10px;
 	padding: 4px;
 }
@@ -125,4 +125,9 @@
 }
 
 .qp-choice-notselected-wrong{
+}
+
+.qp-video{
+	width:	320px;
+	height: 200px;
 }

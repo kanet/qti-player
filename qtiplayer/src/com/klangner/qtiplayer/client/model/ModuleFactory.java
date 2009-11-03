@@ -5,7 +5,8 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.choice.ChoiceModule;
-import com.klangner.qtiplayer.client.module.debug.DebugWidget;
+import com.klangner.qtiplayer.client.module.debug.DebugModule;
+import com.klangner.qtiplayer.client.module.object.ObjectModule;
 import com.klangner.qtiplayer.client.module.text.TextModule;
 
 public class ModuleFactory {
@@ -25,8 +26,10 @@ public class ModuleFactory {
       return new TextModule(node, moduleSocket);
     else if(nodeName.compareTo("choiceInteraction") == 0)
       return new ChoiceModule(node, moduleSocket);
+    else if(nodeName.compareTo("object") == 0)
+      return new ObjectModule(node, moduleSocket);
     else if(node.getNodeType() == Node.ELEMENT_NODE)
-      return new DebugWidget(node);
+      return new DebugModule(node);
     else
       return null;
   }
