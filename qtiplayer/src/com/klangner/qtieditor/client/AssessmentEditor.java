@@ -83,7 +83,6 @@ public class AssessmentEditor extends Composite{
 		
 		assessment.loadTitles(new IDocumentLoaded(){
 
-      @Override
       public void finishedLoading(XMLDocument document) {
         updateItemList();
       }
