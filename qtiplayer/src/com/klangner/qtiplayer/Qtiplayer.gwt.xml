@@ -27,4 +27,17 @@
     </any>
   </replace-with>
   
+	<!-- link as default value for audio -->
+  <replace-with class="com.klangner.qtiplayer.client.module.object.impl.LinkAudioImpl">
+    <when-type-is class="com.klangner.qtiplayer.client.module.object.impl.AudioImpl"/>
+  </replace-with>
+
+  <!-- Use audio tag for iphone browser -->
+  <replace-with class="com.klangner.qtiplayer.client.module.object.impl.HTML5AudioImpl">
+    <when-type-is class="com.klangner.qtiplayer.client.module.object.impl.AudioImpl" />
+    <any>
+      <when-property-is name="user.agent" value="safari"/>
+    </any>
+  </replace-with>
+  
 </module>

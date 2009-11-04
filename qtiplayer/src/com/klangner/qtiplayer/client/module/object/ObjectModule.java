@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.xml.client.Element;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
+import com.klangner.qtiplayer.client.module.object.impl.AudioImpl;
 import com.klangner.qtiplayer.client.module.object.impl.VideoImpl;
 import com.klangner.qtiplayer.client.util.XMLUtils;
 
@@ -41,10 +42,18 @@ public class ObjectModule extends Composite{
 		
 	  String html;
 	  String src = XMLUtils.getAttributeAsString(node, "data");
+	  String type = XMLUtils.getAttributeAsString(node, "type");
 	  
-		VideoImpl video = GWT.create(VideoImpl.class);
-		
-		html = video.getHTML(src);
+	  if(type.startsWith("video")){
+
+	    VideoImpl video = GWT.create(VideoImpl.class);
+  		html = video.getHTML(src);
+	  }
+	  else{
+	    
+      AudioImpl audio = GWT.create(AudioImpl.class);
+      html = audio.getHTML(src);
+	  }
 		
 		initWidget(new HTML(html));
 	}
