@@ -1,5 +1,6 @@
-= Milestone 0.4 =
-* QTI files can be loaded form other domains (requires security settings)
+= Milestone 1.0b1 =
+* QTI files can be loaded from other domains (requires security settings)
+* Added support for video and audio files
 
 = Milestone 0.3 =
 * New styles for choice to mark correct and wrong answers
