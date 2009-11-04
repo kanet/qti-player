@@ -28,7 +28,7 @@
   </replace-with>
   
 	<!-- link as default value for audio -->
-  <replace-with class="com.klangner.qtiplayer.client.module.object.impl.LinkAudioImpl">
+  <replace-with class="com.klangner.qtiplayer.client.module.object.impl.EmbedAudioImpl">
     <when-type-is class="com.klangner.qtiplayer.client.module.object.impl.AudioImpl"/>
   </replace-with>
 
