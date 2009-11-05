@@ -23,6 +23,8 @@
 */
 package com.klangner.qtieditor.client;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
@@ -65,9 +67,9 @@ public class AssessmentEditor extends Composite{
 		Grid	 grid;
 		
 		mainPanel = new VerticalPanel();
-		mainPanel.setStyleName("qe-assessment-editor");
 		
-		grid = new Grid(2,2);
+		grid = new Grid(3,2);
+		grid.setWidth("100%");
 		grid.getColumnFormatter().addStyleName(0, "qe-label-column");
 		
 		titleTextBox = new TextBox();
@@ -75,9 +77,10 @@ public class AssessmentEditor extends Composite{
 		titleTextBox.setText(assessment.getTitle());
 		grid.setText(0, 0, "Title: ");
 		grid.setWidget(0, 1, titleTextBox);
-		grid.setText(1, 0, "Items: ");
+		grid.setText(1, 0, "Pages: ");
 		itemsPanel = new VerticalPanel();
-		grid.setWidget(1, 1, itemsPanel);
+    itemsPanel.setWidth("100%");
+		grid.setWidget(2, 1, itemsPanel);
 		
 		mainPanel.add(grid);
 		
@@ -99,15 +102,65 @@ public class AssessmentEditor extends Composite{
 
 		Grid	grid = new Grid(assessment.getItemCount(), 3);
 
+    grid.setWidth("100%");
     grid.getColumnFormatter().addStyleName(0, "qe-item-column");
+    
+    itemsPanel.clear();
 		itemsPanel.add(grid);
 		
 		for(int i = 0; i < assessment.getItemCount(); i++){
-			grid.setWidget(i, 0, new Label(assessment.getItemTitle(i)));
-			grid.setWidget(i, 1, new Button("Up"));
-			grid.setWidget(i, 2, new Button("Down"));
+		  Button  upButton = new Button("Up");
+		  Button  downButton = new Button("Down");
+			
+		  if(i == 0)
+		    upButton.setEnabled(false);
+		  else
+		    upButton.addClickHandler(new UpHandler(i));
+
+		  if(i+1 == assessment.getItemCount())
+        downButton.setEnabled(false);
+      else
+        downButton.addClickHandler(new DownHandler(i));
+
+		  grid.setWidget(i, 0, new Label(assessment.getItemTitle(i)));
+			grid.setWidget(i, 1, upButton);
+			grid.setWidget(i, 2, downButton);
 		}
 	
 	}
+
+	/**
+	 * Up button action
+	 */
+	class UpHandler implements ClickHandler{
+
+	  private int index;
+	  
+	  public UpHandler(int index){
+	    this.index = index;
+	  }
+	  
+    public void onClick(ClickEvent event) {
+      assessment.moveItem(index, index-1);
+      updateItemList();
+    }
+	};
+
+  /**
+   * Down button action
+   */
+  class DownHandler implements ClickHandler{
+
+    private int index;
+    
+    public DownHandler(int index){
+      this.index = index;
+    }
+    
+    public void onClick(ClickEvent event) {
+      assessment.moveItem(index, index+1);
+      updateItemList();
+    }
+  };
 	
 }

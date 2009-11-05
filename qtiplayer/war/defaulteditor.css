@@ -2,7 +2,6 @@
 
 
 .qe-item-editor{
-	width: 100%;
 }
 
 .qe-tab-panel{
@@ -30,3 +29,8 @@
 .qe-item-column{
 	width: 80%;
 }
+
+.debug{
+	background-color: red;
+}	
+	

@@ -23,6 +23,8 @@
 */
 package com.klangner.qtiplayer.client.model;
 
+import java.util.Vector;
+
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
@@ -30,32 +32,32 @@ import com.google.gwt.xml.client.NodeList;
 public class Assessment extends XMLDocument{
 
 	/** Array with references to items */
-	private String[]			itemRefs;
+	private Vector<String>   itemRefs;
   /** Array with item titles */
-  private String[]      itemTitles;
+  private Vector<String>  itemTitles;
   /** Varaibles used to load titles */
-  private int           titlesLoadedCounter;
+  private int             titlesLoadedCounter;
   private IDocumentLoaded titlesListener;
 
 	/**
 	 * @return number of items in assessment
 	 */
 	public int getItemCount(){
-		return itemRefs.length;
+		return itemRefs.size();
 	}
 	
   /**
    * @return item ref
    */
   public String getItemRef(int index){
-    return itemRefs[index];
+    return itemRefs.get(index);
   }
   
   /**
    * @return item title
    */
   public String getItemTitle(int index){
-    return itemTitles[index];
+    return itemTitles.get(index);
   }
   
 	/**
@@ -76,14 +78,15 @@ public class Assessment extends XMLDocument{
 	  
 	  // Load only once
 	  if(itemTitles == null){
-	    itemTitles = new String[getItemCount()];
+	    itemTitles = new Vector<String>();
 	    
       try {
-        titlesLoadedCounter = itemRefs.length;
+        titlesLoadedCounter = itemRefs.size();
         titlesListener = listener;
-  	    for(int i = 0; i < itemRefs.length; i++){
+  	    for(int i = 0; i < itemRefs.size(); i++){
   	        ItemReference  item = new ItemReference();
-  	        item.load(itemRefs[i], new TitleLoader(i));
+  	        itemTitles.add(itemRefs.get(i));
+  	        item.load(itemRefs.get(i), new TitleLoader(i));
   	    }
       } catch (LoadException e) {
       }
@@ -93,6 +96,50 @@ public class Assessment extends XMLDocument{
 	  }
 	}
 	
+	
+  /**
+   * Move item to new position
+   * @param index - old position
+   * @param newPosition - new position
+   */
+  public void moveItem(int index, int newPosition){
+    String temp;
+
+    // move DOM nodes
+    NodeList  nodes = getDom().getElementsByTagName("assessmentItemRef");
+    Element   assessmentSection = 
+      (Element)getDom().getElementsByTagName("assessmentSection").item(0); 
+    
+    // change XML modes
+    Node      node = nodes.item(index);
+    Node      nodeRef;
+    
+    assessmentSection.removeChild(node);
+    if(index < newPosition){
+      nodeRef = nodes.item(newPosition);
+      assessmentSection.insertBefore(node, nodeRef);
+    }
+    else if(newPosition >= nodes.getLength()){
+      assessmentSection.appendChild(node);
+    }
+    else{
+      nodeRef = nodes.item(newPosition);
+      assessmentSection.insertBefore(node, nodeRef);
+    }
+    
+    // move references
+    temp = itemRefs.get(index);
+    itemRefs.remove(index);
+    itemRefs.insertElementAt(temp, newPosition);
+    
+    // move titles
+    temp = itemTitles.get(index);
+    itemTitles.remove(index);
+    itemTitles.insertElementAt(temp, newPosition);
+
+  }
+  
+  
 	/**
 	 * Load item refs into array
 	 */
@@ -101,14 +148,17 @@ public class Assessment extends XMLDocument{
 		NodeList 	nodes = getDom().getElementsByTagName("assessmentItemRef");
     Node			itemRefNode;
 
-    itemRefs = new String[nodes.getLength()];
+    itemRefs = new Vector<String>();
     
     for(int i = 0; i < nodes.getLength(); i++){
     	itemRefNode = nodes.item(i);
-    	itemRefs[i] = getBaseUrl() + ((Element)itemRefNode).getAttribute("href");
+    	itemRefs.add( getBaseUrl() + ((Element)itemRefNode).getAttribute("href") );
     }
 	}
-	
+
+	/**
+	 * Send event when all titles loaded
+	 */
 	private synchronized void  titleLoaded(){
 	
 	  titlesLoadedCounter --;
@@ -129,7 +179,7 @@ public class Assessment extends XMLDocument{
 	  }
 	  
     public void finishedLoading(XMLDocument document) {
-      itemTitles[index] = ((ItemReference)document).getTitle();
+      itemTitles.set( index, ((ItemReference)document).getTitle() );
       titleLoaded();
     }
   };

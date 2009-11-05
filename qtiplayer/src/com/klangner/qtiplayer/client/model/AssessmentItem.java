@@ -128,6 +128,7 @@ public class AssessmentItem extends XMLDocument implements IStateful{
 		return result;
 	}
 	
+	
 	/** 
 	 * Reset score
 	 */
