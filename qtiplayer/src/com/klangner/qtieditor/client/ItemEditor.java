@@ -23,6 +23,8 @@
 */
 package com.klangner.qtieditor.client;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
@@ -32,10 +34,20 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.klangner.qtiplayer.client.model.Assessment;
 import com.klangner.qtiplayer.client.model.AssessmentItem;
+import com.klangner.qtiplayer.client.model.IDocumentLoaded;
+import com.klangner.qtiplayer.client.model.LoadException;
+import com.klangner.qtiplayer.client.model.XMLDocument;
 
 public class ItemEditor extends Composite{
 
+  /** Model */
+  private Assessment      assessment;
+  /** current item object */
+  private AssessmentItem  currentItem = null;
+  /** current index */
+  private int             currentIndex;
 	/** Item editor panel */
 	private Panel 					mainPanel;
 	/** Item tool bar */
@@ -57,9 +69,11 @@ public class ItemEditor extends Composite{
 	/**
 	 * Constructor
 	 */
-	public ItemEditor(){
+	public ItemEditor(Assessment assessment){
 
+	  this.assessment = assessment;
 	  initWidget(createView());
+	  loadAssessmentItem(0);
 	}
 	
 	
@@ -80,10 +94,22 @@ public class ItemEditor extends Composite{
 		toolbar.add(removeButton);
 
 		prevButton = new Button("<<");
+		prevButton.addClickHandler(new ClickHandler(){
+      public void onClick(ClickEvent event) {
+        loadAssessmentItem(currentIndex-1);
+      }
+		});
+		prevButton.setEnabled(false);
 		toolbar.add(prevButton);
-		pageCounter = new InlineLabel("1/10");
+		pageCounter = new InlineLabel();
 		toolbar.add(pageCounter);
 		nextButton = new Button(">");
+    nextButton.addClickHandler(new ClickHandler(){
+      public void onClick(ClickEvent event) {
+        loadAssessmentItem(currentIndex+1);
+      }
+    });
+    nextButton.setEnabled(false);
 		toolbar.add(nextButton);
 		
 		pagePanel = new VerticalPanel();
@@ -93,17 +119,60 @@ public class ItemEditor extends Composite{
 		return mainPanel;
 	}
 
-	
+  /**
+   * Show assessment item in body part of player
+   * @param index
+   */
+  private void loadAssessmentItem(int index){
+    
+    if(index >= 0 && index < assessment.getItemCount()){
+      
+      currentIndex = index;
+      String  url = assessment.getItemRef(index);
+
+      currentItem = new AssessmentItem();
+      try {
+        currentItem.load(url, new IDocumentLoaded(){
+
+          public void finishedLoading(XMLDocument doc) {
+            onItemLoaded();
+          }
+        });
+      } catch (LoadException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+  
+  /**
+   * create view for assessment item
+   */
+  private void onItemLoaded(){
+    
+    pageCounter.setText((currentIndex+1) + "/" + assessment.getItemCount());
+    showPage(currentItem);
+    if(currentIndex > 0)
+      prevButton.setEnabled(true);
+    else
+      prevButton.setEnabled(false);
+    
+    if(currentIndex < assessment.getItemCount()-1)
+      nextButton.setEnabled(true);
+    else
+      nextButton.setEnabled(false);
+    
+  }
+
+  
 	/**
 	 * Create view for given assessment item and show it in player
 	 * @param index of assessment item
 	 */
-	public void showPage(AssessmentItem assessmentItem){
+	private void showPage(AssessmentItem assessmentItem){
 
 		Label itemTitleLabel = new Label();
 		Grid	moduleGrid = new Grid(assessmentItem.getModuleCount()+1, 5);
 		
-//		this.assessmentItem = assessmentItem; 
 		pagePanel.clear();
 		moduleGrid.getColumnFormatter().addStyleName(0, "qe-label-column");
 		pagePanel.add(moduleGrid);

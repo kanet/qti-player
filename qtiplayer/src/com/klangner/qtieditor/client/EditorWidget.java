@@ -27,7 +27,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.klangner.qtiplayer.client.model.Assessment;
-import com.klangner.qtiplayer.client.model.AssessmentItem;
 
 public class EditorWidget extends Composite{
 
@@ -46,15 +45,6 @@ public class EditorWidget extends Composite{
 	}
 	
 	
-	/**
-	 * Create view for given assessment item and show it in player
-	 * @param index of assessment item
-	 */
-	public void showPage(AssessmentItem assessmentItem){
-
-			itemView.showPage(assessmentItem);
-	}
-	
   /**
    * @return view with player
    */
@@ -63,7 +53,7 @@ public class EditorWidget extends Composite{
     TabPanel  tabPanel = new TabPanel();
     
     assessmentEditor = new AssessmentEditor(assessment);
-    itemView = new ItemEditor();
+    itemView = new ItemEditor(assessment);
     
     tabPanel.setStyleName("qe-tab-panel");
     tabPanel.add(itemView, "Page Editor");

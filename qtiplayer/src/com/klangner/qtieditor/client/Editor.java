@@ -29,7 +29,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.klangner.qtiplayer.client.model.Assessment;
-import com.klangner.qtiplayer.client.model.AssessmentItem;
 import com.klangner.qtiplayer.client.model.IDocumentLoaded;
 import com.klangner.qtiplayer.client.model.LoadException;
 import com.klangner.qtiplayer.client.model.XMLDocument;
@@ -44,8 +43,6 @@ public class Editor {
   private Assessment          assessment;
   /** Editor view */
   private EditorWidget					editorView;
-  /** current item object */
-  private AssessmentItem      currentItem = null;
 
   
   /**
@@ -81,30 +78,6 @@ public class Editor {
   }
   
   /**
-   * Show assessment item in body part of player
-   * @param index
-   */
-  private void loadAssessmentItem(int index){
-  	
-  	if(index >= 0 && index < assessment.getItemCount()){
-	    String  url = assessment.getItemRef(index);
-
-	    currentItem = new AssessmentItem();
-	    try {
-				currentItem.load(url, new IDocumentLoaded(){
-
-				  public void finishedLoading(XMLDocument doc) {
-				    onItemLoaded();
-				  }
-				});
-			} catch (LoadException e) {
-				e.printStackTrace();
-			}
-  	}
-  }
-  
-
-  /**
    * Create user interface
    */
   private void onAssessmentLoaded() {
@@ -119,19 +92,6 @@ public class Editor {
     editorView = new EditorWidget(assessment);
     rootPanel.add(editorView);
     
-    // Switch to first item
-    loadAssessmentItem(0);
-
   }
   
-  
-  /**
-   * create view for assessment item
-   */
-  private void onItemLoaded(){
-    
-    editorView.showPage(currentItem);
-    
-  }
-
 }
