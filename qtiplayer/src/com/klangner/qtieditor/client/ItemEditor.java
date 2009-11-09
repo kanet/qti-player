@@ -27,13 +27,15 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.klangner.qtieditor.client.model.EditableModuleFactory;
 import com.klangner.qtiplayer.client.model.Assessment;
 import com.klangner.qtiplayer.client.model.AssessmentItem;
 import com.klangner.qtiplayer.client.model.IDocumentLoaded;
@@ -65,10 +67,10 @@ public class ItemEditor extends Composite{
 	/** Put page in this panel */
 	private Panel						pagePanel;
 
-	
 	/**
 	 * Constructor
 	 */
+	
 	public ItemEditor(Assessment assessment){
 
 	  this.assessment = assessment;
@@ -85,7 +87,7 @@ public class ItemEditor extends Composite{
 		mainPanel = new VerticalPanel();
 		mainPanel.setStyleName("qe-item-editor");
 		
-		toolbar = new HorizontalPanel();
+		toolbar = new FlowPanel();
 		toolbar.setStyleName("qe-toolbar");
 		mainPanel.add(toolbar);
 		addButton = new Button("Add...");
@@ -130,7 +132,7 @@ public class ItemEditor extends Composite{
       currentIndex = index;
       String  url = assessment.getItemRef(index);
 
-      currentItem = new AssessmentItem();
+      currentItem = new AssessmentItem(new EditableModuleFactory());
       try {
         currentItem.load(url, new IDocumentLoaded(){
 
@@ -170,29 +172,24 @@ public class ItemEditor extends Composite{
 	 */
 	private void showPage(AssessmentItem assessmentItem){
 
-		Label itemTitleLabel = new Label();
-		Grid	moduleGrid = new Grid(assessmentItem.getModuleCount()+1, 5);
+		TextBox itemTitleLabel;
+		Label	label;
+		Panel	panel;
 		
 		pagePanel.clear();
-		moduleGrid.getColumnFormatter().addStyleName(0, "qe-label-column");
-		pagePanel.add(moduleGrid);
 
+		panel = new HorizontalPanel();
+		panel.setStyleName("qe-module-panel");
+		label = new Label("Title: ");
+		panel.add(label);
+		itemTitleLabel = new TextBox();
 		itemTitleLabel.setText(assessmentItem.getTitle());
-		itemTitleLabel.setStyleName("qp-item-title");
-		moduleGrid.setStyleName("qe-module-table");
-		moduleGrid.setText(0, 0, "Title");
-		moduleGrid.setWidget(0, 1, itemTitleLabel);
-		moduleGrid.setWidget(0, 2, new Button("Edit"));
+		panel.add(itemTitleLabel);
+		pagePanel.add(panel);
 
 		for(int i = 0; i < assessmentItem.getModuleCount(); i++){
-			moduleGrid.setText(i+1, 0, "Text");
-			moduleGrid.setWidget(i+1, 1, assessmentItem.getModule(i));
-			moduleGrid.setWidget(i+1, 2, new Button("Edit"));
-			Panel panel = new HorizontalPanel();
-			panel.add(new Button("Up"));
-			panel.add(new Button("Down"));
-//			moduleGrid.setWidget(i+1, 3, panel);
-//			moduleGrid.setWidget(i+1, 4, new Button("Remove"));
+//			moduleGrid.setText(i+1, 0, "Text");
+			pagePanel.add(assessmentItem.getModule(i));
 		}
 
 	}

@@ -1,11 +1,18 @@
 /** Add css rules here for your application. */
 
-
+.qe-editable-label{
+	background-color: white;
+	border:1px solid black;
+	padding: 2px;
+}
+	
+	
 .qe-item-editor{
+	background-color: yellow;
 }
 
-.qe-tab-panel{
-	width:	100%;
+.qe-toc{
+	background-color: white;
 }
 
 .qe-toolbar{
@@ -13,21 +20,15 @@
 	right: 4px;
 	background-color: lightblue;
 	padding: 4px;
+	width: 100%;
 }
 
 .qe-module-table{
 	width:	100%;
 }
 
-.qe-label-column{
-	padding-left: 2px;
-	padding-right: 2px;
-	background-color: silver;
-	border: 1px solid green;
-}
-
-.qe-item-column{
-	width: 80%;
+.qe-module-panel{
+	padding: 10px;
 }
 
 .debug{

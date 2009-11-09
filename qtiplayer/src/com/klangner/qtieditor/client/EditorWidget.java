@@ -23,25 +23,74 @@
 */
 package com.klangner.qtieditor.client;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.HorizontalSplitPanel;
+import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.klangner.qtieditor.client.model.EditableModuleFactory;
 import com.klangner.qtiplayer.client.model.Assessment;
+import com.klangner.qtiplayer.client.model.AssessmentItem;
+import com.klangner.qtiplayer.client.model.IDocumentLoaded;
+import com.klangner.qtiplayer.client.model.LoadException;
+import com.klangner.qtiplayer.client.model.XMLDocument;
 
 public class EditorWidget extends Composite{
 
-	/** assessment editor panel */
-	private ItemEditor				itemView;
-	/** assessment editor panel */
-	private AssessmentEditor	assessmentEditor;
-	
+  /** Model */
+  private Assessment      assessment;
+  /** current item object */
+  private AssessmentItem  currentItem = null;
+  /** current index */
+  private int             currentIndex;
+	/** Item editor panel */
+	private Panel 					mainPanel;
+	/** Item tool bar */
+	private Panel 					toolbar;
+	/** page counter */
+	private Label						pageCounter;
+	/** previous button */
+	private Button					prevButton;
+	/** Next button */
+	private Button					nextButton;
+	/** Add page button */
+	private Button					addButton;
+	/** Remove page from panel */
+	private Button					removeButton;
+	/** Put page in this panel */
+	private Panel						pagePanel;
+	/** Tree view */
+	private	Tree						itemTree;
+
+
 	
 	/**
 	 * Constructor
 	 */
 	public EditorWidget(Assessment assessment){
 		
+		this.assessment = assessment;
 		initWidget(createView(assessment));
+		
+		assessment.loadTitles(new IDocumentLoaded(){
+
+      public void finishedLoading(XMLDocument document) {
+        updateItemList();
+      }
+		  
+		});
+
+	  loadAssessmentItem(0);
+
 	}
 	
 	
@@ -50,17 +99,137 @@ public class EditorWidget extends Composite{
    */
   private Widget createView(Assessment assessment){
 
-    TabPanel  tabPanel = new TabPanel();
-    
-    assessmentEditor = new AssessmentEditor(assessment);
-    itemView = new ItemEditor(assessment);
-    
-    tabPanel.setStyleName("qe-tab-panel");
-    tabPanel.add(itemView, "Page Editor");
-    tabPanel.add(assessmentEditor, "Assessment Editor");
-    tabPanel.selectTab(0);
-    
-    return tabPanel;
+  	Panel	hsp;
+  	
+		mainPanel = new VerticalPanel();
+		mainPanel.setStyleName("qe-item-editor");
+		
+		toolbar = new FlowPanel();
+		toolbar.setStyleName("qe-toolbar");
+		mainPanel.add(toolbar);
+		addButton = new Button("Add...");
+		toolbar.add(addButton);
+		removeButton = new Button("Remove Page");
+		toolbar.add(removeButton);
+
+		prevButton = new Button("<<");
+		prevButton.addClickHandler(new ClickHandler(){
+      public void onClick(ClickEvent event) {
+        loadAssessmentItem(currentIndex-1);
+      }
+		});
+		prevButton.setEnabled(false);
+		toolbar.add(prevButton);
+		pageCounter = new InlineLabel();
+		toolbar.add(pageCounter);
+		nextButton = new Button(">");
+    nextButton.addClickHandler(new ClickHandler(){
+      public void onClick(ClickEvent event) {
+        loadAssessmentItem(currentIndex+1);
+      }
+    });
+    nextButton.setEnabled(false);
+		toolbar.add(nextButton);
+		
+		hsp = new HorizontalPanel();
+
+		itemTree = new Tree();
+		itemTree.setStyleName("qe-toc");
+		hsp.add(itemTree);
+		pagePanel = new VerticalPanel();
+		pagePanel.setStyleName("qe-body");
+		hsp.add(pagePanel);
+
+		mainPanel.add(hsp);
+		
+		
+		return mainPanel;
   }
+
+  /**
+   * Create toc
+   * @return
+   */
+  private void updateItemList(){
+
+  	itemTree.clear();
+		for(int i = 0; i < assessment.getItemCount(); i++){
+		  itemTree.add(new Label(assessment.getItemTitle(i)));
+		}
+
+  }
+  
+  /**
+   * Show assessment item in body part of player
+   * @param index
+   */
+  private void loadAssessmentItem(int index){
+    
+    if(index >= 0 && index < assessment.getItemCount()){
+      
+      currentIndex = index;
+      String  url = assessment.getItemRef(index);
+
+      currentItem = new AssessmentItem(new EditableModuleFactory());
+      try {
+        currentItem.load(url, new IDocumentLoaded(){
+
+          public void finishedLoading(XMLDocument doc) {
+            onItemLoaded();
+          }
+        });
+      } catch (LoadException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+  
+  /**
+   * create view for assessment item
+   */
+  private void onItemLoaded(){
+    
+    pageCounter.setText((currentIndex+1) + "/" + assessment.getItemCount());
+    showPage(currentItem);
+    if(currentIndex > 0)
+      prevButton.setEnabled(true);
+    else
+      prevButton.setEnabled(false);
+    
+    if(currentIndex < assessment.getItemCount()-1)
+      nextButton.setEnabled(true);
+    else
+      nextButton.setEnabled(false);
+    
+  }
+
+  
+	/**
+	 * Create view for given assessment item and show it in player
+	 * @param index of assessment item
+	 */
+	private void showPage(AssessmentItem assessmentItem){
+
+		TextBox itemTitleLabel;
+		Label	label;
+		Panel	panel;
+		
+		pagePanel.clear();
+
+		panel = new HorizontalPanel();
+		panel.setStyleName("qe-module-panel");
+		label = new Label("Title: ");
+		panel.add(label);
+		itemTitleLabel = new TextBox();
+		itemTitleLabel.setText(assessmentItem.getTitle());
+		panel.add(itemTitleLabel);
+		pagePanel.add(panel);
+
+		for(int i = 0; i < assessmentItem.getModuleCount(); i++){
+//			moduleGrid.setText(i+1, 0, "Text");
+			pagePanel.add(assessmentItem.getModule(i));
+		}
+
+	}
 
 }

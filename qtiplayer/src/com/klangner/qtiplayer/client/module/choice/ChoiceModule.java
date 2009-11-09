@@ -60,6 +60,11 @@ public class ChoiceModule extends Composite implements IActivity, IStateful{
 	private IModuleSocket 	moduleSocket;
 	
 	
+	/**
+	 * Constructor
+	 * @param choiceNode create choice from this node
+	 * @param moduleSocket socket
+	 */
 	public ChoiceModule(Element choiceNode, IModuleSocket moduleSocket){
 		
 		this.choiceElement = choiceNode;

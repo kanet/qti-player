@@ -39,7 +39,7 @@ import com.klangner.qtiplayer.client.module.IStateful;
 public class AssessmentItem extends XMLDocument implements IStateful{
 
   /** module factory */
-  private ModuleFactory moduleFactory;
+  private IModuleFactory 			moduleFactory;
 	/** check result for this item */
 	private HashMap<String, Response> responsesMap = new HashMap<String, Response>();
 	/** Module list */
@@ -49,8 +49,8 @@ public class AssessmentItem extends XMLDocument implements IStateful{
 	/**
 	 * constructor
 	 */
-	public AssessmentItem(){
-	  moduleFactory = new ModuleFactory();  
+	public AssessmentItem(IModuleFactory moduleFactory){
+	  this.moduleFactory = moduleFactory;  
 	}
 	
 	

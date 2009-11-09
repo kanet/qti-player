@@ -1,15 +1,16 @@
-package com.klangner.qtiplayer.client.model;
+package com.klangner.qtieditor.client.model;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
+import com.klangner.qtieditor.client.model.modules.ChoiceEditor;
+import com.klangner.qtiplayer.client.model.IModuleFactory;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
-import com.klangner.qtiplayer.client.module.choice.ChoiceModule;
 import com.klangner.qtiplayer.client.module.debug.DebugModule;
 import com.klangner.qtiplayer.client.module.object.ObjectModule;
 import com.klangner.qtiplayer.client.module.text.TextModule;
 
-public class ModuleFactory {
+public class EditableModuleFactory implements IModuleFactory{
 
   /**
    * Create module for given XML node
@@ -25,7 +26,7 @@ public class ModuleFactory {
     if(nodeName.compareTo("p") == 0 || nodeName.compareTo("blockquote") == 0)
       return new TextModule(node, moduleSocket);
     else if(nodeName.compareTo("choiceInteraction") == 0)
-      return new ChoiceModule(node, moduleSocket);
+      return new ChoiceEditor(node);
     else if(nodeName.compareTo("object") == 0)
       return new ObjectModule(node, moduleSocket);
     else if(node.getNodeType() == Node.ELEMENT_NODE)

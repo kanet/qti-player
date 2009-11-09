@@ -38,6 +38,7 @@ import com.klangner.qtiplayer.client.model.Assessment;
 import com.klangner.qtiplayer.client.model.AssessmentItem;
 import com.klangner.qtiplayer.client.model.IDocumentLoaded;
 import com.klangner.qtiplayer.client.model.LoadException;
+import com.klangner.qtiplayer.client.model.RuntimeModuleFactory;
 import com.klangner.qtiplayer.client.model.Result;
 import com.klangner.qtiplayer.client.model.XMLDocument;
 import com.klangner.qtiplayer.client.module.IActivity;
@@ -137,7 +138,7 @@ public class Player {
 	    if(currentItem != null)
 	    	onItemFinished();
 	    
-	    currentItem = new AssessmentItem();
+	    currentItem = new AssessmentItem(new RuntimeModuleFactory());
 	    currentItemIndex = index;
 	    try {
 				currentItem.load(url, new IDocumentLoaded(){
