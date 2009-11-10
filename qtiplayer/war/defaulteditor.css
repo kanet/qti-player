@@ -1,36 +1,40 @@
 /** Add css rules here for your application. */
 
-.qe-editable-label{
-	background-color: white;
-	border:1px solid black;
-	padding: 2px;
+body{
+	padding:	4px;
 }
-	
-	
-.qe-item-editor{
+
+.qe-editor{
 	background-color: yellow;
-}
-
-.qe-toc{
-	background-color: white;
-}
-
-.qe-toolbar{
-	left:	4px;
-	right: 4px;
-	background-color: lightblue;
-	padding: 4px;
 	width: 100%;
 }
 
-.qe-module-table{
-	width:	100%;
+.qe-toolbar{
+	background-color: lightblue;
+	padding: 	4px;
 }
 
-.qe-module-panel{
-	padding: 10px;
+.qe-split-panel{
+	background-color: #cccccc;
+	padding: 	4px;
 }
 
+.qe-item-list{
+	background-color: white;
+}
+
+.qe-item-editor{
+	margin:	4px;
+	width: 100%;
+}
+
+.qe-page-title{
+	background-color: gray;
+	padding: 4px;
+	margin-bottom: 8px;
+	vertical-align: bottom;
+}
+	
 .debug{
 	background-color: red;
 }	

@@ -27,8 +27,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.klangner.qtieditor.client.model.EditableModuleFactory;
 import com.klangner.qtiplayer.client.model.Assessment;
+import com.klangner.qtiplayer.client.model.AssessmentItem;
 import com.klangner.qtiplayer.client.model.IDocumentLoaded;
 import com.klangner.qtiplayer.client.model.LoadException;
 import com.klangner.qtiplayer.client.model.XMLDocument;
@@ -41,8 +44,12 @@ public class Editor {
   private JavaScriptObject    jsObject;
   /** Assessment played by this player*/
   private Assessment          assessment;
+  /** current item object */
+  private AssessmentItem  currentItem = null;
+  /** current index */
+//  private int             currentIndex;
   /** Editor view */
-  private EditorWidget					editorView;
+  private ItemEditor					ItemEditor;
 
   
   /**
@@ -81,7 +88,7 @@ public class Editor {
    * Create user interface
    */
   private void onAssessmentLoaded() {
-  	
+
     RootPanel rootPanel = RootPanel.get(id);
     // remove children
     Element element = rootPanel.getElement();
@@ -89,9 +96,65 @@ public class Editor {
     if(node != null)
       element.removeChild(node);
     
-    editorView = new EditorWidget(assessment);
-    rootPanel.add(editorView);
+    rootPanel.add(new Toolbar());
+
+    HorizontalPanel hsp = new HorizontalPanel();
+    hsp.setWidth("100%");
+    hsp.setStyleName("qe-split-panel");
+    hsp.add(new ItemList(assessment));
+    ItemEditor = new ItemEditor(); 
+    hsp.add(ItemEditor);
+    rootPanel.add(hsp);
+    
+    rootPanel.setStyleName("qe-editor");
+    
+    // Load first item
+    loadAssessmentItem(0);
     
   }
+  
+  /**
+   * Show assessment item in body part of player
+   * @param index
+   */
+  private void loadAssessmentItem(int index){
+    
+    if(index >= 0 && index < assessment.getItemCount()){
+      
+//      currentIndex = index;
+      String  url = assessment.getItemRef(index);
+
+      currentItem = new AssessmentItem(new EditableModuleFactory());
+      try {
+        currentItem.load(url, new IDocumentLoaded(){
+
+          public void finishedLoading(XMLDocument doc) {
+            onItemLoaded();
+          }
+        });
+      } catch (LoadException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+  
+  /**
+   * create view for assessment item
+   */
+  private void onItemLoaded(){
+    
+//    pageCounter.setText((currentIndex+1) + "/" + assessment.getItemCount());
+    ItemEditor.showPage(currentItem);
+//    if(currentIndex > 0)
+//      prevButton.setEnabled(true);
+//    else
+//      prevButton.setEnabled(false);
+//    
+//    if(currentIndex < assessment.getItemCount()-1)
+//      nextButton.setEnabled(true);
+//    else
+//      nextButton.setEnabled(false);
+    
+  }  
   
 }
