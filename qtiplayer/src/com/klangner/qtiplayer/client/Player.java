@@ -106,7 +106,7 @@ public class Player {
     assessment = new Assessment();
     try {
       String resolvedURL;
-      if( url.startsWith("http://") || url.startsWith("/") )
+      if( url.contains("://") || url.startsWith("/") )
         resolvedURL = url;
       else
         resolvedURL = GWT.getHostPageBaseURL() + url;
