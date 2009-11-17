@@ -5,7 +5,7 @@
   </configurations>
     
   <publications>
-  	<artifact name="player" type="zip"  conf="api" ext="zip"/>
+  	<artifact name="player" type="zip" conf="player" ext="zip"/>
   </publications>
     
   <dependencies>

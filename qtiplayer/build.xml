@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<project name="qtiplayer" default="dist" basedir=".">
+<project name="qtiplayer" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 	<property name="player.version" value="1.0b2"/>
   <!-- Configure path to GWT SDK -->
   <property name="gwt.sdk" location="/home/klangner/lib/gwt-linux-1.7.1" />
@@ -18,6 +18,10 @@
     <fileset dir="war/WEB-INF/lib" includes="**/*.jar"/>
   </path>
 
+	<target name="resolve" description="--> retrieve dependencies with ivy">
+  	<ivy:retrieve />
+  </target>
+    
   <target name="libs" description="Copy libs to WEB-INF/lib">
     <mkdir dir="war/WEB-INF/lib" />
     <copy todir="war/WEB-INF/lib" file="${gwt.sdk}/gwt-servlet.jar" />
@@ -98,5 +102,16 @@
 
     <zip destfile="dist/qtiplayer-${player.version}.zip" basedir="dist/build"/>
   </target>
+  
+  <target name="publish" depends="dist"  description="Publish artifacts in Ivy repository">		
+		<publish
+			pubrevision="${moduleversion}"
+			resolver="${ivy.publish.resolver}"
+			status="${ivy.publish.status}"
+			forcedeliver="true"
+			artifactspattern="${dist}/[artifact].[ext]"
+			overwrite="true"/>		
+	</target>
+  
 
 </project>

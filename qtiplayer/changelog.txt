@@ -1,4 +1,8 @@
 = Milestone 1.0b1 =
+* Fixed problem with file protocol and spaces.
+
+
+= Milestone 1.0b1 =
 * QTI files can be loaded from other domains (requires security settings)
 * Added support for video and audio files
 

@@ -32,6 +32,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.klangner.qtiplayer.client.model.Assessment;
@@ -106,10 +107,18 @@ public class Player {
     assessment = new Assessment();
     try {
       String resolvedURL;
-      if( url.contains("://") || url.startsWith("/") )
+      
+      if( GWT.getHostPageBaseURL().startsWith("file://") ){
+      
+        String localURL = URL.decode( GWT.getHostPageBaseURL() );
+        resolvedURL = localURL + url;
+      }
+      else if( url.contains("://") || url.startsWith("/") ){
         resolvedURL = url;
-      else
+      }
+      else{
         resolvedURL = GWT.getHostPageBaseURL() + url;
+      }
       
 			assessment.load(resolvedURL, new IDocumentLoaded(){
 
