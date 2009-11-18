@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <project name="qtiplayer" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
-	<property name="player.version" value="1.0b2"/>
+
+	<tstamp><format property="tstamp" pattern="yyyyMMddHHmm" timezone="GMT"/></tstamp>
+	<property file="./default.properties" />
+
   <!-- Configure path to GWT SDK -->
   <property name="gwt.sdk" location="/home/klangner/lib/gwt-linux-1.7.1" />
   <condition property="XstartOnFirstThread" value="-XstartOnFirstThread">
@@ -100,16 +103,20 @@
     <copy todir="dist/build" file="war/demo.html" />
     <copy todir="dist/build" file="war/defaultplayer.css" />
 
-    <zip destfile="dist/qtiplayer-${player.version}.zip" basedir="dist/build"/>
+    <zip destfile="dist/qtiplayer-${version}.zip" basedir="dist/build"/>
+    <zip destfile="dist/qtiplayer.zip" basedir="dist/build/qtiplayer"/>
   </target>
   
-  <target name="publish" depends="dist"  description="Publish artifacts in Ivy repository">		
-		<publish
-			pubrevision="${moduleversion}"
-			resolver="${ivy.publish.resolver}"
+  <target name="publish" depends="dist" description="Publish artifacts into Ivy repository">  	
+  	<!-- resolve is needed to get organization/module from ivy.xml for publish task !-->
+		<ivy:resolve />
+  		
+		<ivy:publish
+			pubrevision="${version}"
+			resolver="${ivy.publish.ydp.resolver}"
 			status="${ivy.publish.status}"
 			forcedeliver="true"
-			artifactspattern="${dist}/[artifact].[ext]"
+			artifactspattern="dist/[artifact].[ext]"
 			overwrite="true"/>		
 	</target>
   

@@ -1,14 +1,14 @@
 <ivy-module version="2.0">
   <info organisation="com.klangner" module="qtiplayer"/>
 	<configurations>
-		<conf name="player"  description="Player runtime"/>
+		<conf name="qtiplayer"  description="Player runtime"/>
   </configurations>
     
   <publications>
-  	<artifact name="player" type="zip" conf="player" ext="zip"/>
+  	<artifact name="qtiplayer" type="zip" conf="qtiplayer" ext="zip"/>
   </publications>
     
   <dependencies>
-    <!-- dependency org="commons-lang" name="commons-lang" rev="2.0"/-->
+    <!-- dependency org="com.google" name="gwt" rev="1.7.1"/-->
   </dependencies>
 </ivy-module>
