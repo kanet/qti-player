@@ -97,7 +97,7 @@ public class ItemList extends Composite {
     }
     
     if(itemsTree.getItemCount() > 0)
-      itemsTree.setSelectedItem(itemsTree.getItem(0));
+      itemsTree.setSelectedItem(itemsTree.getItem(0), false);
 
   }
   
