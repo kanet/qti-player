@@ -21,7 +21,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-package com.klangner.qtiplayer.server;
+package com.qtitools.website.server;
 
 //import com.klangner.qtiplayer.client.GreetingService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
