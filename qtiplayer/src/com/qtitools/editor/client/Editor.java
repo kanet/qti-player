@@ -90,6 +90,9 @@ public class Editor {
   private void onAssessmentLoaded() {
 
     RootPanel rootPanel = RootPanel.get(id);
+    ItemList  itemList;
+
+
     // remove children
     Element element = rootPanel.getElement();
     Node node = element.getFirstChild();
@@ -101,7 +104,15 @@ public class Editor {
     HorizontalPanel hsp = new HorizontalPanel();
     hsp.setWidth("100%");
     hsp.setStyleName("qe-split-panel");
-    hsp.add(new ItemList(assessment));
+    itemList = new ItemList(assessment);
+    itemList.addSelectionHandler(new ItemSelectedHandler(){
+      public void itemSelected(int index) {
+        loadAssessmentItem(index);
+      }
+    });
+
+    hsp.add(itemList);
+    
     ItemEditor = new ItemEditor(); 
     hsp.add(ItemEditor);
     rootPanel.add(hsp);
@@ -121,7 +132,6 @@ public class Editor {
     
     if(index >= 0 && index < assessment.getItemCount()){
       
-//      currentIndex = index;
       String  url = assessment.getItemRef(index);
 
       currentItem = new AssessmentItem(new EditableModuleFactory());
@@ -143,17 +153,7 @@ public class Editor {
    */
   private void onItemLoaded(){
     
-//    pageCounter.setText((currentIndex+1) + "/" + assessment.getItemCount());
     ItemEditor.showPage(currentItem);
-//    if(currentIndex > 0)
-//      prevButton.setEnabled(true);
-//    else
-//      prevButton.setEnabled(false);
-//    
-//    if(currentIndex < assessment.getItemCount()-1)
-//      nextButton.setEnabled(true);
-//    else
-//      nextButton.setEnabled(false);
     
   }  
   

@@ -1,5 +1,13 @@
 /** Add css rules here for your application. */
 
+.gwt-TreeItem{
+	cursor: pointer; 
+}
+	
+.gwt-TreeItem-selected{
+	background-color: silver; 
+}
+	
 body{
 	padding:	4px;
 }

@@ -23,9 +23,15 @@
 */
 package com.qtitools.editor.client;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.qtitools.player.client.model.Assessment;
 import com.qtitools.player.client.model.IDocumentLoaded;
@@ -34,9 +40,11 @@ import com.qtitools.player.client.model.XMLDocument;
 public class ItemList extends Composite {
 
   /** tree widget */
-  private Tree  itemTree;
+  private Tree  itemsTree;
   /** Assessment */
   private Assessment assessment;
+  /** TreeItem -> item id mapping */
+  private Map<TreeItem, Integer>  treeItemsId = new HashMap<TreeItem, Integer>();
   
   /**
    * Constructor
@@ -58,26 +66,60 @@ public class ItemList extends Composite {
   }
   
   /**
+   * Add selection handler for this list
+   * @return
+   */
+  public HandlerRegistration addSelectionHandler(ItemSelectedHandler handler){
+    
+    return itemsTree.addSelectionHandler(new SelectionAdapter(handler));
+  }
+  
+  /**
    * @return view with player
    */
   private Widget createView(){
 
-    itemTree = new Tree();
+    itemsTree = new Tree();
 
-    return itemTree;
+    return itemsTree;
   }
 
   /**
    * get titles from assessment
    */
   private void updateItemList() {
+    
+    TreeItem treeItem;
+    
     for(int i = 0; i < assessment.getItemCount(); i++){
-      itemTree.add(new Label(assessment.getItemTitle(i)));
+      treeItem = itemsTree.addItem( assessment.getItemTitle(i) );
+      treeItemsId.put(treeItem, new Integer(i));
     }
     
-    itemTree.setSelectedItem(itemTree.getItem(0));
+    if(itemsTree.getItemCount() > 0)
+      itemsTree.setSelectedItem(itemsTree.getItem(0));
 
   }
   
+  /** 
+   * Selection handler wrapper
+   */
+  class SelectionAdapter implements SelectionHandler<TreeItem>{
+
+    /** item index */
+    private ItemSelectedHandler handler;
+    
+    /** Constructor */
+    public SelectionAdapter(ItemSelectedHandler handler) {
+      this.handler = handler;
+    }
+    
+    /** Fire event */
+    public void onSelection(SelectionEvent<TreeItem> event) {
+      
+      handler.itemSelected( treeItemsId.get(event.getSelectedItem()) );
+    }
+    
+  };
   
 }
