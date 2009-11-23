@@ -26,8 +26,8 @@ public class EditableModuleFactory implements IModuleFactory{
     
     if(nodeName.compareTo("p") == 0 || nodeName.compareTo("blockquote") == 0)
       return new TextModule(node, moduleSocket);
-    else if(nodeName.compareTo("choiceInteraction") == 0)
-      return new ChoiceModule(node, moduleSocket);
+//    else if(nodeName.compareTo("choiceInteraction") == 0)
+//      return new ChoiceModule(node, moduleSocket);
     else if(nodeName.compareTo("choiceInteraction") == 0)
       return new ChoiceEditor(node);
     else if(nodeName.compareTo("object") == 0)
