@@ -21,40 +21,22 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-package com.klangner.qtieditor.client;
+package com.qtitools.editor.client;
 
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.klangner.qtiplayer.client.model.Assessment;
-import com.klangner.qtiplayer.client.model.IDocumentLoaded;
-import com.klangner.qtiplayer.client.model.XMLDocument;
 
-public class ItemList extends Composite {
+public class Toolbar extends Composite {
 
-  /** tree widget */
-  private Tree  itemTree;
-  /** Assessment */
-  private Assessment assessment;
-  
   /**
    * Constructor
    */
-  public ItemList(Assessment assessment){
+  public Toolbar(){
 
-    this.assessment = assessment;
-    
     initWidget(createView());
-    setStyleName("qe-item-list");
-    assessment.loadTitles(new IDocumentLoaded(){
-
-      public void finishedLoading(XMLDocument document) {
-        updateItemList();
-      }
-
-    });
-
+    setStyleName("qe-toolbar");
   }
   
   /**
@@ -62,22 +44,16 @@ public class ItemList extends Composite {
    */
   private Widget createView(){
 
-    itemTree = new Tree();
-
-    return itemTree;
-  }
-
-  /**
-   * get titles from assessment
-   */
-  private void updateItemList() {
-    for(int i = 0; i < assessment.getItemCount(); i++){
-      itemTree.add(new Label(assessment.getItemTitle(i)));
-    }
+    FlowPanel mainPanel;
     
-    itemTree.setSelectedItem(itemTree.getItem(0));
+    mainPanel = new FlowPanel();
+    mainPanel.setStyleName("qe-toolbar");
+    Button addButton = new Button("Add...");
+    mainPanel.add(addButton);
+    Button removeButton = new Button("Remove Page");
+    mainPanel.add(removeButton);
 
+    return mainPanel;
   }
-  
-  
+
 }

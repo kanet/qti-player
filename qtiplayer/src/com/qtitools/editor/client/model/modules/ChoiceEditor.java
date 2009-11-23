@@ -1,4 +1,4 @@
-package com.klangner.qtieditor.client.model.modules;
+package com.qtitools.editor.client.model.modules;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;

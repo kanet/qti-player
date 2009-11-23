@@ -21,7 +21,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-package com.klangner.qtieditor.client;
+package com.qtitools.editor.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -38,9 +38,9 @@ public class EditorEntryPoint implements EntryPoint {
      
     // Create Editor
     $wnd.qpCreateEditor = function(id) {
-      var editor = @com.klangner.qtieditor.client.EditorEntryPoint::createEditor(Ljava/lang/String;)(id);
+      var editor = @com.qtitools.editor.client.EditorEntryPoint::createEditor(Ljava/lang/String;)(id);
       editor.load = function(url){
-          @com.klangner.qtieditor.client.EditorEntryPoint::load(Ljava/lang/String;)(url);
+          @com.qtitools.editor.client.EditorEntryPoint::load(Ljava/lang/String;)(url);
         }
       
       return editor;

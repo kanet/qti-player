@@ -21,7 +21,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-package com.klangner.qtieditor.client;
+package com.qtitools.editor.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -29,12 +29,12 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.klangner.qtieditor.client.model.EditableModuleFactory;
 import com.klangner.qtiplayer.client.model.Assessment;
 import com.klangner.qtiplayer.client.model.AssessmentItem;
 import com.klangner.qtiplayer.client.model.IDocumentLoaded;
 import com.klangner.qtiplayer.client.model.LoadException;
 import com.klangner.qtiplayer.client.model.XMLDocument;
+import com.qtitools.editor.client.model.EditableModuleFactory;
 
 public class Editor {
 

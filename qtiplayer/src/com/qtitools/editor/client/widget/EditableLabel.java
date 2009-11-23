@@ -1,4 +1,4 @@
-package com.klangner.qtieditor.client.widget;
+package com.qtitools.editor.client.widget;
 
 import com.google.gwt.user.client.ui.Label;
 

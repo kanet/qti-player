@@ -4,6 +4,6 @@
 	<inherits name="com.google.gwt.user.User" />
 	<inherits name="com.klangner.qtiplayer.Qtiplayer" />
 	<entry-point
-		class="com.klangner.qtieditor.client.EditorEntryPoint">
+		class="com.qtitools.editor.client.EditorEntryPoint">
 	</entry-point>
 </module>

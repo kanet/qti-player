@@ -1,15 +1,15 @@
-package com.klangner.qtieditor.client.model;
+package com.qtitools.editor.client.model;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
-import com.klangner.qtieditor.client.model.modules.ChoiceEditor;
 import com.klangner.qtiplayer.client.model.IModuleFactory;
 import com.klangner.qtiplayer.client.module.IModuleSocket;
 import com.klangner.qtiplayer.client.module.choice.ChoiceModule;
 import com.klangner.qtiplayer.client.module.debug.DebugModule;
 import com.klangner.qtiplayer.client.module.object.ObjectModule;
 import com.klangner.qtiplayer.client.module.text.TextModule;
+import com.qtitools.editor.client.model.modules.ChoiceEditor;
 
 public class EditableModuleFactory implements IModuleFactory{
 
