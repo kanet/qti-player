@@ -45,7 +45,7 @@ public class AssessmentItemTest extends GWTTestCase {
    * Must refer to a valid module that sources this class.
    */
   public String getModuleName() {
-    return "com.klangner.qtiplayer.Qtiplayer";
+    return "com.qtitools.player.Player";
   }
 
   /**
