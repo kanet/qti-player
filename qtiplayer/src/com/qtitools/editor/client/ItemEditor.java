@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.klangner.qtiplayer.client.model.AssessmentItem;
+import com.qtitools.player.client.model.AssessmentItem;
 
 public class ItemEditor extends Composite{
 

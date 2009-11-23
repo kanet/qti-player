@@ -29,12 +29,12 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.klangner.qtiplayer.client.model.Assessment;
-import com.klangner.qtiplayer.client.model.AssessmentItem;
-import com.klangner.qtiplayer.client.model.IDocumentLoaded;
-import com.klangner.qtiplayer.client.model.LoadException;
-import com.klangner.qtiplayer.client.model.XMLDocument;
 import com.qtitools.editor.client.model.EditableModuleFactory;
+import com.qtitools.player.client.model.Assessment;
+import com.qtitools.player.client.model.AssessmentItem;
+import com.qtitools.player.client.model.IDocumentLoaded;
+import com.qtitools.player.client.model.LoadException;
+import com.qtitools.player.client.model.XMLDocument;
 
 public class Editor {
 

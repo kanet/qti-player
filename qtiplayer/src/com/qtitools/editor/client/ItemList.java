@@ -27,9 +27,9 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.Widget;
-import com.klangner.qtiplayer.client.model.Assessment;
-import com.klangner.qtiplayer.client.model.IDocumentLoaded;
-import com.klangner.qtiplayer.client.model.XMLDocument;
+import com.qtitools.player.client.model.Assessment;
+import com.qtitools.player.client.model.IDocumentLoaded;
+import com.qtitools.player.client.model.XMLDocument;
 
 public class ItemList extends Composite {
 

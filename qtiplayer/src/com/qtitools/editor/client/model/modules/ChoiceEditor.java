@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
-import com.klangner.qtiplayer.client.util.XMLUtils;
+import com.qtitools.player.client.util.XMLUtils;
 
 public class ChoiceEditor extends Composite{
 
