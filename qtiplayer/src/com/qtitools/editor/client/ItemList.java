@@ -90,14 +90,18 @@ public class ItemList extends Composite {
   private void updateItemList() {
     
     TreeItem treeItem;
+    TreeItem root;
+    
+    root = itemsTree.addItem( assessment.getTitle() );
     
     for(int i = 0; i < assessment.getItemCount(); i++){
-      treeItem = itemsTree.addItem( assessment.getItemTitle(i) );
+      treeItem = root.addItem( assessment.getItemTitle(i) );
       treeItemsId.put(treeItem, new Integer(i));
     }
     
-    if(itemsTree.getItemCount() > 0)
-      itemsTree.setSelectedItem(itemsTree.getItem(0), false);
+    root.setState(true);
+    if(treeItemsId.size() > 0)
+      itemsTree.setSelectedItem(root.getChild(0), false);
 
   }
   
@@ -117,7 +121,8 @@ public class ItemList extends Composite {
     /** Fire event */
     public void onSelection(SelectionEvent<TreeItem> event) {
       
-      handler.itemSelected( treeItemsId.get(event.getSelectedItem()) );
+      if(treeItemsId.containsKey(event.getSelectedItem()))
+        handler.itemSelected( treeItemsId.get(event.getSelectedItem()) );
     }
     
   };
