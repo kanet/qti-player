@@ -1,4 +1,4 @@
 #!/bin/sh
 APPDIR=`dirname $0`;
 GWTDIR="/home/klangner/lib/gwt-linux-1.7.1";
-java  -Dgwt.args="-out www-test" -Xmx256M -cp "$APPDIR/src:$APPDIR/test:$APPDIR/war/WEB-INF/classes:$APPDIR/libs/junit.jar:GWTDIR/gwt-user.jar:GWTDIR/gwt-dev-linux.jar" junit.textui.TestRunner com.klangner.qtiplayer.client.QtiplayerTest "$@";
+java  -Dgwt.args="-out www-test" -Xmx256M -cp "$APPDIR/src:$APPDIR/test:$APPDIR/war/WEB-INF/classes:$APPDIR/libs/junit.jar:GWTDIR/gwt-user.jar:GWTDIR/gwt-dev-linux.jar" junit.textui.TestRunner com.qtitools.player.client.QtiplayerTest "$@";
