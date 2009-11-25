@@ -37,7 +37,7 @@ import com.qtitools.player.client.model.Assessment;
 import com.qtitools.player.client.model.IDocumentLoaded;
 import com.qtitools.player.client.model.XMLDocument;
 
-public class ItemList extends Composite {
+public class ProjectExplorer extends Composite {
 
   /** tree widget */
   private Tree  itemsTree;
@@ -49,7 +49,7 @@ public class ItemList extends Composite {
   /**
    * Constructor
    */
-  public ItemList(Assessment assessment){
+  public ProjectExplorer(Assessment assessment){
 
     this.assessment = assessment;
     
@@ -69,7 +69,7 @@ public class ItemList extends Composite {
    * Add selection handler for this list
    * @return
    */
-  public HandlerRegistration addSelectionHandler(ItemSelectedHandler handler){
+  public HandlerRegistration addSelectionHandler(PageSelectedHandler handler){
     
     return itemsTree.addSelectionHandler(new SelectionAdapter(handler));
   }
@@ -111,10 +111,10 @@ public class ItemList extends Composite {
   class SelectionAdapter implements SelectionHandler<TreeItem>{
 
     /** item index */
-    private ItemSelectedHandler handler;
+    private PageSelectedHandler handler;
     
     /** Constructor */
-    public SelectionAdapter(ItemSelectedHandler handler) {
+    public SelectionAdapter(PageSelectedHandler handler) {
       this.handler = handler;
     }
     

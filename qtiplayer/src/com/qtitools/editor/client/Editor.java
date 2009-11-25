@@ -90,7 +90,7 @@ public class Editor {
   private void onAssessmentLoaded() {
 
     RootPanel rootPanel = RootPanel.get(id);
-    ItemList  itemList;
+    ProjectExplorer  itemList;
 
 
     // remove children
@@ -104,8 +104,8 @@ public class Editor {
     HorizontalPanel hsp = new HorizontalPanel();
     hsp.setWidth("100%");
     hsp.setStyleName("qe-split-panel");
-    itemList = new ItemList(assessment);
-    itemList.addSelectionHandler(new ItemSelectedHandler(){
+    itemList = new ProjectExplorer(assessment);
+    itemList.addSelectionHandler(new PageSelectedHandler(){
       public void itemSelected(int index) {
         loadAssessmentItem(index);
       }

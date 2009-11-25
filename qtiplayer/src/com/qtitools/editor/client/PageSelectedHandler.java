@@ -26,7 +26,7 @@ package com.qtitools.editor.client;
 /**
  * This interface is used to send events when new item is selected
  */
-public interface ItemSelectedHandler {
+public interface PageSelectedHandler {
 
   public void itemSelected(int index);
 }
