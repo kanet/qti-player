@@ -43,7 +43,7 @@
       <fileset dir="src" excludes="**/*.java"/>
     </copy>
   </target>
-
+  
   <target name="gwtc" depends="javac" description="GWT compile to JavaScript">
     <java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
       <classpath>
@@ -72,6 +72,8 @@
       <arg value="com.klangner.qtiplayer.Qtiplayer"/>
     </java>
   </target>
+  
+  
 
   <target name="build" depends="gwtc" description="Build this project" />
 
@@ -85,7 +87,17 @@
     <delete dir="war/qtiplayer" failonerror="false" />
   </target>
   
-  <target name="dist" depends="clean, build">
+  <target name="modulelib" depends="javac" description="Create module library">
+    <mkdir dir="dist/lib" />
+    <copy todir="dist/lib">
+      <fileset dir="war/WEB-INF/classes" includes="**/player/**"/>
+      <fileset dir="src" includes="**/player/**"/>
+    </copy>
+
+    <zip destfile="dist/qtiplayerlib-${version}.jar" basedir="dist/lib"/>
+  </target>
+
+  <target name="dist" depends="clean, build, modulelib" description="Create java script distribution">
     <mkdir dir="dist/build" />
     <copy todir="dist/build/qtiplayer">
       <fileset dir="war/qtiplayer"/>
