@@ -8,7 +8,7 @@ public class EditableLabel extends Label {
 	 * Constructor
 	 */
 	public EditableLabel(){
-		getElement().setAttribute("contenteditable", "true");
+		getElement().setAttribute("contentEditable", "true");
 		setStyleName("qe-editable-label");
 	}
 }

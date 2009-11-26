@@ -4,12 +4,11 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.qtitools.editor.client.model.modules.ChoiceEditor;
+import com.qtitools.editor.client.model.modules.PEditor;
 import com.qtitools.player.client.model.IModuleFactory;
 import com.qtitools.player.client.module.IModuleSocket;
-import com.qtitools.player.client.module.choice.ChoiceModule;
 import com.qtitools.player.client.module.debug.DebugModule;
 import com.qtitools.player.client.module.object.ObjectModule;
-import com.qtitools.player.client.module.text.TextModule;
 
 public class EditableModuleFactory implements IModuleFactory{
 
@@ -23,9 +22,8 @@ public class EditableModuleFactory implements IModuleFactory{
   public Widget createModule(Element node, IModuleSocket moduleSocket) {
 
     String nodeName = node.getNodeName();
-    
     if(nodeName.compareTo("p") == 0 || nodeName.compareTo("blockquote") == 0)
-      return new TextModule(node, moduleSocket);
+      return new PEditor(node);
 //    else if(nodeName.compareTo("choiceInteraction") == 0)
 //      return new ChoiceModule(node, moduleSocket);
     else if(nodeName.compareTo("choiceInteraction") == 0)

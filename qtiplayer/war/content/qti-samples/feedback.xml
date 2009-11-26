@@ -10,6 +10,7 @@ identifier="feedback" title="Mexican President" adaptive="false" timeDependent="
 	<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
 	<outcomeDeclaration identifier="FEEDBACK" cardinality="single" baseType="identifier"/>
 	<itemBody>
+		<p>Lalalala lala</p>
 		<choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1">
 			<prompt>Who is the President of Mexico?</prompt>
 			<simpleChoice identifier="MGH001A"> George W Bush <feedbackInline outcomeIdentifier="FEEDBACK" identifier="MGH001A" showHide="show">No, he is the

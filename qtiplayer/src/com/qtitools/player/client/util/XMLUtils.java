@@ -115,7 +115,22 @@ public class XMLUtils {
     
   }
   
-  
+  /**
+   * Get all element with given tag name
+   * @param tagName
+   * @return first element or null if not found
+   */
+  public static NodeList getAllElementWithTagName(Element element, String tagName){
+    
+    NodeList nodeList = element.getElementsByTagName(tagName);
+    
+    if(nodeList.getLength() == 0){
+      return null;
+    }
+    
+    return nodeList;
+    
+  }
 	
 	
 }
