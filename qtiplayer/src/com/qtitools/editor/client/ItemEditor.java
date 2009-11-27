@@ -25,6 +25,7 @@ package com.qtitools.editor.client;
 
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
@@ -74,6 +75,10 @@ public class ItemEditor extends Composite{
 		itemTitleLabel.setStyleName("qe-a-item-textbox");
 		panel.add(itemTitleLabel);
 		mainPanel.add(panel);
+		HTML hr = new HTML();
+		hr.setWidth("100%");
+		hr.setStyleName("line");
+		mainPanel.add(hr);
 
 		bodyPanel = new VerticalPanel();
 		bodyPanel.setStyleName("qe-page-body");

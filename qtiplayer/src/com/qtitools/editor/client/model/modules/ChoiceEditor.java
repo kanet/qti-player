@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -55,28 +56,40 @@ public class ChoiceEditor extends Composite{
 		Panel vp = new VerticalPanel();
 		vp.setStyleName("qe-a-item");
 		vp.setWidth("100%");
-		HorizontalPanel hp;
-		Label l1, l2;
+		HorizontalPanel hp, hp_cheat, hp_main;
+		Label l1, l2, l3;
 		TextBox maxChoices;
 		
+		hp_main = new HorizontalPanel();
+		hp_main.setStyleName("qe-a-item");
+		hp_main.setWidth("100%");
+		hp_main.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		
+		hp_cheat = new HorizontalPanel();
+		hp_cheat.addStyleName("qe-a-item-head");
+		hp_cheat.setWidth("100%");
+		hp_cheat.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		hp_cheat.setHeight("2.3em");
 		hp = new HorizontalPanel();
-		hp.addStyleName("qe-a-item-head");
-		hp.setWidth("100%");
-		//hp.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		hp.setHeight("100%");
+		hp.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		l1 = new Label("Choice");
 		l1.setStyleName("qe-a-item-title");
-		l1.addStyleDependentName("head");
-		hp.add(l1);
+		l1.addStyleDependentName("bold");
+		l1.setWidth("60px");
+		//hp.add(l1);
 		
 		hp.add(new Label("shuffle= "));
-
+	
 		ListBox lb = new ListBox();
 	    lb.insertItem("true","true",1);
 	    lb.insertItem("false","false",0);
 	    lb.setItemSelected(shuffleInt, true);
 		hp.add(lb);
 
-		hp.add(new Label("maxChoices = "));
+		l3 = new Label("  maxChoices = ");
+		l3.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		hp.add(l3);
 		
 		maxChoices = new TextBox();
 		maxChoices.setText(maxChoicesString);
@@ -85,7 +98,7 @@ public class ChoiceEditor extends Composite{
 		maxChoices.setWidth("20");
 		hp.add(maxChoices);
 
-		hp.add(new Label("noOfChoices = "));
+		hp.add(new Label("  noOfChoices = "));
 
 		noOfChoices = new TextBox();
 		noOfChoices.setText(Integer.toString(simpleChoices.getLength()));
@@ -93,7 +106,8 @@ public class ChoiceEditor extends Composite{
 		noOfChoices.setMaxLength(2);
 		noOfChoices.setWidth("20");
 		hp.add(noOfChoices);
-		vp.add(hp);
+		hp_cheat.add(hp);
+		vp.add(hp_cheat);
 		
 		Label promptLabel = new Label("Prompt: ");
 		promptLabel.addStyleName("qe-a-item-title");
@@ -104,7 +118,8 @@ public class ChoiceEditor extends Composite{
 		ft.setWidth("100%");
 		ft.setWidget(0, 0, promptLabel);
 		ft.setWidget(0, 1, l2);
-		
+		ft.getColumnFormatter().setWidth(0, "60px");
+		ft.getColumnFormatter().setWidth(1, "100%");
 		for(int i=0;i<simpleChoices.getLength();i++)
 		{
 			ft.setWidget(i+1, 0, new Label("Choice "+(i+1)+":"));
@@ -113,8 +128,7 @@ public class ChoiceEditor extends Composite{
 			ft.getWidget(i+1, 1).addStyleName("qe-a-item-field");
 			ft.getWidget(i+1, 1).getElement().setAttribute("contentEditable", "true");
 		}
-		ft.getColumnFormatter().setWidth(0, "60px");
-		ft.getColumnFormatter().setWidth(1, "100%");
+		
 		vp.add(ft);
 		
 		// Listen for keyboard events in the noOfChoices box.
@@ -126,7 +140,11 @@ public class ChoiceEditor extends Composite{
 	      }
 	    });
 
-		return vp;
+		hp_main.add(l1);
+		hp_main.setCellWidth(l1,"66px");
+		hp_main.add(vp);
+		
+		return hp_main;
 	}
 
 	private void changeNoOfChoices(){

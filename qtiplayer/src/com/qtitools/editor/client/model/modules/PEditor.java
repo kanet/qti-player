@@ -1,6 +1,7 @@
 package com.qtitools.editor.client.model.modules;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -39,7 +40,7 @@ public class PEditor extends Composite{
 
 		VerticalPanel vp;
 		HorizontalPanel hp;
-		Label l0, l1, l2;
+		Label l1, l2;
 
 		vp = new VerticalPanel();
 		vp.addStyleName("qe-a-item");
@@ -47,14 +48,16 @@ public class PEditor extends Composite{
 //		l0.setStyleName("qe-a-item-head");
 //		vp.add(l0);
 		hp = new HorizontalPanel();
+		hp.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		hp.setStyleName("qe-a-item");
 		hp.setWidth("100%");
-		l1 = new Label("Text:");
+		l1 = new Label("P");
 		l1.setStyleName("qe-a-item-title");
+		l1.addStyleDependentName("bold");
 		hp.add(l1);
 		hp.setCellWidth(l1,"60px");
 
-		l2 = new Label( pElement.getFirstChild().getNodeValue() );
+		l2 = new Label( pElement.getFirstChild().getNodeValue()+" " );
 		l2.getElement().setAttribute("contentEditable","true");
 		l2.setStyleName("qe-a-item");
 		l2.addStyleDependentName("field");
