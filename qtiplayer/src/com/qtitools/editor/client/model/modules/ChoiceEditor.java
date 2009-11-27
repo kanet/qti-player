@@ -139,7 +139,7 @@ public class ChoiceEditor extends Composite{
 		{
 			for(int i=(oldNoOfChoices-1);i>=newNoOfChoices;i--)
 			{
-				ft.removeRow(i);
+				ft.removeRow(i+1);
 				Node tmp = simpleChoices.item(i);
 				choiceElement.removeChild(tmp);
 			}
@@ -149,12 +149,17 @@ public class ChoiceEditor extends Composite{
 			for(int i=(oldNoOfChoices);i<newNoOfChoices;i++)
 			{
 				Node tmp = simpleChoices.item(0).cloneNode(true);
+				Node tmp2 = null;
+				tmp.getFirstChild().setNodeValue("blank");
+				//lets remove all unnecessary child nodes
+				while((tmp2=tmp.getFirstChild().getNextSibling())!=null)
+					tmp.removeChild(tmp2);
 				choiceElement.appendChild(tmp);
-				ft.setWidget(i, 0, new Label("Choice "+(i+1)+":"));
-				ft.getWidget(i, 0).addStyleName("qe-a-item-title");
-				ft.setWidget(i, 1, new Label(simpleChoices.item(0).getFirstChild().toString()));
-				ft.getWidget(i, 1).addStyleName("qe-a-item-field");
-				ft.getWidget(i, 1).getElement().setAttribute("contentEditable", "true");
+				ft.setWidget(i+1, 0, new Label("Choice "+(i+1)+":"));
+				ft.getWidget(i+1, 0).addStyleName("qe-a-item-title");
+				ft.setWidget(i+1, 1, new Label("blank"));
+				ft.getWidget(i+1, 1).addStyleName("qe-a-item-field");
+				ft.getWidget(i+1, 1).getElement().setAttribute("contentEditable", "true");
 			}
 		}
 	}
