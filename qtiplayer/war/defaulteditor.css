@@ -40,7 +40,7 @@ body{
 
 .qe-a-item{
 	background-color: #f1f4e3;
-	margin-bottom: 1px;
+	margin-bottom: 3px;
 	width: 100%;
 }
 
@@ -92,6 +92,6 @@ body{
 
 .line{
 	margin: 0px 0px 1px 0px;
-	border: solid 1px black;
-	
+	border: solid 1px #c8ccb3;
+	margin-bottom: 3px;	
 }

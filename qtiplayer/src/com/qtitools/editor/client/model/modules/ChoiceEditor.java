@@ -54,29 +54,36 @@ public class ChoiceEditor extends Composite{
 		int shuffleInt = (shuffleBool)?1:0;
 
 		Panel vp = new VerticalPanel();
+		VerticalPanel main = new VerticalPanel();
 		vp.setStyleName("qe-a-item");
 		vp.setWidth("100%");
-		HorizontalPanel hp, hp_cheat, hp_main;
+		HorizontalPanel hp, hp_wrapper, hp_choice;
 		Label l1, l2, l3;
 		TextBox maxChoices;
 		
-		hp_main = new HorizontalPanel();
-		hp_main.setStyleName("qe-a-item");
-		hp_main.setWidth("100%");
-		hp_main.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		//hp_main = new HorizontalPanel();
+		main.setStyleName("qe-a-item");
+		main.setWidth("100%");
+		main.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		
-		hp_cheat = new HorizontalPanel();
-		hp_cheat.addStyleName("qe-a-item-head");
-		hp_cheat.setWidth("100%");
-		hp_cheat.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		hp_cheat.setHeight("2.3em");
+		hp_wrapper = new HorizontalPanel();
+		hp_wrapper.addStyleName("qe-a-item-head");
+		hp_wrapper.setWidth("100%");
+		hp_wrapper.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		hp_wrapper.setHeight("2.3em");
 		hp = new HorizontalPanel();
 		hp.setHeight("100%");
 		hp.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		hp.setSpacing(4);
 		l1 = new Label("Choice");
 		l1.setStyleName("qe-a-item-title");
 		l1.addStyleDependentName("bold");
 		l1.setWidth("60px");
+		hp_choice = new HorizontalPanel();
+		hp_choice.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		hp_choice.add(l1);
+		hp_choice.setCellWidth(l1,"66px");
+		hp_choice.setCellHeight(l1,"100%");
 		//hp.add(l1);
 		
 		hp.add(new Label("shuffle= "));
@@ -106,8 +113,8 @@ public class ChoiceEditor extends Composite{
 		noOfChoices.setMaxLength(2);
 		noOfChoices.setWidth("20");
 		hp.add(noOfChoices);
-		hp_cheat.add(hp);
-		vp.add(hp_cheat);
+		hp_wrapper.add(hp);
+		main.add(hp_wrapper);
 		
 		Label promptLabel = new Label("Prompt: ");
 		promptLabel.addStyleName("qe-a-item-title");
@@ -123,13 +130,14 @@ public class ChoiceEditor extends Composite{
 		for(int i=0;i<simpleChoices.getLength();i++)
 		{
 			ft.setWidget(i+1, 0, new Label("Choice "+(i+1)+":"));
+			ft.getCellFormatter().setHorizontalAlignment(i+1, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 			ft.getWidget(i+1, 0).addStyleName("qe-a-item-title");
 			ft.setWidget(i+1, 1, new Label(simpleChoices.item(i).getFirstChild().toString()));
 			ft.getWidget(i+1, 1).addStyleName("qe-a-item-field");
 			ft.getWidget(i+1, 1).getElement().setAttribute("contentEditable", "true");
 		}
 		
-		vp.add(ft);
+		//vp.add(ft);
 		
 		// Listen for keyboard events in the noOfChoices box.
 		noOfChoices.addKeyPressHandler(new KeyPressHandler() {
@@ -140,11 +148,10 @@ public class ChoiceEditor extends Composite{
 	      }
 	    });
 
-		hp_main.add(l1);
-		hp_main.setCellWidth(l1,"66px");
-		hp_main.add(vp);
+		hp_choice.add(ft);
+		main.add(hp_choice);
 		
-		return hp_main;
+		return main;
 	}
 
 	private void changeNoOfChoices(){
@@ -174,8 +181,9 @@ public class ChoiceEditor extends Composite{
 					tmp.removeChild(tmp2);
 				choiceElement.appendChild(tmp);
 				ft.setWidget(i+1, 0, new Label("Choice "+(i+1)+":"));
+				ft.getCellFormatter().setHorizontalAlignment(i+1, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 				ft.getWidget(i+1, 0).addStyleName("qe-a-item-title");
-				ft.setWidget(i+1, 1, new Label("blank"));
+				ft.setWidget(i+1, 1, new Label(" "));
 				ft.getWidget(i+1, 1).addStyleName("qe-a-item-field");
 				ft.getWidget(i+1, 1).getElement().setAttribute("contentEditable", "true");
 			}
