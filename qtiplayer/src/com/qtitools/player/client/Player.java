@@ -66,20 +66,18 @@ public class Player {
   private Result[]      			results;
   /** Item states */
   private Serializable[]      states;
+  /** test result */
+  private JavaScriptResult    testResult;
   
   
   /**
    * Event send when assessment is done
    * @param msg
    */
-  private static native void onAssessmentFinished(
-      JavaScriptObject player, int score, int max) /*-{
+  private static native void onAssessmentFinished(JavaScriptObject player) /*-{
     
     if(typeof player.onAssessmentFinished == 'function') {
-      var result = new Array();
-      result.score = score;
-      result.max = max;
-      player.onAssessmentFinished(result);
+      player.onAssessmentFinished();
     }
   }-*/;
   
@@ -93,11 +91,27 @@ public class Player {
   
     this.id = id;
     this.jsObject = JavaScriptObject.createFunction();
+    testResult = new JavaScriptResult(0, 0);
   }
-  
+
+  /**
+   * @return js object representing this player
+   */
   public JavaScriptObject getJavaScriptObject(){
     return jsObject;
   }
+  
+  
+  /**
+   * Return interface to get test result
+   */
+  public JavaScriptResult getResult() {
+
+    return testResult;
+  }
+
+  
+  
   
   /**
    * Load assessment file from server
@@ -308,8 +322,9 @@ public class Player {
     	}
     }
     
+    testResult = new JavaScriptResult(score, max);
     playerView.showResultPage("Your score is: " + (int)((score * 100)/max) + "% " + score + " points.");
-    onAssessmentFinished(jsObject, score, max);
+    onAssessmentFinished(jsObject);
   }
    
   /**
@@ -336,5 +351,6 @@ public class Player {
     playerView.showFeedback(feedback);
   }
 
-  
+
+
 }

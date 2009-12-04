@@ -35,6 +35,15 @@ public class PlayerEntryPoint implements EntryPoint {
 	private static Player       player;
 	
   /**
+   * This is the entry point method.
+   */
+  public void onModuleLoad() {
+    // Define js API
+    initJavaScriptAPI();
+  }
+  
+	
+  /**
    * Init Javascript API
    */
   private static native void initJavaScriptAPI() /*-{
@@ -43,8 +52,12 @@ public class PlayerEntryPoint implements EntryPoint {
     $wnd.qpCreatePlayer = function(id) {
       var player = @com.qtitools.player.client.PlayerEntryPoint::createPlayer(Ljava/lang/String;)(id);
       player.load = function(url){
-          @com.qtitools.player.client.PlayerEntryPoint::load(Ljava/lang/String;)(url);
-        }
+        @com.qtitools.player.client.PlayerEntryPoint::load(Ljava/lang/String;)(url);
+      }
+
+      player.getResult = function(){
+        return @com.qtitools.player.client.PlayerEntryPoint::getResult()();
+      }
       
       return player;
     }
@@ -66,19 +79,19 @@ public class PlayerEntryPoint implements EntryPoint {
 	}
 
 	/**
-	 * Load assessment from this url
+	 * Returns array with result info
 	 * @param url
 	 */
+  public static JavaScriptObject getResult() {
+    return player.getResult().getJSObject();
+  }
+   
+  /**
+   * Load assessment from this url
+   * @param url
+   */
   public static void load(String url) {
     player.loadAssessment(url);
   }
    
-	/**
-	 * This is the entry point method.
-	 */
-	public void onModuleLoad() {
-		// Define js API
-		initJavaScriptAPI();
-	}
-	
 }

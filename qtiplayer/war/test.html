@@ -37,15 +37,11 @@
     		var player = qpCreatePlayer('player');
     		player.load('content/test.xml');
 
-/*        
-    		// Send results via SCORM
+    		// Show result
     		player.onAssessmentFinished = function(result){
-          doLMSInitialize();
-          doLMSSetScore(result.score, result.max);
-          doLMSCommit();
-          doLMSFinish();
+//          alert("score: " + player.getResult().getScore() + " " +
+//              "max: " + player.getResult().getMaxScore());
     		}
- */
     	}
     </script>
     

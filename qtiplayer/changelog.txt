@@ -1,6 +1,7 @@
 = Milestone 1.0b2 =
 * Fixed problem with file protocol and spaces.
-* Support for IVY (player can be published as artefact.
+* Support for IVY (player can be published as artifact.
+* Added getResult function. onAssessmentFinished() event is now without parameters
 
 
 = Milestone 1.0b1 =
