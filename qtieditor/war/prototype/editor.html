@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+  
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <!--
+    <link type="text/css" rel="stylesheet" href="Editor.css">
+	-->
+	<title>qtiEditor</title>
+	<style type="text/css">
+		span
+		{
+			background-color: white;
+		}
+		div
+		{
+			background-color: yellow;
+		}
+		.key 
+		{
+			padding: 2px;
+			width: 80px;
+			font-weight:bold;
+			display: inline-block;
+			vertical-align: top;
+		}
+		.value 
+		{
+			position: relative;
+			left: 0px;
+			background-color: white;
+			border: 1px solid black;
+			padding: 2px;
+			#min-width: 800px;
+			#display: inline-block;
+			width: 100%;
+		}
+	</style>
+  </head><body>
+		<table style="border: 1px solid black; padding: 2px; border-spacing: 0px 2px; width: 80%; background-color: rgb(233, 233, 233);">
+			<tbody><tr>
+				<td class="key">Title:</td>
+				<td class="value"><input value="Unattended Luggage" style="border: medium none ; width: 800px;" tabindex="1" type="text"></td>
+			</tr>
+      <tr style="background-color: lightgray;">
+        <td class="key">Text</td>
+        <td></td>
+      </tr>
+			<tr>
+				<td class="key">Text</td>
+				<td class="value" contenteditable="true">
+          <span style="width: 100%;" tabindex="2" contenteditable="true">
+           <p>Look at the text in the picture.</p>
+           <img src="media/sign.png" alt="NEVER LEAVE LUGGAGE UNATTENDED">
+          </span>
+        </td>
+			</tr>
+			<tr style="background-color: lightgray;">
+				<td class="key">Choice</td>
+				<td>shuffle=
+				<select tabindex="3">
+					<option value="false">false</option>
+					<option value="true">true</option>
+				</select>
+				&nbsp;
+				maxChoices=<input value="1" style="width: 20px;" maxlength="2" tabindex="4" type="text"></td>
+			</tr>
+			<tr>
+				<td class="key">Prompt:</td>
+				<td class="value" contenteditable="true"><span style="width: 100%;" tabindex="5" contenteditable="true">
+What does it say?</span></td>
+			</tr>
+			<tr>
+				<td class="key" style="text-align: right;">choiceA:</td>
+				<td class="value" contenteditable="true"><span style="width: 100%;" tabindex="6" contenteditable="true">You must stay with your luggage at all times.</span></td>
+			</tr>
+			<tr>
+				<td class="key" style="text-align: right;">choiceB:</td>
+				<td class="value" contenteditable="true"><span style="width: 100%;" tabindex="8" contenteditable="true">Do not let someone else look after your luggage.</span></td>
+			</tr>
+			<tr>
+				<td class="key" style="text-align: right;">choiceC:</td>
+				<td class="value" contenteditable="true"><span style="width: 100%;" tabindex="7" contenteditable="true">Remember your luggage when you leave.</span></td>
+			</tr>
+		</tbody></table>
+  </body></html>

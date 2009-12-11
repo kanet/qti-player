@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<assessmentTest xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd" 
+                identifier="RTEST-13" 
+                title="Show player supported functionality">
+
+<testPart>
+  <assessmentSection identifier="sectionA" title="Section A" visible="true">
+  	<assessmentItemRef identifier="choice" href="demo/choice_single.xml"/>
+  	<assessmentItemRef identifier="choice_multiple" href="demo/choice_multiple.xml"/>
+  	<assessmentItemRef identifier="inline_choice" href="demo/inline_choice.xml"/>
+  	<assessmentItemRef identifier="text_entry" href="demo/text_entry.xml"/>
+  	<!-- assessmentItemRef identifier="video" href="demo/video.xml"/-->
+	</assessmentSection>
+</testPart>
+</assessmentTest>
