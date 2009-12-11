@@ -226,16 +226,4 @@ public class AssessmentItem extends XMLDocument implements IStateful{
 
 	};
 	
-	public Element newModule(String tagName){
-/*
-		Widget module;
-		Element newElement = getDom().createElement(tagName);
-		Node itemBody = getDom().getElementsByTagName("itemBody").item(0);
-		itemBody.appendChild(newElement);
-		module = moduleFactory.createModule(newElement, moduleSocket);
-		modules.addElement(module);
-		return newElement;
-*/
-		return null; //TODO: implement and/or change way of adding modules
-	}
 }
