@@ -189,7 +189,7 @@ public class PlayerWidget extends Composite{
     checkButton = new Button("Check");
     checkButton.setStyleName("qp-check-button");
     footer.add(checkButton);
-    resetButton = new Button("Reset");
+    resetButton = new Button("Continue");
     resetButton.setStyleName("qp-reset-button");
     footer.add(resetButton);
 
