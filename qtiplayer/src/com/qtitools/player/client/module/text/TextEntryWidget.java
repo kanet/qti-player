@@ -24,21 +24,24 @@
 package com.qtitools.player.client.module.text;
 
 import java.io.Serializable;
-
+import java.util.Vector;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.xml.client.Element;
+import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IActivity;
+import com.qtitools.player.client.module.IInteractionModule;
+import com.qtitools.player.client.module.IBrowserEventListener;
 import com.qtitools.player.client.module.IModuleSocket;
-import com.qtitools.player.client.module.IResponse;
 import com.qtitools.player.client.module.IStateful;
-import com.qtitools.player.client.util.XMLUtils;
+import com.qtitools.player.client.util.xml.XMLUtils;
 
-public class TextEntryWidget extends InlineHTML implements ITextControl, IActivity, IStateful{
+public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 
 	/** response processing interface */
-	private IResponse 	response;
+	private Response 	response;
   /** widget id */
   private String  id;
   /** text box control */
@@ -52,33 +55,36 @@ public class TextEntryWidget extends InlineHTML implements ITextControl, IActivi
 	 */
 	public TextEntryWidget(Element element, IModuleSocket moduleSocket){
 
-		String			responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
+		String responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
 
-    this.id = Document.get().createUniqueId();
+		this.id = Document.get().createUniqueId();
 		this.response = moduleSocket.getResponse(responseIdentifier);
 		textBox = new TextBox();
 		textBox.setMaxLength(XMLUtils.getAttributeAsInt(element, "expectedLength"));
 		textBox.getElement().setId(id);
-    getElement().appendChild(textBox.getElement());
+		getElement().appendChild(textBox.getElement());
+		
 	}
-	
-  /**
-   * @see ITextControl#getID()
-   */
-  public String getID() {
-    return id;
-  }
+
+	/**
+	 * @see IBrowserEventListener#getInputsId()
+	 */
+	public Vector<String> getInputsId() {
+		Vector<String> v = new Vector<String>();
+		v.add(id);
+		return v;
+	}
 
 	/**
 	 * Process on change event 
 	 */
-	public void onChange(){
+	public void onChange(Event event){
 		
 		if(lastValue != null)
-			response.unset(lastValue);
+			response.remove(lastValue);
 		
 		lastValue = textBox.getText();
-		response.set(lastValue);
+		response.add(lastValue);
 	}
 
 	/**
@@ -121,7 +127,7 @@ public class TextEntryWidget extends InlineHTML implements ITextControl, IActivi
   public void setState(Serializable newState) {
     String state = (String)newState;
     textBox.setText(state);
-    lastValue = state;
+    onChange(null);
   }
   
 

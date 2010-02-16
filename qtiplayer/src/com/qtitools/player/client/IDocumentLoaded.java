@@ -21,14 +21,16 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-package com.qtitools.player.client.module.text;
+package com.qtitools.player.client;
 
-public interface ITextControl {
+import com.google.gwt.xml.client.Document;
 
-  /** get control id */
-  public String getID();
-  
-	/** Send on change event */
-	public void onChange();
+public interface IDocumentLoaded {
+
+  /** 
+   * Document loaded. Ready to use 
+   */
+	void finishedLoading(Document document, String baseURL);
 	
+	void loadingErrorHandler(String error);
 }

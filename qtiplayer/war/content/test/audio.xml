@@ -8,11 +8,11 @@ identifier="choice" title="Unattended Luggage" adaptive="false" timeDependent="f
 			<value>ChoiceA</value>
 		</correctResponse>
 	</responseDeclaration>
-	<!-- outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer">
+	<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer">
 		<defaultValue>
 			<value>0</value>
 		</defaultValue>
-	</outcomeDeclaration-->
+	</outcomeDeclaration>
 	<itemBody>
 		<p>Listen.</p>
 		<object type="audio/mp3" data="media/demo-sound.mp3">
@@ -26,5 +26,5 @@ identifier="choice" title="Unattended Luggage" adaptive="false" timeDependent="f
 			<simpleChoice identifier="ChoiceC">Remember your luggage when you leave.</simpleChoice>
 		</choiceInteraction>
 	</itemBody>
-	<!-- responseProcessing template="http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"/-->
+	<responseProcessing template="http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"/>
 </assessmentItem>

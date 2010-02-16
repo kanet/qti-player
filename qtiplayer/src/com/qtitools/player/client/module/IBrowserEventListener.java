@@ -21,12 +21,28 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-package com.qtitools.player.client.model;
+package com.qtitools.player.client.module;
 
-public interface IDocumentLoaded {
+import java.util.Vector;
 
-  /** 
-   * Document loaded. Ready to use 
-   */
-	void finishedLoading(XMLDocument document);
+import com.google.gwt.user.client.Event;
+
+/**
+ * Interface for interaction modules to handle 
+ * browser events.   
+ * 
+ * @author Rafal Rybacki
+ */
+public interface IBrowserEventListener {
+
+	 /** 
+	  * @return Vector of HTML elements' IDs that are firing 
+	  * browser events connected with the interaction module. 
+	  * 
+	  */
+	 public Vector<String> getInputsId();
+	  
+	 /** Interaction module change event listener */
+	 public void onChange(Event event);
+	
 }

@@ -24,23 +24,27 @@
 package com.qtitools.player.client.module.text;
 
 import java.io.Serializable;
+import java.util.Vector;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
+import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IActivity;
+import com.qtitools.player.client.module.IInteractionModule;
+import com.qtitools.player.client.module.IBrowserEventListener;
 import com.qtitools.player.client.module.IModuleSocket;
-import com.qtitools.player.client.module.IResponse;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.util.RandomizedSet;
-import com.qtitools.player.client.util.XMLUtils;
+import com.qtitools.player.client.util.xml.XMLUtils;
 
-public class SelectionWidget extends InlineHTML implements ITextControl, IActivity, IStateful{
+public class SelectionWidget extends InlineHTML implements IInteractionModule{
 
 	/** response processing interface */
-	private IResponse 	response;
+	private Response response;
 	/** widget id */
 	private String  id;
 	/** panel widget */
@@ -56,7 +60,7 @@ public class SelectionWidget extends InlineHTML implements ITextControl, IActivi
 	 */
 	public SelectionWidget(Element element, IModuleSocket moduleSocket){
 		
-		String		 responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
+		String responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
 
 		id = Document.get().createUniqueId();
 		this.response = moduleSocket.getResponse(responseIdentifier);
@@ -71,24 +75,26 @@ public class SelectionWidget extends InlineHTML implements ITextControl, IActivi
 		listBox.getElement().setId(id);
 		getElement().appendChild(listBox.getElement());
 	}
+		
+	/**
+	 * @see IBrowserEventListener#getInputsId()
+	 */
+	public Vector<String> getInputsId() {
+		Vector<String> v = new Vector<String>();
+		v.add(id);
+		return v;
+	}
 	
-  /**
-   * @see ITextControl#getID()
-   */
-  public String getID() {
-    return id;
-  }
-
-  /**
+	/**
 	 * Process on change event 
 	 */
-	public void onChange(){
+	public void onChange(Event event){
 		
 		if(lastValue != null)
-			response.unset(lastValue);
+			response.remove(lastValue);
 		
 		lastValue = listBox.getValue(listBox.getSelectedIndex());
-		response.set(lastValue);
+		response.add(lastValue);
 	}
 
 	/**
@@ -128,15 +134,20 @@ public class SelectionWidget extends InlineHTML implements ITextControl, IActivi
    * @see IStateful#setState(Serializable)
    */
   public void setState(Serializable newState) {
+	  
+	if (newState == null)
+		return;
+	  
     String state = (String)newState;
+    lastValue = null;
     
-    lastValue = state;
     for(int i = 0; i < listBox.getItemCount(); i++){
       if( listBox.getValue(i).compareTo(state) == 0){
         listBox.setSelectedIndex(i);
         break;
       }
     }
+    onChange(null);
   }
   
 	/**

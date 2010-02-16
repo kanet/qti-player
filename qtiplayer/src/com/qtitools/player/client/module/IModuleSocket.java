@@ -23,6 +23,8 @@
 */
 package com.qtitools.player.client.module;
 
+import com.qtitools.player.client.model.variables.response.Response;
+
 /**
  * Socket interface for modules
  * @author Krzysztof Langner
@@ -30,6 +32,6 @@ package com.qtitools.player.client.module;
 public interface IModuleSocket {
 
 	/** Get access to response */
-	public IResponse getResponse(String id);
+	public Response getResponse(String id);
 	
 }

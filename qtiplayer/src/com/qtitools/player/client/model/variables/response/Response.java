@@ -21,78 +21,80 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-package com.qtitools.player.client.model;
+package com.qtitools.player.client.model.variables.response;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Vector;
 
 import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
-import com.qtitools.player.client.module.IResponse;
+import com.qtitools.player.client.model.variables.BaseType;
+import com.qtitools.player.client.model.variables.Cardinality;
+import com.qtitools.player.client.model.variables.Variable;
 
 
-public class Response implements IResponse{
+public class Response extends Variable {
 
-	/** Response id */
-	private String 					id;
 	/** List of correct ids */
-	private Vector<String> 	correctResponses;
-	/** Values set by IResponse interface */
-	private Set<String>			values;
+	public Vector<String> 	correctAnswers;
+	/** userAnswers set by IResponse interface */
+	//private Set<String>	userAnswers;
+	// userAnswers cannot be HashSet because it does not cover cardinality::ordered functionality
+	
+	public Mapping mapping;
 	
 	/**
 	 * constructor
 	 * @param item associated with this processing
 	 */
-	public Response(Element responseDeclarationNode){
-    NodeList nodes = responseDeclarationNode.getElementsByTagName("value");
+	public Response(Node responseDeclarationNode){
+    
+		NodeList nodes = ((Element)responseDeclarationNode).getElementsByTagName("value");
 
-		correctResponses = new Vector<String>();
-		values = new HashSet<String>();
+		correctAnswers = new Vector<String>();
+		
+		values = new Vector<String>();
 
-		id = responseDeclarationNode.getAttribute("identifier");
+		identifier = ((Element)responseDeclarationNode).getAttribute("identifier");
+
+		cardinality = Cardinality.fromString( ((Element)responseDeclarationNode).getAttribute("cardinality") );
+		
+		baseType = BaseType.fromString( ((Element)responseDeclarationNode).getAttribute("baseType") );
+		
 		for(int i = 0; i < nodes.getLength(); i++){
-    	correctResponses.add( nodes.item(i).getFirstChild().getNodeValue() );
-    }
+			correctAnswers.add( nodes.item(i).getFirstChild().getNodeValue() );
+		}
+		
+		mapping = new Mapping(((Element)responseDeclarationNode).getElementsByTagName("mapping").item(0));
 	}
 	
 	/**
 	 * @return id
 	 */
 	public String getID(){
-		return id;
+		return identifier;
 	}
 	
-	
-	/**
-	 * @return assessment item score
-	 */
-	public Result getResult(){
-		int maxPoints = correctResponses.size();
-		int score = 0;
-		
-		for(int i = 0; i < correctResponses.size(); i++){
-			if( values.contains(correctResponses.elementAt(i)) )
-					score ++;
-		}
-		
-		return new Result(score, maxPoints);
-	}
-
 	/**
 	 * @see IResponse#isCorrect(String)
 	 */
 	public boolean isCorrectAnswer(String key) {
 
-		return correctResponses.contains(key);
+		return correctAnswers.contains(key);
 	}
 
 	/**
 	 * implementation of IResponse interface
 	 * @param key
 	 */
-	public void set(String key) {
+	public void add(String key) {
+		for (String currValue:values)
+			if (currValue == key)
+				return;
+		
+		if (cardinality == Cardinality.SINGLE)
+			values.clear();
+		
 		values.add(key);
 	}
 
@@ -100,8 +102,19 @@ public class Response implements IResponse{
 	 * implementation of IResponse interface
 	 * @param key
 	 */
-	public void unset(String key) {
-		values.remove(key);
+	public void remove(String key) {
+		
+		for (int i = 0 ; i < values.size() ; i ++){
+			if (values.get(i) == key){
+				values.remove(i);
+				return;
+			}
+		}
+				
+	}
+	
+	public void set(Vector<String> keys){
+		values = keys;
 	}
 
 	/**
@@ -113,6 +126,6 @@ public class Response implements IResponse{
 	
 	public String toString(){
 		
-		return "Id: " + id + "\n" + correctResponses; 
+		return "Id: " + identifier + "\n" + correctAnswers; 
 	}
 }

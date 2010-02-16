@@ -21,10 +21,37 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-package com.qtitools.player.client.module.choice;
+package com.qtitools.player.client;
 
-public interface IButtonGroup {
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.Node;
 
-  public String getId();
-  public void   buttonSelected(OptionWidget option);
+
+/**
+ * Light version of assessment item. Used to read only item title
+ * @author klangner
+ *
+ */
+public class ItemReference {
+
+	protected String title;
+	
+	/**
+	 * constructor
+	 */
+	public ItemReference(Document document){
+	    Node rootNode = document.getElementsByTagName("assessmentItem").item(0);
+	    title = ((Element)rootNode).getAttribute("title");
+	}
+	
+	
+	/**
+	 * @return item title
+	 */
+	public String getTitle(){
+
+		return title;
+	}
+	
 }

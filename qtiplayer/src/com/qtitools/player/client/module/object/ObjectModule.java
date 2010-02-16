@@ -30,7 +30,7 @@ import com.google.gwt.xml.client.Element;
 import com.qtitools.player.client.module.IModuleSocket;
 import com.qtitools.player.client.module.object.impl.AudioImpl;
 import com.qtitools.player.client.module.object.impl.VideoImpl;
-import com.qtitools.player.client.util.XMLUtils;
+import com.qtitools.player.client.util.xml.XMLUtils;
 
 public class ObjectModule extends Composite{
 

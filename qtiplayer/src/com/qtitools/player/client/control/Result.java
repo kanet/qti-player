@@ -21,45 +21,72 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-package com.qtitools.player.client.model;
+package com.qtitools.player.client.control;
 
 public class Result {
 
-	/** Max points in results */
-	private int	maxPoints;
+	/** Min possible points in results */
+	private float	min;
+	/** Max possible points in results */
+	private float	max;
 	/** scored points */
-	private int score;
+	private float score;
 	
 	/**
 	 * constructor
 	 */
 	public Result(){
-	
-		this.score = 0;
-		this.maxPoints = 0;
+		min = 0;
+		max = 1;
+		score = 0;
 	}
 
 	/**
 	 * constructor
 	 */
-	public Result(int score, int max){
+	public Result(float outcomeScore, float lowerBound, float upperBound){
+		this();
+		min = lowerBound;
+		max = upperBound;
+		score = outcomeScore;
+		
+	}
 	
-		this.score = score;
-		this.maxPoints = max;
+	/**
+	 * constructor
+	 */
+	public Result(Float outcomeScore, Float lowerBound, Float upperBound){
+		this();
+		if (lowerBound != null)
+			min = lowerBound.floatValue();
+		
+		if (upperBound != null)
+			max = upperBound.floatValue();
+
+		if (outcomeScore != null)
+			score = outcomeScore.floatValue();
+		
 	}
 
 	/**
 	 * @return score
 	 */
-	public int getScore(){
+	public float getScore(){
 		return score;
+	}
+
+	/**
+	 * @return min points
+	 */
+	public float getMinPoints(){
+		return min;
 	}
 	
 	/**
 	 * @return max points
 	 */
-	public int getMaxPoints(){
-		return maxPoints;
+	public float getMaxPoints(){
+		return max;
 	}
 	
 	/**
@@ -68,6 +95,7 @@ public class Result {
 	 */
 	public void merge(Result result){
 		score += result.getScore();
-		maxPoints += result.getMaxPoints();
+		min += result.getMinPoints();
+		max += result.getMaxPoints();
 	}
 }

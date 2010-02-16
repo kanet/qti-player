@@ -7,11 +7,11 @@
 			<value>ChoiceA</value>
 		</correctResponse>
 	</responseDeclaration>
-	<!-- outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer">
+	<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer">
 		<defaultValue>
 			<value>0</value>
 		</defaultValue>
-	</outcomeDeclaration-->
+	</outcomeDeclaration>
 	<itemBody>
 		<p>Look at the text in the picture.</p>
 		<p>
@@ -25,5 +25,5 @@
 			<simpleChoice identifier="ChoiceD" fixed="true">None of the above.</simpleChoice>
 		</choiceInteraction>
 	</itemBody>
-	<!-- responseProcessing template="http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"/-->
+	<responseProcessing template="http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"/>
 </assessmentItem>

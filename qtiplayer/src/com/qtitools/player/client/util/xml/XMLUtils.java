@@ -21,7 +21,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-package com.qtitools.player.client.util;
+package com.qtitools.player.client.util.xml;
 
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;

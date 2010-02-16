@@ -25,145 +25,158 @@ package com.qtitools.player.client.model;
 
 import java.util.Vector;
 
+import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
+import com.qtitools.player.client.IDocumentLoaded;
+import com.qtitools.player.client.ItemReference;
+import com.qtitools.player.client.control.XMLData;
 
-public class Assessment extends XMLDocument{
+public class Assessment{
 
 	/** Array with references to items */
 	private Vector<String>   itemRefs;
-  /** Array with item titles */
-  private Vector<String>  itemTitles;
-  /** Varaibles used to load titles */
-  private int             titlesLoadedCounter;
-  private IDocumentLoaded titlesListener;
+	/** Array with item titles */
+	private Vector<String>  itemTitles;
+	/** Variable used to load titles */
+	private int             titlesLoadedCounter;
+	/** Variable used to load titles */
+	private IDocumentLoaded titlesListener;
+	/** Whole assessment title */
+	private String title;
+	/** XML DOM of the assessment */
+	private XMLData xmlData;
+		
+	/**
+	 * C'tor
+	 * @param data XMLData object as data source
+	 */
+	public Assessment(XMLData data){
+		
+		xmlData = data;
+		
+		Node rootNode = xmlData.getDocument().getElementsByTagName("assessmentTest").item(0);
+	    
+		NodeList nodes = xmlData.getDocument().getElementsByTagName("assessmentItemRef");
+		Node itemRefNode;
 
+		itemRefs = new Vector<String>();
+    
+	    for(int i = 0; i < nodes.getLength(); i++){
+	    	itemRefNode = nodes.item(i);
+	    	itemRefs.add( xmlData.getBaseURL() + ((Element)itemRefNode).getAttribute("href") );
+	    }
+	    
+	    title = ((Element)rootNode).getAttribute("title");
+	    
+	}
+	
+	
 	/**
 	 * @return number of items in assessment
 	 */
-	public int getItemCount(){
+	public int getAssessmentItemsCount(){
 		return itemRefs.size();
 	}
-	
-  /**
-   * @return item ref
-   */
-  public String getItemRef(int index){
-    return itemRefs.get(index);
-  }
-  
-  /**
-   * @return item title
-   */
-  public String getItemTitle(int index){
-    return itemTitles.get(index);
-  }
-  
+
+	/**
+	 * @return item ref
+	 */
+	public String getAssessmentItemRef(int index){
+		return itemRefs.get(index);
+	}
+
+	/** 
+	 * @return item title
+	 */
+	public String getAssessmentItemTitle(int index){
+		return itemTitles.get(index);
+	}
+
 	/**
 	 * @return assessment title
 	 */
 	public String getTitle(){
-
-    Node rootNode = getDom().getElementsByTagName("assessmentTest").item(0);
-    String title = ((Element)rootNode).getAttribute("title");
-    
-    return title;
+			return title;
 	}
 	
 	/**
 	 * Load titles from item XML files
 	 */
 	public void loadTitles(IDocumentLoaded listener){
-	  
-	  // Load only once
-	  if(itemTitles == null){
-	    itemTitles = new Vector<String>();
-	    
-      try {
-        titlesLoadedCounter = itemRefs.size();
-        titlesListener = listener;
-  	    for(int i = 0; i < itemRefs.size(); i++){
-  	        ItemReference  item = new ItemReference();
-  	        itemTitles.add(itemRefs.get(i));
-  	        item.load(itemRefs.get(i), new TitleLoader(i));
-  	    }
-      } catch (LoadException e) {
-      }
-	  }
-	  else{
-	    listener.finishedLoading(this);
-	  }
+
+		// Load only once
+		if(itemTitles == null){
+			itemTitles = new Vector<String>();
+
+			titlesLoadedCounter = itemRefs.size();
+			titlesListener = listener;
+			for(int i = 0; i < itemRefs.size(); i++){
+				itemTitles.add(itemRefs.get(i));
+				new com.qtitools.player.client.util.xml.XMLDocument(itemRefs.get(i), new TitleLoader(i));
+				
+			}
+
+		}
+		else{
+			listener.finishedLoading(null, null);
+		}
 	}
 	
-	
-  /**
-   * Move item to new position
-   * @param index - old position
-   * @param newPosition - new position
-   */
-  public void moveItem(int index, int newPosition){
-    String temp;
 
-    // move DOM nodes
-    NodeList  nodes = getDom().getElementsByTagName("assessmentItemRef");
-    Element   assessmentSection = 
-      (Element)getDom().getElementsByTagName("assessmentSection").item(0); 
-    
-    // change XML modes
-    Node      node = nodes.item(index);
-    Node      nodeRef;
-    
-    assessmentSection.removeChild(node);
-    if(index < newPosition){
-      nodeRef = nodes.item(newPosition);
-      assessmentSection.insertBefore(node, nodeRef);
-    }
-    else if(newPosition >= nodes.getLength()){
-      assessmentSection.appendChild(node);
-    }
-    else{
-      nodeRef = nodes.item(newPosition);
-      assessmentSection.insertBefore(node, nodeRef);
-    }
-    
-    // move references
-    temp = itemRefs.get(index);
-    itemRefs.remove(index);
-    itemRefs.insertElementAt(temp, newPosition);
-    
-    // move titles
-    temp = itemTitles.get(index);
-    itemTitles.remove(index);
-    itemTitles.insertElementAt(temp, newPosition);
-
-  }
-  
-  
 	/**
-	 * Load item refs into array
+	 * Move item to new position
+	 * @param index - old position
+	 * @param newPosition - new position
 	 */
-	protected void initData(){
+	public void moveItem(int index, int newPosition){
+		String temp;
 
-		NodeList 	nodes = getDom().getElementsByTagName("assessmentItemRef");
-    Node			itemRefNode;
+		// move DOM nodes
+		NodeList  nodes = xmlData.getDocument().getElementsByTagName("assessmentItemRef");
+		Element   assessmentSection = 
+			(Element)xmlData.getDocument().getElementsByTagName("assessmentSection").item(0); 
 
-    itemRefs = new Vector<String>();
-    
-    for(int i = 0; i < nodes.getLength(); i++){
-    	itemRefNode = nodes.item(i);
-    	itemRefs.add( getBaseUrl() + ((Element)itemRefNode).getAttribute("href") );
-    }
+		// change XML modes
+		Node      node = nodes.item(index);
+		Node      nodeRef;
+
+		assessmentSection.removeChild(node);
+		if(index < newPosition){
+			nodeRef = nodes.item(newPosition);
+			assessmentSection.insertBefore(node, nodeRef);
+		}
+		else if(newPosition >= nodes.getLength()){
+			assessmentSection.appendChild(node);
+		}
+		else{
+			nodeRef = nodes.item(newPosition);
+			assessmentSection.insertBefore(node, nodeRef);
+		}
+
+		// move references
+		temp = itemRefs.get(index);
+		itemRefs.remove(index);
+		itemRefs.insertElementAt(temp, newPosition);
+
+		// move titles
+		temp = itemTitles.get(index);
+		itemTitles.remove(index);
+		itemTitles.insertElementAt(temp, newPosition);
+
 	}
+
+  
 
 	/**
 	 * Send event when all titles loaded
 	 */
-	private synchronized void  titleLoaded(){
+	private synchronized void  titleLoaded(Document document, String baseURL){
 	
 	  titlesLoadedCounter --;
 	  if(titlesLoadedCounter == 0){
-	    titlesListener.finishedLoading(this);
+	    titlesListener.finishedLoading(document, baseURL);
 	  }
 	}
 	
@@ -171,16 +184,22 @@ public class Assessment extends XMLDocument{
 	/* inner class for loading item title
 	 */
 	private class TitleLoader implements IDocumentLoaded{
-	  
-	  private int index;
-	  
-	  public TitleLoader(int index){
-	    this.index = index;
-	  }
-	  
-    public void finishedLoading(XMLDocument document) {
-      itemTitles.set( index, ((ItemReference)document).getTitle() );
-      titleLoaded();
-    }
-  };
+
+		private int index;
+
+		public TitleLoader(int index){
+			this.index = index;
+		}
+
+		@Override
+		public void finishedLoading(Document document, String baseURL) {
+			itemTitles.set( index, (new ItemReference(document)).getTitle() );
+			titleLoaded(document, baseURL);
+		}
+
+		@Override
+		public void loadingErrorHandler(String error) {
+						
+		}
+	};
 }

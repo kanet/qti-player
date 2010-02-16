@@ -36,8 +36,6 @@ import com.qtitools.player.client.model.AssessmentItem;
 
 public class PlayerWidget extends Composite{
 
-	/** Show this assessment */
-	private Assessment			assessment;
 	/** current item */
 //	private AssessmentItem 	assessmentItem;
 	private Panel 					playerPanel;
@@ -65,9 +63,9 @@ public class PlayerWidget extends Composite{
 	 * @param assessment to show
 	 */
 	public PlayerWidget(Assessment assessment){
-		this.assessment = assessment;
+		//this.assessment = assessment;
 		
-		initWidget(createView());
+		initWidget(createView(assessment));
 	}
 	
 	/**
@@ -122,7 +120,7 @@ public class PlayerWidget extends Composite{
 	 * Create view for given assessment item and show it in player
 	 * @param index of assessment item
 	 */
-	public void showPage(AssessmentItem assessmentItem, int pageNumber){
+	public void showPage(Assessment assessment, AssessmentItem assessmentItem, int pageNumber){
 
 		Label itemTitleLabel = new Label();
 		
@@ -130,14 +128,14 @@ public class PlayerWidget extends Composite{
 		bodyPanel.clear();
 		feedbackLabel.setText("");
 
-		counterLabel.setText(pageNumber + "/" + assessment.getItemCount());		
+		counterLabel.setText(pageNumber + "/" + assessment.getAssessmentItemsCount());		
 
 		itemTitleLabel.setText(pageNumber + ". " + assessmentItem.getTitle());
 		itemTitleLabel.setStyleName("qp-item-title");
 		bodyPanel.add(itemTitleLabel);
-		for(int i = 0; i < assessmentItem.getModuleCount(); i++){
-			bodyPanel.add(assessmentItem.getModule(i));
-		}
+		
+		bodyPanel.add(assessmentItem.getContentWidget());
+		
 	}
 	
 	public void showFeedback(String feedback){
@@ -159,7 +157,7 @@ public class PlayerWidget extends Composite{
   /**
    * @return view with player
    */
-  private Widget createView(){
+  private Widget createView(Assessment assessment){
     Label           label;
     HorizontalPanel header = new HorizontalPanel();
 
@@ -169,7 +167,7 @@ public class PlayerWidget extends Composite{
     label = new Label(assessment.getTitle());
     label.setStyleName("qp-assessment-title");
     header.add(label);
-    counterLabel = new Label("1/" + assessment.getItemCount());
+    counterLabel = new Label("1/" + assessment.getAssessmentItemsCount());
     counterLabel.setStyleName("qp-page-counter");
     header.add(counterLabel);
     playerPanel.add(header);

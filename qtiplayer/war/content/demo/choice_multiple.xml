@@ -9,11 +9,11 @@ identifier="choice" title="Multiple choice" adaptive="false" timeDependent="fals
 			<value>ChoiceB</value>
 		</correctResponse>
 	</responseDeclaration>
-	<!-- outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer">
+	<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer">
 		<defaultValue>
 			<value>0</value>
 		</defaultValue>
-	</outcomeDeclaration-->
+	</outcomeDeclaration>
 	<itemBody>
 		<p>
 			This item contains choice with multiple answers. The answers are shuffled (except the last one). 
@@ -28,5 +28,5 @@ identifier="choice" title="Multiple choice" adaptive="false" timeDependent="fals
 			<simpleChoice identifier="ChoiceE" fixed="true">None of the above.</simpleChoice>
 		</choiceInteraction>
 	</itemBody>
-	<!-- responseProcessing template="http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"/-->
+	<responseProcessing template="http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"/>
 </assessmentItem>
