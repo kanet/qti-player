@@ -23,12 +23,12 @@
 */
 package com.qtitools.player.client;
 
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.qtitools.player.client.model.Assessment;
@@ -47,16 +47,17 @@ public class PlayerWidget extends Composite{
 	private Label 					feedbackLabel;
 	/** Footer */
 	private Panel						footer;
+	private HorizontalPanel				footerContainer;
 	/** Check button */ 
-	private Button					checkButton;
+	private PushButton					checkButton;
 	/** Reset button */ 
-	private Button					resetButton;
+	private PushButton					resetButton;
 	/** Next button */ 
-	private Button					prevButton;
+	private PushButton					prevButton;
 	/** Next button */ 
-	private Button					nextButton;
+	private PushButton					nextButton;
 	/** Finish button */ 
-	private Button					finishButton;
+	private PushButton					finishButton;
 	
 	/**
 	 * constructor
@@ -71,35 +72,35 @@ public class PlayerWidget extends Composite{
 	/**
 	 * @return check button
 	 */
-	public Button getCheckButton(){
+	public PushButton getCheckButton(){
 		return checkButton;
 	}
 	
 	/**
 	 * @return finish button
 	 */
-	public Button getFinishButton(){
+	public PushButton getFinishButton(){
 		return finishButton;
 	}
 	
 	/**
 	 * @return next button
 	 */
-	public Button getNextButton(){
+	public PushButton getNextButton(){
 		return nextButton;
 	}
 	
 	/**
 	 * @return previous button
 	 */
-	public Button getPrevButton(){
+	public PushButton getPrevButton(){
 		return prevButton;
 	}
 	
 	/**
 	 * @return reset button
 	 */
-	public Button getResetButton(){
+	public PushButton getResetButton(){
 		return resetButton;
 	}
 	
@@ -180,27 +181,42 @@ public class PlayerWidget extends Composite{
     feedbackLabel.setStyleName("qp-feedback");
     playerPanel.add(feedbackLabel);
 
+    footerContainer = new HorizontalPanel();
+
+    checkButton = new PushButton();
+    checkButton.setWidth("70");
+    checkButton.setHeight("20");
+    checkButton.setStylePrimaryName("qp-check-button");
+    footerContainer.add(checkButton);
+    
+    resetButton = new PushButton();
+    resetButton.setWidth("70");
+    resetButton.setHeight("20");
+    resetButton.setStylePrimaryName("qp-reset-button");
+    footerContainer.add(resetButton);
+
+    prevButton = new PushButton();
+    //prevButton.setWidth("70");
+    //prevButton.setHeight("20");
+    prevButton.setStylePrimaryName("qp-prev-button");
+    footerContainer.add(prevButton);
+    
+    nextButton = new PushButton();
+    nextButton.setWidth("70");
+    nextButton.setHeight("20");
+    nextButton.setStylePrimaryName("qp-next-button");
+    footerContainer.add(nextButton);
+    
+    finishButton = new PushButton();
+    finishButton.setWidth("70");
+    finishButton.setHeight("20");
+    finishButton.setStylePrimaryName("qp-finish-button");
+    footerContainer.add(finishButton);
+        
     footer = new FlowPanel();
     footer.setStyleName("qp-footer");
+    footer.add(footerContainer);
     playerPanel.add(footer);
-
-    checkButton = new Button("Check");
-    checkButton.setStyleName("qp-check-button");
-    footer.add(checkButton);
-    resetButton = new Button("Continue");
-    resetButton.setStyleName("qp-reset-button");
-    footer.add(resetButton);
-
-    prevButton = new Button("Previuos");
-    prevButton.setStyleName("qp-prev-button");
-    footer.add(prevButton);
-    nextButton = new Button("Next");
-    nextButton.setStyleName("qp-next-button");
-    footer.add(nextButton);
-    
-    finishButton = new Button("Finish");
-    finishButton.setStyleName("qp-finish-button");
-    footer.add(finishButton);
     
     return playerPanel;
   }

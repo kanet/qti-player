@@ -59,6 +59,10 @@ public class PlayerEntryPoint implements EntryPoint {
         return @com.qtitools.player.client.PlayerEntryPoint::getResult()();
       }
       
+      player.getAssessmentSessionReport = function(){
+        return @com.qtitools.player.client.PlayerEntryPoint::getAssessmentSessionReport()();
+      }
+      
       return player;
     }
 
@@ -85,6 +89,14 @@ public class PlayerEntryPoint implements EntryPoint {
   public static JavaScriptObject getResult() {
     return player.getResult().getJSObject();
   }
+  
+	/**
+	 * Returns array with result info
+	 * @param url
+	 */
+	public static JavaScriptObject getAssessmentSessionReport() {
+	  return player.getAssessmentSessionReport();
+	}
    
   /**
    * Load assessment from this url

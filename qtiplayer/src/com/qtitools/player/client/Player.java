@@ -86,7 +86,7 @@ public class Player implements DeliveryEngineEventListener {
   public JavaScriptObject getJavaScriptObject(){
     return jsObject;
   }
-  
+
   
   /**
    * Return interface to get test result
@@ -95,7 +95,28 @@ public class Player implements DeliveryEngineEventListener {
 
     return testResult;
   }
+  
+  /**
+   * Return interface to get assessment session time
+   */
+  public JavaScriptObject getAssessmentSessionReport() {
 
+	  int assessmentSessionTime = deliveryEngine.report().getAssessmentSessionTime();
+	  
+	  JavaScriptObject obj = JavaScriptObject.createObject();
+	  
+	  initAssessmentSessionReportJS(obj, assessmentSessionTime);
+	  
+	  return obj;
+  }
+  
+  private native static void initAssessmentSessionReportJS(JavaScriptObject obj, int time) /*-{
+	  obj.getTime = function(){
+		  return time;
+	  }
+  }-*/;
+
+  
   
 
   

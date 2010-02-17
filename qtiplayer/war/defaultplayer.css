@@ -43,26 +43,95 @@
 	width:	100%;
 	background-color: silver;
 	margin-top: 10px;
-	padding: 4px;
+	padding: 6px 2px;
 }
 
 .qp-check-button{
+	width:70px;
+	height:20px;
+	margin-left: 6px;
+	cursor:pointer;
+	background-image:url(images/btn_check.png);
+}
+.qp-check-button-up-hovering{
+	background-image:url(images/btn_check_uh.png);
+}
+.qp-check-button-down-hovering{
+	background-image:url(images/btn_check_dh.png);
+}
+.qp-check-button-up-disabled{
+	background-image:url(images/btn_check_dis.png);
 }
 
 .qp-reset-button{
+	width:70px;
+	height:20px;
+	margin-left: 6px;
+	cursor:pointer;
+	background-image:url(images/btn_reset.png);
 }
+.qp-reset-button-up-hovering{
+	background-image:url(images/btn_reset_uh.png);
+}
+.qp-reset-button-down-hovering{
+	background-image:url(images/btn_reset_dh.png);
+}
+.qp-reset-button-up-disabled{
+	background-image:url(images/btn_reset_dis.png);
+}
+
 
 .qp-prev-button{
-	margin-left: 4px;
+	width:70px;
+	height:20px;
+	margin-left: 6px;
+	cursor:pointer;
+	background-image:url(images/btn_prev.png);
+}
+.qp-prev-button-up-hovering{
+	background-image:url(images/btn_prev_uh.png);
+}
+.qp-prev-button-down-hovering{
+	background-image:url(images/btn_prev_dh.png);
+}
+.qp-prev-button-up-disabled{
+	background-image:url(images/btn_prev_dis.png);
 }
 
+
 .qp-next-button{
+	width:70px;
+	height:20px;
+	margin-left: 6px;
+	cursor:pointer;
+	background-image:url(images/btn_next.png);
+}
+.qp-next-button-up-hovering{
+	background-image:url(images/btn_next_uh.png);
+}
+.qp-next-button-down-hovering{
+	background-image:url(images/btn_next_dh.png);
+}
+.qp-next-button-up-disabled{
+	background-image:url(images/btn_next_dis.png);
 }
 
 .qp-finish-button{
-	margin-left: 4px;
+	width:70px;
+	height:20px;
+	margin-left: 6px;
+	cursor:pointer;
+	background-image:url(images/btn_finish.png);
 }
-
+.qp-finish-button-up-hovering{
+	background-image:url(images/btn_finish_uh.png);
+}
+.qp-finish-button-down-hovering{
+	background-image:url(images/btn_finish_dh.png);
+}
+.qp-finish-button-up-disabled{
+	background-image:url(images/btn_finish_dis.png);
+}
 
 /**
  * TextModule styles

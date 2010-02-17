@@ -1,6 +1,8 @@
 package com.qtitools.player.client.control;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.ui.Widget;
@@ -25,7 +27,9 @@ public class DeliveryEngine implements IActivity {
 
 	public Assessment assessment;
 	public AssessmentItem currentAssessmentItem;
-	int currentAssessmentItemIndex;
+	private int currentAssessmentItemIndex;
+	
+	private long assessmentSessionTimeStarted;
 	
 	private DeliveryEngineEventListener listener;
 	
@@ -180,6 +184,7 @@ public class DeliveryEngine implements IActivity {
 	 * Begins assessment session.
 	 */
 	public void beginAssessmentSession(){
+		assessmentSessionTimeStarted = (long) ((new Date()).getTime() * 0.001);
 		initHistory();
 		listener.onAssessmentSessionBegin();
 	}
@@ -261,8 +266,44 @@ public class DeliveryEngine implements IActivity {
 	 * 
 	 * @return the report
 	 */
-	public AssessmentSessionReport report(){
-		return null;
+	public IAssessmentSessionReport report(){
+		return new IAssessmentSessionReport() {
+			
+			@Override
+			public String getAssessmentTitle() {
+				return assessment.getTitle();
+			}
+			
+			@Override
+			public int getAssessmentSessionTime() {
+				return new Long(((long) ((new Date()).getTime() * 0.001)) - assessmentSessionTimeStarted).intValue();
+			}
+			
+			@Override
+			public Result getAssessmentResult() {
+				return getAssessmentResult();
+			}
+			
+			@Override
+			public Result getAssessmentItemResult() {
+				return getAssessmentItemResult();
+			}
+			
+			@Override
+			public int getAssessmentItemIndex() {
+				return currentAssessmentItemIndex;
+			}
+			
+			@Override
+			public int getAssessmentItemsCount() {
+				return assessment.getAssessmentItemsCount();
+			}
+			
+			@Override
+			public String getAssessmentItemTitle() {
+				return assessment.getAssessmentItemTitle(currentAssessmentItemIndex);
+			}
+		};
 	}
 	
 	
