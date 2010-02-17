@@ -165,6 +165,7 @@ public class Player implements DeliveryEngineEventListener {
     
     playerView.getFinishButton().addClickHandler(new ClickHandler(){
       public void onClick(ClickEvent event) {
+    	deliveryEngine.endAssessmentSession();
         showAssessmentResult();
       }
     });

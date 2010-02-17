@@ -30,6 +30,7 @@ public class DeliveryEngine implements IActivity {
 	private int currentAssessmentItemIndex;
 	
 	private long assessmentSessionTimeStarted;
+	private long assessmentSessionTimeFinished;
 	
 	private DeliveryEngineEventListener listener;
 	
@@ -43,6 +44,9 @@ public class DeliveryEngine implements IActivity {
 	 */
 	public DeliveryEngine(DeliveryEngineEventListener lnr){
 		listener = lnr;
+		assessmentSessionTimeStarted = 0;
+		assessmentSessionTimeFinished = 0;
+		
 	}
 	
 	//------------------------- QTI XML CONTENT LOADING --------------------------------
@@ -193,7 +197,7 @@ public class DeliveryEngine implements IActivity {
 	 * Ends assessment session.
 	 */
 	public void endAssessmentSession(){
-		
+		assessmentSessionTimeFinished = (long) ((new Date()).getTime() * 0.001);
 	}
 
 	/**
@@ -276,6 +280,12 @@ public class DeliveryEngine implements IActivity {
 			
 			@Override
 			public int getAssessmentSessionTime() {
+				if (assessmentSessionTimeStarted == 0)
+					return 0;
+				
+				if (assessmentSessionTimeFinished != 0)
+					return new Long(assessmentSessionTimeFinished - assessmentSessionTimeStarted).intValue();
+				
 				return new Long(((long) ((new Date()).getTime() * 0.001)) - assessmentSessionTimeStarted).intValue();
 			}
 			
