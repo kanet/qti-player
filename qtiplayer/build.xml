@@ -56,7 +56,7 @@
       <jvmarg value="-Xmx256M"/>
       <jvmarg line="${XstartOnFirstThread}"/>
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
-      <arg value="com.klangner.qtiplayer.Qtiplayer"/>
+      <arg value="com.qtitools.player.Player"/>
     </java>
   </target>
 
@@ -71,7 +71,7 @@
       <arg value="-startupUrl"/>
       <arg value="test.html"/>
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
-      <arg value="com.klangner.qtiplayer.Qtiplayer"/>
+      <arg value="com.qtitools.player.Player"/>
     </java>
   </target>
   
