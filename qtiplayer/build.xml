@@ -5,7 +5,7 @@
 	<property file="./default.properties" />
 
   <!-- Configure path to GWT SDK -->
-  <property name="gwt.sdk" location="/home/klangner/lib/gwt-linux-1.7.1" />
+  <!--property name="gwt.sdk" location="/home/klangner/lib/gwt-linux-1.7.1" /-->
   <condition property="XstartOnFirstThread" value="-XstartOnFirstThread">
     <os family="mac"/>
   </condition>
@@ -15,19 +15,20 @@
 
   <path id="project.class.path">
     <pathelement location="war/WEB-INF/classes"/>
-    <pathelement location="${gwt.sdk}/gwt-user.jar"/>
-    <fileset dir="${gwt.sdk}" includes="gwt-dev*.jar"/>
+    <!--pathelement location="${gwt.sdk}/gwt-user.jar"/-->
+    <fileset dir="lib" includes="**/*.jar"/>
     <!-- Add any additional non-server libs (such as JUnit) -->
     <fileset dir="war/WEB-INF/lib" includes="**/*.jar"/>
   </path>
 
-	<target name="resolve" description="--> retrieve dependencies with ivy">
+  <target name="resolve" description="--> retrieve dependencies with ivy">
   	<ivy:retrieve />
   </target>
     
-  <target name="libs" description="Copy libs to WEB-INF/lib">
+  <target name="libs" depends="resolve" description="Copy libs to WEB-INF/lib">
     <mkdir dir="war/WEB-INF/lib" />
-    <copy todir="war/WEB-INF/lib" file="${gwt.sdk}/gwt-servlet.jar" />
+    <copy todir="war/WEB-INF/lib"/>
+		<fileset dir="lib" includes="**/*.jar"/>  
     <!-- Add any additional server libs that need to be copied -->
   </target>
 
@@ -85,6 +86,7 @@
     <delete dir="dist"/>
     <delete dir="war/WEB-INF/classes" failonerror="false" />
     <delete dir="war/qtiplayer" failonerror="false" />
+	<delete dir="lib" failonerror="false" />  
   </target>
   
   <target name="modulelib" depends="javac" description="Create module library">
