@@ -27,8 +27,9 @@
     
   <target name="libs" depends="resolve" description="Copy libs to WEB-INF/lib">
     <mkdir dir="war/WEB-INF/lib" />
-    <copy todir="war/WEB-INF/lib"/>
+    <copy todir="war/WEB-INF/lib">
 		<fileset dir="lib" includes="**/*.jar"/>  
+	</copy>
     <!-- Add any additional server libs that need to be copied -->
   </target>
 
