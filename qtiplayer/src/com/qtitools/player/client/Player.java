@@ -23,6 +23,8 @@
 */
 package com.qtitools.player.client;
 
+import java.io.Serializable;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
@@ -116,6 +118,43 @@ public class Player implements DeliveryEngineEventListener {
 	  }
   }-*/;
 
+
+  
+  /**
+   * Return interface to get assessment session state
+   */
+  public JavaScriptObject getState() {
+	  
+	  JavaScriptObject obj = JavaScriptObject.createObject();
+	  
+	  initStateJS(obj, deliveryEngine.getState());
+	  
+	  return obj;
+  }
+  
+  private native static void initStateJS(JavaScriptObject obj, Serializable[] states) /*-{
+	  obj.get = function(){
+		  return states;
+	  }
+  }-*/;
+
+  
+  /**
+   * Return interface to get assessment session time
+   */
+  public void setState(JavaScriptObject obj) {
+	  try {
+		  Serializable[] states = readStateJS(obj);	  
+		  
+		  deliveryEngine.setState(states);
+	  } catch (Exception e) {
+	}
+  }
+  
+  private native static Serializable[] readStateJS(JavaScriptObject obj) /*-{
+	  return obj.get();
+  }-*/;
+  
   
   
 

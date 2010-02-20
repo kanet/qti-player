@@ -63,6 +63,14 @@ public class PlayerEntryPoint implements EntryPoint {
         return @com.qtitools.player.client.PlayerEntryPoint::getAssessmentSessionReport()();
       }
       
+      player.getState = function(){
+        return @com.qtitools.player.client.PlayerEntryPoint::getState()();
+      }
+      
+      player.setState = function(obj){
+        @com.qtitools.player.client.PlayerEntryPoint::setState(Lcom/google/gwt/core/client/JavaScriptObject;)(obj);
+      }
+      
       return player;
     }
 
@@ -86,10 +94,10 @@ public class PlayerEntryPoint implements EntryPoint {
 	 * Returns array with result info
 	 * @param url
 	 */
-  public static JavaScriptObject getResult() {
-    return player.getResult().getJSObject();
-  }
-  
+	public static JavaScriptObject getResult() {
+		return player.getResult().getJSObject();
+	}
+
 	/**
 	 * Returns array with result info
 	 * @param url
@@ -97,13 +105,29 @@ public class PlayerEntryPoint implements EntryPoint {
 	public static JavaScriptObject getAssessmentSessionReport() {
 	  return player.getAssessmentSessionReport();
 	}
+
+	/**
+	 * Returns array with result info
+	 * @param url
+	 */
+	public static JavaScriptObject getState() {
+	  return player.getState();
+	}
+
+	/**
+	 * Returns array with result info
+	 * @param url
+	 */
+	public static void setState(JavaScriptObject obj) {
+	  player.setState(obj);
+	}
    
-  /**
-   * Load assessment from this url
-   * @param url
-   */
-  public static void load(String url) {
-    player.loadAssessment(url);
-  }
+	/**
+	 * Load assessment from this url
+	 * @param url
+	 */
+	public static void load(String url) {
+		player.loadAssessment(url);
+	}
    
 }

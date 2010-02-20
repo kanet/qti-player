@@ -2,7 +2,6 @@ package com.qtitools.player.client.control;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.ui.Widget;
@@ -206,8 +205,7 @@ public class DeliveryEngine implements IActivity {
 	public void beginItemSession(){
 
 	    // Load state
-	    if(states[currentAssessmentItemIndex] != null)
-	    	currentAssessmentItem.setState(states[currentAssessmentItemIndex]);
+		updateState();
 	    
 	    listener.onItemSessionBegin(currentAssessmentItemIndex);
 	}
@@ -315,7 +313,22 @@ public class DeliveryEngine implements IActivity {
 			}
 		};
 	}
+
+
+	public Serializable[] getState(){
+	    return states;
+	}
 	
+
+	public void setState(Serializable[] obj){
+		states = obj;
+		updateState();
+	}
+	
+	private void updateState(){
+	    if(states[currentAssessmentItemIndex] != null)
+	    	currentAssessmentItem.setState(states[currentAssessmentItemIndex]);
+	}
 	
 	//------------------------- HISTORY --------------------------------
 
@@ -338,7 +351,6 @@ public class DeliveryEngine implements IActivity {
 		states[currentAssessmentItemIndex] = currentAssessmentItem.getState();
 		results[currentAssessmentItemIndex] = currentAssessmentItem.getResult();
 	}
-
 	
 	//------------------------- IACTIVITY --------------------------------
 
