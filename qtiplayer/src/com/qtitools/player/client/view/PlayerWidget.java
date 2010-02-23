@@ -21,7 +21,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-package com.qtitools.player.client;
+package com.qtitools.player.client.view;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -67,6 +67,8 @@ public class PlayerWidget extends Composite{
 		//this.assessment = assessment;
 		
 		initWidget(createView(assessment));
+		
+		this.setWidth("640");
 	}
 	
 	/**

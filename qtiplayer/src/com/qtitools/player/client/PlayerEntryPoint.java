@@ -32,7 +32,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class PlayerEntryPoint implements EntryPoint {
 
 	/** Player object */
-	private static Player       player;
+	public static Player       player;
 	
   /**
    * This is the entry point method.
@@ -71,12 +71,33 @@ public class PlayerEntryPoint implements EntryPoint {
         @com.qtitools.player.client.PlayerEntryPoint::setState(Lcom/google/gwt/core/client/JavaScriptObject;)(obj);
       }
       
+      player.navigateNextItem = function(){
+      	 @com.qtitools.player.client.PlayerEntryPoint::navigateNextItem()();
+      }
+      
+      player.navigatePreviousItem = function(){
+      	 @com.qtitools.player.client.PlayerEntryPoint::navigatePreviousItem()();
+      }
+      
+      player.navigateFinishItem = function(){
+      	 @com.qtitools.player.client.PlayerEntryPoint::navigateFinishItem()();
+      }
+      
+      player.navigateFinishAssessment = function(){
+      	 @com.qtitools.player.client.PlayerEntryPoint::navigateFinishAssessment()();
+      }
+      
+      player.navigateResetItem = function(){
+      	 @com.qtitools.player.client.PlayerEntryPoint::navigateResetItem()();
+      }
+      
+  	
       return player;
     }
 
     // Call App loaded function
     if(typeof $wnd.qpOnAppLoaded == 'function') {
-      $wnd.qpOnAppLoaded();
+      $wnd.qpOnAppLoaded();	
     }
   }-*/;
 
@@ -86,7 +107,6 @@ public class PlayerEntryPoint implements EntryPoint {
 	 */
 	public static JavaScriptObject createPlayer(String node_id) {
 	  player = new Player(node_id);
-	  
 	  return player.getJavaScriptObject(); 
 	}
 
@@ -121,7 +141,26 @@ public class PlayerEntryPoint implements EntryPoint {
 	public static void setState(JavaScriptObject obj) {
 	  player.setState(obj);
 	}
-   
+
+	public static void navigateNextItem() {
+		((EntryPointEventListener)player).onNavigateNextItem();
+	}
+	public static void navigatePreviousItem() {
+		((EntryPointEventListener)player).onNavigatePreviousItem();
+	}
+	public static void navigateFinishItem() {
+		((EntryPointEventListener)player).onNavigateFinishItem();
+	}
+	public static void navigateFinishAssessment() {
+		((EntryPointEventListener)player).onNavigateFinishAssessment();
+	}
+	public static void navigateResetItem() {
+		((EntryPointEventListener)player).onNavigateResetItem();
+	}
+	public static void navigateResetAssessment() {
+		((EntryPointEventListener)player).onNavigateResetAssessment();
+	}
+	
 	/**
 	 * Load assessment from this url
 	 * @param url

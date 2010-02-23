@@ -35,11 +35,12 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.qtitools.player.client.control.DeliveryEngine;
 import com.qtitools.player.client.control.DeliveryEngineEventListener;
 import com.qtitools.player.client.control.Result;
+import com.qtitools.player.client.view.PlayerWidget;
 /**
  * Main class with player API
  * @author Krzysztof Langner
  */
-public class Player implements DeliveryEngineEventListener {
+public class Player implements DeliveryEngineEventListener, EntryPointEventListener {
 
   /** player node id */
   private String              id;
@@ -175,14 +176,13 @@ public class Player implements DeliveryEngineEventListener {
     
     playerView.getCheckButton().addClickHandler(new ClickHandler(){
       public void onClick(ClickEvent event) {
-        showItemResult();
+    	  onNavigateFinishItem();
       }
     });
     
     playerView.getResetButton().addClickHandler(new ClickHandler(){
       public void onClick(ClickEvent event) {
-        deliveryEngine.reset();
-        playerView.showFeedback("");
+        resetItem();
         playerView.getCheckButton().setVisible(true);
 	  	playerView.getResetButton().setVisible(false);
       }
@@ -208,7 +208,6 @@ public class Player implements DeliveryEngineEventListener {
         showAssessmentResult();
       }
     });
-
 
     // Switch to first item
     deliveryEngine.loadAssessmentItem(0);
@@ -280,7 +279,6 @@ public class Player implements DeliveryEngineEventListener {
    */
   private void showItemResult(){
 
-	  deliveryEngine.endItemSession();
 	  
 	  Result result = deliveryEngine.getAssessmentItemResult();
 	  playerView.getCheckButton().setVisible(false);
@@ -299,6 +297,10 @@ public class Player implements DeliveryEngineEventListener {
 	  playerView.showFeedback(feedback);
   }
 
+private void resetItem(){
+	deliveryEngine.reset();
+	playerView.showFeedback("");
+}
 
 
 @Override
@@ -332,8 +334,6 @@ public void onAssessmentItemLoadingError(String errorMessage) {
 	
 }
 
-
-
 @Override
 public void onAssessmentLoadingError(String errorMessage) {
 
@@ -343,8 +343,39 @@ public void onAssessmentLoadingError(String errorMessage) {
 	
 }
 
+@Override
+public void onNavigateFinishAssessment() {
+	deliveryEngine.endAssessmentSession();
+	showAssessmentResult();
+}
 
+@Override
+public void onNavigateFinishItem() {
+	deliveryEngine.endItemSession();
+	showItemResult();
+}
 
+@Override
+public void onNavigateNextItem() {
+	deliveryEngine.nextAssessmentItem();
+	
+}
 
+@Override
+public void onNavigatePreviousItem() {
+	deliveryEngine.previousAssessmentItem();
+	
+}
+
+@Override
+public void onNavigateResetAssessment() {
+	deliveryEngine.reset();
+	
+}
+
+@Override
+public void onNavigateResetItem() {
+	resetItem();
+}
 
 }

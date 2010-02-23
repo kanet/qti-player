@@ -6,7 +6,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Document;
-import com.qtitools.player.client.IDocumentLoaded;
 import com.qtitools.player.client.model.Assessment;
 import com.qtitools.player.client.model.AssessmentItem;
 import com.qtitools.player.client.module.IActivity;

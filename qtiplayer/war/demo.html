@@ -11,10 +11,16 @@
     
     <script type="text/javascript" language="javascript" src="qtiplayer/qtiplayer.nocache.js"></script>
     <script language="javascript">
+    var player1;
       function qpOnAppLoaded(){
         // Load assessment
-        var player = qpCreatePlayer('player');
-        player.load('content/demo.xml');
+        player1 = qpCreatePlayer('player');
+        player1.load('content/demo.xml');
+      }
+      
+      function manageState(){
+      	var state = player1.getState();
+      	player1.setState(state);
       }
     </script>
     
@@ -34,6 +40,11 @@ var pageTracker = _gat._getTracker("UA-3468179-4");
 pageTracker._trackPageview();
 } catch(err) {}
 </script>
-
+	<INPUT TYPE="button" NAME="button" Value="next" onClick="player1.navigateNextItem();">
+	<INPUT TYPE="button" NAME="button" Value="previous" onClick="player1.navigatePreviousItem();">
+	<INPUT TYPE="button" NAME="button" Value="finish item" onClick="player1.navigateFinishItem();">
+	<INPUT TYPE="button" NAME="button" Value="finish assessment" onClick="player1.navigateFinishAssessment();">
+	<INPUT TYPE="button" NAME="button" Value="reset item" onClick="player1.navigateResetItem();">
+	
   </body>
 </html>
