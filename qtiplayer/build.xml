@@ -101,7 +101,7 @@
       <fileset dir="src" includes="**/player/**"/>
     </copy>
 
-	<zip destfile="dist/qtiplayerlib-${version}-${ivy.build.number}.jar" basedir="dist/lib"/>
+	<zip destfile="dist/qtiplayerlib-${version}-build${ivy.build.number}.jar" basedir="dist/lib"/>
   </target>
 
   <target name="dist" depends="clean, build, modulelib, buildnumber" description="Create java script distribution">
@@ -122,7 +122,7 @@
     <copy todir="dist/build" file="war/demo.html" />
     <copy todir="dist/build" file="war/defaultplayer.css" />
 
-    <zip destfile="dist/qtiplayer-${version}-${ivy.build.number}.zip" basedir="dist/build/qtiplayer"/>
+    <zip destfile="dist/qtiplayer-${version}-build${ivy.build.number}.zip" basedir="dist/build/qtiplayer"/>
     <zip destfile="dist/qtiplayer.zip" basedir="dist/build"/>
   </target>
   
@@ -134,7 +134,7 @@
 			resolver="${ivy.publish.ydp.resolver}"
 			status="${ivy.publish.status}"
 			forcedeliver="true"
-			artifactspattern="dist/[artifact]-${version}-${ivy.build.number}.[ext]"
+			artifactspattern="dist/[artifact]-${version}-build${ivy.build.number}.[ext]"
 			overwrite="true"/>		
 	</target>
   
