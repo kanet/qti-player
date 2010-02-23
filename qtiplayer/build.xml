@@ -90,17 +90,21 @@
 	<delete dir="lib" failonerror="false" />  
   </target>
   
-  <target name="modulelib" depends="javac" description="Create module library">
+  <target name="buildnumber" description="Update build number">
+	<ivy:buildnumber organisation="com.klangner" module="qtiplayer" />
+  </target>
+  
+  <target name="modulelib" depends="javac, buildnumber" description="Create module library">
     <mkdir dir="dist/lib" />
     <copy todir="dist/lib">
       <fileset dir="war/WEB-INF/classes" includes="**/player/**"/>
       <fileset dir="src" includes="**/player/**"/>
     </copy>
 
-    <zip destfile="dist/qtiplayerlib-${version}-${ivy.new.build.number}.jar" basedir="dist/lib"/>
+	<zip destfile="dist/qtiplayerlib-${version}-${ivy.build.number}.jar" basedir="dist/lib"/>
   </target>
 
-  <target name="dist" depends="clean, build, modulelib" description="Create java script distribution">
+  <target name="dist" depends="clean, build, modulelib, buildnumber" description="Create java script distribution">
     <mkdir dir="dist/build" />
     <copy todir="dist/build/qtiplayer">
       <fileset dir="war/qtiplayer"/>
@@ -122,7 +126,7 @@
     <zip destfile="dist/qtiplayer.zip" basedir="dist/build"/>
   </target>
   
-  <target name="publish" depends="dist" description="Publish artifacts into Ivy repository">  	
+  <target name="publish" depends="dist, modulelib" description="Publish artifacts into Ivy repository">  	
   	<!-- resolve is needed to get organization/module from ivy.xml for publish task !-->
 		<ivy:resolve />
 		<ivy:publish
