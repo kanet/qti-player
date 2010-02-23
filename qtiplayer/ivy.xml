@@ -6,6 +6,7 @@
   
   <publications>
   	<artifact name="qtiplayer" type="zip" conf="qtiplayer" ext="zip"/>
+	<artifact name="qtiplayerlib" type="jar" conf="qtiplayer" ext="jar"/>
   </publications>
 
   <dependencies>
