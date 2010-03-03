@@ -3,6 +3,7 @@
 
 .qp-player{
 	padding: 5px;
+	width:460px;
 }
 
 .qp-error{
@@ -28,6 +29,10 @@
 	background-color: white;
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+
+.qp-item-body {
+
 }
 
 .qp-item-title{
