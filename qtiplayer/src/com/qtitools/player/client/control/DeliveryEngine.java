@@ -35,6 +35,8 @@ public class DeliveryEngine implements IActivity {
 	public Serializable[] states;
 	public Result[] results;
 	
+	public EngineModeManager mode;
+	
 	//private AssessmentEventsHandler deliveryEngineHandler;
 	
 	/**
@@ -44,6 +46,7 @@ public class DeliveryEngine implements IActivity {
 		listener = lnr;
 		assessmentSessionTimeStarted = 0;
 		assessmentSessionTimeFinished = 0;
+		mode = new EngineModeManager();
 		
 	}
 	
@@ -53,6 +56,9 @@ public class DeliveryEngine implements IActivity {
 	 * Load assessment file from server
 	 */
 	public void loadAssessment(String url){
+
+		if (!mode.canBeginAssessmentLoading())
+			return;
 	
 		String resolvedURL;
 
@@ -67,12 +73,17 @@ public class DeliveryEngine implements IActivity {
 		else{
 			resolvedURL = GWT.getHostPageBaseURL() + url;
 		}
+		
+		mode.beginAssessmentLoading();
 
 		new com.qtitools.player.client.util.xml.XMLDocument(resolvedURL, new IDocumentLoaded(){
 
 			public void finishedLoading(Document document, String baseURL) {
-				assessment = new Assessment(new XMLData(document, baseURL));
-				beginAssessmentSession();				
+				if (mode.canEndAssessmentLoading()){
+					assessment = new Assessment(new XMLData(document, baseURL));
+					mode.endAssessmentLoading();
+					beginAssessmentSession();			
+				}
 			}
 
 			@Override
@@ -88,17 +99,25 @@ public class DeliveryEngine implements IActivity {
 	 * @param item index
 	 */
 	public void loadAssessmentItem(int index){
+		
+		if (!mode.canBeginItemLoading())
+			return;
 
 		if(index >= 0 && index < assessment.getAssessmentItemsCount()){
 			String  url = assessment.getAssessmentItemRef(index);
 
 			currentAssessmentItemIndex = index;
 
+			mode.beginItemLoading();
+
 			new XMLDocument(url, new IDocumentLoaded(){
 
 				public void finishedLoading(Document document, String baseURL) {
-					currentAssessmentItem = new AssessmentItem(new XMLData(document, baseURL));
-					beginItemSession();
+					if (mode.canEndItemLoading()){
+						currentAssessmentItem = new AssessmentItem(new XMLData(document, baseURL));
+						mode.endItemLoading();
+						beginItemSession();
+					}
 				}
 
 				@Override
@@ -127,6 +146,9 @@ public class DeliveryEngine implements IActivity {
 	 */
 	public void nextAssessmentItem(){
 		
+		if (!mode.canNavigate())
+			return;
+		
 		if(currentAssessmentItemIndex  < assessment.getAssessmentItemsCount()-1){
 		
 			if (currentAssessmentItem != null)
@@ -140,6 +162,9 @@ public class DeliveryEngine implements IActivity {
 	 * Moves the assessment to the previous item.
 	 */
 	public void previousAssessmentItem(){
+
+		if (!mode.canNavigate())
+			return;
 		
 		if(currentAssessmentItemIndex  > 0){
 		
@@ -182,6 +207,11 @@ public class DeliveryEngine implements IActivity {
 		return (currentAssessmentItemIndex == 0);
 	}
 	
+	public boolean isNavigationPossible(){
+		return mode.canNavigate();
+	}
+	
+	
 	/**
 	 * Begins assessment session.
 	 */
@@ -195,7 +225,11 @@ public class DeliveryEngine implements IActivity {
 	 * Ends assessment session.
 	 */
 	public void endAssessmentSession(){
-		assessmentSessionTimeFinished = (long) ((new Date()).getTime() * 0.001);
+		if (mode.canFinish()){
+			mode.finish();
+			assessmentSessionTimeFinished = (long) ((new Date()).getTime() * 0.001);
+			listener.onAssessmentSessionFinished();
+		}
 	}
 
 	/**
@@ -203,19 +237,23 @@ public class DeliveryEngine implements IActivity {
 	 */
 	public void beginItemSession(){
 
-	    // Load state
-		updateState();
-	    
-	    listener.onItemSessionBegin(currentAssessmentItemIndex);
+		if (mode.canRun()){
+		    // Load state
+			updateState();
+		    listener.onItemSessionBegin(currentAssessmentItemIndex);
+		    mode.run();
+		}
 	}
 
 	/**
 	 * Ends assessment item session. 
 	 */
 	public void endItemSession(){
-		currentAssessmentItem.process();
-		updateHistory();
-		listener.onItemSessionFinished(currentAssessmentItemIndex);
+		if (mode.canNavigate()){
+			currentAssessmentItem.process();
+			updateHistory();
+			listener.onItemSessionFinished(currentAssessmentItemIndex);
+		}
 		
 	}
 
@@ -315,18 +353,27 @@ public class DeliveryEngine implements IActivity {
 
 
 	public Serializable[] getState(){
-	    return states;
+		if (mode.isAssessmentLoaded())
+			return states;
+		else
+			return null;
 	}
 	
 
 	public void setState(Serializable[] obj){
-		states = obj;
-		updateState();
+		if (mode.isAssessmentLoaded()){
+			states = obj;
+			updateState();
+		}
 	}
 	
 	private void updateState(){
 	    if(states[currentAssessmentItemIndex] != null)
 	    	currentAssessmentItem.setState(states[currentAssessmentItemIndex]);
+	}
+	
+	public String getEngineMode(){
+		return mode.toString();
 	}
 	
 	//------------------------- HISTORY --------------------------------
@@ -364,8 +411,12 @@ public class DeliveryEngine implements IActivity {
 	 */
 	@Override
 	public void reset() {
-		results[currentAssessmentItemIndex] = null;
-		currentAssessmentItem.reset();
+
+		if (mode.canNavigate()){
+		
+			results[currentAssessmentItemIndex] = null;
+			currentAssessmentItem.reset();
+		}
 		
 	}
 

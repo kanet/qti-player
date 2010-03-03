@@ -91,6 +91,10 @@ public class PlayerEntryPoint implements EntryPoint {
       	 @com.qtitools.player.client.PlayerEntryPoint::navigateResetItem()();
       }
       
+      player.getEngineState = function(){
+      	 return @com.qtitools.player.client.PlayerEntryPoint::getEngineMode()();
+      }
+      
   	
       return player;
     }
@@ -140,6 +144,9 @@ public class PlayerEntryPoint implements EntryPoint {
 	 */
 	public static void setState(JavaScriptObject obj) {
 	  player.setState(obj);
+	}
+	public static JavaScriptObject getEngineMode(){
+		return player.getEngineMode();
 	}
 
 	public static void navigateNextItem() {

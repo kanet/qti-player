@@ -23,6 +23,7 @@
 */
 package com.qtitools.player.client.view;
 
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -67,8 +68,6 @@ public class PlayerWidget extends Composite{
 		//this.assessment = assessment;
 		
 		initWidget(createView(assessment));
-		
-		this.setWidth("640");
 	}
 	
 	/**

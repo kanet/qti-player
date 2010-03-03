@@ -53,17 +53,6 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
   
   private JavaScriptResult    testResult;  
   
-  /**
-   * Event send when assessment is done
-   * @param msg
-   */
-  private static native void onAssessmentFinished(JavaScriptObject player) /*-{
-    
-    if(typeof player.onAssessmentFinished == 'function') {
-      player.onAssessmentFinished();
-    }
-  }-*/;
-  
     
   
   /**
@@ -157,7 +146,20 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
   }-*/;
   
   
-  
+  	public JavaScriptObject getEngineMode(){
+  	  JavaScriptObject obj = JavaScriptObject.createObject();
+  	  String es = deliveryEngine.getEngineMode();
+  	initEngineModeJS(obj, es);
+  	  return obj;
+  	}
+  	
+    private native static void initEngineModeJS(JavaScriptObject obj, String state) /*-{
+		obj.toString = function(){
+			return state;
+		}
+	}-*/;
+
+
 
   
   /**
@@ -182,7 +184,7 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     
     playerView.getResetButton().addClickHandler(new ClickHandler(){
       public void onClick(ClickEvent event) {
-        resetItem();
+        onNavigateResetItem();
         playerView.getCheckButton().setVisible(true);
 	  	playerView.getResetButton().setVisible(false);
       }
@@ -190,27 +192,21 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     
     playerView.getPrevButton().addClickHandler(new ClickHandler(){
       public void onClick(ClickEvent event) {
-        //loadAssessmentItem(currentItemIndex-1);
-        deliveryEngine.previousAssessmentItem();
+        onNavigatePreviousItem();
       }
     });
     
     playerView.getNextButton().addClickHandler(new ClickHandler(){
       public void onClick(ClickEvent event) {
-        //loadAssessmentItem(currentItemIndex+1);
-        deliveryEngine.nextAssessmentItem();
+    	  onNavigateNextItem();
       }
     });
     
     playerView.getFinishButton().addClickHandler(new ClickHandler(){
       public void onClick(ClickEvent event) {
-    	deliveryEngine.endAssessmentSession();
-        showAssessmentResult();
+    	onNavigateFinishAssessment();
       }
     });
-
-    // Switch to first item
-    deliveryEngine.loadAssessmentItem(0);
   }
   
   
@@ -270,7 +266,7 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     
     testResult = new JavaScriptResult(score, max);
     playerView.showResultPage("Your score is: " + (int)((score * 100)/max) + "% " + score + " points.");
-    onAssessmentFinished(jsObject);
+    
   }
    
   /**
@@ -305,27 +301,60 @@ private void resetItem(){
 
 @Override
 public void onAssessmentSessionBegin() {
+	
 	createUserInterface();
 	
+	onAssessmentSessionBeginJS(jsObject);
+	
+    // Switch to first item
+    deliveryEngine.loadAssessmentItem(0);
+	
 }
+
+private static native void onAssessmentSessionBeginJS(JavaScriptObject player) /*-{
+	if(typeof player.onAssessmentSessionBegin == 'function') {
+		player.onAssessmentSessionBegin();
+}
+}-*/;
+
 
 @Override
 public void onAssessmentSessionFinished() {
-	// TODO Auto-generated method stub
+	showAssessmentResult();
+    onAssessmentSessionFinishedJS(jsObject);
 }
 
+private static native void onAssessmentSessionFinishedJS(JavaScriptObject player) /*-{
+  	if(typeof player.onAssessmentSessionFinished == 'function') {
+		player.onAssessmentSessionFinished();
+	}
+}-*/;
 
 @Override
 public void onItemSessionBegin(int currentAssessmentItemIndex) {
+	
 	createAssessmentItemView();
 	
+	onItemSessionBeginJS(jsObject);
 }
+
+private static native void onItemSessionBeginJS(JavaScriptObject player) /*-{
+	if(typeof player.onItemSessionBegin == 'function') {
+		player.onItemSessionBegin();
+	}
+}-*/;
 
 @Override
 public void onItemSessionFinished(int currentAssessmentItemIndex) {
-	// TODO Auto-generated method stub
+	onItemSessionFinishedJS(jsObject);
 	
 }
+
+private static native void onItemSessionFinishedJS(JavaScriptObject player) /*-{
+	if(typeof player.onItemSessionFinished == 'function') {
+		player.onItemSessionFinished();
+	}
+}-*/;
 
 @Override
 public void onAssessmentItemLoadingError(String errorMessage) {
@@ -345,37 +374,49 @@ public void onAssessmentLoadingError(String errorMessage) {
 
 @Override
 public void onNavigateFinishAssessment() {
-	deliveryEngine.endAssessmentSession();
-	showAssessmentResult();
+	if (deliveryEngine.isNavigationPossible()){
+		deliveryEngine.endAssessmentSession();
+	}
 }
+
 
 @Override
 public void onNavigateFinishItem() {
-	deliveryEngine.endItemSession();
-	showItemResult();
+	if (deliveryEngine.isNavigationPossible()){
+		deliveryEngine.endItemSession();
+		showItemResult();
+	}
 }
 
 @Override
 public void onNavigateNextItem() {
-	deliveryEngine.nextAssessmentItem();
+	if (deliveryEngine.isNavigationPossible()){
+		deliveryEngine.nextAssessmentItem();
+	}
 	
 }
 
 @Override
 public void onNavigatePreviousItem() {
-	deliveryEngine.previousAssessmentItem();
+	if (deliveryEngine.isNavigationPossible()){
+		deliveryEngine.previousAssessmentItem();
+	}
 	
 }
 
 @Override
 public void onNavigateResetAssessment() {
-	deliveryEngine.reset();
+	if (deliveryEngine.isNavigationPossible()){
+		deliveryEngine.reset();
+	}
 	
 }
 
 @Override
 public void onNavigateResetItem() {
-	resetItem();
+	if (deliveryEngine.isNavigationPossible()){
+		resetItem();
+	}
 }
 
 }
