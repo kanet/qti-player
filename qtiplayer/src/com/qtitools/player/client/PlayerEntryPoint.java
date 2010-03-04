@@ -91,7 +91,7 @@ public class PlayerEntryPoint implements EntryPoint {
       	 @com.qtitools.player.client.PlayerEntryPoint::navigateResetItem()();
       }
       
-      player.getEngineState = function(){
+      player.getEngineMode = function(){
       	 return @com.qtitools.player.client.PlayerEntryPoint::getEngineMode()();
       }
       
