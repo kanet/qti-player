@@ -3,6 +3,7 @@ package com.qtitools.player.client.model.responseprocessing;
 import java.util.HashMap;
 import java.util.Vector;
 
+import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.variables.outcome.Outcome;
@@ -29,8 +30,12 @@ public final class ResponseProcessor {
 		if (outcomes.size() == 0 ||  responses.size() == 0)
 			return;
 		
-		if (template == ResponseProcessorTemplate.MATCH_CORRECT)
-			processTemplateMatchCorrect(responses, outcomes);
+		try {
+			if (template == ResponseProcessorTemplate.MATCH_CORRECT)
+				processTemplateMatchCorrect(responses, outcomes);
+		} catch (Exception e) {
+			
+		}
 	}
 	
 	private void processTemplateMatchCorrect(HashMap<String, Response> responses, HashMap<String, Outcome> outcomes){
