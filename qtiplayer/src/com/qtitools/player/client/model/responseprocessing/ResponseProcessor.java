@@ -26,6 +26,9 @@ public final class ResponseProcessor {
 	private ResponseProcessorTemplate template = ResponseProcessorTemplate.NONE;
 	
 	public void process (HashMap<String, Response> responses, HashMap<String, Outcome> outcomes){
+		if (outcomes.size() == 0 ||  responses.size() == 0)
+			return;
+		
 		if (template == ResponseProcessorTemplate.MATCH_CORRECT)
 			processTemplateMatchCorrect(responses, outcomes);
 	}
