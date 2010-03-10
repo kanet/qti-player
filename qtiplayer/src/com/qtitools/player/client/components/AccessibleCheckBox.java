@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.qtitools.player.client.module.choice.components;
+package com.qtitools.player.client.components;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.InputElement;

@@ -2,72 +2,72 @@ package com.qtitools.player.client.control;
 
 public class EngineModeManager {
 
-	private PlayerState state;
+	private EngineMode state;
 	
 	EngineModeManager(){
-		state = PlayerState.NONE;
+		state = EngineMode.NONE;
 	}
 	
 	public boolean canBeginAssessmentLoading(){
-		return (state == PlayerState.NONE);
+		return (state == EngineMode.NONE);
 	}
 
 	public void beginAssessmentLoading(){
-		state = PlayerState.ASSESSMENT_LOADING;
+		state = EngineMode.ASSESSMENT_LOADING;
 	}
 
 	public boolean canEndAssessmentLoading(){
-		return (state == PlayerState.ASSESSMENT_LOADING);
+		return (state == EngineMode.ASSESSMENT_LOADING);
 	}
 	
 	public void endAssessmentLoading(){
-		state = PlayerState.ASSESSMENT_LOADED;
+		state = EngineMode.ASSESSMENT_LOADED;
 	}
 
 	public boolean canBeginItemLoading(){
-		return (state == PlayerState.ASSESSMENT_LOADED  ||  
-				state == PlayerState.RUNNING);
+		return (state == EngineMode.ASSESSMENT_LOADED  ||  
+				state == EngineMode.RUNNING);
 	}
 	
 	public void beginItemLoading(){
-		state = PlayerState.ITEM_LOADING;
+		state = EngineMode.ITEM_LOADING;
 	}
 
 	public boolean canEndItemLoading(){
-		return (state == PlayerState.ITEM_LOADING);
+		return (state == EngineMode.ITEM_LOADING);
 	}
 	
 	public void endItemLoading(){
-		state = PlayerState.ITEM_LOADED;
+		state = EngineMode.ITEM_LOADED;
 	}
 	
 	public boolean canRun(){
-		return (state == PlayerState.ITEM_LOADED);
+		return (state == EngineMode.ITEM_LOADED);
 	}
 	
 	public void run(){
-		state = PlayerState.RUNNING;
+		state = EngineMode.RUNNING;
 	}
 
 	public boolean canFinish(){
-		return (state == PlayerState.RUNNING);
+		return (state == EngineMode.RUNNING);
 	}
 	
 	public void finish(){
-		state = PlayerState.FINISHED;
+		state = EngineMode.FINISHED;
 	}
 	
 	public boolean isAssessmentLoaded(){
-		return (state == PlayerState.ASSESSMENT_LOADED  ||  
-				state == PlayerState.ITEM_LOADING  ||
-				state == PlayerState.ITEM_LOADED  ||
-				state == PlayerState.FINISHED  ||
-				state == PlayerState.RUNNING);
+		return (state == EngineMode.ASSESSMENT_LOADED  ||  
+				state == EngineMode.ITEM_LOADING  ||
+				state == EngineMode.ITEM_LOADED  ||
+				state == EngineMode.FINISHED  ||
+				state == EngineMode.RUNNING);
 		
 	}
 	
 	public boolean canNavigate(){
-		return (state == PlayerState.RUNNING);
+		return (state == EngineMode.RUNNING);
 	}
 	
 	public String toString(){

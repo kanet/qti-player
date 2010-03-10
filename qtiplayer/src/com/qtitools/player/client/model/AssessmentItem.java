@@ -19,7 +19,7 @@ import com.qtitools.player.client.module.IStateful;
 
 public class AssessmentItem implements IStateful, IActivity {
 		
-	private ItemBody itemBody;
+	public ItemBody itemBody;
 	
 	private ResponseProcessor responseProcessor;
 	

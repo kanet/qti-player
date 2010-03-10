@@ -30,10 +30,10 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.xml.client.Element;
+import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IActivity;
 import com.qtitools.player.client.module.IInteractionModule;
-import com.qtitools.player.client.module.IBrowserEventListener;
 import com.qtitools.player.client.module.IModuleSocket;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.util.xml.XMLUtils;
@@ -64,27 +64,6 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 		textBox.getElement().setId(id);
 		getElement().appendChild(textBox.getElement());
 		
-	}
-
-	/**
-	 * @see IBrowserEventListener#getInputsId()
-	 */
-	public Vector<String> getInputsId() {
-		Vector<String> v = new Vector<String>();
-		v.add(id);
-		return v;
-	}
-
-	/**
-	 * Process on change event 
-	 */
-	public void onChange(Event event){
-		
-		if(lastValue != null)
-			response.remove(lastValue);
-		
-		lastValue = textBox.getText();
-		response.add(lastValue);
 	}
 
 	/**
@@ -127,8 +106,62 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
   public void setState(Serializable newState) {
     String state = (String)newState;
     textBox.setText(state);
-    onChange(null);
+    updateResponse();
   }
+
+	/**
+	 * @see IBrowserEventListener#getInputsId()
+	 */
+  /*
+	public Vector<String> getInputsId() {
+		Vector<String> v = new Vector<String>();
+		v.add(id);
+		return v;
+	}
+	*/
+
+	/**
+	 * Process on change event 
+	 */
+	/*
+	public void onChange(Event event){
+		
+		if(lastValue != null)
+			response.remove(lastValue);
+		
+		lastValue = textBox.getText();
+		response.add(lastValue);
+	}
+	*/
+
+	@Override
+	public Vector<InternalEventTrigger> getTriggers() {
+		Vector<InternalEventTrigger> v = new Vector<InternalEventTrigger>();
+		v.add(new InternalEventTrigger(id, Event.ONCHANGE));
+		return v;
+	}
+
+	@Override
+	public void handleEvent(String tagID, Event param) {
+		updateResponse();
+		
+	}
+	
+	private void updateResponse(){
+		
+		if(lastValue != null)
+			response.remove(lastValue);
+		
+		lastValue = textBox.getText();
+		response.add(lastValue);
+	
+	}
+
+	@Override
+	public void onOwnerAttached() {
+		// do nothing
+		
+	}
   
 
 }

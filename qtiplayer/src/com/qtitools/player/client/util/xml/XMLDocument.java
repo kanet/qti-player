@@ -66,15 +66,19 @@ public class XMLDocument {
 
 				public void onResponseReceived(Request request, Response response){
 					// StatusCode == 0 when loading from local file
-					if (response.getStatusCode() == 200 || response.getStatusCode() == 0) {
-
-						dom = XMLParser.parse(response.getText());
-						fix(dom, baseUrl);
-						listener.finishedLoading(dom, baseUrl);
-					} else {
-						// Handle the error.  Can get the status text from response.getStatusText()
-						errorString = "Wrong status: " + response.getText();
-						listener.loadingErrorHandler(errorString);
+					try {
+						if (response.getStatusCode() == 200 || response.getStatusCode() == 0) {
+	
+							dom = XMLParser.parse(response.getText());
+							fix(dom, baseUrl);
+							listener.finishedLoading(dom, baseUrl);
+						} else {
+							// Handle the error.  Can get the status text from response.getStatusText()
+							errorString = "Wrong status: " + response.getText();
+							listener.loadingErrorHandler(errorString);
+						}
+					} catch (Exception e) {
+						listener.loadingErrorHandler(e.getMessage());
 					}
 				}       
 			});

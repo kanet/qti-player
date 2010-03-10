@@ -24,14 +24,14 @@
 package com.qtitools.player.client.module.debug;
 
 import java.util.Vector;
-
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.xml.client.Element;
-import com.qtitools.player.client.module.IBrowserEventListener;
+import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
+import com.qtitools.player.client.module.IBrowserEventHandler;
 
-public class DebugModule extends Composite implements IBrowserEventListener{
+public class DebugModule extends Composite implements IBrowserEventHandler{
 
 	/**
 	 * constructor
@@ -51,11 +51,17 @@ public class DebugModule extends Composite implements IBrowserEventListener{
 	public void onChange(Event event){
 		
 	}
-
+	
 	@Override
-	public Vector<String> getInputsId() {
+	public Vector<InternalEventTrigger> getTriggers() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void handleEvent(String tagID, Event event) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

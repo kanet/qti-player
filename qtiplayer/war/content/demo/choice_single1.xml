@@ -14,22 +14,13 @@ identifier="choice" title="Simple choice and picture inside a text." adaptive="f
 		</defaultValue>
 	</outcomeDeclaration>
 	<itemBody>
-		<p>
-			This is simple choice interaction with no shuffled answers. 
-			Also you can see that text can contain pictures.
-		</p>
-		<p>
-			<img src="media/eiffeltower.jpg" alt="Eiffel tower"/>
-		</p>
-		
 		
 		<choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1">
-			<prompt>Looook at the picture. Can you guess from the picture which city is itzzz?</prompt>
-			<simpleChoice identifier="ChoiceA">It is Paris.</simpleChoice>
-			<simpleChoice identifier="ChoiceB">It is Berlin.</simpleChoice>
-			<simpleChoice identifier="ChoiceC">It is London.</simpleChoice>
 		</choiceInteraction>
 		
+		<testInteraction dragMode="vertical"/>
+		<testInteraction dragMode="horizontal"/>
+		<testInteraction dragMode="free"/>
 		
 	</itemBody>
 	<responseProcessing template="http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"/>

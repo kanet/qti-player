@@ -116,9 +116,10 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
   public JavaScriptObject getState() {
 	  
 	  JavaScriptObject obj = JavaScriptObject.createObject();
-	  
+
 	  initStateJS(obj, deliveryEngine.getState());
 	  
+
 	  return obj;
   }
   
@@ -166,47 +167,54 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
    * Create user interface
    */
   private void createUserInterface() {
+
+	RootPanel rootPanel = RootPanel.get(id); 
+	try {
+		Element element = rootPanel.getElement();
+		Node node = element.getFirstChild();
+		if(node != null)
+			element.removeChild(node);
     
-    RootPanel rootPanel = RootPanel.get(id); 
-    Element element = rootPanel.getElement();
-    Node node = element.getFirstChild();
-    if(node != null)
-      element.removeChild(node);
+    	playerView = new PlayerWidget(deliveryEngine.assessment);
+    	rootPanel.add(playerView);
     
-    playerView = new PlayerWidget(deliveryEngine.assessment);
-    rootPanel.add(playerView);
-    
-    playerView.getCheckButton().addClickHandler(new ClickHandler(){
-      public void onClick(ClickEvent event) {
-    	  onNavigateFinishItem();
-      }
-    });
-    
-    playerView.getResetButton().addClickHandler(new ClickHandler(){
-      public void onClick(ClickEvent event) {
-        onNavigateResetItem();
-        playerView.getCheckButton().setVisible(true);
-	  	playerView.getResetButton().setVisible(false);
-      }
-    });
-    
-    playerView.getPrevButton().addClickHandler(new ClickHandler(){
-      public void onClick(ClickEvent event) {
-        onNavigatePreviousItem();
-      }
-    });
-    
-    playerView.getNextButton().addClickHandler(new ClickHandler(){
-      public void onClick(ClickEvent event) {
-    	  onNavigateNextItem();
-      }
-    });
-    
-    playerView.getFinishButton().addClickHandler(new ClickHandler(){
-      public void onClick(ClickEvent event) {
-    	onNavigateFinishAssessment();
-      }
-    });
+	    playerView.getCheckButton().addClickHandler(new ClickHandler(){
+	      public void onClick(ClickEvent event) {
+	    	  onNavigateFinishItem();
+	      }
+	    });
+	    
+	    playerView.getResetButton().addClickHandler(new ClickHandler(){
+	      public void onClick(ClickEvent event) {
+	        onNavigateResetItem();
+	        playerView.getCheckButton().setVisible(true);
+		  	playerView.getResetButton().setVisible(false);
+	      }
+	    });
+	    
+	    playerView.getPrevButton().addClickHandler(new ClickHandler(){
+	      public void onClick(ClickEvent event) {
+	        onNavigatePreviousItem();
+	      }
+	    });
+	    
+	    playerView.getNextButton().addClickHandler(new ClickHandler(){
+	      public void onClick(ClickEvent event) {
+	    	  onNavigateNextItem();
+	      }
+	    });
+	    
+	    playerView.getFinishButton().addClickHandler(new ClickHandler(){
+	      public void onClick(ClickEvent event) {
+	    	onNavigateFinishAssessment();
+	      }
+	    });
+
+    } catch (Exception e) {
+    	Label l = new Label();
+    	l.setText("Could not create view.");
+    	rootPanel.add(l);
+	}
   }
   
   
@@ -305,10 +313,7 @@ public void onAssessmentSessionBegin() {
 	createUserInterface();
 	
 	onAssessmentSessionBeginJS(jsObject);
-	
-    // Switch to first item
-    deliveryEngine.loadAssessmentItem(0);
-	
+		
 }
 
 private static native void onAssessmentSessionBeginJS(JavaScriptObject player) /*-{
@@ -336,6 +341,8 @@ public void onItemSessionBegin(int currentAssessmentItemIndex) {
 	createAssessmentItemView();
 	
 	onItemSessionBeginJS(jsObject);
+	
+	deliveryEngine.currentAssessmentItem.itemBody.shown();
 }
 
 private static native void onItemSessionBeginJS(JavaScriptObject player) /*-{
@@ -409,7 +416,6 @@ public void onNavigateResetAssessment() {
 	if (deliveryEngine.isNavigationPossible()){
 		deliveryEngine.reset();
 	}
-	
 }
 
 @Override

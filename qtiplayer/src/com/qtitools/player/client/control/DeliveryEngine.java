@@ -88,7 +88,11 @@ public class DeliveryEngine implements IActivity {
 
 			@Override
 			public void loadingErrorHandler(String error) {
-				listener.onAssessmentLoadingError(error);
+				if (mode.canEndAssessmentLoading()){
+					assessment = null;
+					mode.endAssessmentLoading();
+					beginAssessmentSession();	
+				}
 			}
 		});
 
@@ -122,7 +126,11 @@ public class DeliveryEngine implements IActivity {
 
 				@Override
 				public void loadingErrorHandler(String error) {
-					listener.onAssessmentItemLoadingError(error);
+					if (mode.canEndItemLoading()){
+						currentAssessmentItem = null;
+						mode.endItemLoading();
+						beginItemSession();
+					}
 				}
 			});
 		}
@@ -217,8 +225,17 @@ public class DeliveryEngine implements IActivity {
 	 */
 	public void beginAssessmentSession(){
 		assessmentSessionTimeStarted = (long) ((new Date()).getTime() * 0.001);
-		initHistory();
 		listener.onAssessmentSessionBegin();
+		
+		if (assessment != null){
+			initHistory();
+			loadAssessmentItem(0);
+		} else {
+			listener.onAssessmentLoadingError("Could not load Assessment");
+			
+		}
+		
+		
 	}
 
 	/**
@@ -226,6 +243,7 @@ public class DeliveryEngine implements IActivity {
 	 */
 	public void endAssessmentSession(){
 		if (mode.canFinish()){
+			endItemSession();
 			mode.finish();
 			assessmentSessionTimeFinished = (long) ((new Date()).getTime() * 0.001);
 			listener.onAssessmentSessionFinished();
@@ -238,10 +256,14 @@ public class DeliveryEngine implements IActivity {
 	public void beginItemSession(){
 
 		if (mode.canRun()){
-		    // Load state
-			updateState();
-		    listener.onItemSessionBegin(currentAssessmentItemIndex);
-		    mode.run();
+			if (currentAssessmentItem != null){
+			    // Load state
+				updateState();
+			    listener.onItemSessionBegin(currentAssessmentItemIndex);
+			} else {
+				listener.onAssessmentItemLoadingError("Could not load Assessment Item.");
+			}
+			mode.run();
 		}
 	}
 
@@ -250,9 +272,13 @@ public class DeliveryEngine implements IActivity {
 	 */
 	public void endItemSession(){
 		if (mode.canNavigate()){
-			currentAssessmentItem.process();
-			updateHistory();
-			listener.onItemSessionFinished(currentAssessmentItemIndex);
+			if (currentAssessmentItem != null){
+				currentAssessmentItem.process();
+				updateHistory();
+				listener.onItemSessionFinished(currentAssessmentItemIndex);
+			} else {
+				listener.onItemSessionFinished(currentAssessmentItemIndex);
+			}
 		}
 		
 	}

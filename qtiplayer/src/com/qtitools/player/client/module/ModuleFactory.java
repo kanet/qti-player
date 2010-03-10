@@ -29,6 +29,7 @@ import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.module.choice.ChoiceModule;
 import com.qtitools.player.client.module.debug.DebugModule;
 import com.qtitools.player.client.module.object.ObjectModule;
+import com.qtitools.player.client.module.test.TestModule;
 import com.qtitools.player.client.module.text.SelectionWidget;
 import com.qtitools.player.client.module.text.TextEntryWidget;
 
@@ -37,6 +38,7 @@ public abstract class ModuleFactory {
 	protected static String[] SUPPORTED_MODULES ={"choiceInteraction", 
 												"inlineChoiceInteraction", 
 												"textEntryInteraction",
+												"testInteraction",
 												"object"};
 
 	public static boolean isSupported(String test){
@@ -58,6 +60,8 @@ public abstract class ModuleFactory {
 			widget = new SelectionWidget(element, moduleSocket);	
 		else if(element.getNodeName().compareTo("textEntryInteraction") == 0)
 			widget = new TextEntryWidget(element, moduleSocket);
+		else if(element.getNodeName().compareTo("testInteraction") == 0)
+			widget = new TestModule(element, moduleSocket);
 	    else if(element.getNodeType() == Node.ELEMENT_NODE)
 	    	widget = new DebugModule(element);
 		

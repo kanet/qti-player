@@ -25,17 +25,16 @@ package com.qtitools.player.client.module.text;
 
 import java.io.Serializable;
 import java.util.Vector;
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
+import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IActivity;
 import com.qtitools.player.client.module.IInteractionModule;
-import com.qtitools.player.client.module.IBrowserEventListener;
 import com.qtitools.player.client.module.IModuleSocket;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.util.RandomizedSet;
@@ -49,8 +48,7 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	private String  id;
 	/** panel widget */
 	private ListBox  listBox;
-	/** Shuffle? */
-	private boolean 		shuffle = false;
+	/** Shuffle? */	private boolean 		shuffle = false;
 	/** Last selected value */
 	private String	lastValue = null;
 
@@ -74,27 +72,6 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 
 		listBox.getElement().setId(id);
 		getElement().appendChild(listBox.getElement());
-	}
-		
-	/**
-	 * @see IBrowserEventListener#getInputsId()
-	 */
-	public Vector<String> getInputsId() {
-		Vector<String> v = new Vector<String>();
-		v.add(id);
-		return v;
-	}
-	
-	/**
-	 * Process on change event 
-	 */
-	public void onChange(Event event){
-		
-		if(lastValue != null)
-			response.remove(lastValue);
-		
-		lastValue = listBox.getValue(listBox.getSelectedIndex());
-		response.add(lastValue);
 	}
 
 	/**
@@ -147,7 +124,7 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
         break;
       }
     }
-    onChange(null);
+    updateResponse();
   }
   
 	/**
@@ -192,6 +169,59 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
       listBox.addItem(XMLUtils.getText(choiceElement), 
           XMLUtils.getAttributeAsString(choiceElement, "identifier"));
 		}
+		
+	}
+
+	
+	/**
+	 * @see IBrowserEventListener#getInputsId()
+	 */
+	/*
+	public Vector<String> getInputsId() {
+		Vector<String> v = new Vector<String>();
+		v.add(id);
+		return v;
+	}
+	*/
+	
+	/**
+	 * Process on change event 
+	 */
+	/*
+	public void onChange(Event event){
+		
+		if(lastValue != null)
+			response.remove(lastValue);
+		
+		lastValue = listBox.getValue(listBox.getSelectedIndex());
+		response.add(lastValue);
+	}
+	*/
+	
+	@Override
+	public Vector<InternalEventTrigger> getTriggers() {
+		Vector<InternalEventTrigger> v = new Vector<InternalEventTrigger>();
+		v.add(new InternalEventTrigger(id, Event.ONCHANGE));
+		return v;
+	}
+
+	@Override
+	public void handleEvent(String tagID, Event param) {
+		updateResponse();
+	}
+	
+	private void updateResponse(){
+
+		if(lastValue != null)
+			response.remove(lastValue);
+		
+		lastValue = listBox.getValue(listBox.getSelectedIndex());
+		response.add(lastValue);
+	}
+
+	@Override
+	public void onOwnerAttached() {
+		// do nothing
 		
 	}
 

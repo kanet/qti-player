@@ -2,8 +2,6 @@ package com.qtitools.player.client.model.responseprocessing;
 
 import java.util.HashMap;
 import java.util.Vector;
-
-import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.variables.outcome.Outcome;

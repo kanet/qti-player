@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
+import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleSocket;
@@ -41,7 +42,6 @@ import com.qtitools.player.client.util.RandomizedSet;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
 public class ChoiceModule extends Composite implements IInteractionModule {
-
 	/** response processing interface */
 	private Response response;
 
@@ -188,9 +188,9 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 			 }
 		 }
 		 
-		 onChange(null);
+		 updateResponse();
 	}
-
+/*
 	@Override
 	public Vector<String> getInputsId() {
 		Vector<String> ids = new Vector<String>();
@@ -229,6 +229,62 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		}
 		
 		response.set(currResponseValues);
+	}
+*/
+
+
+	@Override
+	public Vector<InternalEventTrigger> getTriggers() {
+
+		Vector<InternalEventTrigger> ids = new Vector<InternalEventTrigger>();
+		for (SimpleChoice currSC:interactionElements)
+			ids.add(new InternalEventTrigger(currSC.getInputId(), Event.ONCHANGE));
+		return ids;
+	}
+
+
+	@Override
+	public void handleEvent(String tagID, Event param) {
+
+		// check if multi selection mode
+				
+		if (param != null){
+			String lastSelectedId = com.google.gwt.dom.client.Element.as(param.getEventTarget()).getId();
+		
+			for (SimpleChoice currSC:interactionElements){
+				if (currSC.getInputId().compareTo(lastSelectedId) == 0){
+					continue;
+				}
+				if (!multi){
+					currSC.setSelected(false);
+				}
+			}
+		}
+		
+		// pass response
+		
+		updateResponse();
+		
+	}
+	
+	private void updateResponse(){
+		Vector<String> currResponseValues = new Vector<String>();
+		
+		for (SimpleChoice currSC:interactionElements){
+			if (currSC.isSelected()){
+				currResponseValues.add(currSC.getIdentifier());
+			}
+			currSC.showFeedback(currSC.isSelected());
+		}
+		
+		response.set(currResponseValues);
+	}
+
+
+	@Override
+	public void onOwnerAttached() {
+		// do nothing
+		
 	}
 
 }
