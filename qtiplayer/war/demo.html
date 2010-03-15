@@ -16,13 +16,24 @@
         // Load assessment
         player1 = qpCreatePlayer('player');
         player1.load('content/demo.xml');
+        player1.setMasteryScore(10);
         
       }
       
       function manageState(){
-      	var state = player1.getState();
-      	player1.setState(state);
+      	var state = player1.getStateString();
+      	player1.setStateString(state);
+        //player1.setStateString('[[[2,0,1]],[[true,false,false]],[[true,true,false,false]],[["Y"]],[["York"]]]');
       }
+      function report(){
+        var report = player1.getAssessmentSessionReport();
+        alert(report.getTime());
+        alert(report.getScore());
+        alert(report.getScoreMax());
+        alert(report.getLessonStatus());
+        
+      }
+      
     </script>
     
   </head>
@@ -46,8 +57,10 @@ pageTracker._trackPageview();
 	<INPUT TYPE="button" NAME="button" Value="finish item" onClick="player1.navigateFinishItem();">
 	<INPUT TYPE="button" NAME="button" Value="finish assessment" onClick="player1.navigateFinishAssessment();">
 	<INPUT TYPE="button" NAME="button" Value="reset item" onClick="player1.navigateResetItem();">
-	<INPUT TYPE="button" NAME="button" Value="get mode" onClick="alert(player1.getEngineMode().toString());">
-	<INPUT TYPE="button" NAME="button" Value="manage state" onClick="manageState();">
+	<INPUT TYPE="button" NAME="button" Value="mode" onClick="alert(player1.getEngineMode().toString());">
+	<INPUT TYPE="button" NAME="button" Value="state" onClick="manageState();">
+	<INPUT TYPE="button" NAME="button" Value="report" onClick="report();">
+	<INPUT TYPE="button" NAME="button" Value="mastery(50)" onClick="player1.setMasteryScore(50);">
 	
   </body>
 </html>

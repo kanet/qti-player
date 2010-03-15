@@ -26,6 +26,8 @@ package com.qtitools.player.client.module.text;
 import java.io.Serializable;
 import java.util.Vector;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
@@ -35,6 +37,7 @@ import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IActivity;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
@@ -42,6 +45,8 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 
 	/** response processing interface */
 	private Response 	response;
+	/** module state changed listener */
+	private IStateChangedListener stateListener;
   /** widget id */
   private String  id;
   /** text box control */
@@ -53,12 +58,13 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	 * constructor
 	 * @param moduleSocket
 	 */
-	public TextEntryWidget(Element element, IModuleSocket moduleSocket){
+	public TextEntryWidget(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener){
 
 		String responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
 
-		this.id = Document.get().createUniqueId();
-		this.response = moduleSocket.getResponse(responseIdentifier);
+		id = Document.get().createUniqueId();
+		response = moduleSocket.getResponse(responseIdentifier);
+		stateListener = stateChangedListener;
 		textBox = new TextBox();
 		textBox.setMaxLength(XMLUtils.getAttributeAsInt(element, "expectedLength"));
 		textBox.getElement().setId(id);
@@ -96,43 +102,40 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
   /**
    * @see IStateful#getState()
    */
-  public Serializable getState() {
-    return textBox.getText();
+  public JSONArray getState() {
+	  JSONArray jsonArr = new JSONArray();
+
+	  String stateString = "";
+	  
+	  if (textBox.getText() != null)
+		  stateString = textBox.getText();
+	  
+	  jsonArr.set(0, new JSONString(stateString));
+	  
+	  return jsonArr;
   }
 
   /**
    * @see IStateful#setState(Serializable)
    */
-  public void setState(Serializable newState) {
-    String state = (String)newState;
-    textBox.setText(state);
-    updateResponse();
+  public void setState(JSONArray newState) {
+		
+		String state = "";
+	
+		if (newState == null){
+		} else if (newState.size() == 0){
+		} else if (newState.get(0).isString() == null){
+		} else {
+			state = newState.get(0).isString().stringValue();
+			lastValue = null;
+		}
+	
+		textBox.setText(state);
+		
+		updateResponse();
+		stateListener.onStateChanged();
+		
   }
-
-	/**
-	 * @see IBrowserEventListener#getInputsId()
-	 */
-  /*
-	public Vector<String> getInputsId() {
-		Vector<String> v = new Vector<String>();
-		v.add(id);
-		return v;
-	}
-	*/
-
-	/**
-	 * Process on change event 
-	 */
-	/*
-	public void onChange(Event event){
-		
-		if(lastValue != null)
-			response.remove(lastValue);
-		
-		lastValue = textBox.getText();
-		response.add(lastValue);
-	}
-	*/
 
 	@Override
 	public Vector<InternalEventTrigger> getTriggers() {
@@ -154,6 +157,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 		
 		lastValue = textBox.getText();
 		response.add(lastValue);
+		stateListener.onStateChanged();
 	
 	}
 

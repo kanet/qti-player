@@ -23,7 +23,7 @@
 */
 package com.qtitools.player.client.module;
 
-import java.io.Serializable;
+import com.google.gwt.json.client.JSONArray;
 
 public interface IStateful {
 
@@ -31,11 +31,11 @@ public interface IStateful {
    * Get state
    * @return state object
    */
-  public Serializable getState();
+  public JSONArray getState();
   
   /**
    * set new state 
    * @param newState state object created with getState() function
    */
-  public void setState(Serializable newState);
+  public void setState(JSONArray newState);
 }

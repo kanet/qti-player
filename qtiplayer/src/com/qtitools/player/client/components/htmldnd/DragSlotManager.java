@@ -14,12 +14,20 @@ public class DragSlotManager {
 		layout = DragSlotLayout.HORIZONTAL;
 		slots = new Vector<Rectangle>(0);
 		elements = new Vector<DragElement>(0);
+		
+		marginX = 8;
+		marginY = 8;
 	}
 
 	private DragSlotLayout layout;
 	
+	/* slots ordered by the slot number */
 	private Vector<Rectangle> slots;
+	/* Drag Elements ordered by the slot number. */
 	private Vector<DragElement> elements;
+
+	private int marginX;
+	private int marginY;
 	
 	public boolean addDragElement(DragElement element){
 		elements.add(element);
@@ -130,8 +138,8 @@ public class DragSlotManager {
 	}
 	
 	protected Rectangle findNextSlot(int slotIndex){
-		int left = 0;
-		int top = 0;
+		int left = marginX;
+		int top = marginY;
 		int width = 0;
 		int height = 0;
 		
@@ -155,9 +163,9 @@ public class DragSlotManager {
 				left = prevSlot.getLeft();
 				top = prevSlot.getTop();
 				if (layout == DragSlotLayout.HORIZONTAL){
-					left += prevSlot.getWidth();
+					left += prevSlot.getWidth() + marginX;
 				} else if (layout == DragSlotLayout.VERTICAL){
-					top += prevSlot.getHeight();
+					top += prevSlot.getHeight() + marginY;
 				}
 			}
 		}

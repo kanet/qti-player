@@ -1,5 +1,7 @@
 package com.qtitools.player.client.components.htmldnd;
 
+import java.util.Vector;
+
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -25,12 +27,13 @@ public class DragContainerPanel extends AbsolutePanel {
 	private int prevMouseY;
 	private int marginLeft;
 	private int marginTop;
+
 	
 	//private Vector<Widget> widgets;
 	private DragSlotManager slotManager;
 	
 	public void add(Widget w){
-		super.insert(w, 0,0, getWidgetCount());
+		super.insert(w, 0, 0, getWidgetCount());
 		DragElement currDragElement = new DragElement(w, slotManager.getCount());
 		slotManager.addDragElement(currDragElement);
 		Rectangle currSlot = slotManager.getSlot(slotManager.getCount()-1);
@@ -58,12 +61,13 @@ public class DragContainerPanel extends AbsolutePanel {
 		}
 	}
 	
-	public void setDragServiceMode(DragMode dsm){
+	public void setDragMode(DragMode dsm){
 		if (!isDragging){
 			mode = dsm;
 			slotManager.setSlotLayout(DragSlotLayout.fromDragServiceMode(dsm));
 		}
 	}
+	/*
 	private void updateSlots(){
 		if (isDragging  &&  DragMode.isSlotManagerEnabled(mode)){
 			Rectangle tmpSlot = new Rectangle(getWidgetLeft(currDraggedElement.getWidget()), 
@@ -78,7 +82,7 @@ public class DragContainerPanel extends AbsolutePanel {
 			}
 		}
 	}
-	
+	*/
 	private void organizeWidgets(){
 		for (int i = 0 ; i < slotManager.getCount() ; i ++){
 			
@@ -133,7 +137,9 @@ public class DragContainerPanel extends AbsolutePanel {
 				
 				setWidgetPosition(currentWidget, newWidgetX-marginLeft, newWidgetY-marginTop);
 				
+				@SuppressWarnings("unused")
 				int currWidgetX = getWidgetLeft(currentWidget);
+				@SuppressWarnings("unused")
 				int currWidgetY = getWidgetTop(currentWidget);
 				
 			} else if (mode == DragMode.HORIZONTAL  ||  mode == DragMode.VERTICAL){
@@ -160,6 +166,30 @@ public class DragContainerPanel extends AbsolutePanel {
 			prevMouseX = mouseX;
 			prevMouseY = mouseY;
 		}
+	}
+	
+	public Vector<Integer> getElementsOrder(){
+		Vector<Integer> v = new Vector<Integer>();
+		
+		int currElementIndex;
+		
+		for (int i = 0 ; i < slotManager.getCount() ; i ++){
+			currElementIndex = slotManager.getDragElement(i).getElementIndex();
+			v.add(currElementIndex);
+		}
+		
+		return v;
+	}
+	
+	public void setElementsOrder(Vector<Integer> v){
+		
+		for (int i = 0 ; i < v.size() ; i ++){
+			int currElementFromSlot = slotManager.getSlotIndexByElementIndex(v.get(i));
+			int currElementToSlot = i;
+			if (currElementFromSlot != currElementToSlot)
+				slotManager.switchDragElements(currElementFromSlot, currElementToSlot);
+		}
+		organizeWidgets();
 	}
 	
 	

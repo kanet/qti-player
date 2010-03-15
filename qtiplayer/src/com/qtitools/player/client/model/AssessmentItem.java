@@ -1,7 +1,7 @@
 package com.qtitools.player.client.model;
 
-import java.io.Serializable;
 import java.util.Vector;
+import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
@@ -15,6 +15,7 @@ import com.qtitools.player.client.model.variables.outcome.Outcome;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IActivity;
 import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.module.IStateful;
 
 public class AssessmentItem implements IStateful, IActivity {
@@ -31,7 +32,7 @@ public class AssessmentItem implements IStateful, IActivity {
 
 	private XMLData xmlData;
 			
-	public AssessmentItem(XMLData data){
+	public AssessmentItem(XMLData data, IStateChangedListener stateChangedListener){
 
 		xmlData = data;
 		
@@ -54,7 +55,7 @@ public class AssessmentItem implements IStateful, IActivity {
 			}
 		});
    
-	    itemBody = new ItemBody((Element)itemBodyNode, moduleSocket);
+	    itemBody = new ItemBody((Element)itemBodyNode, moduleSocket, stateChangedListener);
 	    
 	    title = ((Element)rootNode).getAttribute("title");
 	}
@@ -69,7 +70,7 @@ public class AssessmentItem implements IStateful, IActivity {
 			return responseManager.getVariable(id);
 		}
 
-	};		
+	};
 	
 	public void process(){
 		responseProcessor.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap());
@@ -135,12 +136,12 @@ public class AssessmentItem implements IStateful, IActivity {
 	}
 
 	@Override
-	public Serializable getState() {
+	public JSONArray getState() {
 		return itemBody.getState();
 	}
 
 	@Override
-	public void setState(Serializable newState) {
+	public void setState(JSONArray newState) {
 		itemBody.setState(newState);
 
 	}	

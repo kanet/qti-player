@@ -29,6 +29,7 @@ import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.module.choice.ChoiceModule;
 import com.qtitools.player.client.module.debug.DebugModule;
 import com.qtitools.player.client.module.object.ObjectModule;
+import com.qtitools.player.client.module.order.OrderModule;
 import com.qtitools.player.client.module.test.TestModule;
 import com.qtitools.player.client.module.text.SelectionWidget;
 import com.qtitools.player.client.module.text.TextEntryWidget;
@@ -38,6 +39,7 @@ public abstract class ModuleFactory {
 	protected static String[] SUPPORTED_MODULES ={"choiceInteraction", 
 												"inlineChoiceInteraction", 
 												"textEntryInteraction",
+												"orderInteraction",
 												"testInteraction",
 												"object"};
 
@@ -49,19 +51,21 @@ public abstract class ModuleFactory {
 		return false;
 	}
 	
-	public static Widget createWidget(Element element, IModuleSocket moduleSocket){
+	public static Widget createWidget(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener){
 		Widget	widget = null;
 
 		if(element.getNodeName().compareTo("choiceInteraction") == 0)
-			widget = new ChoiceModule(element, moduleSocket);
+			widget = new ChoiceModule(element, moduleSocket, stateChangedListener);
 	    else if(element.getNodeName().compareTo("object") == 0)
-	    	widget = new ObjectModule(element, moduleSocket);
+	    	widget = new ObjectModule(element, moduleSocket, stateChangedListener);
 	    else if(element.getNodeName().compareTo("inlineChoiceInteraction") == 0)
-			widget = new SelectionWidget(element, moduleSocket);	
+			widget = new SelectionWidget(element, moduleSocket, stateChangedListener);	
 		else if(element.getNodeName().compareTo("textEntryInteraction") == 0)
-			widget = new TextEntryWidget(element, moduleSocket);
+			widget = new TextEntryWidget(element, moduleSocket, stateChangedListener);
 		else if(element.getNodeName().compareTo("testInteraction") == 0)
-			widget = new TestModule(element, moduleSocket);
+			widget = new TestModule(element, moduleSocket, stateChangedListener);
+		else if(element.getNodeName().compareTo("orderInteraction") == 0)
+			widget = new OrderModule(element, moduleSocket, stateChangedListener);
 	    else if(element.getNodeType() == Node.ELEMENT_NODE)
 	    	widget = new DebugModule(element);
 		

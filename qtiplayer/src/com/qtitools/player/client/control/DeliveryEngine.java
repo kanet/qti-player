@@ -1,14 +1,16 @@
 package com.qtitools.player.client.control;
 
-import java.io.Serializable;
 import java.util.Date;
+import java.util.Vector;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Document;
 import com.qtitools.player.client.model.Assessment;
 import com.qtitools.player.client.model.AssessmentItem;
 import com.qtitools.player.client.module.IActivity;
+import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.util.xml.XMLDocument;
 
 /**
@@ -21,7 +23,7 @@ import com.qtitools.player.client.util.xml.XMLDocument;
  * @author Rafal Rybacki
  *
  */
-public class DeliveryEngine implements IActivity {
+public class DeliveryEngine implements IActivity, IStateChangedListener {
 
 	public Assessment assessment;
 	public AssessmentItem currentAssessmentItem;
@@ -32,10 +34,13 @@ public class DeliveryEngine implements IActivity {
 	
 	private DeliveryEngineEventListener listener;
 	
-	public Serializable[] states;
+	public JSONArray states;
 	public Result[] results;
 	
 	public EngineModeManager mode;
+	
+	private int masteryScore;
+	private Vector<Boolean> itemsVisited;
 	
 	//private AssessmentEventsHandler deliveryEngineHandler;
 	
@@ -47,6 +52,7 @@ public class DeliveryEngine implements IActivity {
 		assessmentSessionTimeStarted = 0;
 		assessmentSessionTimeFinished = 0;
 		mode = new EngineModeManager();
+		masteryScore = 100;
 		
 	}
 	
@@ -113,12 +119,14 @@ public class DeliveryEngine implements IActivity {
 			currentAssessmentItemIndex = index;
 
 			mode.beginItemLoading();
+			
+			final IStateChangedListener listener = this;
 
 			new XMLDocument(url, new IDocumentLoaded(){
 
 				public void finishedLoading(Document document, String baseURL) {
 					if (mode.canEndItemLoading()){
-						currentAssessmentItem = new AssessmentItem(new XMLData(document, baseURL));
+						currentAssessmentItem = new AssessmentItem(new XMLData(document, baseURL), listener);
 						mode.endItemLoading();
 						beginItemSession();
 					}
@@ -224,6 +232,12 @@ public class DeliveryEngine implements IActivity {
 	 * Begins assessment session.
 	 */
 	public void beginAssessmentSession(){
+		
+		itemsVisited = new Vector<Boolean>();
+		for (int i = 0 ; i < assessment.getAssessmentItemsCount() ; i ++){
+			itemsVisited.add(false);
+		}
+		
 		assessmentSessionTimeStarted = (long) ((new Date()).getTime() * 0.001);
 		listener.onAssessmentSessionBegin();
 		
@@ -259,7 +273,9 @@ public class DeliveryEngine implements IActivity {
 			if (currentAssessmentItem != null){
 			    // Load state
 				updateState();
+				itemsVisited.set(currentAssessmentItemIndex, true);
 			    listener.onItemSessionBegin(currentAssessmentItemIndex);
+				currentAssessmentItem.process();
 			} else {
 				listener.onAssessmentItemLoadingError("Could not load Assessment Item.");
 			}
@@ -273,8 +289,7 @@ public class DeliveryEngine implements IActivity {
 	public void endItemSession(){
 		if (mode.canNavigate()){
 			if (currentAssessmentItem != null){
-				currentAssessmentItem.process();
-				updateHistory();
+				onStateChanged();
 				listener.onItemSessionFinished(currentAssessmentItemIndex);
 			} else {
 				listener.onItemSessionFinished(currentAssessmentItemIndex);
@@ -293,11 +308,16 @@ public class DeliveryEngine implements IActivity {
 	    float min = 0;
 	    float max = 0;
 		
-	    for(Result result : results){
+	    for ( int r = 0 ; r < results.length ; r ++){
+	    	
+	    	Result result = results[r];
+	    
 	    	if(result != null){
 		      score += result.getScore();
 		      max += result.getMaxPoints();
 		      min += result.getMinPoints();
+	    	} else {
+	    		max++;
 	    	}
 	    }
 	    
@@ -332,6 +352,9 @@ public class DeliveryEngine implements IActivity {
 	 * @return the report
 	 */
 	public IAssessmentSessionReport report(){
+		
+		final DeliveryEngine owner = this;
+		
 		return new IAssessmentSessionReport() {
 			
 			@Override
@@ -352,12 +375,12 @@ public class DeliveryEngine implements IActivity {
 			
 			@Override
 			public Result getAssessmentResult() {
-				return getAssessmentResult();
+				return owner.getAssessmentResult();
 			}
 			
 			@Override
-			public Result getAssessmentItemResult() {
-				return getAssessmentItemResult();
+			public Result getItemResult() {
+				return getAssessmentItemResult(currentAssessmentItemIndex);
 			}
 			
 			@Override
@@ -374,11 +397,33 @@ public class DeliveryEngine implements IActivity {
 			public String getAssessmentItemTitle() {
 				return assessment.getAssessmentItemTitle(currentAssessmentItemIndex);
 			}
+
+			@Override
+			public boolean getAssessmentMasteryPassed() {
+				Result r = getAssessmentResult();
+				
+				if (r.getMaxPoints() - r.getMinPoints() == 0)
+					return false;
+				
+				return (100*r.getScore()/(r.getMaxPoints() - r.getMinPoints()) >= masteryScore);
+			}
+
+			@Override
+			public int getAssessmentItemsVisitedCount() {
+				int count = 0;
+				for (Boolean i : itemsVisited){
+					if (i) count++;
+				}
+				return count;
+			}
 		};
 	}
 
+	public void setMasteryScore(int mastery){
+		masteryScore = mastery;
+	}
 
-	public Serializable[] getState(){
+	public JSONArray getState(){
 		if (mode.isAssessmentLoaded())
 			return states;
 		else
@@ -386,16 +431,22 @@ public class DeliveryEngine implements IActivity {
 	}
 	
 
-	public void setState(Serializable[] obj){
+	public void setState(JSONArray obj){
+		states = obj;
 		if (mode.isAssessmentLoaded()){
-			states = obj;
 			updateState();
 		}
 	}
 	
 	private void updateState(){
-	    if(states[currentAssessmentItemIndex] != null)
-	    	currentAssessmentItem.setState(states[currentAssessmentItemIndex]);
+		
+		if (states.size() <= currentAssessmentItemIndex)
+			return;
+		
+	    if(states.get(currentAssessmentItemIndex).isArray() != null){
+	    	JSONArray statesArr = states.get(currentAssessmentItemIndex).isArray();
+	    	currentAssessmentItem.setState(statesArr);
+	    }
 	}
 	
 	public String getEngineMode(){
@@ -413,14 +464,15 @@ public class DeliveryEngine implements IActivity {
 	 */
 	private void initHistory(){
 	    results = new Result[assessment.getAssessmentItemsCount()];
-	    states = new Serializable[assessment.getAssessmentItemsCount()];
+	    if (states == null)
+	    	states = new JSONArray(); 
 	}
 	
 	/**
 	 * Called when item session is finished
 	 */
 	private void updateHistory() {
-		states[currentAssessmentItemIndex] = currentAssessmentItem.getState();
+		states.set(currentAssessmentItemIndex, currentAssessmentItem.getState());
 		results[currentAssessmentItemIndex] = currentAssessmentItem.getResult();
 	}
 	
@@ -448,6 +500,13 @@ public class DeliveryEngine implements IActivity {
 
 	@Override
 	public void showCorrectAnswers() {
+		
+	}
+
+	@Override
+	public void onStateChanged() {
+		currentAssessmentItem.process();
+		updateHistory();
 		
 	}
 

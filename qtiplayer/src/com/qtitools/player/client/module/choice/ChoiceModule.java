@@ -23,10 +23,10 @@
 */
 package com.qtitools.player.client.module.choice;
 
-import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Vector;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONBoolean;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
@@ -38,13 +38,15 @@ import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.util.RandomizedSet;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
 public class ChoiceModule extends Composite implements IInteractionModule {
 	/** response processing interface */
 	private Response response;
-
+	/** module state changed listener */
+	private IStateChangedListener stateListener;
 	/** response id */
 	private String responseIdentifier;
 	/** Work mode single or multiple choice */
@@ -55,13 +57,14 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 	private Vector<SimpleChoice> interactionElements;
 	
 	
-	public ChoiceModule(Element element, IModuleSocket moduleSocket){
+	public ChoiceModule(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener){
 		
 		multi = (XMLUtils.getAttributeAsInt(element, "maxChoices") != 1);
 		shuffle = XMLUtils.getAttributeAsBoolean(element, "shuffle");
 
 		responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier");
 		response = moduleSocket.getResponse(responseIdentifier);
+		stateListener = stateChangedListener;
 		
 		VerticalPanel vp = new VerticalPanel();
 		
@@ -156,82 +159,35 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 
 	@Override
 	public void showCorrectAnswers() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Serializable getState() {
-	    HashMap<String, Serializable>  state = new HashMap<String, Serializable>();
+	public JSONArray getState() {
+		JSONArray  state = new JSONArray();
 
 		for (SimpleChoice currSC:interactionElements){
 			boolean b1 = currSC.isSelected();
-			Boolean b2 = new Boolean(b1);
-			state.put(currSC.getIdentifier(), b2);
+			state.set(state.size(), JSONBoolean.getInstance(b1));
 		}
 		
 		return state;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public void setState(Serializable newState) {
-		
-		 if (newState instanceof HashMap){
+	public void setState(JSONArray newState) {
 
-			 HashMap<String, Serializable> state = (HashMap<String, Serializable>)newState;
-			 Boolean currSelected;
+		Boolean currSelected;
 		 
-			 for(SimpleChoice currSC:interactionElements){
-				 currSelected = (Boolean)state.get(currSC.getIdentifier());
-				 currSC.setSelected(currSelected);
-			 }
-		 }
-		 
-		 updateResponse();
-	}
-/*
-	@Override
-	public Vector<String> getInputsId() {
-		Vector<String> ids = new Vector<String>();
-		for (SimpleChoice currSC:interactionElements)
-			ids.add(currSC.getInputId());
-		return ids;
-	}
-
-	@Override
-	public void onChange(Event event) {
-		
-		// check if multi selection mode
-				
-		if (event != null){
-			String lastSelectedId = com.google.gwt.dom.client.Element.as(event.getEventTarget()).getId();
-		
-			for (SimpleChoice currSC:interactionElements){
-				if (currSC.getInputId().compareTo(lastSelectedId) == 0){
-					continue;
-				}
-				if (!multi){
-					currSC.setSelected(false);
-				}
-			}
+		for (int i  = 0 ; i < newState.size() && i < interactionElements.size(); i ++ ){
+			currSelected = newState.get(i).isBoolean().booleanValue();
+			interactionElements.get(i).setSelected(currSelected);
+			
 		}
 		
-		// pass response
-		
-		Vector<String> currResponseValues = new Vector<String>();
-		
-		for (SimpleChoice currSC:interactionElements){
-			if (currSC.isSelected()){
-				currResponseValues.add(currSC.getIdentifier());
-			}
-			currSC.showFeedback(currSC.isSelected());
-		}
-		
-		response.set(currResponseValues);
+		updateResponse();
+		stateListener.onStateChanged();
 	}
-*/
-
 
 	@Override
 	public Vector<InternalEventTrigger> getTriggers() {
@@ -278,6 +234,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		}
 		
 		response.set(currResponseValues);
+		stateListener.onStateChanged();
 	}
 
 

@@ -15,8 +15,10 @@ public interface IAssessmentSessionReport {
 	public String getAssessmentTitle();
 	public String getAssessmentItemTitle();
 	public int getAssessmentItemsCount();
+	public int getAssessmentItemsVisitedCount();
 	public int getAssessmentItemIndex();
 	public Result getAssessmentResult();
-	public Result getAssessmentItemResult();
+	public Result getItemResult();
 	public int getAssessmentSessionTime();
+	public boolean getAssessmentMasteryPassed();
 }

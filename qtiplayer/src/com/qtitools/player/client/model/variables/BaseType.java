@@ -6,25 +6,25 @@ public enum BaseType {
 	public static BaseType fromString(String key){
 		if (key.toLowerCase() == "identifier"){
 			return IDENTIFIER;
-		} else if (key.toLowerCase() == "boolean"){
+		} else if (key.toLowerCase().compareTo("boolean") == 0){
 			return BOOLEAN;
-		} else if (key.toLowerCase() == "interger"){
+		} else if (key.toLowerCase().compareTo("interger") == 0){
 			return INTEGER;
-		} else if (key.toLowerCase() == "float"){
+		} else if (key.toLowerCase().compareTo("float") == 0){
 			return FLOAT;
-		} else if (key.toLowerCase() == "string"){
+		} else if (key.toLowerCase().compareTo("string") == 0){
 			return STRING;
-		} else if (key.toLowerCase() == "point"){
+		} else if (key.toLowerCase().compareTo("point") == 0){
 			return POINT;
-		} else if (key.toLowerCase() == "pair"){
+		} else if (key.toLowerCase().compareTo("pair") == 0){
 			return PAIR;
-		} else if (key.toLowerCase() == "directedPair"){
+		} else if (key.toLowerCase().compareTo("directedPair") == 0){
 			return DIRECTED_PAIR;
-		} else if (key.toLowerCase() == "duration"){
+		} else if (key.toLowerCase().compareTo("duration") == 0){
 			return DURATION;
-		} else if (key.toLowerCase() == "file"){
+		} else if (key.toLowerCase().compareTo("file") == 0){
 			return FILE;
-		} else if (key.toLowerCase() == "url"){
+		} else if (key.toLowerCase().compareTo("url") == 0){
 			return URL;
 		}
 		

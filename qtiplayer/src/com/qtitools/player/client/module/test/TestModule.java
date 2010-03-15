@@ -1,14 +1,11 @@
 package com.qtitools.player.client.module.test;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Vector;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
-import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
@@ -21,10 +18,11 @@ import com.qtitools.player.client.components.htmldnd.DragMode;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.IStateChangedListener;
 
 public class TestModule extends Composite implements IInteractionModule {
 
-	public TestModule(Element element, IModuleSocket moduleSocket){
+	public TestModule(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener){
 		
 		String dm = element.getAttribute("dragMode");
 		
@@ -37,11 +35,11 @@ public class TestModule extends Composite implements IInteractionModule {
 		panel.setStylePrimaryName("qp-test-container");
 		panel.getElement().setId(Document.get().createUniqueId());
 		if (dm.toLowerCase().compareTo("vertical") == 0){
-			panel.setDragServiceMode(DragMode.VERTICAL);
+			panel.setDragMode(DragMode.VERTICAL);
 		} else if (dm.toLowerCase().compareTo("horizontal") == 0){
-			panel.setDragServiceMode(DragMode.HORIZONTAL);
+			panel.setDragMode(DragMode.HORIZONTAL);
 		} else if (dm.toLowerCase().compareTo("free") == 0){
-			panel.setDragServiceMode(DragMode.FREE);
+			panel.setDragMode(DragMode.FREE);
 		}
 
 
@@ -107,6 +105,7 @@ public class TestModule extends Composite implements IInteractionModule {
 		JSONArray aro1 = (JSONArray) aro.get(1);
 		JSONString vo1s =  (JSONString) aro1.get(1);
 		String vo1 = vo1s.stringValue();
+		vo1 += "";
 		
 		widgets.add(child0);
 		widgets.add(child1);
@@ -143,13 +142,13 @@ public class TestModule extends Composite implements IInteractionModule {
 	}
 
 	@Override
-	public Serializable getState() {
+	public JSONArray getState() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setState(Serializable newState) {
+	public void setState(JSONArray newState) {
 		// TODO Auto-generated method stub
 
 	}

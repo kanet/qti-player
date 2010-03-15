@@ -26,6 +26,8 @@ package com.qtitools.player.client.module.text;
 import java.io.Serializable;
 import java.util.Vector;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.ListBox;
@@ -36,6 +38,7 @@ import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IActivity;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.util.RandomizedSet;
 import com.qtitools.player.client.util.xml.XMLUtils;
@@ -44,6 +47,8 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 
 	/** response processing interface */
 	private Response response;
+	/** module state changed listener */
+	private IStateChangedListener stateListener;
 	/** widget id */
 	private String  id;
 	/** panel widget */
@@ -56,15 +61,16 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	 * constructor
 	 * @param moduleSocket
 	 */
-	public SelectionWidget(Element element, IModuleSocket moduleSocket){
+	public SelectionWidget(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener){
 		
 		String responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
 
 		id = Document.get().createUniqueId();
-		this.response = moduleSocket.getResponse(responseIdentifier);
-		this.shuffle = XMLUtils.getAttributeAsBoolean(element, "shuffle");
+		response = moduleSocket.getResponse(responseIdentifier);
+		stateListener = stateChangedListener;
+		shuffle = XMLUtils.getAttributeAsBoolean(element, "shuffle");
 		
-    listBox = new ListBox();
+		listBox = new ListBox();
 		if(shuffle)
 			initRandom(element);
 		else
@@ -103,28 +109,44 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
   /**
    * @see IStateful#getState()
    */
-  public Serializable getState() {
-    return lastValue;
+  public JSONArray getState() {
+	  
+	  JSONArray jsonArr = new JSONArray();
+	  
+	  String stateString = "";
+	  
+	  if (lastValue != null)
+		  stateString = lastValue;
+	  
+	  jsonArr.set(0, new JSONString(stateString));
+	  
+	  return jsonArr;
   }
 
-  /**
-   * @see IStateful#setState(Serializable)
-   */
-  public void setState(Serializable newState) {
-	  
-	if (newState == null)
-		return;
-	  
-    String state = (String)newState;
-    lastValue = null;
-    
-    for(int i = 0; i < listBox.getItemCount(); i++){
-      if( listBox.getValue(i).compareTo(state) == 0){
-        listBox.setSelectedIndex(i);
-        break;
-      }
-    }
-    updateResponse();
+  
+  	/**
+ 	 * @see IStateful#setState(Serializable)
+ 	 */
+  	public void setState(JSONArray newState) {
+	
+		String state = "";
+	
+		if (newState == null){
+		} else if (newState.size() == 0){
+		} else if (newState.get(0).isString() == null){
+		} else {
+			state = newState.get(0).isString().stringValue();
+			lastValue = null;
+		}
+	
+		for(int i = 0; i < listBox.getItemCount(); i++){
+			if( listBox.getValue(i).compareTo(state) == 0){
+				listBox.setSelectedIndex(i);
+				break;
+			}
+		}
+		updateResponse();
+		stateListener.onStateChanged();
   }
   
 	/**
@@ -217,6 +239,7 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 		
 		lastValue = listBox.getValue(listBox.getSelectedIndex());
 		response.add(lastValue);
+		stateListener.onStateChanged();
 	}
 
 	@Override

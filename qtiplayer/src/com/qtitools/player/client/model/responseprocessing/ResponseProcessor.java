@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Vector;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
+import com.qtitools.player.client.model.variables.Cardinality;
 import com.qtitools.player.client.model.variables.outcome.Outcome;
 import com.qtitools.player.client.model.variables.response.Response;
 
@@ -45,19 +46,33 @@ public final class ResponseProcessor {
 		boolean answerFound;
 		boolean passed = true;
 		
-		for (int correct = 0 ; correct < correctAnswers.size() ; correct ++){
-			
-			answerFound = false;
-			
-			for (int user = 0 ; user < userAnswers.size() ; user ++){
-				if (correctAnswers.get(correct).compareTo(userAnswers.get(user)) == 0){
-					answerFound = true;
-					break;
+		if (responses.get("RESPONSE").cardinality == Cardinality.ORDERED){
+			if (correctAnswers.size() != userAnswers.size()) {
+				passed = false;
+			} else{
+				for (int correct = 0 ; correct < correctAnswers.size() ; correct ++){
+					if (correctAnswers.get(correct).compareTo(userAnswers.get(correct)) != 0){
+						passed = false;
+						break;
+					}
 				}
 			}
 			
-			if (!answerFound){
-				passed = false;
+		} else {
+			for (int correct = 0 ; correct < correctAnswers.size() ; correct ++){
+				
+				answerFound = false;
+				
+				for (int user = 0 ; user < userAnswers.size() ; user ++){
+					if (correctAnswers.get(correct).compareTo(userAnswers.get(user)) == 0){
+						answerFound = true;
+						break;
+					}
+				}
+				
+				if (!answerFound){
+					passed = false;
+				}
 			}
 		}
 		

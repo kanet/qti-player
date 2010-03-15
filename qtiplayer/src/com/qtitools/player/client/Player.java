@@ -23,17 +23,18 @@
 */
 package com.qtitools.player.client;
 
-import java.io.Serializable;
-
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.qtitools.player.client.control.DeliveryEngine;
 import com.qtitools.player.client.control.DeliveryEngineEventListener;
+import com.qtitools.player.client.control.IAssessmentSessionReport;
 import com.qtitools.player.client.control.Result;
 import com.qtitools.player.client.view.PlayerWidget;
 /**
@@ -93,58 +94,72 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
    */
   public JavaScriptObject getAssessmentSessionReport() {
 
-	  int assessmentSessionTime = deliveryEngine.report().getAssessmentSessionTime();
+	  IAssessmentSessionReport report = deliveryEngine.report();
+	  
+	  int assessmentSessionTime = report.getAssessmentSessionTime();
+	  int score = (int)(deliveryEngine.getAssessmentResult().getScore() - deliveryEngine.getAssessmentResult().getMinPoints());
+	  int max = (int)(deliveryEngine.getAssessmentResult().getMaxPoints() - deliveryEngine.getAssessmentResult().getMinPoints());
+	  int itemsCount = report.getAssessmentItemsCount();
+	  int itemsVisited = report.getAssessmentItemsVisitedCount();
+	  boolean passed = report.getAssessmentMasteryPassed();
+	  
+	  String lessonStatus = "INCOMPLETE";
+	  if (itemsVisited == itemsCount){
+		  if (max == 0)
+			  lessonStatus = "COMPLETED";
+		  else if (passed)
+			  lessonStatus = "PASSED";
+		  else
+			  lessonStatus = "FAILED";
+	  }
+		  
+		  
 	  
 	  JavaScriptObject obj = JavaScriptObject.createObject();
 	  
-	  initAssessmentSessionReportJS(obj, assessmentSessionTime);
+	  initAssessmentSessionReportJS(obj, assessmentSessionTime, score, max, lessonStatus);
 	  
 	  return obj;
   }
   
-  private native static void initAssessmentSessionReportJS(JavaScriptObject obj, int time) /*-{
+  private native static void initAssessmentSessionReportJS(JavaScriptObject obj, int time, int score, int scoreMax, String lessonStatus) /*-{
 	  obj.getTime = function(){
 		  return time;
 	  }
+	  obj.getScore = function(){
+		  return score;
+	  }
+	  obj.getScoreMax = function(){
+		  return scoreMax;
+	  }
+	  obj.getLessonStatus = function(){
+		  return lessonStatus;
+	  }
   }-*/;
 
-
+  public void setMasteryScore(int mastery){
+	  deliveryEngine.setMasteryScore(mastery);
+  }
   
   /**
    * Return interface to get assessment session state
    */
-  public JavaScriptObject getState() {
+  public String getState() {
 	  
-	  JavaScriptObject obj = JavaScriptObject.createObject();
-
-	  initStateJS(obj, deliveryEngine.getState());
-	  
-
-	  return obj;
+	  String stateString = deliveryEngine.getState().toString();
+	  return stateString;
   }
-  
-  private native static void initStateJS(JavaScriptObject obj, Serializable[] states) /*-{
-	  obj.get = function(){
-		  return states;
-	  }
-  }-*/;
-
   
   /**
    * Return interface to get assessment session time
    */
-  public void setState(JavaScriptObject obj) {
+  public void setState(String obj) {
 	  try {
-		  Serializable[] states = readStateJS(obj);	  
-		  
-		  deliveryEngine.setState(states);
+		  JSONArray statesArr = (JSONArray)JSONParser.parse(obj);
+		  deliveryEngine.setState(statesArr);
 	  } catch (Exception e) {
 	}
   }
-  
-  private native static Serializable[] readStateJS(JavaScriptObject obj) /*-{
-	  return obj.get();
-  }-*/;
   
   
   	public JavaScriptObject getEngineMode(){
@@ -341,8 +356,6 @@ public void onItemSessionBegin(int currentAssessmentItemIndex) {
 	createAssessmentItemView();
 	
 	onItemSessionBeginJS(jsObject);
-	
-	deliveryEngine.currentAssessmentItem.itemBody.shown();
 }
 
 private static native void onItemSessionBeginJS(JavaScriptObject player) /*-{

@@ -1,29 +1,26 @@
 package com.qtitools.player.client.model;
 
-import java.io.Serializable;
 import java.util.Vector;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
-import com.qtitools.player.client.model.IModuleCreator;
 import com.qtitools.player.client.model.internalevents.InternalEventHandlerInfo;
 import com.qtitools.player.client.model.internalevents.InternalEventManager;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.module.IActivity;
+import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.module.ModuleFactory;
-import com.qtitools.player.client.module.IInteractionModule;
-import com.qtitools.player.client.module.test.TestModule;
 import com.qtitools.player.client.util.xml.XMLConverter;
 
 public class ItemBody extends Widget implements IActivity, IStateful {
 
-	//public MultikeyHashMap<Vector<String>, IInteractionModule, String>	modules = new MultikeyHashMap<Vector<String>, IInteractionModule, String>();
-	
 	// debug
 	public Vector<Widget>	widgets = new Vector<Widget>();
 	
@@ -34,11 +31,16 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	
 	public InternalEventManager eventManager;
 	
-	public ItemBody(Node itemBodyNode, IModuleSocket moduleSocket){
+	private JSONArray stateAsync;
+	private boolean attached;
+	
+	public ItemBody(Node itemBodyNode, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener){
+		
+		attached = false;
 		
 		eventManager = new InternalEventManager();
 				
-		com.google.gwt.dom.client.Element dom = XMLConverter.getDOM((Element)itemBodyNode, moduleSocket, new IModuleCreator() {
+		com.google.gwt.dom.client.Element dom = XMLConverter.getDOM((Element)itemBodyNode, moduleSocket, stateChangedListener, new IModuleCreator() {
 			
 			@Override
 			public boolean isSupported(String name) {
@@ -46,8 +48,8 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 			}
 			
 			@Override
-			public com.google.gwt.dom.client.Element createModule(Element element, IModuleSocket moduleSocket) {
-				Widget widget = ModuleFactory.createWidget(element, moduleSocket);
+			public com.google.gwt.dom.client.Element createModule(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener) {
+				Widget widget = ModuleFactory.createWidget(element, moduleSocket, stateChangedListener);
 
 				if (widget instanceof IInteractionModule)
 					addModule((IInteractionModule)widget);
@@ -116,59 +118,30 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 
 		com.google.gwt.dom.client.Element element = 
 			com.google.gwt.dom.client.Element.as(event.getEventTarget());
+		
+		@SuppressWarnings("unused")
+		String tmpId = element.getId();
 
 		Vector<IInteractionModule> handlers = eventManager.getHandlers(element.getId(), event.getTypeInt());
 		
 		for (IInteractionModule m : handlers)
 			m.handleEvent(element.getId(), event);
-		
-		if (event.getTypeInt() == Event.ONMOUSEDOWN){
-			int asd = 12;
-			asd ++;
-		}
-		
-		if (event.getTypeInt() == Event.ONLOAD){
-			int asd = 23;
-			asd ++;
-		}
-		/*
-		if(event.getTypeInt() == Event.ONCHANGE){
-			com.google.gwt.dom.client.Element element = 
-				com.google.gwt.dom.client.Element.as(event.getEventTarget());
-			
-			//IBrowserEventListener handler = modules.getBySubkey(element.getId());
-			
-			IInteractionModule handler = eventManager.getHandler(element.getId(), event.getTypeInt());
-			
-			if(handler != null){
-				handler.handleEvent(element.getId(), event.getTypeInt(), event);
-			}
-		} else if (event.getTypeInt() == Event.ONMOUSEMOVE){
-			com.google.gwt.dom.client.Element element = 
-				com.google.gwt.dom.client.Element.as(event.getEventTarget());
-			
-			String id5 = element.getId();
-			
-			id5 += " ";
-			
-		}
-		*/
+
 		
 	}
 
 	public void onAttach(){
 		super.onAttach();
-		if (modules.size() > 1)
+		if (modules.size() > 0)
 			for (IInteractionModule mod : modules)
 				mod.onOwnerAttached();
+
+		attached = true;
+		
+		setState(stateAsync);
+		
 	}
-	
-	public void shown(){
-		//if (modules.size() > 1)
-			//if (modules.get(1) instanceof TestModule)
-				//((TestModule)modules.get(1)).load();
-	}
-	
+
 	public int getModuleCount(){
 		return modules.size();
 	}
@@ -195,30 +168,34 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	}
 
 	@Override
-	public Serializable getState() {
-	    Vector<Serializable>  state = new Vector<Serializable>();
-	    
+	public JSONArray getState() {
+		
+		JSONArray states = new JSONArray();
+			    
 	    for(IStateful currModule : modules){
-	        state.add( currModule.getState() );
+	    	states.set(states.size(), currModule.getState());
 	    }
 	    
-	    return state;
+	    return states;
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public void setState(Serializable newState) {
-
-		if(newState instanceof Vector){
-	    	Vector<Serializable> state = (Vector<Serializable>)newState;
-
-	    	int index = 0;
-	    	for(IStateful currModule : modules){
-	    		currModule.setState( state.elementAt(index) );
-	    		index ++;
-	    	}
+	public void setState(JSONArray newState){
+		if (!attached){
+			stateAsync = newState;
+		} else {
+			if(newState instanceof JSONArray){
+	
+		    	for (int i = 0 ; i < newState.size()  &&  i < modules.size() ; i ++){
+		    		JSONArray stateArr = newState.get(i).isArray();
+		    		modules.get(i).setState(stateArr);
+		    	}
+		    	
+			}
 		}
 
 	}
+	
+	
 
 }

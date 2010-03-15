@@ -54,6 +54,9 @@ public class PlayerEntryPoint implements EntryPoint {
       player.load = function(url){
         @com.qtitools.player.client.PlayerEntryPoint::load(Ljava/lang/String;)(url);
       }
+      player.setMasteryScore = function(mastery){
+        @com.qtitools.player.client.PlayerEntryPoint::setMasteryScore(I)(mastery);
+      }
 
       player.getResult = function(){
         return @com.qtitools.player.client.PlayerEntryPoint::getResult()();
@@ -64,11 +67,16 @@ public class PlayerEntryPoint implements EntryPoint {
       }
       
       player.getState = function(){
+        return "";
+      }
+      player.getStateString = function(){
         return @com.qtitools.player.client.PlayerEntryPoint::getState()();
       }
       
       player.setState = function(obj){
-        @com.qtitools.player.client.PlayerEntryPoint::setState(Lcom/google/gwt/core/client/JavaScriptObject;)(obj);
+      }
+      player.setStateString = function(obj){
+        @com.qtitools.player.client.PlayerEntryPoint::setState(Ljava/lang/String;)(obj);
       }
       
       player.navigateNextItem = function(){
@@ -134,16 +142,19 @@ public class PlayerEntryPoint implements EntryPoint {
 	 * Returns array with result info
 	 * @param url
 	 */
-	public static JavaScriptObject getState() {
-	  return player.getState();
-	}
+	public static String getState() {
+		  return player.getState();
+		}
 
 	/**
 	 * Returns array with result info
 	 * @param url
 	 */
-	public static void setState(JavaScriptObject obj) {
-	  player.setState(obj);
+	public static void setState(String obj) {
+		player.setState(obj);
+	}
+	public static void setMasteryScore(int mastery){
+		player.setMasteryScore(mastery);
 	}
 	public static JavaScriptObject getEngineMode(){
 		return player.getEngineMode();
