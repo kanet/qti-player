@@ -51,6 +51,15 @@ public class DragContainerPanel extends AbsolutePanel {
 		add(w);
 	}
 	
+	public void removeAll(){
+		int wc = getWidgetCount();
+		for (int w = 0 ; w < wc ; w ++)
+			remove(getWidget(getWidgetCount()-1));
+
+		slotManager = new DragSlotManager();
+		
+	}
+	
 	public void setAutoSize(){
 		int pw = getOffsetWidth();
 		int ph = getOffsetHeight();

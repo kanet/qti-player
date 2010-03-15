@@ -202,7 +202,8 @@ public class OrderModule extends Composite implements IInteractionModule {
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
+		container.removeAll();
+		onOwnerAttached();
 
 	}
 
