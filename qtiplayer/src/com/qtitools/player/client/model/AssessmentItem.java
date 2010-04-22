@@ -8,6 +8,7 @@ import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.control.Result;
 import com.qtitools.player.client.control.XMLData;
 import com.qtitools.player.client.model.responseprocessing.ResponseProcessor;
+import com.qtitools.player.client.model.variables.BaseType;
 import com.qtitools.player.client.model.variables.BaseTypeConverter;
 import com.qtitools.player.client.model.variables.IVariableCreator;
 import com.qtitools.player.client.model.variables.VariableManager;
@@ -68,7 +69,7 @@ public class AssessmentItem implements IStateful, IActivity {
 				Outcome tmpOutcome = new Outcome();
 				tmpOutcome.identifier = "SCORE";
 				tmpOutcome.cardinality = responseManager.getVariable("RESPONSE").cardinality;
-				tmpOutcome.baseType = responseManager.getVariable("RESPONSE").baseType;
+				tmpOutcome.baseType = BaseType.STRING;
 
 				outcomeManager.variables.put("SCORE", tmpOutcome);
 			}

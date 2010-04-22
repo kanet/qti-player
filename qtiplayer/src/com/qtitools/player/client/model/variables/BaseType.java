@@ -4,7 +4,7 @@ public enum BaseType {
 	IDENTIFIER, BOOLEAN, INTEGER, FLOAT, STRING, POINT, PAIR, DIRECTED_PAIR, DURATION, FILE, URL;
 	
 	public static BaseType fromString(String key){
-		if (key.toLowerCase() == "identifier"){
+		if (key.toLowerCase().compareTo("identifier") == 0){
 			return IDENTIFIER;
 		} else if (key.toLowerCase().compareTo("boolean") == 0){
 			return BOOLEAN;
