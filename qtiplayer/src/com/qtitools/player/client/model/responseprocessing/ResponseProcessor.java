@@ -12,7 +12,10 @@ public final class ResponseProcessor {
 
 	public ResponseProcessor(NodeList responseProcessingNode){
 		@SuppressWarnings("unused")
-		Node templateNode = responseProcessingNode.item(0).getAttributes().getNamedItem("template");
+		Node templateNode;
+		try {
+			templateNode = responseProcessingNode.item(0).getAttributes().getNamedItem("template");
+		} catch (Exception e) {}
 		
 		template = ResponseProcessorTemplate.MATCH_CORRECT;
 		/*

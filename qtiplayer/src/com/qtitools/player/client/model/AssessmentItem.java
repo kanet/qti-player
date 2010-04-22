@@ -39,7 +39,7 @@ public class AssessmentItem implements IStateful, IActivity {
 		Node rootNode = xmlData.getDocument().getElementsByTagName("assessmentItem").item(0);
 		Node itemBodyNode = xmlData.getDocument().getElementsByTagName("itemBody").item(0);
 		
-	    responseProcessor = new ResponseProcessor(xmlData.getDocument().getElementsByTagName("responseDeclaration"));
+	    responseProcessor = new ResponseProcessor(xmlData.getDocument().getElementsByTagName("responseProcessing"));
 	    
 	    responseManager = new VariableManager<Response>(xmlData.getDocument().getElementsByTagName("responseDeclaration"), new IVariableCreator<Response>() {
 				@Override
@@ -54,12 +54,26 @@ public class AssessmentItem implements IStateful, IActivity {
 				return new Outcome(node);
 			}
 		});
+	    
+	    checkVariables();
    
 	    itemBody = new ItemBody((Element)itemBodyNode, moduleSocket, stateChangedListener);
 	    
 	    title = ((Element)rootNode).getAttribute("title");
 	}
 	
+	private void checkVariables(){
+		if (outcomeManager.variables.size() == 0){
+			if (responseManager.getVariablesMap().containsKey("RESPONSE")){
+				Outcome tmpOutcome = new Outcome();
+				tmpOutcome.identifier = "SCORE";
+				tmpOutcome.cardinality = responseManager.getVariable("RESPONSE").cardinality;
+				tmpOutcome.baseType = responseManager.getVariable("RESPONSE").baseType;
+
+				outcomeManager.variables.put("SCORE", tmpOutcome);
+			}
+		}
+	}
 	
 	/**
 	 * Inner class for module socket implementation

@@ -10,8 +10,12 @@ import com.qtitools.player.client.model.variables.Variable;
 
 public class Outcome extends Variable {
 
+	public Outcome(){
+		super();
+	}
+	
 	public Outcome(Node responseDeclarationNode){
-
+		
 		values = new Vector<String>();
 
 		identifier = ((Element)responseDeclarationNode).getAttribute("identifier");
