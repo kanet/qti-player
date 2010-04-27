@@ -24,7 +24,7 @@
 package com.qtitools.player.client.module;
 
 import java.util.Vector;
-import com.google.gwt.user.client.Event;
+import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 
 /**
@@ -43,5 +43,5 @@ public interface IBrowserEventHandler {
 	 public Vector<InternalEventTrigger> getTriggers();
 	  
 	 /** Interaction module event listener */
-	 public void handleEvent(String tagID, Event event);
+	 public void handleEvent(String tagID, InternalEvent event);
 }

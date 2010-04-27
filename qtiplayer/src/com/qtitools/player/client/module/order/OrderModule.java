@@ -9,6 +9,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -16,13 +17,17 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
+import com.qtitools.player.client.components.TouchablePanel;
 import com.qtitools.player.client.components.htmldnd.DragContainerPanel;
 import com.qtitools.player.client.components.htmldnd.DragMode;
+import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IInteractionModule;
+import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.IModuleSocket;
 import com.qtitools.player.client.module.IStateChangedListener;
+import com.qtitools.player.client.module.ITouchEventsListener;
 import com.qtitools.player.client.util.RandomizedSet;
 import com.qtitools.player.client.util.xml.XMLConverter;
 import com.qtitools.player.client.util.xml.XMLUtils;
@@ -33,6 +38,8 @@ public class OrderModule extends Composite implements IInteractionModule {
 	private Response response;
 	/** module state changed listener */
 	private IStateChangedListener stateListener;
+	/** module state changed listener */
+	private ITouchEventsListener touchEventsListener;
 	/** response id */
 	private String responseIdentifier;
 	/** Shuffle? */
@@ -46,7 +53,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 	private DragContainerPanel container;
 	private VerticalPanel mainPanel;
 
-	public OrderModule(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener) {
+	public OrderModule(Element element, IModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener) {
 
 		shuffle = XMLUtils.getAttributeAsBoolean(element, "shuffle");
 		
@@ -55,7 +62,9 @@ public class OrderModule extends Composite implements IInteractionModule {
 
 		responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier");
 		response = moduleSocket.getResponse(responseIdentifier);
-		stateListener = stateChangedListener;
+		
+		stateListener = (IStateChangedListener)moduleEventsListener;
+		touchEventsListener = (ITouchEventsListener)moduleEventsListener;
 		
 		optionsIdentifiers = new Vector<String>();
 		
@@ -181,7 +190,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 
 			optionPanel.insert(optionContentPanel, 0,0,0);
 			
-			Label optionCover = new Label();
+			TouchablePanel optionCover = new TouchablePanel(touchEventsListener);
 			optionCover.getElement().setId(Document.get().createUniqueId());
 			optionCover.setStylePrimaryName("qp-order-option-cover");
 			optionPanel.insert(optionCover, 0,0,optionPanel.getWidgetCount());
@@ -196,13 +205,47 @@ public class OrderModule extends Composite implements IInteractionModule {
 
 	@Override
 	public void markAnswers() {
-		// TODO Auto-generated method stub
+		Vector<String> correctAnswers = response.correctAnswers;
 
+		Vector<Integer> optionsIndexes = container.getElementsOrder();
+		
+		Vector<String> currResponseValues = new Vector<String>();
+		
+		for (Integer i : optionsIndexes){
+			currResponseValues.add(optionsIdentifiers.get(i));
+		}
+		
+		for (int i = 0 ; i < correctAnswers.size()  &&  i < currResponseValues.size() ; i ++){
+			markOptionAnswer(optionsIndexes.get(i), (correctAnswers.get(i).compareTo(currResponseValues.get(i)) == 0));
+		}
+		
+	}
+
+	@Override
+	public void unmark() {
+		for (int i = 0 ; i < options.size() ; i++){
+			AbsolutePanel currOption = options.get(i);
+			((SimplePanel)currOption.getWidget(0)).setStyleName("qp-order-option-content");
+		}
+	}
+
+	
+	private void markOptionAnswer(int index, boolean correct){
+		AbsolutePanel currOption = options.get(index);
+		if (correct)
+			((SimplePanel)currOption.getWidget(0)).addStyleName("qp-order-option-content-correct");
+		else
+			((SimplePanel)currOption.getWidget(0)).addStyleName("qp-order-option-content-wrong");
 	}
 
 	@Override
 	public void reset() {
 		container.removeAll();
+		for (int i = 0 ; i < options.size() ; i++){
+			AbsolutePanel currOption = options.get(i);
+			((SimplePanel)currOption.getWidget(0)).removeStyleName("qp-order-option-content-correct");
+			((SimplePanel)currOption.getWidget(0)).removeStyleName("qp-order-option-content-wrong");
+		}
 		onOwnerAttached();
 
 	}
@@ -258,7 +301,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 	}
 
 	@Override
-	public void handleEvent(String tagId, Event event) {
+	public void handleEvent(String tagId, InternalEvent event) {
 		if (event.getTypeInt() == Event.ONMOUSEDOWN){
 			int currWidgetIndex = tagIdMap.get(tagId);
 			container.startDrag(currWidgetIndex, event.getClientX(), event.getClientY());

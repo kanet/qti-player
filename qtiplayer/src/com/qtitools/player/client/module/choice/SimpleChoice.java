@@ -40,12 +40,14 @@ public class SimpleChoice extends Composite {
 	public Label feedbackLabel;
 
 	private AccessibleCheckBox button;
-	
+
 	public String inputId;
+	public String labelId;
 	
-	public SimpleChoice(Element element, String inputId) {
+	public SimpleChoice(Element element, String inputId, String labelId) {
 		
 		this.inputId = inputId;
+		this.labelId = labelId;
 
 		identifier = XMLUtils.getAttributeAsString(element, "identifier");
 		
@@ -56,7 +58,13 @@ public class SimpleChoice extends Composite {
 		ignoredTags.add("feedbackInline");
 		com.google.gwt.dom.client.Element dom = XMLConverter.getDOM(element, ignoredTags);
 	    button.setHTML(dom.getInnerHTML());
-		((com.google.gwt.dom.client.Element)button.getElement().getElementsByTagName("input").getItem(0)).setId(inputId);
+	    
+	    com.google.gwt.dom.client.Element buttonElement = (com.google.gwt.dom.client.Element)button.getElement();
+		(buttonElement.getElementsByTagName("input").getItem(0)).setId(inputId);
+		if (buttonElement.getElementsByTagName("img").getLength() > 0)
+			(buttonElement.getElementsByTagName("img").getItem(0)).setId(labelId);
+		else
+			(buttonElement.getElementsByTagName("label").getItem(0)).setId(labelId);
 		
 		
 		// panel
@@ -73,6 +81,7 @@ public class SimpleChoice extends Composite {
 	    if(feedbackInline != null){
 	    	feedback = XMLUtils.getText(feedbackInline);
 			feedbackLabel = new Label();
+			feedbackLabel.setStylePrimaryName("qp-choice-feedback");
 			panel.add(feedbackLabel);
 	    }
 	    
@@ -80,7 +89,7 @@ public class SimpleChoice extends Composite {
 
 	public void markAnswers(boolean correct) {
 
-		if(button.getValue()){
+		if(button.isChecked()){
 			if( correct )
 				button.setStyleName("qp-choice-selected-correct");
 			else
@@ -97,6 +106,10 @@ public class SimpleChoice extends Composite {
 
 	}
 	
+	public void unmark(){
+		button.setStyleName("");
+		setEnabled(true);
+	}
 
 	public void setSelected(boolean sel){
 		button.setChecked(sel);
@@ -128,6 +141,13 @@ public class SimpleChoice extends Composite {
 	 */
 	public String getInputId() {
 		return inputId;
+	}
+	
+	/**
+	 * @return the label ID
+	 */
+	public String getLabelId() {
+		return labelId;
 	}
 
 	public void reset(){

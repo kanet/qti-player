@@ -12,6 +12,8 @@ public interface EntryPointEventListener {
 	
 	void onNavigateResetItem();
 	
+	void onNavigateContinueItem();
+	
 	void onNavigateResetAssessment();
 	
 }

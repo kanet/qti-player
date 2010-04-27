@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
+import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IActivity;
@@ -92,11 +93,19 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	}
 
 	/**
+	 * @see IActivity#unmark()
+	 */
+	public void unmark() {
+		  listBox.setEnabled(true);
+		  setStyleName("");
+	}
+
+	/**
 	 * @see IActivity#reset()
 	 */
 	public void reset() {
 	  listBox.setEnabled(true);
-		setStyleName("");
+	  setStyleName("");
 	}
 
 	/**
@@ -228,7 +237,7 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	}
 
 	@Override
-	public void handleEvent(String tagID, Event param) {
+	public void handleEvent(String tagID, InternalEvent param) {
 		updateResponse();
 	}
 	

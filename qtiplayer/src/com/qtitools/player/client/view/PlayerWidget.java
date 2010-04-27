@@ -47,7 +47,7 @@ public class PlayerWidget extends Composite{
 	private Label 					feedbackLabel;
 	/** Footer */
 	private Panel						footer;
-	private HorizontalPanel				footerContainer;
+	private FlowPanel				footerContainer;
 	/** Check button */ 
 	private PushButton					checkButton;
 	/** Reset button */ 
@@ -183,17 +183,18 @@ public class PlayerWidget extends Composite{
     feedbackLabel.setStyleName("qp-feedback");
     playerPanel.add(feedbackLabel);
 
-    footerContainer = new HorizontalPanel();
+    footerContainer = new FlowPanel();
+    footerContainer.setStyleName("qp-footer-buttons");
 
     checkButton = new PushButton();
-    checkButton.setWidth("70");
-    checkButton.setHeight("20");
+    //checkButton.setWidth("70");
+    //checkButton.setHeight("20");
     checkButton.setStylePrimaryName("qp-check-button");
     footerContainer.add(checkButton);
     
     resetButton = new PushButton();
-    resetButton.setWidth("70");
-    resetButton.setHeight("20");
+   // resetButton.setWidth("70");
+    //resetButton.setHeight("20");
     resetButton.setStylePrimaryName("qp-reset-button");
     footerContainer.add(resetButton);
 
@@ -204,14 +205,14 @@ public class PlayerWidget extends Composite{
     footerContainer.add(prevButton);
     
     nextButton = new PushButton();
-    nextButton.setWidth("70");
-    nextButton.setHeight("20");
+    //nextButton.setWidth("70");
+    //nextButton.setHeight("20");
     nextButton.setStylePrimaryName("qp-next-button");
     footerContainer.add(nextButton);
     
     finishButton = new PushButton();
-    finishButton.setWidth("70");
-    finishButton.setHeight("20");
+    //finishButton.setWidth("70");
+    //finishButton.setHeight("20");
     finishButton.setStylePrimaryName("qp-finish-button");
     footerContainer.add(finishButton);
         

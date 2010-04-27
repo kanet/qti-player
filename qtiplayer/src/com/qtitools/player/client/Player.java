@@ -53,7 +53,9 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
   public DeliveryEngine deliveryEngine;
   
   private JavaScriptResult    testResult;  
-  
+
+  private JavaScriptObject lastAssessmentStyleLinkNode;
+  private JavaScriptObject lastItemStyleLinkNode;
     
   
   /**
@@ -65,6 +67,8 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     this.id = id;
     this.jsObject = JavaScriptObject.createFunction();
     testResult = new JavaScriptResult(0, 0);
+    
+    //listener = l;
     
     deliveryEngine = new DeliveryEngine(this);
   }
@@ -99,6 +103,7 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
 	  int assessmentSessionTime = report.getAssessmentSessionTime();
 	  int score = (int)(deliveryEngine.getAssessmentResult().getScore() - deliveryEngine.getAssessmentResult().getMinPoints());
 	  int max = (int)(deliveryEngine.getAssessmentResult().getMaxPoints() - deliveryEngine.getAssessmentResult().getMinPoints());
+	  int itemIndex = report.getAssessmentItemIndex();
 	  int itemsCount = report.getAssessmentItemsCount();
 	  int itemsVisited = report.getAssessmentItemsVisitedCount();
 	  boolean passed = report.getAssessmentMasteryPassed();
@@ -117,12 +122,13 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
 	  
 	  JavaScriptObject obj = JavaScriptObject.createObject();
 	  
-	  initAssessmentSessionReportJS(obj, assessmentSessionTime, score, max, lessonStatus);
+	  initAssessmentSessionReportJS(obj, assessmentSessionTime, score, max, lessonStatus, itemIndex+1, itemsCount);
 	  
 	  return obj;
   }
   
-  private native static void initAssessmentSessionReportJS(JavaScriptObject obj, int time, int score, int scoreMax, String lessonStatus) /*-{
+  private native static void initAssessmentSessionReportJS(JavaScriptObject obj, int time, int score, int scoreMax, String lessonStatus, 
+		  int itemIndex, int itemsCount) /*-{
 	  obj.getTime = function(){
 		  return time;
 	  }
@@ -134,6 +140,12 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
 	  }
 	  obj.getLessonStatus = function(){
 		  return lessonStatus;
+	  }
+	  obj.getItemIndex = function(){
+		  return itemIndex;
+	  }
+	  obj.getItemsCount = function(){
+		  return itemsCount;
 	  }
   }-*/;
 
@@ -201,7 +213,7 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
 	    
 	    playerView.getResetButton().addClickHandler(new ClickHandler(){
 	      public void onClick(ClickEvent event) {
-	        onNavigateResetItem();
+	        onNavigateContinueItem();
 	        playerView.getCheckButton().setVisible(true);
 		  	playerView.getResetButton().setVisible(false);
 	      }
@@ -321,14 +333,24 @@ private void resetItem(){
 	playerView.showFeedback("");
 }
 
+private void clearItem(){
+	deliveryEngine.unmark();
+	playerView.showFeedback("");
+}
+
 
 @Override
 public void onAssessmentSessionBegin() {
 	
 	createUserInterface();
-	
 	onAssessmentSessionBeginJS(jsObject);
-		
+	
+	if (lastAssessmentStyleLinkNode != null){
+		removeStyleLink(lastAssessmentStyleLinkNode);
+		lastAssessmentStyleLinkNode = null;
+	}
+    if (deliveryEngine.getAssessmentStyleLink().length() > 0)
+    	lastAssessmentStyleLinkNode = appendStyleLink(deliveryEngine.getAssessmentStyleLink());
 }
 
 private static native void onAssessmentSessionBeginJS(JavaScriptObject player) /*-{
@@ -342,6 +364,7 @@ private static native void onAssessmentSessionBeginJS(JavaScriptObject player) /
 public void onAssessmentSessionFinished() {
 	showAssessmentResult();
     onAssessmentSessionFinishedJS(jsObject);
+    	
 }
 
 private static native void onAssessmentSessionFinishedJS(JavaScriptObject player) /*-{
@@ -352,10 +375,14 @@ private static native void onAssessmentSessionFinishedJS(JavaScriptObject player
 
 @Override
 public void onItemSessionBegin(int currentAssessmentItemIndex) {
-	
 	createAssessmentItemView();
-	
 	onItemSessionBeginJS(jsObject);
+	if (lastItemStyleLinkNode != null){
+		removeStyleLink(lastItemStyleLinkNode);
+		lastItemStyleLinkNode = null;
+	}
+    if (deliveryEngine.getItemStyleLink().length() > 0)
+    	lastItemStyleLinkNode = appendStyleLink(deliveryEngine.getItemStyleLink());
 }
 
 private static native void onItemSessionBeginJS(JavaScriptObject player) /*-{
@@ -437,5 +464,28 @@ public void onNavigateResetItem() {
 		resetItem();
 	}
 }
+
+@Override
+public void onNavigateContinueItem() {
+	if (deliveryEngine.isNavigationPossible()){
+		clearItem();
+	}
+}
+
+public static native JavaScriptObject appendStyleLink(String link) /*-{
+	var headID = $wnd.document.getElementsByTagName("head")[0];         
+	var cssNode = $wnd.document.createElement('link');
+	cssNode.type = 'text/css';
+	cssNode.rel = 'stylesheet';
+	cssNode.href = link;
+	cssNode.media = 'screen';
+	headID.appendChild(cssNode);
+	return cssNode;
+}-*/; 
+
+public static native void removeStyleLink(JavaScriptObject cssNode) /*-{
+	var headID = $wnd.document.getElementsByTagName("head")[0];        
+	headID.removeChild(cssNode);
+}-*/; 
 
 }

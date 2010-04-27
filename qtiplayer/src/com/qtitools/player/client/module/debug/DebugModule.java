@@ -28,6 +28,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.xml.client.Element;
+import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.module.IBrowserEventHandler;
 
@@ -59,7 +60,7 @@ public class DebugModule extends Composite implements IBrowserEventHandler{
 	}
 
 	@Override
-	public void handleEvent(String tagID, Event event) {
+	public void handleEvent(String tagID, InternalEvent event) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -32,6 +32,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.xml.client.Element;
+import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IActivity;
@@ -83,12 +84,20 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 		else
 			setStyleName("qp-text-textentry-wrong");
 	}
+	/**
+	 * @see IActivity#unmark()
+	 */
+	public void unmark() {
+		textBox.setEnabled(true);
+		setStyleName("");
+	}
+
 
 	/**
 	 * @see IActivity#reset()
 	 */
 	public void reset() {
-	  textBox.setEnabled(true);
+		textBox.setEnabled(true);
 		setStyleName("");
 	}
 
@@ -145,7 +154,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	}
 
 	@Override
-	public void handleEvent(String tagID, Event param) {
+	public void handleEvent(String tagID, InternalEvent param) {
 		updateResponse();
 		
 	}

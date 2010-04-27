@@ -480,7 +480,16 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 
 	@Override
 	public void markAnswers() {
-		
+		if (currentAssessmentItem != null){
+			currentAssessmentItem.markAnswers();
+		}
+	}
+	
+	@Override
+	public void unmark() {
+		if (currentAssessmentItem != null){
+			currentAssessmentItem.unmark();
+		}
 	}
 
 	/**
@@ -510,4 +519,14 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 		
 	}
 
+	//------------------------- STYLE --------------------------------
+
+	public String getAssessmentStyleLink(){
+		return assessment.getStyleLink();	
+	}
+	
+	public String getItemStyleLink(){
+		return currentAssessmentItem.getStyleLink();
+	}
+	
 }

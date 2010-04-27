@@ -1,10 +1,6 @@
 package com.qtitools.player.client.components.htmldnd;
 
 import java.util.Vector;
-
-import org.apache.xalan.templates.ElemNumber;
-
-import com.google.gwt.user.client.ui.Widget;
 import com.qtitools.player.client.components.Rectangle;
 
 public class DragSlotManager {

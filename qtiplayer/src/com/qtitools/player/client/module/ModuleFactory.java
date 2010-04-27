@@ -51,21 +51,21 @@ public abstract class ModuleFactory {
 		return false;
 	}
 	
-	public static Widget createWidget(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener){
+	public static Widget createWidget(Element element, IModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener){
 		Widget	widget = null;
 
 		if(element.getNodeName().compareTo("choiceInteraction") == 0)
-			widget = new ChoiceModule(element, moduleSocket, stateChangedListener);
+			widget = new ChoiceModule(element, moduleSocket, moduleEventsListener);
 	    else if(element.getNodeName().compareTo("object") == 0)
-	    	widget = new ObjectModule(element, moduleSocket, stateChangedListener);
+	    	widget = new ObjectModule(element, moduleSocket, moduleEventsListener);
 	    else if(element.getNodeName().compareTo("inlineChoiceInteraction") == 0)
-			widget = new SelectionWidget(element, moduleSocket, stateChangedListener);	
+			widget = new SelectionWidget(element, moduleSocket, moduleEventsListener);	
 		else if(element.getNodeName().compareTo("textEntryInteraction") == 0)
-			widget = new TextEntryWidget(element, moduleSocket, stateChangedListener);
+			widget = new TextEntryWidget(element, moduleSocket, moduleEventsListener);
 		else if(element.getNodeName().compareTo("testInteraction") == 0)
-			widget = new TestModule(element, moduleSocket, stateChangedListener);
+			widget = new TestModule(element, moduleSocket, moduleEventsListener);
 		else if(element.getNodeName().compareTo("orderInteraction") == 0)
-			widget = new OrderModule(element, moduleSocket, stateChangedListener);
+			widget = new OrderModule(element, moduleSocket, moduleEventsListener);
 	    else if(element.getNodeType() == Node.ELEMENT_NODE)
 	    	widget = new DebugModule(element);
 		

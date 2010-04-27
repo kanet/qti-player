@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.qtitools.player.client.components.htmldnd.DragContainerPanel;
 import com.qtitools.player.client.components.htmldnd.DragMode;
+import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleSocket;
@@ -27,7 +28,6 @@ public class TestModule extends Composite implements IInteractionModule {
 		String dm = element.getAttribute("dragMode");
 		
 		
-		tagIdMap = new HashMap<String, Integer>();
 		widgets = new Vector<Widget>();
 		
 		panel = new DragContainerPanel();
@@ -127,6 +127,11 @@ public class TestModule extends Composite implements IInteractionModule {
 	public void markAnswers() {
 		// TODO Auto-generated method stub
 
+	}	
+	@Override
+	public void unmark() {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -173,7 +178,7 @@ public class TestModule extends Composite implements IInteractionModule {
 	}
 
 	@Override
-	public void handleEvent(String tagId, Event event) {
+	public void handleEvent(String tagId, InternalEvent event) {
 		if (event.getTypeInt() == Event.ONMOUSEDOWN){
 			int currWidgetIndex = tagIdMap.get(tagId);
 			panel.startDrag(currWidgetIndex, event.getClientX(), event.getClientY());

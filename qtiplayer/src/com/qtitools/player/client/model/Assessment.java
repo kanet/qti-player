@@ -47,6 +47,8 @@ public class Assessment{
 	private String title;
 	/** XML DOM of the assessment */
 	private XMLData xmlData;
+	/** Link to the Assessment style CSS */
+	private String styleLink;
 		
 	/**
 	 * C'tor
@@ -57,6 +59,12 @@ public class Assessment{
 		xmlData = data;
 		
 		Node rootNode = xmlData.getDocument().getElementsByTagName("assessmentTest").item(0);
+		
+		styleLink = ((Element)rootNode).getAttribute("styleLink");
+		if (styleLink == null)
+			styleLink = "";
+		else if (styleLink.length() > 0  &&  !styleLink.contains("http://")  &&  !styleLink.contains("file:///"))
+			styleLink = data.getBaseURL() + styleLink;
 	    
 		NodeList nodes = xmlData.getDocument().getElementsByTagName("assessmentItemRef");
 		Node itemRefNode;
@@ -202,4 +210,13 @@ public class Assessment{
 						
 		}
 	};
+
+	//------------------------- STYLE --------------------------------
+	
+	public String getStyleLink(){
+		if (styleLink == null)
+			return "";
+		
+		return styleLink;
+	}
 }

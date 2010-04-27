@@ -15,6 +15,7 @@ import com.qtitools.player.client.model.variables.VariableManager;
 import com.qtitools.player.client.model.variables.outcome.Outcome;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IActivity;
+import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.IModuleSocket;
 import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.module.IStateful;
@@ -32,6 +33,8 @@ public class AssessmentItem implements IStateful, IActivity {
 	private String title;
 
 	private XMLData xmlData;
+	/** Link to the Assessment Item style CSS */
+	private String styleLink;
 			
 	public AssessmentItem(XMLData data, IStateChangedListener stateChangedListener){
 
@@ -39,6 +42,12 @@ public class AssessmentItem implements IStateful, IActivity {
 		
 		Node rootNode = xmlData.getDocument().getElementsByTagName("assessmentItem").item(0);
 		Node itemBodyNode = xmlData.getDocument().getElementsByTagName("itemBody").item(0);
+
+		styleLink = ((Element)rootNode).getAttribute("styleLink");
+		if (styleLink == null)
+			styleLink = "";
+		else if (styleLink.length() > 0  &&  !styleLink.contains("http://")  &&  !styleLink.contains("file:///"))
+			styleLink = data.getBaseURL() + styleLink;
 		
 	    responseProcessor = new ResponseProcessor(xmlData.getDocument().getElementsByTagName("responseProcessing"));
 	    
@@ -138,6 +147,12 @@ public class AssessmentItem implements IStateful, IActivity {
 	}
 
 	@Override
+	public void unmark() {
+		itemBody.unmark();
+
+	}
+
+	@Override
 	public void reset() {
 		responseManager.reset();
 		outcomeManager.reset();
@@ -159,5 +174,15 @@ public class AssessmentItem implements IStateful, IActivity {
 	public void setState(JSONArray newState) {
 		itemBody.setState(newState);
 
-	}	
+	}
+	
+
+	//------------------------- STYLE --------------------------------
+	
+	public String getStyleLink(){
+		if (styleLink == null)
+			return "";
+		
+		return styleLink;
+	}
 }

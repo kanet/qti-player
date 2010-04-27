@@ -29,8 +29,11 @@ package com.qtitools.player.client.module;
  */
 public interface IActivity {
 
-	/** Reset view */
+	/** Reset module (as if it was created once again) */
 	public void reset();
+
+	/** Reset style for the module, after markAnswers etc */
+	public void unmark();
 	
 	/** Mark wrong and show correct answers */
 	public void markAnswers();

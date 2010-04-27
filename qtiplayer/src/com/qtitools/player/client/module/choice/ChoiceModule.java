@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
+import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IInteractionModule;
@@ -123,13 +124,14 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		  for(int i = 0; i < optionNodes.getLength(); i++){
 			  Element option = (Element)optionNodes.item(i);
 			  SimpleChoice currInteractionElement;
-			  String currId = Document.get().createUniqueId();
+			  String currInputId = Document.get().createUniqueId();
+			  String currLabelId = Document.get().createUniqueId();
 
 			  if(shuffle && !XMLUtils.getAttributeAsBoolean(option, "fixed") ){
 				  option = randomizedNodes.pull();
 			  }
 
-			  currInteractionElement = new SimpleChoice(option, currId);
+			  currInteractionElement = new SimpleChoice(option, currInputId, currLabelId);
 			  interactionElements.add(currInteractionElement);
 			  panel.add(currInteractionElement);
 		  }
@@ -147,6 +149,14 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		for (SimpleChoice currSC:interactionElements){
 			currSC.markAnswers( response.correctAnswers.contains(currSC.getIdentifier()) );
 		}
+	}
+
+	@Override
+	public void unmark() {
+		for (SimpleChoice currSC:interactionElements){
+			currSC.unmark();
+		}
+		
 	}
 
 	@Override
@@ -193,26 +203,50 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 	public Vector<InternalEventTrigger> getTriggers() {
 
 		Vector<InternalEventTrigger> ids = new Vector<InternalEventTrigger>();
-		for (SimpleChoice currSC:interactionElements)
+		for (SimpleChoice currSC:interactionElements){
 			ids.add(new InternalEventTrigger(currSC.getInputId(), Event.ONCHANGE));
+			ids.add(new InternalEventTrigger(currSC.getLabelId(), Event.ONMOUSEUP));
+		}
 		return ids;
 	}
 
 
 	@Override
-	public void handleEvent(String tagID, Event param) {
+	public void handleEvent(String tagID, InternalEvent param) {
 
 		// check if multi selection mode
 				
 		if (param != null){
-			String lastSelectedId = com.google.gwt.dom.client.Element.as(param.getEventTarget()).getId();
+			String lastSelectedId = param.getEventTargetElement().getId();
 		
+			boolean targertIsButton = false;
+
 			for (SimpleChoice currSC:interactionElements){
 				if (currSC.getInputId().compareTo(lastSelectedId) == 0){
-					continue;
+					targertIsButton = true;
+					break;
 				}
-				if (!multi){
-					currSC.setSelected(false);
+			}
+			
+			if (targertIsButton){
+				for (SimpleChoice currSC:interactionElements){
+					if (currSC.getInputId().compareTo(lastSelectedId) == 0){
+						continue;
+					}
+					if (!multi){
+						currSC.setSelected(false);
+					}
+				}
+				
+			} else {
+				for (SimpleChoice currSC:interactionElements){
+					if (currSC.getLabelId().compareTo(lastSelectedId) == 0){
+						currSC.setSelected(!currSC.isSelected());
+						continue;
+					}
+					if (!multi){
+						currSC.setSelected(false);
+					}
 				}
 			}
 		}

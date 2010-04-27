@@ -8,11 +8,13 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
+import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventHandlerInfo;
 import com.qtitools.player.client.model.internalevents.InternalEventManager;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.module.IActivity;
 import com.qtitools.player.client.module.IInteractionModule;
+import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.IModuleSocket;
 import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.module.IStateful;
@@ -34,13 +36,43 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	private JSONArray stateAsync;
 	private boolean attached;
 	
-	public ItemBody(Node itemBodyNode, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener){
+	public ItemBody(Node itemBodyNode, IModuleSocket moduleSocket, final IStateChangedListener stateChangedListener){
 		
 		attached = false;
 		
 		eventManager = new InternalEventManager();
+		
+		IModuleEventsListener moduleEventsListener = new IModuleEventsListener() {
+			
+			@Override
+			public void onTouchStart(com.google.gwt.dom.client.Element target,
+					int pageX, int pageY) {
+				processEvent(new InternalEvent(target, Event.ONMOUSEDOWN, pageX, pageY));
 				
-		com.google.gwt.dom.client.Element dom = XMLConverter.getDOM((Element)itemBodyNode, moduleSocket, stateChangedListener, new IModuleCreator() {
+			}
+			
+			@Override
+			public void onTouchMove(com.google.gwt.dom.client.Element target,
+					int pageX, int pageY) {
+				processEvent(new InternalEvent(target, Event.ONMOUSEMOVE, pageX, pageY));
+				
+			}
+			
+			@Override
+			public void onTouchEnd(com.google.gwt.dom.client.Element target) {
+				processEvent(new InternalEvent(target, Event.ONMOUSEUP));
+				
+			}
+			
+			@Override
+			public void onStateChanged() {
+				stateChangedListener.onStateChanged();
+				
+			}
+		};
+		
+				
+		com.google.gwt.dom.client.Element dom = XMLConverter.getDOM((Element)itemBodyNode, moduleSocket, moduleEventsListener, new IModuleCreator() {
 			
 			@Override
 			public boolean isSupported(String name) {
@@ -48,8 +80,8 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 			}
 			
 			@Override
-			public com.google.gwt.dom.client.Element createModule(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener) {
-				Widget widget = ModuleFactory.createWidget(element, moduleSocket, stateChangedListener);
+			public com.google.gwt.dom.client.Element createModule(Element element, IModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener) {
+				Widget widget = ModuleFactory.createWidget(element, moduleSocket, moduleEventsListener);
 
 				if (widget instanceof IInteractionModule)
 					addModule((IInteractionModule)widget);
@@ -116,19 +148,35 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	public void onBrowserEvent(Event event){
 		super.onBrowserEvent(event);
 
-		com.google.gwt.dom.client.Element element = 
-			com.google.gwt.dom.client.Element.as(event.getEventTarget());
+		processEvent(new InternalEvent(event));
+
+	}
+	
+	public void processEvent(InternalEvent event){
+		
+		com.google.gwt.dom.client.Element element = event.getEventTargetElement();
 		
 		@SuppressWarnings("unused")
 		String tmpId = element.getId();
+		int evtType= event.getTypeInt();
+		if (evtType != Event.ONMOUSEMOVE){
+		}
 
 		Vector<IInteractionModule> handlers = eventManager.getHandlers(element.getId(), event.getTypeInt());
 		
+		if (handlers.size() > 0){
+			int dasd = 343;
+			dasd++;
+		}
+		
 		for (IInteractionModule m : handlers)
 			m.handleEvent(element.getId(), event);
-
 		
 	}
+	
+	public native void alert(String s)/*-{
+		alert(s);
+	}-*/; 
 
 	public void onAttach(){
 		super.onAttach();
@@ -151,6 +199,12 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 		for(IActivity currModule : modules)
 			currModule.markAnswers();
 
+	}
+	
+	@Override
+	public void unmark() {
+		for(IActivity currModule : modules)
+			currModule.unmark();
 	}
 
 	@Override
