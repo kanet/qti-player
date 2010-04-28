@@ -50,8 +50,12 @@ public class StyleLinkManager {
 	}-*/; 
 
 	private native void removeStyleLink(JavaScriptObject cssNode) /*-{
-		var headID = $wnd.document.getElementsByTagName("head")[0];        
-		headID.removeChild(cssNode);
+		try {
+			var headID = $wnd.document.getElementsByTagName("head")[0];        
+			headID.removeChild(cssNode);
+        } catch (e) {
+			cssNode.parentNode.removeChild(cssNode);
+		} 
 	}-*/; 
 	
 }
