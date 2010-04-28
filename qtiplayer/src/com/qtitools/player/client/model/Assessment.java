@@ -32,6 +32,7 @@ import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.control.IDocumentLoaded;
 import com.qtitools.player.client.control.ItemReference;
 import com.qtitools.player.client.control.XMLData;
+import com.qtitools.player.client.control.style.StyleLinkDeclaration;
 
 public class Assessment{
 
@@ -47,8 +48,9 @@ public class Assessment{
 	private String title;
 	/** XML DOM of the assessment */
 	private XMLData xmlData;
-	/** Link to the Assessment style CSS */
-	private String styleLink;
+
+	public StyleLinkDeclaration styleDeclaration;
+	
 		
 	/**
 	 * C'tor
@@ -60,11 +62,7 @@ public class Assessment{
 		
 		Node rootNode = xmlData.getDocument().getElementsByTagName("assessmentTest").item(0);
 		
-		styleLink = ((Element)rootNode).getAttribute("styleLink");
-		if (styleLink == null)
-			styleLink = "";
-		else if (styleLink.length() > 0  &&  !styleLink.contains("http://")  &&  !styleLink.contains("file:///"))
-			styleLink = data.getBaseURL() + styleLink;
+		styleDeclaration = new StyleLinkDeclaration(xmlData.getDocument().getElementsByTagName("styleDeclaration"), data.getBaseURL());
 	    
 		NodeList nodes = xmlData.getDocument().getElementsByTagName("assessmentItemRef");
 		Node itemRefNode;
@@ -211,12 +209,5 @@ public class Assessment{
 		}
 	};
 
-	//------------------------- STYLE --------------------------------
 	
-	public String getStyleLink(){
-		if (styleLink == null)
-			return "";
-		
-		return styleLink;
-	}
 }

@@ -2,7 +2,7 @@
 <!-- Thie example adapted from the PET Handbook, copyright University of Cambridge ESOL Examinations -->
 <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd" 
-identifier="choice" title="Multiple choice" adaptive="false" timeDependent="false">
+identifier="choice" title="Multiple choice" adaptive="false" timeDependent="false" styleLink="http://rlab.pl/resources/s.css">
 	<responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">
 		<correctResponse>
 			<value>ChoiceA</value>

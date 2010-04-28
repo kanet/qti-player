@@ -7,6 +7,7 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Document;
+import com.qtitools.player.client.control.style.StyleLinkManager;
 import com.qtitools.player.client.model.Assessment;
 import com.qtitools.player.client.model.AssessmentItem;
 import com.qtitools.player.client.module.IActivity;
@@ -42,6 +43,8 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	private int masteryScore;
 	private Vector<Boolean> itemsVisited;
 	
+	private StyleLinkManager styleManager;
+	
 	//private AssessmentEventsHandler deliveryEngineHandler;
 	
 	/**
@@ -52,6 +55,7 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 		assessmentSessionTimeStarted = 0;
 		assessmentSessionTimeFinished = 0;
 		mode = new EngineModeManager();
+		styleManager = new StyleLinkManager();
 		masteryScore = 100;
 		
 	}
@@ -521,12 +525,13 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 
 	//------------------------- STYLE --------------------------------
 
-	public String getAssessmentStyleLink(){
-		return assessment.getStyleLink();	
+	public void updateAssessmentStyle(){
+		String userAgent = styleManager.getUserAgent();
+		styleManager.registerAssessmentStyles(assessment.styleDeclaration.getStyleLinksForUserAgent(userAgent));
 	}
-	
-	public String getItemStyleLink(){
-		return currentAssessmentItem.getStyleLink();
+
+	public void updateItemStyle(){
+		String userAgent = styleManager.getUserAgent();
+		styleManager.registerItemStyles(currentAssessmentItem.styleDeclaration.getStyleLinksForUserAgent(userAgent));
 	}
-	
 }

@@ -11,7 +11,7 @@ identifier="textEntry" title="Interactive text part 2" adaptive="false" timeDepe
 			<mapEntry mapKey="york" mappedValue="0.5"/>
 		</mapping>
 	</responseDeclaration>
-	<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
+	<!--outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/-->
 	<itemBody>
 		<p>This page presents text interaction with editable gaps.</p>
 		
@@ -22,5 +22,5 @@ identifier="textEntry" title="Interactive text part 2" adaptive="false" timeDepe
                 And all the clouds that lour'd upon our house<br/> In the deep bosom of the ocean buried.</p>
 		</blockquote>
 	</itemBody>
-	<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"/>
+	<!--responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"/-->
 </assessmentItem>

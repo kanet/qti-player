@@ -13,6 +13,9 @@ identifier="choice" title="Simple choice and picture inside a text." adaptive="f
 			<value>0</value>
 		</defaultValue>
 	</outcomeDeclaration>
+	<styleDeclaration>
+		<link href="choice_single_style.css" userAgent=".*"/>
+	</styleDeclaration>
 	<itemBody>
 		<p>
 			This is simple choice interaction with no shuffled answers. 
@@ -32,5 +35,5 @@ identifier="choice" title="Simple choice and picture inside a text." adaptive="f
 		
 		
 	</itemBody>
-	<responseProcessing template="http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"/>
+	<!--responseProcessing template="http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"/-->
 </assessmentItem>

@@ -4,15 +4,17 @@
                 xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd" 
                 identifier="RTEST-13" 
                 title="Show player supported functionality">
+	<styleDeclaration>
+		<link href="demo.css" userAgent=".*mozilla.*"/>
+	</styleDeclaration>
 
-<testPart>
-  <assessmentSection identifier="sectionA" title="Section A" visible="true">
-  	<assessmentItemRef identifier="order" href="demo/order.xml"/>
-  	<assessmentItemRef identifier="choice" href="demo/choice_single.xml"/>
-  	<assessmentItemRef identifier="choice_multiple" href="demo/choice_multiple.xml"/>
-  	<assessmentItemRef identifier="inline_choice" href="demo/inline_choice.xml"/>
-  	<assessmentItemRef identifier="text_entry" href="demo/text_entry.xml"/>
-  	<!-- assessmentItemRef identifier="video" href="demo/video.xml"/-->
-	</assessmentSection>
-</testPart>
+	<testPart>
+	  <assessmentSection identifier="sectionA" title="Section A" visible="true">
+		<assessmentItemRef identifier="order" href="demo/order.xml"/>
+		<assessmentItemRef identifier="choice" href="demo/choice_single.xml"/>
+		<assessmentItemRef identifier="choice_multiple" href="demo/choice_multiple.xml"/>
+		<assessmentItemRef identifier="inline_choice" href="demo/inline_choice.xml"/>
+		<assessmentItemRef identifier="text_entry" href="demo/text_entry.xml"/>
+		</assessmentSection>
+	</testPart>
 </assessmentTest>

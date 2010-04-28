@@ -2,11 +2,13 @@ package com.qtitools.player.client.model;
 
 import java.util.Vector;
 import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.control.Result;
 import com.qtitools.player.client.control.XMLData;
+import com.qtitools.player.client.control.style.StyleLinkDeclaration;
 import com.qtitools.player.client.model.responseprocessing.ResponseProcessor;
 import com.qtitools.player.client.model.variables.BaseType;
 import com.qtitools.player.client.model.variables.BaseTypeConverter;
@@ -15,7 +17,6 @@ import com.qtitools.player.client.model.variables.VariableManager;
 import com.qtitools.player.client.model.variables.outcome.Outcome;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IActivity;
-import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.IModuleSocket;
 import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.module.IStateful;
@@ -30,11 +31,11 @@ public class AssessmentItem implements IStateful, IActivity {
 	
 	public VariableManager<Outcome> outcomeManager;
 	
+	public StyleLinkDeclaration styleDeclaration;
+	
 	private String title;
 
 	private XMLData xmlData;
-	/** Link to the Assessment Item style CSS */
-	private String styleLink;
 			
 	public AssessmentItem(XMLData data, IStateChangedListener stateChangedListener){
 
@@ -42,13 +43,7 @@ public class AssessmentItem implements IStateful, IActivity {
 		
 		Node rootNode = xmlData.getDocument().getElementsByTagName("assessmentItem").item(0);
 		Node itemBodyNode = xmlData.getDocument().getElementsByTagName("itemBody").item(0);
-
-		styleLink = ((Element)rootNode).getAttribute("styleLink");
-		if (styleLink == null)
-			styleLink = "";
-		else if (styleLink.length() > 0  &&  !styleLink.contains("http://")  &&  !styleLink.contains("file:///"))
-			styleLink = data.getBaseURL() + styleLink;
-		
+	
 	    responseProcessor = new ResponseProcessor(xmlData.getDocument().getElementsByTagName("responseProcessing"));
 	    
 	    responseManager = new VariableManager<Response>(xmlData.getDocument().getElementsByTagName("responseDeclaration"), new IVariableCreator<Response>() {
@@ -64,6 +59,8 @@ public class AssessmentItem implements IStateful, IActivity {
 				return new Outcome(node);
 			}
 		});
+	    
+	    styleDeclaration = new StyleLinkDeclaration(xmlData.getDocument().getElementsByTagName("styleDeclaration"), data.getBaseURL());
 	    
 	    checkVariables();
    
@@ -179,10 +176,5 @@ public class AssessmentItem implements IStateful, IActivity {
 
 	//------------------------- STYLE --------------------------------
 	
-	public String getStyleLink(){
-		if (styleLink == null)
-			return "";
-		
-		return styleLink;
-	}
+
 }

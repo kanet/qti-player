@@ -53,9 +53,6 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
   public DeliveryEngine deliveryEngine;
   
   private JavaScriptResult    testResult;  
-
-  private JavaScriptObject lastAssessmentStyleLinkNode;
-  private JavaScriptObject lastItemStyleLinkNode;
     
   
   /**
@@ -341,16 +338,9 @@ private void clearItem(){
 
 @Override
 public void onAssessmentSessionBegin() {
-	
+	deliveryEngine.updateAssessmentStyle();
 	createUserInterface();
 	onAssessmentSessionBeginJS(jsObject);
-	
-	if (lastAssessmentStyleLinkNode != null){
-		removeStyleLink(lastAssessmentStyleLinkNode);
-		lastAssessmentStyleLinkNode = null;
-	}
-    if (deliveryEngine.getAssessmentStyleLink().length() > 0)
-    	lastAssessmentStyleLinkNode = appendStyleLink(deliveryEngine.getAssessmentStyleLink());
 }
 
 private static native void onAssessmentSessionBeginJS(JavaScriptObject player) /*-{
@@ -375,14 +365,9 @@ private static native void onAssessmentSessionFinishedJS(JavaScriptObject player
 
 @Override
 public void onItemSessionBegin(int currentAssessmentItemIndex) {
+	deliveryEngine.updateItemStyle();
 	createAssessmentItemView();
 	onItemSessionBeginJS(jsObject);
-	if (lastItemStyleLinkNode != null){
-		removeStyleLink(lastItemStyleLinkNode);
-		lastItemStyleLinkNode = null;
-	}
-    if (deliveryEngine.getItemStyleLink().length() > 0)
-    	lastItemStyleLinkNode = appendStyleLink(deliveryEngine.getItemStyleLink());
 }
 
 private static native void onItemSessionBeginJS(JavaScriptObject player) /*-{
@@ -471,21 +456,5 @@ public void onNavigateContinueItem() {
 		clearItem();
 	}
 }
-
-public static native JavaScriptObject appendStyleLink(String link) /*-{
-	var headID = $wnd.document.getElementsByTagName("head")[0];         
-	var cssNode = $wnd.document.createElement('link');
-	cssNode.type = 'text/css';
-	cssNode.rel = 'stylesheet';
-	cssNode.href = link;
-	cssNode.media = 'screen';
-	headID.appendChild(cssNode);
-	return cssNode;
-}-*/; 
-
-public static native void removeStyleLink(JavaScriptObject cssNode) /*-{
-	var headID = $wnd.document.getElementsByTagName("head")[0];        
-	headID.removeChild(cssNode);
-}-*/; 
 
 }

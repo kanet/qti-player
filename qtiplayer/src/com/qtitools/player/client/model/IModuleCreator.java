@@ -3,7 +3,6 @@ package com.qtitools.player.client.model;
 import com.google.gwt.dom.client.Element;
 import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.IModuleSocket;
-import com.qtitools.player.client.module.IStateChangedListener;
 
 public interface IModuleCreator {
 

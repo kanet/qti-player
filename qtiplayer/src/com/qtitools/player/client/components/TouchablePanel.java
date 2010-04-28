@@ -57,6 +57,7 @@ public class TouchablePanel extends FlowPanel {
 		touchEventsListener.onTouchEnd(this.getElement());
 	}
 	
+	@SuppressWarnings("unused")
 	private native void alert(String s)/*-{
 		alert(s);
 	}-*/;
