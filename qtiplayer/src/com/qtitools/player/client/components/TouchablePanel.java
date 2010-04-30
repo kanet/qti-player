@@ -47,7 +47,7 @@ public class TouchablePanel extends FlowPanel {
 	
 	@SuppressWarnings("unused")
 	private void processOnTouchMoveEvent(int x, int y){
-		//alert("processOnTouchMoveEvent");
+		//alert("processOnTouchMoveEvent " + x + " " + y);
 		touchEventsListener.onTouchMove(this.getElement(), x, y);
 	}
 	

@@ -98,7 +98,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 
 	@Override
 	public void onOwnerAttached() {
-		
+
 		if (options.size() == 0)
 			return;
 		

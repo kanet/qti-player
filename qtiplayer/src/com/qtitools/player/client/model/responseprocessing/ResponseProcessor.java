@@ -1,6 +1,8 @@
 package com.qtitools.player.client.model.responseprocessing;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.Vector;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
@@ -12,18 +14,18 @@ public final class ResponseProcessor {
 
 	public ResponseProcessor(NodeList responseProcessingNode){
 		@SuppressWarnings("unused")
-		Node templateNode;
+		Node templateNode = null;
 		try {
 			templateNode = responseProcessingNode.item(0).getAttributes().getNamedItem("template");
 		} catch (Exception e) {}
 		
-		template = ResponseProcessorTemplate.MATCH_CORRECT;
-		/*
+		//template = ResponseProcessorTemplate.MATCH_CORRECT;
+		
 		if (templateNode != null)
 			template = ResponseProcessorTemplate.fromURI(templateNode.getNodeValue());
 		else 
-			template = ResponseProcessorTemplate.MATCH_CORRECT;
-			*/
+			template = ResponseProcessorTemplate.MATCH_CORRECT_MULTIPLE;
+			
 	}
 	
 	private ResponseProcessorTemplate template = ResponseProcessorTemplate.NONE;
@@ -35,6 +37,8 @@ public final class ResponseProcessor {
 		try {
 			if (template == ResponseProcessorTemplate.MATCH_CORRECT)
 				processTemplateMatchCorrect(responses, outcomes);
+			else if (template == ResponseProcessorTemplate.MATCH_CORRECT_MULTIPLE)
+				processTemplateMatchCorrectMultiple(responses, outcomes);
 		} catch (Exception e) {
 			
 		}
@@ -42,14 +46,45 @@ public final class ResponseProcessor {
 	
 	private void processTemplateMatchCorrect(HashMap<String, Response> responses, HashMap<String, Outcome> outcomes){
 		
-		Vector<String> correctAnswers = responses.get("RESPONSE").correctAnswers;
+		boolean result = processMatchCorrect(responses.get("RESPONSE"));
 		
-		Vector<String> userAnswers = responses.get("RESPONSE").values;
+		outcomes.get("SCORE").values.clear();
+		
+		if (result)
+			outcomes.get("SCORE").values.add("1");
+		else
+			outcomes.get("SCORE").values.add("0");
+		
+	}
+	
+	private void processTemplateMatchCorrectMultiple(HashMap<String, Response> responses, HashMap<String, Outcome> outcomes){
+		
+		Integer points = 0;
+		String currKey;
+
+		Iterator<String> iter = responses.keySet().iterator();
+		while (iter.hasNext()){
+			currKey = iter.next();
+			if (processMatchCorrect(responses.get(currKey)))
+				points++;
+		}
+
+		outcomes.get("SCORE").values.clear();
+		
+		outcomes.get("SCORE").values.add(points.toString());
+		
+	}
+	
+	private boolean processMatchCorrect(Response response ){
+		
+		Vector<String> correctAnswers = response.correctAnswers;
+		
+		Vector<String> userAnswers = response.values;
 		
 		boolean answerFound;
 		boolean passed = true;
 		
-		if (responses.get("RESPONSE").cardinality == Cardinality.ORDERED){
+		if (response.cardinality == Cardinality.ORDERED){
 			if (correctAnswers.size() != userAnswers.size()) {
 				passed = false;
 			} else{
@@ -79,36 +114,7 @@ public final class ResponseProcessor {
 			}
 		}
 		
-		outcomes.get("SCORE").values.clear();
-		
-		if (passed)
-			outcomes.get("SCORE").values.add("1");
-		else
-			outcomes.get("SCORE").values.add("0");
-		
+		return passed;
 		
 	}
-	
-	/*
-	public Response getResponse(String responseID){
-		return responses.get(responseID);
-	}
-	
-	public Result getResult(){
-
-		Result result = new Result();
-		
-		for(Response response: responses.values()){
-			result.merge(response.getResult());
-		}
-		
-		return result;
-	}
-	
-	public void reset(){
-
-		for(Response response: responses.values())
-			response.reset();
-	}
-	*/
 }

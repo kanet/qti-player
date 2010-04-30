@@ -7,6 +7,11 @@ identifier="inlineChoice" title="Interactive text" adaptive="false" timeDependen
 			<value>Y</value>
 		</correctResponse>
 	</responseDeclaration>
+	<responseDeclaration identifier="RESPONSE2" cardinality="single" baseType="identifier">
+		<correctResponse>
+			<value>Y</value>
+		</correctResponse>
+	</responseDeclaration>
 	<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer"/>
 	<itemBody>
 		<p>This page presents text interaction with inline choices.</p>
@@ -21,6 +26,17 @@ identifier="inlineChoice" title="Interactive text" adaptive="false" timeDependen
 				</inlineChoiceInteraction>;<br/> And all the clouds that lour'd upon our house<br/>
                 In the deep bosom of the ocean buried.</p>
 		</blockquote>
+		
+		<p>Identify the missing word in this famous quote from Shakespeare's Richard III.</p>
+		<blockquote>
+			<p>Now is the winter of our discontent<br/> Made glorious summer by this sun of
+                    <inlineChoiceInteraction responseIdentifier="RESPONSE2" shuffle="false">
+					<inlineChoice identifier="G">Gloucester</inlineChoice>
+					<inlineChoice identifier="L">Lancaster</inlineChoice>
+					<inlineChoice identifier="Y">York</inlineChoice>
+				</inlineChoiceInteraction>;<br/> And all the clouds that lour'd upon our house<br/>
+                In the deep bosom of the ocean buried.</p>
+		</blockquote>
 	</itemBody>
-	<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
+	<responseProcessing template="http://www.ydp.eu/qti/rptemplates/match_correct_multiple"/>
 </assessmentItem>

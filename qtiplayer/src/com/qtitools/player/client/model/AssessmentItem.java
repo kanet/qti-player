@@ -1,5 +1,6 @@
 package com.qtitools.player.client.model;
 
+import java.util.Iterator;
 import java.util.Vector;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.user.client.Window.Navigator;
@@ -120,17 +121,27 @@ public class AssessmentItem implements IStateful, IActivity {
 		
 		String score = "";
 		Float lowerBound = new Float(0);
-		Float upperBound = new Float(1);
+		Float upperBound = new Float(0);
 		
 		if (outcomeManager.getVariable("SCORE") != null)
 			if (outcomeManager.getVariable("SCORE").values.size() > 0)
-			score = outcomeManager.getVariable("SCORE").values.get(0);
-			
-		if (responseManager.getVariable("RESPONSE").mapping.lowerBound != null)
-			lowerBound = responseManager.getVariable("RESPONSE").mapping.lowerBound;
+				score = outcomeManager.getVariable("SCORE").values.get(0);
 		
-		if (responseManager.getVariable("RESPONSE").mapping.upperBound != null)
-			upperBound = responseManager.getVariable("RESPONSE").mapping.upperBound;
+		Iterator<String> iterator = responseManager.getVariablesMap().keySet().iterator();
+		while (iterator.hasNext()){
+			String currKey = iterator.next();
+			
+			if (responseManager.getVariable(currKey).mapping.lowerBound != null)
+				lowerBound += responseManager.getVariable(currKey).mapping.lowerBound;
+			
+			if (responseManager.getVariable(currKey).mapping.upperBound != null)
+				upperBound += responseManager.getVariable(currKey).mapping.upperBound;
+			else
+				upperBound += 1;
+		}
+		
+		//if (lowerBound == 0  &&  upperBound == 0)
+		//	upperBound = 1.0f;
 			
 		result = new Result(BaseTypeConverter.tryParseFloat(score), lowerBound, upperBound);
 		
