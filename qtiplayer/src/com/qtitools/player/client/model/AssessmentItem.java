@@ -72,10 +72,11 @@ public class AssessmentItem implements IStateful, IActivity {
 	
 	private void checkVariables(){
 		if (outcomeManager.variables.size() == 0){
-			if (responseManager.getVariablesMap().containsKey("RESPONSE")){
+			if (responseManager.getVariablesMap().keySet().size() > 0){
+				Iterator<String> iterator = responseManager.getVariablesMap().keySet().iterator();
 				Outcome tmpOutcome = new Outcome();
 				tmpOutcome.identifier = "SCORE";
-				tmpOutcome.cardinality = responseManager.getVariable("RESPONSE").cardinality;
+				tmpOutcome.cardinality = responseManager.getVariable(iterator.next()).cardinality;
 				tmpOutcome.baseType = BaseType.STRING;
 
 				outcomeManager.variables.put("SCORE", tmpOutcome);
