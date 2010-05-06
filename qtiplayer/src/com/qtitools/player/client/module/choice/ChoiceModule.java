@@ -204,7 +204,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 
 		Vector<InternalEventTrigger> ids = new Vector<InternalEventTrigger>();
 		for (SimpleChoice currSC:interactionElements){
-			ids.add(new InternalEventTrigger(currSC.getInputId(), Event.ONCHANGE));
+			ids.add(new InternalEventTrigger(currSC.getInputId(), Event.ONMOUSEUP));
 			ids.add(new InternalEventTrigger(currSC.getLabelId(), Event.ONMOUSEUP));
 		}
 		return ids;
@@ -231,6 +231,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 			if (targertIsButton){
 				for (SimpleChoice currSC:interactionElements){
 					if (currSC.getInputId().compareTo(lastSelectedId) == 0){
+						currSC.showFeedback(!currSC.isSelected());
 						continue;
 					}
 					if (!multi){
@@ -242,6 +243,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 				for (SimpleChoice currSC:interactionElements){
 					if (currSC.getLabelId().compareTo(lastSelectedId) == 0){
 						currSC.setSelected(!currSC.isSelected());
+						currSC.showFeedback(currSC.isSelected());
 						continue;
 					}
 					if (!multi){
@@ -264,7 +266,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 			if (currSC.isSelected()){
 				currResponseValues.add(currSC.getIdentifier());
 			}
-			currSC.showFeedback(currSC.isSelected());
+			//currSC.showFeedback(currSC.isSelected());
 		}
 		
 		response.set(currResponseValues);

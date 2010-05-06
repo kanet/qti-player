@@ -112,6 +112,8 @@ public class SimpleChoice extends Composite {
 	}
 
 	public void setSelected(boolean sel){
+		if (!sel)
+			showFeedback(false);
 		button.setChecked(sel);
 	}
 

@@ -97,19 +97,23 @@ public final class ResponseProcessor {
 			}
 			
 		} else {
-			for (int correct = 0 ; correct < correctAnswers.size() ; correct ++){
-				
-				answerFound = false;
-				
-				for (int user = 0 ; user < userAnswers.size() ; user ++){
-					if (correctAnswers.get(correct).compareTo(userAnswers.get(user)) == 0){
-						answerFound = true;
-						break;
+			if (correctAnswers.size() != userAnswers.size()){
+				passed = false;
+			} else {
+				for (int correct = 0 ; correct < correctAnswers.size() ; correct ++){
+					
+					answerFound = false;
+					
+					for (int user = 0 ; user < userAnswers.size() ; user ++){
+						if (correctAnswers.get(correct).compareTo(userAnswers.get(user)) == 0){
+							answerFound = true;
+							break;
+						}
 					}
-				}
-				
-				if (!answerFound){
-					passed = false;
+					
+					if (!answerFound){
+						passed = false;
+					}
 				}
 			}
 		}
