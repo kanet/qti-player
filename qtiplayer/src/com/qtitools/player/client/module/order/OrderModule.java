@@ -75,7 +75,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 		tagIdMap = new HashMap<String, Integer>();
 		
 		for (int i = 0 ; i < options.size() ; i++){
-			AbsolutePanel currOption = options.get(i);			
+			AbsolutePanel currOption = options.get(i);
 			tagIdMap.put(currOption.getElement().getId(), i);
 			if (currOption.getElement().getElementsByTagName("div").getLength() > 1){
 				String spanID = currOption.getElement().getElementsByTagName("div").getItem(1).getId();

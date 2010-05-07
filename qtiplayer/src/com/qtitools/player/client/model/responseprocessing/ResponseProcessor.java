@@ -2,7 +2,6 @@ package com.qtitools.player.client.model.responseprocessing;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.Vector;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
@@ -13,7 +12,6 @@ import com.qtitools.player.client.model.variables.response.Response;
 public final class ResponseProcessor {
 
 	public ResponseProcessor(NodeList responseProcessingNode){
-		@SuppressWarnings("unused")
 		Node templateNode = null;
 		try {
 			templateNode = responseProcessingNode.item(0).getAttributes().getNamedItem("template");

@@ -159,7 +159,8 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 		@SuppressWarnings("unused")
 		String tmpId = element.getId();
 		int evtType= event.getTypeInt();
-		if (evtType != Event.ONMOUSEMOVE){
+		if (evtType == Event.ONCLICK){
+			int asd = 9;
 		}
 
 		Vector<IInteractionModule> handlers = eventManager.getHandlers(element.getId(), event.getTypeInt());

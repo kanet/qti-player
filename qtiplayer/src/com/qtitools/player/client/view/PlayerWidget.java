@@ -148,12 +148,12 @@ public class PlayerWidget extends Composite{
 	 * Show view with assessment score
 	 * @param index of assessment item
 	 */
-	public void showResultPage(String message){
+	public void showResultPage(Widget resultInfo){
 
 		bodyPanel.clear();
 		footer.setVisible(false);
 		showFeedback("");
-		bodyPanel.add(new Label(message));
+		bodyPanel.add(resultInfo);
 	}
 	
   /**
@@ -164,7 +164,7 @@ public class PlayerWidget extends Composite{
     Label           label;
     HorizontalPanel header = new HorizontalPanel();
 
-    playerPanel = new VerticalPanel();
+    playerPanel = new FlowPanel();
     playerPanel.setStyleName("qp-player");
     header.setStyleName("qp-header");
     label = new Label(assessment.getTitle());

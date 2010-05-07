@@ -26,10 +26,14 @@ package com.qtitools.player.client;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTMLTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.qtitools.player.client.control.DeliveryEngine;
@@ -184,8 +188,6 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
 		}
 	}-*/;
 
-
-
   
   /**
    * Create user interface
@@ -202,34 +204,35 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     	playerView = new PlayerWidget(deliveryEngine.assessment);
     	rootPanel.add(playerView);
     
-	    playerView.getCheckButton().addClickHandler(new ClickHandler(){
-	      public void onClick(ClickEvent event) {
+	    playerView.getCheckButton().addMouseUpHandler(new MouseUpHandler(){
+	      public void onMouseUp(MouseUpEvent event) {
 	    	  onNavigateFinishItem();
 	      }
 	    });
 	    
-	    playerView.getResetButton().addClickHandler(new ClickHandler(){
-	      public void onClick(ClickEvent event) {
+	    playerView.getResetButton().addMouseUpHandler(new MouseUpHandler(){
+	      public void onMouseUp(MouseUpEvent event) {
 	        onNavigateContinueItem();
 	        playerView.getCheckButton().setVisible(true);
 		  	playerView.getResetButton().setVisible(false);
 	      }
 	    });
 	    
-	    playerView.getPrevButton().addClickHandler(new ClickHandler(){
-	      public void onClick(ClickEvent event) {
+	    playerView.getPrevButton().addMouseUpHandler(new MouseUpHandler(){
+	      public void onMouseUp(MouseUpEvent event) {
 	        onNavigatePreviousItem();
 	      }
 	    });
 	    
-	    playerView.getNextButton().addClickHandler(new ClickHandler(){
-	      public void onClick(ClickEvent event) {
-	    	  onNavigateNextItem();
-	      }
-	    });
+	    playerView.getNextButton().addMouseUpHandler(new MouseUpHandler() {
+			public void onMouseUp(MouseUpEvent event) {
+				onNavigateNextItem();
+				
+			}
+		});
 	    
-	    playerView.getFinishButton().addClickHandler(new ClickHandler(){
-	      public void onClick(ClickEvent event) {
+	    playerView.getFinishButton().addMouseUpHandler(new MouseUpHandler(){
+	      public void onMouseUp(MouseUpEvent event) {
 	    	onNavigateFinishAssessment();
 	      }
 	    });
@@ -240,7 +243,6 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     	rootPanel.add(l);
 	}
   }
-  
   
   /**
    * create view for assessment item
@@ -291,13 +293,41 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
 
     deliveryEngine.endItemSession();
     
-    Result assessmentResult = deliveryEngine.getAssessmentResult(); 
+    Result assessmentResult = deliveryEngine.getAssessmentResult();
+    IAssessmentSessionReport report = deliveryEngine.report();
     
     int score = (int)assessmentResult.getScore();
     int max = (int)assessmentResult.getMaxPoints();
     
     testResult = new JavaScriptResult(score, max);
-    playerView.showResultPage("Your score is: " + (int)((score * 100)/max) + "% " + score + " points.");
+    
+    Grid resultItemsInfo = new Grid(report.getAssessmentItemsCount(), 2);
+    resultItemsInfo.setStylePrimaryName("qp-resultpage-items");
+    
+    for (int i = 0 ; i < report.getAssessmentItemsCount() ; i ++){
+    	resultItemsInfo.setText(i, 0, "Page " + String.valueOf(i+1) + ": ");
+    	
+    	Result currItemResult = deliveryEngine.getAssessmentItemResultAt(i);
+    	String resultString;
+    	if (currItemResult != null){
+    		resultString = String.valueOf(currItemResult.getScore()).replace(".0", "") + "/" + String.valueOf(currItemResult.getMaxPoints()-currItemResult.getMinPoints()).replace(".0", "");
+    	}else {
+    		resultString = "-";
+    	}
+    	
+    	resultItemsInfo.setText(i, 1, resultString);
+    }
+    
+    Label resultScoreInfo = new Label("Your score is: " + (int)((score * 100)/max) + "% " + score + " points.");
+    resultScoreInfo.setStylePrimaryName("qp-resultpage-score");
+    
+    
+    FlowPanel resultInfo = new FlowPanel();
+    resultInfo.setStylePrimaryName("qp-resultpage-container");
+    resultInfo.add(resultItemsInfo);
+    resultInfo.add(resultScoreInfo);
+    
+    playerView.showResultPage(resultInfo);
     
   }
    

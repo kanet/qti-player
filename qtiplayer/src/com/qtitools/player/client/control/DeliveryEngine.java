@@ -327,6 +327,13 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	    
 	    return new Result(score, min, max);
 	}
+	
+	public Result getAssessmentItemResultAt(int index){
+		if (index < results.length)
+			return results[index];
+		
+		return null;
+	}
 
 	/**
 	 * Returns assessment item result.
