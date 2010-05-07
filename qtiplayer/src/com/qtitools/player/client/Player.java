@@ -305,9 +305,11 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     resultItemsInfo.setStylePrimaryName("qp-resultpage-items");
     
     for (int i = 0 ; i < report.getAssessmentItemsCount() ; i ++){
-    	resultItemsInfo.setText(i, 0, "Page " + String.valueOf(i+1) + ": ");
+    	String currTitle = deliveryEngine.getAssessmentItemTitle(i);
     	
-    	Result currItemResult = deliveryEngine.getAssessmentItemResultAt(i);
+    	resultItemsInfo.setText(i, 0, currTitle + ": ");
+    	
+    	Result currItemResult = deliveryEngine.getAssessmentItemResult(i);
     	String resultString;
     	if (currItemResult != null){
     		resultString = String.valueOf(currItemResult.getScore()).replace(".0", "") + "/" + String.valueOf(currItemResult.getMaxPoints()-currItemResult.getMinPoints()).replace(".0", "");

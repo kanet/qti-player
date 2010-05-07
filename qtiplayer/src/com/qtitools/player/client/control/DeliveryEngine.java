@@ -37,6 +37,7 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	
 	public JSONArray states;
 	public Result[] results;
+	public String[] titles;
 	
 	public EngineModeManager mode;
 	
@@ -327,13 +328,6 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	    
 	    return new Result(score, min, max);
 	}
-	
-	public Result getAssessmentItemResultAt(int index){
-		if (index < results.length)
-			return results[index];
-		
-		return null;
-	}
 
 	/**
 	 * Returns assessment item result.
@@ -355,6 +349,13 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
     	}
 	    
 	    return new Result(score, min, max);
+	}
+	
+	public String getAssessmentItemTitle(int index){
+		if (index < titles.length)
+			return titles[index];
+			
+		return null;
 	}
 	
 	/** 
@@ -475,6 +476,7 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	 */
 	private void initHistory(){
 	    results = new Result[assessment.getAssessmentItemsCount()];
+	    titles = new String[assessment.getAssessmentItemsCount()];
 	    if (states == null)
 	    	states = new JSONArray(); 
 	}
@@ -485,6 +487,7 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	private void updateHistory() {
 		states.set(currentAssessmentItemIndex, currentAssessmentItem.getState());
 		results[currentAssessmentItemIndex] = currentAssessmentItem.getResult();
+		titles[currentAssessmentItemIndex] = currentAssessmentItem.getTitle();
 	}
 	
 	//------------------------- IACTIVITY --------------------------------
