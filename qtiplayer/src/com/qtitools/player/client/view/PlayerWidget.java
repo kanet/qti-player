@@ -183,15 +183,15 @@ public class PlayerWidget extends Composite{
     
     counterListBox = new ListBox();
     counterListBox.setVisibleItemCount(1);
-    counterListBox.setStyleName("qp-page-list");
+    counterListBox.setStyleName("qp-page-counter-list");
     for (int p = 0 ; p <  assessment.getAssessmentItemsCount(); p ++)
     	counterListBox.addItem(String.valueOf(p+1));
     
     counterLabel = new Label("/" + assessment.getAssessmentItemsCount());
-    counterLabel.setStyleName("qp-page-counter");
+    counterLabel.setStyleName("qp-page-counter-count");
     
     counterPanel = new FlowPanel();
-    counterPanel.setStyleName("qp-page-container");
+    counterPanel.setStyleName("qp-page-counter");
     counterPanel.add(counterListBox);
     counterPanel.add(counterLabel);
     
