@@ -21,8 +21,13 @@
 }
 
 .qp-page-counter{
-	width:	100%;
-	text-align:right;
+	float:right;
+}
+.qp-page-counter-list{
+
+}
+.qp-page-counter-count{
+	float:right;
 }
 
 .qp-body{
@@ -245,6 +250,8 @@
 	border:0px solid #ff0;
 	width:400px;
 	height:64px;
+	padding-left:1px;
+	gz:e;
 }
 .qp-order-option{
 	border:1px solid #ddd;
@@ -274,4 +281,15 @@ color:#00FF00;
 }
 .qp-order-option-content-wrong {
 color:#990000;
+}
+
+/**
+ * Result Page
+ */
+.qp-resultpage-container{
+}
+.qp-resultpage-items{
+}
+.qp-resultpage-score{
+	font-weight:bold;
 }
