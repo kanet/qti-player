@@ -24,11 +24,15 @@
 package com.qtitools.player.client.module.choice;
 
 import java.util.Vector;
+
+import com.google.gwt.user.client.ui.ButtonBase;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.xml.client.Element;
 import com.qtitools.player.client.components.AccessibleCheckBox;
+import com.qtitools.player.client.components.AccessibleRadioButton;
 import com.qtitools.player.client.util.xml.XMLConverter;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
@@ -44,7 +48,8 @@ public class SimpleChoice extends Composite {
 	public String inputId;
 	public String labelId;
 	
-	public SimpleChoice(Element element, String inputId, String labelId) {
+	public SimpleChoice(Element element, String inputId, String labelId, boolean multi) {
+		
 		
 		this.inputId = inputId;
 		this.labelId = labelId;
@@ -52,8 +57,11 @@ public class SimpleChoice extends Composite {
 		identifier = XMLUtils.getAttributeAsString(element, "identifier");
 		
 		// button
+		if (multi)
+			button = new AccessibleCheckBox();
+		else
+			button = new AccessibleRadioButton(inputId);
 
-	    button = new AccessibleCheckBox();
 		Vector<String> ignoredTags = new Vector<String>();
 		ignoredTags.add("feedbackInline");
 		com.google.gwt.dom.client.Element dom = XMLConverter.getDOM(element, ignoredTags);

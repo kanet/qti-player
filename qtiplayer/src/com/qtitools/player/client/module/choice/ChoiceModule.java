@@ -131,7 +131,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 				  option = randomizedNodes.pull();
 			  }
 
-			  currInteractionElement = new SimpleChoice(option, currInputId, currLabelId);
+			  currInteractionElement = new SimpleChoice(option, currInputId, currLabelId, multi);
 			  interactionElements.add(currInteractionElement);
 			  panel.add(currInteractionElement);
 		  }
