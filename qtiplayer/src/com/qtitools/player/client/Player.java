@@ -26,6 +26,8 @@ package com.qtitools.player.client;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.json.client.JSONArray;
@@ -236,6 +238,13 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
 	    	onNavigateFinishAssessment();
 	      }
 	    });
+	    
+	    playerView.getCounterListBox().addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				playerView.getCounterListBox().setEnabled(false);
+				onNavigateGotoItem(playerView.getCounterListBox().getSelectedIndex());
+			}
+		});
 
     } catch (Exception e) {
     	Label l = new Label();
@@ -266,7 +275,7 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
       playerView.getPrevButton().setEnabled(true);
     }
     
-    playerView.showPage(deliveryEngine.assessment, deliveryEngine.currentAssessmentItem, deliveryEngine.getCurrentAssessmentItemIndex()+1);
+    playerView.showPage(deliveryEngine.assessment, deliveryEngine.currentAssessmentItem, deliveryEngine.getCurrentAssessmentItemIndex());
     
   }
 
@@ -397,6 +406,7 @@ private static native void onAssessmentSessionFinishedJS(JavaScriptObject player
 
 @Override
 public void onItemSessionBegin(int currentAssessmentItemIndex) {
+	playerView.getCounterListBox().setEnabled(true);
 	deliveryEngine.updateItemStyle();
 	createAssessmentItemView();
 	onItemSessionBeginJS(jsObject);
@@ -464,6 +474,13 @@ public void onNavigateNextItem() {
 public void onNavigatePreviousItem() {
 	if (deliveryEngine.isNavigationPossible()){
 		deliveryEngine.previousAssessmentItem();
+	}
+	
+}
+
+public void onNavigateGotoItem(int index) {
+	if (deliveryEngine.isNavigationPossible()){
+		deliveryEngine.gotoAssessmentItem(index);
 	}
 	
 }

@@ -167,6 +167,9 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	 */
 	public void nextAssessmentItem(){
 		
+		if(currentAssessmentItemIndex  < assessment.getAssessmentItemsCount()-1)
+			gotoAssessmentItem(currentAssessmentItemIndex+1);
+		/*
 		if (!mode.canNavigate())
 			return;
 		
@@ -176,13 +179,17 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 				endItemSession();
 			
 			loadAssessmentItem(currentAssessmentItemIndex+1);
-		}
+		}*/
 	}
 
 	/**
 	 * Moves the assessment to the previous item.
 	 */
 	public void previousAssessmentItem(){
+		
+		if(currentAssessmentItemIndex  > 0)
+			gotoAssessmentItem(currentAssessmentItemIndex-1);
+		/*
 
 		if (!mode.canNavigate())
 			return;
@@ -193,6 +200,23 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 				endItemSession();
 			
 			loadAssessmentItem(currentAssessmentItemIndex-1);
+		}*/
+	}
+
+	/**
+	 * Moves the assessment to the previous item.
+	 */
+	public void gotoAssessmentItem(int index){
+
+		if (!mode.canNavigate())
+			return;
+		
+		if(index >= 0  &&  index < assessment.getAssessmentItemsCount()){
+		
+			if (currentAssessmentItem != null)
+				endItemSession();
+			
+			loadAssessmentItem(index);
 		}
 	}
 	
@@ -452,7 +476,7 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	
 	private void updateState(){
 		
-		if (states.size() <= currentAssessmentItemIndex)
+		if (states.size() <= currentAssessmentItemIndex  ||  states.get(currentAssessmentItemIndex) == null)
 			return;
 		
 	    if(states.get(currentAssessmentItemIndex).isArray() != null){

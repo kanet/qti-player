@@ -26,7 +26,9 @@ package com.qtitools.player.client.view;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -40,7 +42,9 @@ public class PlayerWidget extends Composite{
 //	private AssessmentItem 	assessmentItem;
 	private Panel 					playerPanel;
 	/** Counter label */
+	private Panel	counterPanel;
 	private Label						counterLabel;
+	private ListBox	counterListBox;
 	/** Body panel. AssessmentItem view will be shown there */
 	private Panel 					bodyPanel;
 	/** Assessment item feedback */
@@ -58,6 +62,7 @@ public class PlayerWidget extends Composite{
 	private PushButton					nextButton;
 	/** Finish button */ 
 	private PushButton					finishButton;
+	/** Page combo */
 	
 	/**
 	 * constructor
@@ -105,6 +110,10 @@ public class PlayerWidget extends Composite{
 		return resetButton;
 	}
 	
+	public ListBox getCounterListBox(){
+		return counterListBox;
+	}
+	
 	/**
 	 * Show error instead of page
 	 */
@@ -122,7 +131,7 @@ public class PlayerWidget extends Composite{
 	 * Create view for given assessment item and show it in player
 	 * @param index of assessment item
 	 */
-	public void showPage(Assessment assessment, AssessmentItem assessmentItem, int pageNumber){
+	public void showPage(Assessment assessment, AssessmentItem assessmentItem, int pageIndex){
 
 		Label itemTitleLabel = new Label();
 		
@@ -130,9 +139,10 @@ public class PlayerWidget extends Composite{
 		bodyPanel.clear();
 		feedbackLabel.setText("");
 
-		counterLabel.setText(pageNumber + "/" + assessment.getAssessmentItemsCount());		
+		counterListBox.setSelectedIndex(pageIndex);
+		counterLabel.setText("/" + assessment.getAssessmentItemsCount());		
 
-		itemTitleLabel.setText(pageNumber + ". " + assessmentItem.getTitle());
+		itemTitleLabel.setText(String.valueOf(pageIndex+1) + ". " + assessmentItem.getTitle());
 		itemTitleLabel.setStyleName("qp-item-title");
 		bodyPanel.add(itemTitleLabel);
 		
@@ -170,9 +180,22 @@ public class PlayerWidget extends Composite{
     label = new Label(assessment.getTitle());
     label.setStyleName("qp-assessment-title");
     header.add(label);
-    counterLabel = new Label("1/" + assessment.getAssessmentItemsCount());
+    
+    counterListBox = new ListBox();
+    counterListBox.setVisibleItemCount(1);
+    counterListBox.setStyleName("qp-page-list");
+    for (int p = 0 ; p <  assessment.getAssessmentItemsCount(); p ++)
+    	counterListBox.addItem(String.valueOf(p+1));
+    
+    counterLabel = new Label("/" + assessment.getAssessmentItemsCount());
     counterLabel.setStyleName("qp-page-counter");
-    header.add(counterLabel);
+    
+    counterPanel = new FlowPanel();
+    counterPanel.setStyleName("qp-page-container");
+    counterPanel.add(counterListBox);
+    counterPanel.add(counterLabel);
+    
+    header.add(counterPanel);
     playerPanel.add(header);
 
     bodyPanel = new VerticalPanel();
