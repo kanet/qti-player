@@ -162,6 +162,7 @@ public class PlayerWidget extends Composite{
 
 		bodyPanel.clear();
 		footer.setVisible(false);
+		counterPanel.setVisible(false);
 		showFeedback("");
 		bodyPanel.add(resultInfo);
 	}
