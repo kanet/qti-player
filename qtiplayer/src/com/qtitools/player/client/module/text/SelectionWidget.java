@@ -79,6 +79,8 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 
 		listBox.getElement().setId(id);
 		getElement().appendChild(listBox.getElement());
+		
+		setStyleName("qp-text-choice");
 	}
 
 	/**
@@ -97,7 +99,7 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	 */
 	public void unmark() {
 		  listBox.setEnabled(true);
-		  setStyleName("");
+		  setStyleName("qp-text-choice");
 	}
 
 	/**
@@ -105,7 +107,7 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	 */
 	public void reset() {
 	  listBox.setEnabled(true);
-	  setStyleName("");
+	  setStyleName("qp-text-choice");
 	}
 
 	/**

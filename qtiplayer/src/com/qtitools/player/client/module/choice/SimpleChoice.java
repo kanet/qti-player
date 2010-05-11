@@ -25,10 +25,8 @@ package com.qtitools.player.client.module.choice;
 
 import java.util.Vector;
 
-import com.google.gwt.user.client.ui.ButtonBase;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.xml.client.Element;
 import com.qtitools.player.client.components.AccessibleCheckBox;
@@ -61,6 +59,7 @@ public class SimpleChoice extends Composite {
 			button = new AccessibleCheckBox();
 		else
 			button = new AccessibleRadioButton(inputId);
+		button.setStyleName("qp-choice-button");
 
 		Vector<String> ignoredTags = new Vector<String>();
 		ignoredTags.add("feedbackInline");
@@ -89,7 +88,6 @@ public class SimpleChoice extends Composite {
 	    if(feedbackInline != null){
 	    	feedback = XMLUtils.getText(feedbackInline);
 			feedbackLabel = new Label();
-			feedbackLabel.setStylePrimaryName("qp-choice-feedback");
 			panel.add(feedbackLabel);
 	    }
 	    
@@ -115,13 +113,13 @@ public class SimpleChoice extends Composite {
 	}
 	
 	public void unmark(){
-		button.setStyleName("");
+		button.setStyleName("qp-choice-button");
 		setEnabled(true);
 	}
 
 	public void setSelected(boolean sel){
 		if (!sel)
-			showFeedback(false);
+			showFeedback(false, false);
 		button.setChecked(sel);
 	}
 
@@ -135,7 +133,7 @@ public class SimpleChoice extends Composite {
 	 */
 	public void setEnabled(boolean mode){
 		button.setEnabled(mode);
-		showFeedback(false);
+		showFeedback(false, false);
 	}
 
 	/**
@@ -161,7 +159,7 @@ public class SimpleChoice extends Composite {
 	}
 
 	public void reset(){
-		button.setStyleName("");
+		button.setStyleName("qp-choice-button");
 		button.setValue(false);
 		setEnabled(true);
 	}
@@ -170,15 +168,24 @@ public class SimpleChoice extends Composite {
 	 * Show or hide feedback
 	 * @param show 
 	 */
-	public void showFeedback(boolean show) {
+	public void showFeedback(boolean show, boolean correct) {
 
 		if( feedbackLabel != null ){
 			if(show){
 				feedbackLabel.setText(feedback);
+				if (correct){
+					feedbackLabel.setStylePrimaryName("qp-choice-feedback-correct");
+				} else {
+					feedbackLabel.setStylePrimaryName("qp-choice-feedback-wrong");
+					
+				}
 			}
 			else{
 				feedbackLabel.setText("");
+				feedbackLabel.setStylePrimaryName("qp-choice-feedback");
 			}
+			
+				
 		}
 	}
 

@@ -231,7 +231,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 			if (targertIsButton){
 				for (SimpleChoice currSC:interactionElements){
 					if (currSC.getInputId().compareTo(lastSelectedId) == 0){
-						currSC.showFeedback(!currSC.isSelected());
+						currSC.showFeedback(!currSC.isSelected(), response.correctAnswers.contains(currSC.getIdentifier()));
 						continue;
 					}
 					if (!multi){
@@ -243,7 +243,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 				for (SimpleChoice currSC:interactionElements){
 					if (currSC.getLabelId().compareTo(lastSelectedId) == 0){
 						currSC.setSelected(!currSC.isSelected());
-						currSC.showFeedback(currSC.isSelected());
+						currSC.showFeedback(currSC.isSelected(), response.correctAnswers.contains(currSC.getIdentifier()));
 						continue;
 					}
 					if (!multi){
