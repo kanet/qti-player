@@ -314,7 +314,7 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     for (int i = 0 ; i < report.getAssessmentItemsCount() ; i ++){
     	String currTitle = deliveryEngine.getAssessmentItemTitle(i);
     	if (currTitle == null)
-    		currTitle = "Page " + String.valueOf(i+1);
+    		currTitle = "Not visited";
     	
     	resultItemsInfo.setText(i, 0, currTitle + ": ");
     	
