@@ -120,7 +120,7 @@ public class PlayerWidget extends Composite{
 
 		Label	errorLabel = new Label(message);
 		bodyPanel.clear();
-		feedbackLabel.setText("");
+		showFeedback("");
 
 		errorLabel.setStyleName("qp-error");
 		bodyPanel.add(errorLabel);
@@ -136,7 +136,7 @@ public class PlayerWidget extends Composite{
 		
 //		this.assessmentItem = assessmentItem; 
 		bodyPanel.clear();
-		feedbackLabel.setText("");
+		showFeedback("");
 
 		counterListBox.setSelectedIndex(pageIndex);
 		counterLabel.setText("/" + assessment.getAssessmentItemsCount());		
@@ -151,6 +151,11 @@ public class PlayerWidget extends Composite{
 	
 	public void showFeedback(String feedback){
 		feedbackLabel.setText(feedback);
+		if (feedback.length() > 0){
+		    feedbackLabel.setStyleName("qp-feedback");
+		} else {
+			feedbackLabel.setStyleName("qp-feedback-hidden");
+		}
 	}
 	
 	/**
@@ -203,7 +208,7 @@ public class PlayerWidget extends Composite{
     playerPanel.add(bodyPanel);
     
     feedbackLabel = new Label();
-    feedbackLabel.setStyleName("qp-feedback");
+    feedbackLabel.setStyleName("qp-feedback-hidden");
     playerPanel.add(feedbackLabel);
 
     footerContainer = new FlowPanel();
