@@ -24,12 +24,19 @@ public class InternalEvent{
 		type = event.getTypeInt();
 		clientX = event.getClientX();
 		clientY = event.getClientY();
+		originalEvent = event;
 	}
 	
 	protected Element target;
 	protected int type;
 	protected int clientX;
 	protected int clientY;
+	protected Event originalEvent;
+	
+	public void stopPropagation(){
+		if (originalEvent != null)
+			originalEvent.stopPropagation();
+	}
 
 	public int getTypeInt(){
 		return type;
