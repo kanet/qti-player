@@ -28,6 +28,7 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.module.choice.ChoiceModule;
 import com.qtitools.player.client.module.debug.DebugModule;
+import com.qtitools.player.client.module.match.MatchModule;
 import com.qtitools.player.client.module.object.ObjectModule;
 import com.qtitools.player.client.module.order.OrderModule;
 import com.qtitools.player.client.module.test.TestModule;
@@ -40,6 +41,7 @@ public abstract class ModuleFactory {
 												"inlineChoiceInteraction", 
 												"textEntryInteraction",
 												"orderInteraction",
+												"matchInteraction",
 												"testInteraction",
 												"object"};
 
@@ -66,6 +68,8 @@ public abstract class ModuleFactory {
 			widget = new TestModule(element, moduleSocket, moduleEventsListener);
 		else if(element.getNodeName().compareTo("orderInteraction") == 0)
 			widget = new OrderModule(element, moduleSocket, moduleEventsListener);
+		else if(element.getNodeName().compareTo("matchInteraction") == 0)
+			widget = new MatchModule(element, moduleSocket, moduleEventsListener);
 	    else if(element.getNodeType() == Node.ELEMENT_NODE)
 	    	widget = new DebugModule(element);
 		

@@ -1,0 +1,46 @@
+package com.qtitools.player.client.module.match.area;
+
+import org.vaadin.gwtgraphics.client.Line;
+
+import com.google.gwt.dom.client.Document;
+
+public class MatchConnection {
+
+	public MatchConnection(MatchElement _from, MatchElement _to, String _lineId){
+		from = _from.identifier;
+		to = _to.identifier;
+		
+		line = new Line(_from.innerCircle.getX(), _from.innerCircle.getY(),
+				_to.innerCircle.getX(), _to.innerCircle.getY());
+		lineId = _lineId;
+		line.getElement().setId(_lineId);
+		line.setStyleName("qp-match-area-line");
+		
+	}
+	
+	public String from;
+	public String to;
+	
+	public Line line;
+	public String lineId;
+	
+	boolean compare(MatchElement _from, MatchElement _to){
+		return (from.compareTo(_from.identifier) == 0  &&  to.compareTo(_to.identifier) == 0 );
+	}
+
+	public void markCorrect(){
+		line.setStyleName("qp-match-area-line-correct");
+	}
+
+	public void markWrong(){
+		line.setStyleName("qp-match-area-line-wrong");
+	}
+
+	public void unmark(){
+		line.setStyleName("qp-match-area-line");
+	}
+	
+	public String getAsDirectedPair(){
+		return from + " " + to;
+	}
+}
