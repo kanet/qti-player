@@ -195,7 +195,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 			
 		}
 		
-		updateResponse();
+		updateResponse(null);
 		stateListener.onStateChanged();
 	}
 
@@ -214,6 +214,8 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 	@Override
 	public void handleEvent(String tagID, InternalEvent param) {
 
+		SimpleChoice target = null;
+		
 		// check if multi selection mode
 				
 		if (param != null){
@@ -231,8 +233,10 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 			if (targertIsButton){
 				for (SimpleChoice currSC:interactionElements){
 					if (currSC.getInputId().compareTo(lastSelectedId) == 0){
-						currSC.setSelected(!currSC.isSelected());
+						if (!multi  &&  !currSC.isSelected())
+							currSC.setSelected(!currSC.isSelected());
 						currSC.showFeedback(currSC.isSelected(), response.correctAnswers.contains(currSC.getIdentifier()));
+						target = currSC;
 						continue;
 					}
 					if (!multi){
@@ -253,18 +257,20 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 				}
 			}
 		}
-		
+		param.stopPropagation();
 		// pass response
 		
-		updateResponse();
+		updateResponse(target);
 		
 	}
 	
-	private void updateResponse(){
+	private void updateResponse(SimpleChoice target){
 		Vector<String> currResponseValues = new Vector<String>();
 		
 		for (SimpleChoice currSC:interactionElements){
-			if (currSC.isSelected()){
+			if (currSC.equals(target) && multi && !currSC.isSelected()){
+				currResponseValues.add(currSC.getIdentifier());
+			} else if ((!currSC.equals(target) || !multi) && currSC.isSelected()){
 				currResponseValues.add(currSC.getIdentifier());
 			}
 			//currSC.showFeedback(currSC.isSelected());
