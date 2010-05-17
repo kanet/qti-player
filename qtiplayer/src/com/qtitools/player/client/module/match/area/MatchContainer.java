@@ -35,8 +35,6 @@ public class MatchContainer extends FlowPanel{
 	public FlowPanel areaPanel;
 	
 	private MatchDragManager dragManager;
-	
-	private FlowPanel slotBait;
 
 	/** Shuffle? */
 	private boolean shuffle = false;
@@ -78,17 +76,14 @@ public class MatchContainer extends FlowPanel{
 		rightPanel.setStylePrimaryName("qp-match-right-container");
 		areaPanel = new FlowPanel();
 		areaPanel.setStylePrimaryName("qp-match-area-container");
-		slotBait = new FlowPanel();
-		slotBait.setStylePrimaryName("qp-match-slot-bait");
 		
 		layoutPanel = new AbsolutePanel();
 		layoutPanel.setStylePrimaryName("qp-match-container-layout");
 		layoutPanel.add(leftPanel, 0, 0);
 		layoutPanel.add(rightPanel, 0, 0);
 		layoutPanel.add(areaPanel, 0, 0);
-		layoutPanel.add(slotBait, 0, 0);
 		
-		area = new MatchArea(50, 50);
+		area = new MatchArea(50, 50, touchEventsListener);
 		
 		insertElements();
 		
@@ -121,8 +116,6 @@ public class MatchContainer extends FlowPanel{
 		
 		// slot size
 		
-		int slotRadius = slotBait.getOffsetWidth()/2;
-		
 		layoutPanel.setWidgetPosition(rightPanel, rightPanelLeft, 0);
 
 		area.setCanvasSize(layoutPanel.getOffsetWidth(), areaHeight);
@@ -130,7 +123,7 @@ public class MatchContainer extends FlowPanel{
 		areaPanel.setHeight(String.valueOf(areaHeight));
 		layoutPanel.setHeight(String.valueOf(areaHeight));
 		
-		insertSlots(areaWidth, heightPerElement, leftPanelMargin, rightPanelMargin, slotRadius);
+		updateSlotsAnchors(areaWidth, heightPerElement, leftPanelMargin, rightPanelMargin);
 		
 	}
 	
@@ -162,28 +155,21 @@ public class MatchContainer extends FlowPanel{
 	}
 
 	
-	private void insertSlots(int areaWidth, int heightPerElement, int leftMargin, int rightMargin, int slotRadius){
+	private void updateSlotsAnchors(int areaWidth, int heightPerElement, int leftMargin, int rightMargin){
 		
 		int sX, sY;
-		int cX, cY, cWidth, cHeight;
+		int slotWidth;
 		
 		for (int e = 0 ; e < elements.size() ; e ++ ){
+			slotWidth = elements.get(e).slot.getOffsetWidth();
 			if (elements.get(e).side == MatchSide.LEFT){
-				sX = leftMargin+10;
+				sX = leftMargin-slotWidth/2;
 				sY = heightPerElement * leftPanel.getWidgetIndex(elements.get(e).getView()) + heightPerElement/2;
-				cX = 0;
-				cY = heightPerElement * leftPanel.getWidgetIndex(elements.get(e).getView());
-				cWidth = leftMargin + slotRadius*2;
-				cHeight = heightPerElement;
 			} else {
-				sX = leftMargin + areaWidth - 10;
+				sX = leftMargin + areaWidth + slotWidth/2;
 				sY = heightPerElement * rightPanel.getWidgetIndex(elements.get(e).getView()) + heightPerElement/2;
-				cX = leftMargin + areaWidth - slotRadius*2;
-				cY = heightPerElement * rightPanel.getWidgetIndex(elements.get(e).getView());
-				cWidth = rightMargin + slotRadius*2;
-				cHeight = heightPerElement;
 			}
-			area.addSlot(elements.get(e).getSlot(sX, sY, slotRadius), elements.get(e).getLabelCover(cX, cY, cWidth, cHeight));
+			elements.get(e).setSlotAnchor(sX, sY);
 		}
 	}
 
@@ -218,7 +204,7 @@ public class MatchContainer extends FlowPanel{
 	public void startDrag(String tagId, int x, int y){
 
 		if (dragManager.isDragging()){
-			endDrag(tagId);
+			endDrag(tagId,x,y);
 			return;
 		}
 		
@@ -229,7 +215,7 @@ public class MatchContainer extends FlowPanel{
 		int fromIndex = -1;
 		
 		for (int e = 0 ; e < elements.size() ; e ++ ){
-			if (elements.get(e).isBelongingId(tagId)){
+			if (elements.get(e).isBelongingLocation(x, y, areaPanel.getAbsoluteLeft(), areaPanel.getAbsoluteTop())){
 				fromIndex = e;
 				break;
 			}
@@ -239,18 +225,20 @@ public class MatchContainer extends FlowPanel{
 				dragManager.startDrag(fromIndex);
 		}
 		if (dragManager.isDragging()){
-			area.showDragLine();
 			processDrag(x, y);
+			area.showDragLine();
 		}
 	}
 	
-	public void endDrag(String tagId){
-		if (!dragManager.isDragging())
+	public void endDrag(String tagId, int x, int y){
+		if (!dragManager.isDragging()){
+			removeLineAt(x, y);
 			return;
+		}
 		
 		int endElementIndex = -1;
 		for (int e = 0 ; e < elements.size() ; e ++ ){
-			if (elements.get(e).isBelongingId(tagId)){
+			if (elements.get(e).isBelongingLocation(x, y, areaPanel.getAbsoluteLeft(), areaPanel.getAbsoluteTop())){
 				endElementIndex = e;
 				break;
 			}
@@ -287,6 +275,38 @@ public class MatchContainer extends FlowPanel{
 			elements.get(dragManager.getSourceIndex()).getSlotAnchorX(), 
 			elements.get(dragManager.getSourceIndex()).getSlotAnchorY());
 			
+	}
+	
+	public void removeLineAt(int x, int y){
+		int MAX_DIST = 6;
+		double a, b, d;
+
+		for (int c = 0 ; c < connections.size() ; c ++ ){
+			if ((connections.get(c).line.getX1() < connections.get(c).line.getX2()  &&
+					(x < connections.get(c).line.getX1()-MAX_DIST  || x > connections.get(c).line.getX2()+MAX_DIST))
+					||
+				(connections.get(c).line.getX2() < connections.get(c).line.getX1()  &&
+					(x < connections.get(c).line.getX2()-MAX_DIST  || x > connections.get(c).line.getX1()+MAX_DIST))
+					||
+				(connections.get(c).line.getY1() < connections.get(c).line.getY2()  &&
+					(x < connections.get(c).line.getY1()-MAX_DIST  ||  y > connections.get(c).line.getY2()+MAX_DIST))
+					||
+				(connections.get(c).line.getY2() < connections.get(c).line.getY1()  &&
+					(x < connections.get(c).line.getY2()-MAX_DIST  ||  y > connections.get(c).line.getY1()+MAX_DIST))
+				){
+				continue;
+			}
+				
+			a = Double.valueOf(connections.get(c).line.getY1()-connections.get(c).line.getY2()) / Double.valueOf(connections.get(c).line.getX1()-connections.get(c).line.getX2());
+			b = connections.get(c).line.getY1() - a * connections.get(c).line.getX1();
+			d = Math.abs( (a * x - y + b) / Math.sqrt(a*a+1) );
+			if (d <= MAX_DIST){
+				removeLine(connections.get(c).lineId);
+				return;
+			}
+				
+		}
+		
 	}
 	
 	public boolean isLineId(String tagId){

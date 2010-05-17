@@ -305,9 +305,22 @@ color:#990000;
 /*
  * MATCH
  */
+.qp-match-module{
+}
+.qp-match-container{
+}
 .qp-match-container-layout{
 	width: 420px;
 	margin:10px 0px;
+}
+.qp-match-area-container{
+}
+.qp-match-area-container2{
+}
+.qp-match-area-container-cover{
+	background:url(images/transparent.png) repeat;
+	width:100%;
+	height:100%;
 }
 .qp-match-area-container{
 	width:420px;
@@ -315,7 +328,7 @@ color:#990000;
 .qp-match-left-container{
 }
 .qp-match-element-left-container{
-	width:120px;
+	width:140px;
 	height:40px;
 	float:right;
 }
@@ -328,11 +341,16 @@ color:#990000;
 .qp-match-element-left-text{
 	float:right;
 }
+.qp-match-element-left-slot{
+	background-image:url(images/slot.png);
+	width:20px;
+	height:40px;
+}
 
 .qp-match-right-container{
 }
 .qp-match-element-right-container{
-	width:180px;
+	width:200px;
 	height:40px;
 }
 .qp-match-element-right-text-container{
@@ -342,6 +360,11 @@ color:#990000;
 	padding-left:10px;
 }
 .qp-match-element-right-text{
+}
+.qp-match-element-right-slot{
+	background-image:url(images/slot.png);
+	width:20px;
+	height:40px;
 }
 .qp-match-element-cover-svg{
 	stroke-width: 0;

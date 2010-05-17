@@ -10,8 +10,8 @@ public class MatchConnection {
 		from = _from.identifier;
 		to = _to.identifier;
 		
-		line = new Line(_from.innerCircle.getX(), _from.innerCircle.getY(),
-				_to.innerCircle.getX(), _to.innerCircle.getY());
+		line = new Line(_from.getSlotAnchorX(), _from.getSlotAnchorY(),
+				_to.getSlotAnchorX(), _to.getSlotAnchorY());
 		lineId = _lineId;
 		line.getElement().setId(_lineId);
 		line.setStyleName("qp-match-area-line");

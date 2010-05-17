@@ -9,14 +9,16 @@ import org.vaadin.gwtgraphics.client.shape.Rectangle;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.qtitools.player.client.components.TouchablePanel;
+import com.qtitools.player.client.module.ITouchEventsListener;
 
 public class MatchArea {
 	
-	public MatchArea(int canvasWidth, int canvasHeight){
+	public MatchArea(int canvasWidth, int canvasHeight, ITouchEventsListener touchListener){
 		canvas = new DrawingArea(canvasWidth, canvasHeight);
 		canvasId = Document.get().createUniqueId();
 		canvas.getElement().setId(canvasId);
-		canvas.setStylePrimaryName("area");
+		canvas.setStylePrimaryName("qp-match-area");
 		
 		fillRect = new Rectangle(0, 0, canvasWidth,canvasHeight);
 		fillRect.setFillColor("red");
@@ -27,17 +29,17 @@ public class MatchArea {
 		fillRect.setStyleName("qp-match-area-fill");
 		canvas.add(fillRect);
 		
-		areaCover = new AbsolutePanel();
+		areaCover = new TouchablePanel(touchListener);
 		areaCoverId = Document.get().createUniqueId();
 		areaCover.getElement().setId(areaCoverId);
-		areaCover.setStyleName("qp-match-area-cover");
+		areaCover.setStyleName("qp-match-area-container-cover");
 
 		areaContainer = new AbsolutePanel();
 		areaContainerId = Document.get().createUniqueId();
 		areaContainer.getElement().setId(areaContainerId);
-		areaContainer.setStyleName("qp-match-area-container-internal");
+		areaContainer.setStyleName("qp-match-area-container2");
 		areaContainer.add(canvas, 0, 0);
-		//areaContainer.add(areaCover, 0, 0);
+		areaContainer.add(areaCover, 0, 0);
 		
 		dragLine = new Line(0, 0, 0, 0);
 		lineId = Document.get().createUniqueId();
@@ -47,7 +49,7 @@ public class MatchArea {
 	}
 
 	public AbsolutePanel areaContainer;
-	public AbsolutePanel areaCover;
+	public TouchablePanel areaCover;
 	public DrawingArea canvas;
 	public Rectangle fillRect;
 	public Line dragLine;
@@ -69,13 +71,11 @@ public class MatchArea {
 		fillRect.setWidth(w);
 		fillRect.setHeight(h);
 		areaContainer.setSize(String.valueOf(w), String.valueOf(h));
-		areaCover.setSize(String.valueOf(w), String.valueOf(h));
+		//areaCover.setSize(String.valueOf(w), String.valueOf(h));
 	}
 	
-	public void addSlot(Group g, Rectangle elementCover){
+	public void addSlot(Group g){
 		canvas.add(g);
-		canvas.add(elementCover);
-		//areaContainer.add(slotCover, sX-10, sY-10);
 	}
 	
 	public void removeAllSlots(){

@@ -9,7 +9,9 @@ import org.vaadin.gwtgraphics.client.shape.Rectangle;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.xml.client.Element;
 import com.qtitools.player.client.util.xml.XMLConverter;
 import com.qtitools.player.client.util.xml.XMLUtils;
@@ -34,12 +36,6 @@ public class MatchElement {
 		else if (side == MatchSide.RIGHT)
 			text.setStylePrimaryName("qp-match-element-right-text");
 		
-		view = new AbsolutePanel();
-		if (side == MatchSide.LEFT)
-			view.setStylePrimaryName("qp-match-element-left-container");
-		else if (side == MatchSide.RIGHT)
-			view.setStylePrimaryName("qp-match-element-right-container");
-		
 		textContainer = new FlowPanel();
 		if (side == MatchSide.LEFT)
 			textContainer.setStylePrimaryName("qp-match-element-left-text-container");
@@ -47,38 +43,25 @@ public class MatchElement {
 			textContainer.setStylePrimaryName("qp-match-element-right-text-container");
 		textContainer.add(text);
 		
-		view.add(textContainer, 0, 0);
+		slot = new FlowPanel();
+		if (side == MatchSide.LEFT)
+			slot.setStylePrimaryName("qp-match-element-left-slot");
+		else if (side == MatchSide.RIGHT)
+			slot.setStylePrimaryName("qp-match-element-right-slot");
 		
-		outerCircle = new Circle(0, 0, 10);
-		outerCircleId = Document.get().createUniqueId();
-		outerCircle.getElement().setId(outerCircleId);
-		outerCircle.setStyleName("qp-match-slot-outer");
-		outerCircle.setStrokeWidth(0);
-		outerCircle.setFillColor("gray");
+		view = new HorizontalPanel();
+		if (side == MatchSide.LEFT)
+			view.setStylePrimaryName("qp-match-element-left-container");
+		else if (side == MatchSide.RIGHT)
+			view.setStylePrimaryName("qp-match-element-right-container");
 
-		innerCircle = new Circle(0, 0, 5);
-		innerCircleId = Document.get().createUniqueId();
-		innerCircle.getElement().setId(innerCircleId);
-		innerCircle.setStyleName("qp-match-slot-inner");
-		innerCircle.setStrokeWidth(0);
-		innerCircle.setFillColor("white");
-
-		group = new Group();
-		group.add(outerCircle);
-		group.add(innerCircle);
-		
-		slotCover = new AbsolutePanel();
-		slotCoverId = Document.get().createUniqueId();
-		slotCover.getElement().setId(slotCoverId);
-		slotCover.setStyleName("qp-match-slot-cover");
-		
-		labelCover = new Rectangle(0, 0, 0, 0);
-		labelCoverId = Document.get().createUniqueId();
-		labelCover.getElement().setId(labelCoverId);
-		labelCover.setStyleName("qp-match-element-cover");
-		labelCover.setStrokeWidth(0);
-		labelCover.setFillColor("green");
-		labelCover.setFillOpacity(0);
+		if (side == MatchSide.LEFT){
+			view.add(textContainer);
+			view.add(slot);
+		} else if (side == MatchSide.RIGHT){
+			view.add(slot);
+			view.add(textContainer);
+		}
 		
 		//view.add(labelCover, 0, 0);
 	}
@@ -89,65 +72,37 @@ public class MatchElement {
 	
 	public String title;
 	
-	public AbsolutePanel view;
+	public HorizontalPanel view;
 	public FlowPanel textContainer;
 	public InlineHTML text;
-	
-	public Circle outerCircle;
-	public Circle innerCircle;
-	public Group group;
-
-	public String outerCircleId;
-	public String innerCircleId;
-	
+	public FlowPanel slot;
 	
 	private int slotAnchorX;
 	private int slotAnchorY;
 	
-	private AbsolutePanel slotCover;
-	public String slotCoverId;
-	
-	private Rectangle labelCover;
-	public String labelCoverId;
-	
-	public AbsolutePanel getView(){
+	public Panel getView(){
 		return view;
 	}
 	
-	public Group getSlot(int x, int y, int r){
+	public void setSlotAnchor(int x, int y){
 		slotAnchorX = x;
 		slotAnchorY = y;
-
-		outerCircle.setStrokeWidth(0);
-		outerCircle.setFillColor("gray");
-		innerCircle.setStrokeWidth(0);
-		innerCircle.setFillColor("white");
+	}
+	
+	public boolean isBelongingLocation(int x, int y, int parentX, int parentY){
+		int vx = view.getAbsoluteLeft() - parentX;
+		int vy = view.getAbsoluteTop() - parentY;
+		int vw = view.getOffsetWidth();
+		int vh = view.getOffsetHeight();
 		
-		innerCircle.setX(x);
-		innerCircle.setY(y);
-		innerCircle.setRadius(r/2);
-		outerCircle.setX(x);
-		outerCircle.setY(y);
-		outerCircle.setRadius(r);
+		if (vx == 0) {
+			vw += slot.getOffsetWidth();
+		}else {
+			vx -= slot.getOffsetWidth();
+			vw += slot.getOffsetWidth();
+		}
 		
-		return group;
-	}
-	
-	public AbsolutePanel getSlotCover(){
-		return slotCover;
-	}
-	
-	public Rectangle getLabelCover(int cX, int cY, int cWidth, int cHeight){
-		labelCover.setX(cX);
-		labelCover.setY(cY);
-		labelCover.setWidth(cWidth);
-		labelCover.setHeight(cHeight);
-		return labelCover;
-	}
-	
-	public boolean isBelongingId(String id){
-		return (id.compareTo(innerCircleId) == 0  ||  id.compareTo(outerCircleId) == 0   ||  
-				id.compareTo(slotCoverId) == 0   ||  id.compareTo(labelCoverId) == 0  );
+		return (x >= vx &&  y >= vy && x <= vx+vw &&  y <= vy+vh);
 	}
 
 	public int getSlotAnchorX(){

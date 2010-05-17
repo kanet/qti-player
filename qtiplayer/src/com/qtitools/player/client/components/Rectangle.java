@@ -50,4 +50,8 @@ public class Rectangle {
 		height = newHeight;
 	}
 	
+	public boolean contains(int x, int y){
+		return (x >= left &&  y >= top && x <= left+width &&  y <= top+height);
+	}
+	
 }

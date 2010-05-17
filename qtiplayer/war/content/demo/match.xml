@@ -16,7 +16,7 @@
 	</responseDeclaration>
 	<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
 	<itemBody>
-		<matchInteraction responseIdentifier="RESPONSE" shuffle="true" maxAssociations="4">
+		<matchInteraction responseIdentifier="RESPONSE" shuffle="false" maxAssociations="4">
 			<prompt>Match the following characters to the Shakespeare play they appeared in:</prompt>
 			<simpleMatchSet>
 				<simpleAssociableChoice identifier="C" matchMax="1">Capulet</simpleAssociableChoice>

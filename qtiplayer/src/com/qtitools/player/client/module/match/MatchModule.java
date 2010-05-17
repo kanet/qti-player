@@ -152,32 +152,28 @@ public class MatchModule extends Composite implements IInteractionModule {
 
 		Vector<InternalEventTrigger> ids = new Vector<InternalEventTrigger>();
 		for (MatchElement me:container.elements){
-			//ids.add(new InternalEventTrigger(me.innerCircleId, Event.ONMOUSEMOVE));
-			//ids.add(new InternalEventTrigger(me.outerCircleId, Event.ONMOUSEMOVE));
+			/*
 			ids.add(new InternalEventTrigger(me.labelCoverId, Event.ONMOUSEMOVE));
-			//ids.add(new InternalEventTrigger(me.slotCoverId, Event.ONMOUSEMOVE));
 
-			//ids.add(new InternalEventTrigger(me.innerCircleId, Event.ONMOUSEDOWN));
-			//ids.add(new InternalEventTrigger(me.outerCircleId, Event.ONMOUSEDOWN));
 			ids.add(new InternalEventTrigger(me.labelCoverId, Event.ONMOUSEDOWN));
-			//ids.add(new InternalEventTrigger(me.slotCoverId, Event.ONMOUSEDOWN));
 
-			//ids.add(new InternalEventTrigger(me.innerCircleId, Event.ONMOUSEUP));
-			//ids.add(new InternalEventTrigger(me.outerCircleId, Event.ONMOUSEUP));
-			ids.add(new InternalEventTrigger(me.labelCoverId, Event.ONMOUSEUP));
-			//ids.add(new InternalEventTrigger(me.slotCoverId, Event.ONMOUSEUP));
+			ids.add(new InternalEventTrigger(me.labelCoverId, Event.ONMOUSEUP));*/
 			
 		}
-		ids.add(new InternalEventTrigger(container.area.fillId, Event.ONMOUSEMOVE));
-		ids.add(new InternalEventTrigger(container.area.fillId, Event.ONMOUSEUP));
+		//ids.add(new InternalEventTrigger(container.area.fillId, Event.ONMOUSEMOVE));
+		//ids.add(new InternalEventTrigger(container.area.fillId, Event.ONMOUSEUP));
 
 		//ids.add(new InternalEventTrigger(container.area.areaCoverId, Event.ONMOUSEMOVE));
 		//ids.add(new InternalEventTrigger(container.area.areaCoverId, Event.ONMOUSEUP));
-		
+
+		ids.add(new InternalEventTrigger(container.area.areaCoverId, Event.ONMOUSEDOWN));
+		ids.add(new InternalEventTrigger(container.area.areaCoverId, Event.ONMOUSEMOVE));
+		ids.add(new InternalEventTrigger(container.area.areaCoverId, Event.ONMOUSEUP));
+
 		ids.add(new InternalEventTrigger(containerId, Event.ONMOUSEOUT));
 		
 		for (String s:container.linesIds){
-			ids.add(new InternalEventTrigger(s, Event.ONMOUSEUP));
+			//ids.add(new InternalEventTrigger(s, Event.ONMOUSEUP));
 		}
 		
 		
@@ -196,13 +192,15 @@ public class MatchModule extends Composite implements IInteractionModule {
 			if (container.isLineId(tagID)){
 				container.removeLine(tagID);
 			} else {
-				container.endDrag(tagID);
+				container.endDrag(tagID, event.getClientX() - container.areaPanel.getAbsoluteLeft(), 
+						event.getClientY() - container.areaPanel.getAbsoluteTop());
 			}
 		} else if (event.getTypeInt() == Event.ONMOUSEMOVE){
 			container.processDrag(event.getClientX() - container.areaPanel.getAbsoluteLeft(), 
 					event.getClientY() - container.areaPanel.getAbsoluteTop());
 		}  else if (event.getTypeInt() == Event.ONMOUSEOUT){
-			container.endDrag("");
+			container.endDrag("", -1, -1);
+			
 		}  
 
 	}
