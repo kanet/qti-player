@@ -204,7 +204,7 @@ public class MatchContainer extends FlowPanel{
 	public void startDrag(String tagId, int x, int y){
 
 		if (dragManager.isDragging()){
-			endDrag(tagId,x,y);
+			//endDrag(tagId,x,y);
 			return;
 		}
 		

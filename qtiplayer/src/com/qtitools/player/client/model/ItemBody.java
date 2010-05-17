@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
@@ -35,6 +36,8 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	
 	private JSONArray stateAsync;
 	private boolean attached;
+	
+	//private Label traceLabel;
 	
 	public ItemBody(Node itemBodyNode, IModuleSocket moduleSocket, final IStateChangedListener stateChangedListener){
 		
@@ -99,6 +102,10 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 				return widget.getElement();
 			}
 		});
+		
+		//traceLabel = new Label();
+		//dom.appendChild(traceLabel.getElement());
+		
 		setElement(dom);
 		setStyleName("qp-text-module");
 		this.sinkEvents(Event.ONCHANGE);
@@ -106,16 +113,10 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 		this.sinkEvents(Event.ONMOUSEUP);
 		this.sinkEvents(Event.ONMOUSEMOVE);
 		this.sinkEvents(Event.ONMOUSEOUT);
-					    
-		addDomHandler(new MouseMoveHandler() {
-			
-			@Override
-			public void onMouseMove(MouseMoveEvent event) {
-				int asd = 3;
-				asd++;
-				
-			}
-		}, MouseMoveEvent.getType());
+		
+		
+		
+
 	}
 		
 	protected void addModule(IInteractionModule newModule){
@@ -159,10 +160,20 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 		@SuppressWarnings("unused")
 		String tmpId = element.getId();
 		int evtType= event.getTypeInt();
-		if (evtType == Event.ONCLICK){
-			int asd = 9;
+/*
+		if (tmpId.length() > 1)
+			traceLabel.setText(tmpId);
+		else
+			traceLabel.setText("---");
+		
+		if (evtType == Event.ONMOUSEDOWN){
+			traceLabel.setText(traceLabel.getText() + " DOWN");
+		} else if (evtType == Event.ONMOUSEUP){
+			traceLabel.setText(traceLabel.getText() + " UP");
+		} else if (evtType == Event.ONMOUSEMOVE){
+			traceLabel.setText(traceLabel.getText() + " MOVE");
 		}
-
+*/		
 		Vector<IInteractionModule> handlers = eventManager.getHandlers(element.getId(), event.getTypeInt());
 		
 		if (handlers.size() > 0){
@@ -242,8 +253,10 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 			if(newState instanceof JSONArray){
 	
 		    	for (int i = 0 ; i < newState.size()  &&  i < modules.size() ; i ++){
-		    		JSONArray stateArr = newState.get(i).isArray();
-		    		modules.get(i).setState(stateArr);
+			    	if (newState.get(i) != null){
+			    		JSONArray stateArr = newState.get(i).isArray();
+			    		modules.get(i).setState(stateArr);
+		    		}
 		    	}
 		    	
 			}
