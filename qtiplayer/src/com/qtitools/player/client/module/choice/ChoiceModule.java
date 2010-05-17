@@ -235,7 +235,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 					if (currSC.getInputId().compareTo(lastSelectedId) == 0){
 						if (!multi  &&  !currSC.isSelected())
 							currSC.setSelected(!currSC.isSelected());
-						currSC.showFeedback(currSC.isSelected(), response.correctAnswers.contains(currSC.getIdentifier()));
+						currSC.showFeedback((!multi && currSC.isSelected())  ||  (multi && !currSC.isSelected()), response.correctAnswers.contains(currSC.getIdentifier()));
 						target = currSC;
 						continue;
 					}
