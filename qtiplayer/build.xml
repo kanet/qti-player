@@ -30,6 +30,9 @@
     <copy todir="war/WEB-INF/lib">
 		<fileset dir="lib" includes="**/*.jar"/>  
 	</copy>
+    <copy todir="war/WEB-INF/lib">
+		<fileset dir="libs" includes="**/*.jar"/>  
+	</copy>
     <!-- Add any additional server libs that need to be copied -->
   </target>
 
