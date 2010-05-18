@@ -216,7 +216,7 @@ public class MatchContainer extends FlowPanel{
 			return;
 		}
 		
-		if (connections.size() >= maxAssociations){
+		if (connections.size() >= maxAssociations  &&  maxAssociations != 0){
 			return;
 		}
 		
@@ -229,7 +229,7 @@ public class MatchContainer extends FlowPanel{
 			}
 		}
 		if (fromIndex != -1){
-			if (getMachCountForElement(fromIndex) < elements.get(fromIndex).matchMax)
+			if (getMachCountForElement(fromIndex) < elements.get(fromIndex).matchMax  ||  elements.get(fromIndex).matchMax == 0)
 				dragManager.startDrag(fromIndex);
 		}
 		if (dragManager.isDragging()){
@@ -267,7 +267,7 @@ public class MatchContainer extends FlowPanel{
 			boolean validated = true;
 			if ((elements.get(dragManager.getSourceIndex()).side == elements.get(endElementIndex).side)){
 				validated = false;
-			} else if (getMachCountForElement(endElementIndex) >= elements.get(endElementIndex).matchMax){
+			} else if (getMachCountForElement(endElementIndex) >= elements.get(endElementIndex).matchMax  &&  elements.get(endElementIndex).matchMax != 0){
 				validated = false;
 			}else {
 				for (MatchConnection mc:connections){
