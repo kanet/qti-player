@@ -32,9 +32,11 @@ public class MatchContainer extends FlowPanel{
 	private AbsolutePanel layoutPanel;
 	private VerticalPanel leftPanel;
 	private VerticalPanel rightPanel;
-	public FlowPanel areaPanel;
+	public AbsolutePanel areaPanel;
 	
 	private MatchDragManager dragManager;
+	private int lastDragX;
+	private int lastDragY;
 
 	/** Shuffle? */
 	private boolean shuffle = false;
@@ -74,7 +76,7 @@ public class MatchContainer extends FlowPanel{
 		leftPanel.setStylePrimaryName("qp-match-left-container");
 		rightPanel = new VerticalPanel();
 		rightPanel.setStylePrimaryName("qp-match-right-container");
-		areaPanel = new FlowPanel();
+		areaPanel = new AbsolutePanel();
 		areaPanel.setStylePrimaryName("qp-match-area-container");
 		
 		layoutPanel = new AbsolutePanel();
@@ -82,6 +84,7 @@ public class MatchContainer extends FlowPanel{
 		layoutPanel.add(leftPanel, 0, 0);
 		layoutPanel.add(rightPanel, 0, 0);
 		layoutPanel.add(areaPanel, 0, 0);
+		
 		
 		area = new MatchArea(50, 50, touchEventsListener);
 		
@@ -119,7 +122,7 @@ public class MatchContainer extends FlowPanel{
 		layoutPanel.setWidgetPosition(rightPanel, rightPanelLeft, 0);
 
 		area.setCanvasSize(layoutPanel.getOffsetWidth(), areaHeight);
-		areaPanel.add(area.getView());
+		areaPanel.add(area.getView(), 0, 0);
 		areaPanel.setHeight(String.valueOf(areaHeight));
 		layoutPanel.setHeight(String.valueOf(areaHeight));
 		
@@ -202,7 +205,12 @@ public class MatchContainer extends FlowPanel{
 	}
 	
 	public void startDrag(String tagId, int x, int y){
+		x = x - areaPanel.getAbsoluteLeft();
+		y = y - areaPanel.getAbsoluteTop();
 
+		lastDragX = x;
+		lastDragY = y;
+		
 		if (dragManager.isDragging()){
 			//endDrag(tagId,x,y);
 			return;
@@ -225,12 +233,22 @@ public class MatchContainer extends FlowPanel{
 				dragManager.startDrag(fromIndex);
 		}
 		if (dragManager.isDragging()){
-			processDrag(x, y);
+			drawDragLine(x, y);
 			area.showDragLine();
 		}
 	}
 	
 	public void endDrag(String tagId, int x, int y){
+		if (x == 0  &&  y == 0){
+			x = lastDragX;
+			y = lastDragY; 
+		} else {
+			x = x - areaPanel.getAbsoluteLeft();
+			y = y - areaPanel.getAbsoluteTop();
+		}
+
+		area.resetLand();
+		
 		if (!dragManager.isDragging()){
 			removeLineAt(x, y);
 			return;
@@ -269,12 +287,28 @@ public class MatchContainer extends FlowPanel{
 		dragManager.endDrag();
 	}
 	
+	
 	public void processDrag(int x, int y){
 		
-		area.processDragLine(x+5, y+5, 
+		x = x - areaPanel.getAbsoluteLeft();
+		y = y - areaPanel.getAbsoluteTop();
+
+		if (!dragManager.isDragging()){
+			return;
+		}
+		drawDragLine(x, y);
+		
+		lastDragX = x;
+		lastDragY = y;
+	}
+	
+	public void drawDragLine(int x , int y){
+
+		area.processDragLine(x+2, y+2, 
 			elements.get(dragManager.getSourceIndex()).getSlotAnchorX(), 
 			elements.get(dragManager.getSourceIndex()).getSlotAnchorY());
 			
+		area.moveLand(x, y);
 	}
 	
 	public void removeLineAt(int x, int y){
@@ -306,8 +340,11 @@ public class MatchContainer extends FlowPanel{
 			}
 				
 		}
-		
 	}
+	
+	//public static native void alert(String s)/*-{
+	//	alert(s);
+	//}-*/;
 	
 	public boolean isLineId(String tagId){
 
@@ -372,7 +409,7 @@ public class MatchContainer extends FlowPanel{
 	
 	public void reset(){
 		removeAllLines();
-		area.removeAllSlots();
+		area.clear();
 		insertElements();
 		init();
 	}

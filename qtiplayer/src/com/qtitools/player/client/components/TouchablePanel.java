@@ -1,10 +1,10 @@
 package com.qtitools.player.client.components;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.qtitools.player.client.module.ITouchEventsListener;
 
-public class TouchablePanel extends FlowPanel {
+public class TouchablePanel extends AbsolutePanel {
 
 	public TouchablePanel(ITouchEventsListener tel){
 		super();

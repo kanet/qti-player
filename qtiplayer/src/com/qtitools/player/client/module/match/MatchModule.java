@@ -151,31 +151,17 @@ public class MatchModule extends Composite implements IInteractionModule {
 	public Vector<InternalEventTrigger> getTriggers() {
 
 		Vector<InternalEventTrigger> ids = new Vector<InternalEventTrigger>();
-		for (MatchElement me:container.elements){
-			/*
-			ids.add(new InternalEventTrigger(me.labelCoverId, Event.ONMOUSEMOVE));
-
-			ids.add(new InternalEventTrigger(me.labelCoverId, Event.ONMOUSEDOWN));
-
-			ids.add(new InternalEventTrigger(me.labelCoverId, Event.ONMOUSEUP));*/
-			
-		}
-		//ids.add(new InternalEventTrigger(container.area.fillId, Event.ONMOUSEMOVE));
-		//ids.add(new InternalEventTrigger(container.area.fillId, Event.ONMOUSEUP));
-
-		//ids.add(new InternalEventTrigger(container.area.areaCoverId, Event.ONMOUSEMOVE));
-		//ids.add(new InternalEventTrigger(container.area.areaCoverId, Event.ONMOUSEUP));
 
 		ids.add(new InternalEventTrigger(container.area.areaCoverId, Event.ONMOUSEDOWN));
 		ids.add(new InternalEventTrigger(container.area.areaCoverId, Event.ONMOUSEMOVE));
 		ids.add(new InternalEventTrigger(container.area.areaCoverId, Event.ONMOUSEUP));
 
+
+		ids.add(new InternalEventTrigger(container.area.landId, Event.ONMOUSEDOWN));
+		ids.add(new InternalEventTrigger(container.area.landId, Event.ONMOUSEMOVE));
+		ids.add(new InternalEventTrigger(container.area.landId, Event.ONMOUSEUP));
+		
 		ids.add(new InternalEventTrigger(containerId, Event.ONMOUSEOUT));
-		
-		for (String s:container.linesIds){
-			//ids.add(new InternalEventTrigger(s, Event.ONMOUSEUP));
-		}
-		
 		
 		return ids;
 	}
@@ -186,18 +172,12 @@ public class MatchModule extends Composite implements IInteractionModule {
 			return;
 		
 		if (event.getTypeInt() == Event.ONMOUSEDOWN){
-			container.startDrag(tagID, event.getClientX() - container.areaPanel.getAbsoluteLeft(), 
-					event.getClientY() - container.areaPanel.getAbsoluteTop());
+			container.startDrag(tagID, event.getClientX(), event.getClientY());
 		} else if (event.getTypeInt() == Event.ONMOUSEUP){
-			if (container.isLineId(tagID)){
-				container.removeLine(tagID);
-			} else {
-				container.endDrag(tagID, event.getClientX() - container.areaPanel.getAbsoluteLeft(), 
-						event.getClientY() - container.areaPanel.getAbsoluteTop());
-			}
+			container.endDrag(tagID, event.getClientX(), event.getClientY());
 		} else if (event.getTypeInt() == Event.ONMOUSEMOVE){
-			container.processDrag(event.getClientX() - container.areaPanel.getAbsoluteLeft(), 
-					event.getClientY() - container.areaPanel.getAbsoluteTop());
+			container.processDrag(event.getClientX(), event.getClientY());
+			event.stopPropagation();
 		}  else if (event.getTypeInt() == Event.ONMOUSEOUT){
 			container.endDrag("", -1, -1);
 			

@@ -3,7 +3,6 @@ package com.qtitools.player.client.module.match.area;
 import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.Group;
 import org.vaadin.gwtgraphics.client.Line;
-import org.vaadin.gwtgraphics.client.VectorObject;
 import org.vaadin.gwtgraphics.client.shape.Rectangle;
 
 import com.google.gwt.dom.client.Document;
@@ -20,19 +19,15 @@ public class MatchArea {
 		canvas.getElement().setId(canvasId);
 		canvas.setStylePrimaryName("qp-match-area");
 		
-		fillRect = new Rectangle(0, 0, canvasWidth,canvasHeight);
-		fillRect.setFillColor("red");
-		fillRect.setFillOpacity(0);
-		fillRect.setStrokeWidth(0);
-		fillId = Document.get().createUniqueId();
-		fillRect.getElement().setId(fillId);
-		fillRect.setStyleName("qp-match-area-fill");
-		canvas.add(fillRect);
-		
 		areaCover = new TouchablePanel(touchListener);
 		areaCoverId = Document.get().createUniqueId();
 		areaCover.getElement().setId(areaCoverId);
 		areaCover.setStyleName("qp-match-area-container-cover");
+
+		land = new TouchablePanel(touchListener);
+		land.setStyleName("qp-match-area-container-land");
+		landId = Document.get().createUniqueId();
+		land.getElement().setId(landId);
 
 		areaContainer = new AbsolutePanel();
 		areaContainerId = Document.get().createUniqueId();
@@ -40,6 +35,7 @@ public class MatchArea {
 		areaContainer.setStyleName("qp-match-area-container2");
 		areaContainer.add(canvas, 0, 0);
 		areaContainer.add(areaCover, 0, 0);
+		areaContainer.add(land, 0, 0);
 		
 		dragLine = new Line(0, 0, 0, 0);
 		lineId = Document.get().createUniqueId();
@@ -51,14 +47,17 @@ public class MatchArea {
 	public AbsolutePanel areaContainer;
 	public TouchablePanel areaCover;
 	public DrawingArea canvas;
-	public Rectangle fillRect;
+	public TouchablePanel land;
 	public Line dragLine;
 	
 	public String canvasId;
-	public String fillId;
 	public String areaContainerId;
 	public String lineId;
 	public String areaCoverId;
+	public String landId;
+	
+	private int lastAreaWidth;
+	private int lastAreaHeight;
 	
 	
 	public Widget getView(){
@@ -68,21 +67,11 @@ public class MatchArea {
 	public void setCanvasSize(int w, int h){
 		canvas.setWidth(w);
 		canvas.setHeight(h);
-		fillRect.setWidth(w);
-		fillRect.setHeight(h);
 		areaContainer.setSize(String.valueOf(w), String.valueOf(h));
-		//areaCover.setSize(String.valueOf(w), String.valueOf(h));
-	}
-	
-	public void addSlot(Group g){
-		canvas.add(g);
-	}
-	
-	public void removeAllSlots(){
-		canvas.clear();
-		fillRect.setFillOpacity(0);
-		fillRect.setStrokeWidth(0);
-		canvas.add(fillRect);
+		areaCover.setSize(String.valueOf(w), String.valueOf(h));
+		land.setSize(String.valueOf(w), String.valueOf(h));
+		lastAreaWidth = w;
+		lastAreaHeight = h;
 	}
 	
 	public void showDragLine(){
@@ -109,6 +98,31 @@ public class MatchArea {
 
 	public void removeLine(Line l){
 		canvas.remove(l);
+		redrawCanvas();
 	}
 	
+	public void clear(){
+		canvas.clear();
+		redrawCanvas();
+	}
+	
+	private void redrawCanvas(){
+		int w = canvas.getOffsetWidth();
+		int h = canvas.getOffsetHeight();
+		canvas.setWidth(0);
+		canvas.setHeight(0);
+		canvas.setWidth(w);
+		canvas.setHeight(h);
+		
+	}
+	
+	public void resetLand(){
+		areaContainer.setWidgetPosition(land, 0, 0);
+		land.setSize(String.valueOf(lastAreaWidth), String.valueOf(lastAreaHeight));
+	}
+	public void moveLand(int x, int y){
+		land.setSize(String.valueOf(50), String.valueOf(50));
+		areaContainer.setWidgetPosition(land, x-25, y-25);
+	}
+
 }
