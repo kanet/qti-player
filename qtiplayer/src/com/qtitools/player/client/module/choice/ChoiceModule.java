@@ -196,7 +196,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		}
 		
 		updateResponse(null);
-		stateListener.onStateChanged();
+		//stateListener.onStateChanged(this);
 	}
 
 	@Override
@@ -277,7 +277,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		}
 		
 		response.set(currResponseValues);
-		stateListener.onStateChanged();
+		stateListener.onStateChanged(this);
 	}
 
 

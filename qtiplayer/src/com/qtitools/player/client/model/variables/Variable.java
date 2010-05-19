@@ -20,4 +20,17 @@ public abstract class Variable {
 	public Vector<String> values;
 		
 	public abstract void reset();
+	
+	public String getValuesShort(){
+		
+		String output = "";
+		
+		for (int i = 0 ; i < values.size() ; i ++ ){
+			output += values.get(i);
+			if (i < values.size()-1)
+				output += ";";
+		}
+		
+		return output;
+	}
 }

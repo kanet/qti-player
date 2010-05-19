@@ -259,6 +259,7 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
 	playerView.getCheckButton().setVisible(true);
 	playerView.getResetButton().setVisible(false);
 
+	playerView.getCheckButton().setEnabled(deliveryEngine.report().getAssessmentItemModulesCount() > 0);
     playerView.getNextButton().setEnabled(false);
     playerView.getPrevButton().setEnabled(false);
     playerView.getFinishButton().setEnabled(false);
@@ -268,6 +269,7 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     }else{
       playerView.getFinishButton().setEnabled(true);
     }
+    
     
     if(!deliveryEngine.isFirstAssessmentItem()){
       playerView.getPrevButton().setEnabled(true);

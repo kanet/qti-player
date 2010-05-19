@@ -145,7 +145,9 @@ public class PlayerWidget extends Composite{
 		itemTitleLabel.setStyleName("qp-item-title");
 		bodyPanel.add(itemTitleLabel);
 		
-		bodyPanel.add(assessmentItem.getContentWidget());
+		bodyPanel.add(assessmentItem.getContentView());
+		
+		bodyPanel.add(assessmentItem.getFeedbackView());
 		
 	}
 	

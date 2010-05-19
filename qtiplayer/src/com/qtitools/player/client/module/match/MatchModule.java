@@ -59,7 +59,7 @@ public class MatchModule extends Composite implements IInteractionModule {
 		
 		NodeList setNodes = element.getElementsByTagName("simpleMatchSet");
 		
-		container = new MatchContainer(setNodes, shuffle, maxAssociations, response, moduleEventsListener);
+		container = new MatchContainer(setNodes, shuffle, maxAssociations, response, moduleEventsListener, this);
 		containerId = Document.get().createUniqueId();
 		container.getElement().setId(containerId);
 		container.setStylePrimaryName("qp-match-container");

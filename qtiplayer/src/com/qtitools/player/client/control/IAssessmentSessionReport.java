@@ -21,4 +21,5 @@ public interface IAssessmentSessionReport {
 	public Result getItemResult();
 	public int getAssessmentSessionTime();
 	public boolean getAssessmentMasteryPassed();
+	public int getAssessmentItemModulesCount();
 }

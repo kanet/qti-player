@@ -142,7 +142,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 		textBox.setText(state);
 		
 		updateResponse();
-		stateListener.onStateChanged();
+		stateListener.onStateChanged(this);
 		
   }
 
@@ -166,7 +166,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 		
 		lastValue = textBox.getText();
 		response.add(lastValue);
-		stateListener.onStateChanged();
+		stateListener.onStateChanged(this);
 	
 	}
 

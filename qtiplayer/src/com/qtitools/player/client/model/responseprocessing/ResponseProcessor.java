@@ -61,15 +61,41 @@ public final class ResponseProcessor {
 		String currKey;
 
 		Iterator<String> iter = responses.keySet().iterator();
+		boolean passed;
 		while (iter.hasNext()){
 			currKey = iter.next();
-			if (processMatchCorrect(responses.get(currKey)))
+			passed = processMatchCorrect(responses.get(currKey));
+				
+			if (passed)
 				points++;
+				
+			// MAKRO PROCESSING
+			if (outcomes.containsKey(currKey+"-SCORE")){
+				outcomes.get(currKey+"-SCORE").values.clear();
+				if (passed)
+					outcomes.get(currKey+"-SCORE").values.add("1");
+				else
+					outcomes.get(currKey+"-SCORE").values.add("0");
+			}
+			if (outcomes.containsKey(currKey+"-SCOREHISTORY")){
+				if (passed)
+					outcomes.get(currKey+"-SCOREHISTORY").values.add("1");
+				else
+					outcomes.get(currKey+"-SCOREHISTORY").values.add("0");
+			}
 		}
 
 		outcomes.get("SCORE").values.clear();
 		
 		outcomes.get("SCORE").values.add(points.toString());
+		
+		// MAKRO PROCESSING
+		
+		iter = responses.keySet().iterator();
+		while (iter.hasNext()){
+			currKey = iter.next();
+			
+		}
 		
 	}
 	

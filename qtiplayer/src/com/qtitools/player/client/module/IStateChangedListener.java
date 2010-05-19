@@ -29,5 +29,5 @@ package com.qtitools.player.client.module;
  */
 public interface IStateChangedListener {
 
-	public void onStateChanged();
+	public void onStateChanged(IInteractionModule sender);
 }

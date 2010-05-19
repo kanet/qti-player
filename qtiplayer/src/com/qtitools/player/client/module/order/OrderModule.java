@@ -280,7 +280,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 		
 		container.setElementsOrder(optionsIndexes);
 		updateResponse();
-		stateListener.onStateChanged();
+		stateListener.onStateChanged(this);
 	}
 
 	@Override
@@ -327,7 +327,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 		}
 		
 		response.set(currResponseValues);
-		stateListener.onStateChanged();
+		stateListener.onStateChanged(this);
 	}
 
 

@@ -11,6 +11,7 @@ import com.qtitools.player.client.control.style.StyleLinkManager;
 import com.qtitools.player.client.model.Assessment;
 import com.qtitools.player.client.model.AssessmentItem;
 import com.qtitools.player.client.module.IActivity;
+import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.util.xml.XMLDocument;
 
@@ -151,14 +152,6 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 
 
 	//------------------------- INTERFACE --------------------------------
-		
-	/**
-	 * @return the content ready do display on the web page
-	 */
-	public Widget getContent(){
-		return currentAssessmentItem.getContentWidget();
-	}
-
 	
 	//------------------------- CONTROLLER --------------------------------
 
@@ -169,17 +162,6 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 		
 		if(currentAssessmentItemIndex  < assessment.getAssessmentItemsCount()-1)
 			gotoAssessmentItem(currentAssessmentItemIndex+1);
-		/*
-		if (!mode.canNavigate())
-			return;
-		
-		if(currentAssessmentItemIndex  < assessment.getAssessmentItemsCount()-1){
-		
-			if (currentAssessmentItem != null)
-				endItemSession();
-			
-			loadAssessmentItem(currentAssessmentItemIndex+1);
-		}*/
 	}
 
 	/**
@@ -189,18 +171,6 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 		
 		if(currentAssessmentItemIndex  > 0)
 			gotoAssessmentItem(currentAssessmentItemIndex-1);
-		/*
-
-		if (!mode.canNavigate())
-			return;
-		
-		if(currentAssessmentItemIndex  > 0){
-		
-			if (currentAssessmentItem != null)
-				endItemSession();
-			
-			loadAssessmentItem(currentAssessmentItemIndex-1);
-		}*/
 	}
 
 	/**
@@ -304,7 +274,7 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 				updateState();
 				itemsVisited.set(currentAssessmentItemIndex, true);
 			    listener.onItemSessionBegin(currentAssessmentItemIndex);
-				currentAssessmentItem.process();
+				currentAssessmentItem.process(false);
 			} else {
 				listener.onAssessmentItemLoadingError("Could not load Assessment Item.");
 			}
@@ -318,7 +288,7 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	public void endItemSession(){
 		if (mode.canNavigate()){
 			if (currentAssessmentItem != null){
-				onStateChanged();
+				//onStateChanged();
 				listener.onItemSessionFinished(currentAssessmentItemIndex);
 			} else {
 				listener.onItemSessionFinished(currentAssessmentItemIndex);
@@ -452,6 +422,11 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 				}
 				return count;
 			}
+
+			@Override
+			public int getAssessmentItemModulesCount() {
+				return currentAssessmentItem.getModuleCount();
+			}
 		};
 	}
 
@@ -551,11 +526,14 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	}
 
 	@Override
-	public void onStateChanged() {
-		currentAssessmentItem.process();
+	public void onStateChanged(IInteractionModule sender) {
+		currentAssessmentItem.process(sender != null);
 		updateHistory();
-		
 	}
+	
+	public static native void alert(String s)/*-{
+		alert(s);
+	}-*/;
 
 	//------------------------- STYLE --------------------------------
 

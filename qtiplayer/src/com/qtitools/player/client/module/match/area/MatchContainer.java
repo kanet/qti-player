@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.variables.response.Response;
+import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.module.ITouchEventsListener;
@@ -22,6 +23,7 @@ public class MatchContainer extends FlowPanel{
 	private ITouchEventsListener touchEventsListener;
 	/** response processing interface */
 	private Response response;
+	private IInteractionModule moduleReference;
 	
 	public MatchArea area;
 	public Vector<MatchConnection> connections;
@@ -42,11 +44,13 @@ public class MatchContainer extends FlowPanel{
 	private boolean shuffle = false;
 	public int maxAssociations = 4;
 	
-	public MatchContainer(NodeList nodes, boolean _shuffle, int _maxAssociations, Response _response, IModuleEventsListener moduleEventsListener){
+	public MatchContainer(NodeList nodes, boolean _shuffle, int _maxAssociations, Response _response, 
+			IModuleEventsListener moduleEventsListener, IInteractionModule _moduleReference){
 
 		stateListener = (IStateChangedListener)moduleEventsListener;
 		touchEventsListener = (ITouchEventsListener)moduleEventsListener;
 		response = _response;
+		moduleReference = _moduleReference;
 		
 		shuffle = _shuffle;
 		maxAssociations = _maxAssociations;
@@ -477,6 +481,6 @@ public class MatchContainer extends FlowPanel{
 		}
 		
 		response.set(currResponseValues);
-		stateListener.onStateChanged();
+		stateListener.onStateChanged(moduleReference);
 	}
 }

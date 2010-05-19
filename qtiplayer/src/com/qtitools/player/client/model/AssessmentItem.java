@@ -3,13 +3,13 @@ package com.qtitools.player.client.model;
 import java.util.Iterator;
 import java.util.Vector;
 import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.control.Result;
 import com.qtitools.player.client.control.XMLData;
 import com.qtitools.player.client.control.style.StyleLinkDeclaration;
+import com.qtitools.player.client.model.feedback.FeedbackManager;
 import com.qtitools.player.client.model.responseprocessing.ResponseProcessor;
 import com.qtitools.player.client.model.variables.BaseType;
 import com.qtitools.player.client.model.variables.BaseTypeConverter;
@@ -27,6 +27,8 @@ public class AssessmentItem implements IStateful, IActivity {
 	public ItemBody itemBody;
 	
 	private ResponseProcessor responseProcessor;
+	
+	private FeedbackManager feedbackManager;
 	
 	public VariableManager<Response> responseManager;
 	
@@ -46,6 +48,8 @@ public class AssessmentItem implements IStateful, IActivity {
 		Node itemBodyNode = xmlData.getDocument().getElementsByTagName("itemBody").item(0);
 	
 	    responseProcessor = new ResponseProcessor(xmlData.getDocument().getElementsByTagName("responseProcessing"));
+	    
+	    feedbackManager = new FeedbackManager(xmlData.getDocument().getElementsByTagName("modalFeedback"));
 	    
 	    responseManager = new VariableManager<Response>(xmlData.getDocument().getElementsByTagName("responseDeclaration"), new IVariableCreator<Response>() {
 				@Override
@@ -95,8 +99,10 @@ public class AssessmentItem implements IStateful, IActivity {
 
 	};
 	
-	public void process(){
+	public void process(boolean userTriggered){
 		responseProcessor.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap());
+		if (userTriggered)
+			feedbackManager.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap());
 	}
 
 	public String getTitle(){
@@ -107,10 +113,14 @@ public class AssessmentItem implements IStateful, IActivity {
 		return itemBody.getModuleCount();
 	}
 	
-	public Widget getContentWidget(){
+	public Widget getContentView(){
 		
 		return itemBody;
-	}	
+	}
+	
+	public Widget getFeedbackView(){
+		return feedbackManager.getView();
+	}
 	
 	public Vector<Widget> getModules(){
 		return itemBody.widgets;

@@ -68,8 +68,8 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 			}
 			
 			@Override
-			public void onStateChanged() {
-				stateChangedListener.onStateChanged();
+			public void onStateChanged(IInteractionModule sender) {
+				stateChangedListener.onStateChanged(sender);
 				
 			}
 		};
