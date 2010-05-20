@@ -67,9 +67,22 @@ public class FeedbackManager {
 					
 				} catch (Exception e) {	}
 				
-			} else if (currModal.getValue().matches(".*[].*^$\\()].*")){
+			} else if ( currModal.getValue().contains(".")  || 
+						currModal.getValue().contains("*")  ||
+						currModal.getValue().contains("[")  ||
+						currModal.getValue().contains("(")  ||
+						currModal.getValue().contains("\\")  ||
+						currModal.getValue().contains("^")  ||
+						currModal.getValue().contains("$")  ||
+						currModal.getValue().contains("]")  ||
+						currModal.getValue().contains(")")){
 				String currVarValues = currVar.getValuesShort();
-				condition = currVarValues.matches(currModal.getValue());
+				try {
+					condition = currVarValues.matches(currModal.getValue());
+					//alert("regexp: " + currVarValues + " vs " + currModal.getValue());
+				} catch (Exception e) {
+					//alert("regexp: " + currVarValues + " vs " + currModal.getValue());
+				}
 			} else {
 				condition = currVar.compareValues(currModal.getValue().split(";"));
 			}
@@ -110,4 +123,8 @@ public class FeedbackManager {
 		}
 		
 	}
+
+	private native void alert(String s)/*-{
+		alert(s);
+	}-*/; 
 }
