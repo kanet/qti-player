@@ -33,4 +33,32 @@ public abstract class Variable {
 		
 		return output;
 	}
+	
+	public boolean compareValues(String[] testValues){
+		Vector<String> vec = new Vector<String>();
+		for (int i = 0 ; i < testValues.length ; i ++)
+			vec.add(testValues[i]);
+		return compareValues(vec);
+		
+	}
+	public boolean compareValues(Vector<String> testValues){
+		
+		if (values.size() != testValues.size())
+			return false;
+		
+		boolean contains;
+		
+		for (String ref : values){
+			contains = false;
+			for (String test : testValues){
+				if (ref.compareTo(test) == 0){
+					contains = true;
+					break;
+				}
+			}	
+			if (!contains)
+				return false;
+		}
+		return true;
+	}
 }

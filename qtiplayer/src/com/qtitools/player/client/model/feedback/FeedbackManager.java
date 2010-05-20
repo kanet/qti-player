@@ -11,13 +11,13 @@ import com.qtitools.player.client.model.variables.response.Response;
 
 public class FeedbackManager {
 
-	public FeedbackManager(NodeList feedbackNodes){
+	public FeedbackManager(NodeList feedbackNodes, String baseUrl){
 
 		modals = new Vector<ModalFeedback>();
 		ModalFeedback currModal;
 		for (int n = 0 ; n < feedbackNodes.getLength() ; n ++){
 			try {
-				currModal = new ModalFeedback( feedbackNodes.item(n) );
+				currModal = new ModalFeedback( feedbackNodes.item(n) , baseUrl );
 				modals.add(currModal);
 			} catch (Exception e) {	}
 		}
@@ -45,54 +45,65 @@ public class FeedbackManager {
 				currVar = outcomes.get(currModal.getVariableIdentifier());
 			else
 				continue;
-			
-			String currVarValues = currVar.getValuesShort();
-			
+						
 			boolean condition = false;
 			boolean validated = (currModal.getValue().compareTo("") != 0);
 			
-			if (currModal.getValue().startsWith(">")  ||  
-				currModal.getValue().startsWith(">=")  ||
-				currModal.getValue().startsWith("<")  ||  
+			if (currModal.getValue().startsWith(">=")  ||  
 				currModal.getValue().startsWith("<=")  ||  
-				currModal.getValue().startsWith("=")){
+				currModal.getValue().startsWith("==")){
 				
-				Integer referenceValue = Integer.valueOf(currModal.getValue());
-				Integer testValue = Integer.valueOf(currVarValues);
+				try {
+					
+					Integer referenceValue = Integer.valueOf(currModal.getValue().substring(2));
+					Integer testValue = Integer.valueOf(currVar.getValuesShort());
+					
+					if (currModal.getValue().startsWith(">="))
+						condition = (testValue >= referenceValue);
+					else if (currModal.getValue().startsWith("<="))
+						condition = (testValue <= referenceValue);
+					else if (currModal.getValue().startsWith("=="))
+						condition = (testValue == referenceValue);
+					
+				} catch (Exception e) {	}
 				
-				if (currModal.getValue().startsWith(">"))
-					condition = (testValue > referenceValue);
-				else if (currModal.getValue().startsWith(">="))
-					condition = (testValue >= referenceValue);
-				else if (currModal.getValue().startsWith("<"))
-					condition = (testValue < referenceValue);
-				else if (currModal.getValue().startsWith("<="))
-					condition = (testValue <= referenceValue);
-				else if (currModal.getValue().startsWith("="))
-					condition = (testValue == referenceValue);
-				
-			} else {
+			} else if (currModal.getValue().matches(".*[].*^$\\()].*")){
+				String currVarValues = currVar.getValuesShort();
 				condition = currVarValues.matches(currModal.getValue());
+			} else {
+				condition = currVar.compareValues(currModal.getValue().split(";"));
 			}
 			
 			if (!validated)
 				continue;
 			
-			if (condition){
+			if (currModal.hasHTMLContent()){
 				
-				if (container.getWidgetIndex(currModal.getView()) == -1  &&  currModal.showOnMatch()){
-					container.add(currModal.getView());
-				} else if (container.getWidgetIndex(currModal.getView()) != -1  &&  !currModal.showOnMatch()){
-					container.remove(currModal.getView());
+				if (condition){
+					
+					if (container.getWidgetIndex(currModal.getView()) == -1  &&  currModal.showOnMatch()){
+						container.add(currModal.getView());
+					} else if (container.getWidgetIndex(currModal.getView()) != -1  &&  !currModal.showOnMatch()){
+						container.remove(currModal.getView());
+					}
+					
+					
+				} else {
+	
+					if (container.getWidgetIndex(currModal.getView()) == -1  &&  !currModal.showOnMatch()){
+						container.add(currModal.getView());
+					} else if (container.getWidgetIndex(currModal.getView()) != -1  &&  currModal.showOnMatch()){
+						container.remove(currModal.getView());
+					}
 				}
-				
-			} else {
+			}
 
-				if (container.getWidgetIndex(currModal.getView()) == -1  &&  !currModal.showOnMatch()){
-					container.add(currModal.getView());
-				} else if (container.getWidgetIndex(currModal.getView()) != -1  &&  currModal.showOnMatch()){
-					container.remove(currModal.getView());
-				}
+			if (currModal.hasSoundContent()){
+				
+				if (condition && currModal.showOnMatch())
+					currModal.processSound();
+				else if (!condition && !currModal.showOnMatch())
+					currModal.processSound();
 				
 			}
 			

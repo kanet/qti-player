@@ -318,9 +318,10 @@ color:#990000;
 .qp-match-area-container2{
 }
 .qp-match-area-container-cover{
-	background:url(images/transparent.png) repeat;
-	width:100%;
-	height:100%;
+	background:url(images/transparent.gif) repeat;
+}
+.qp-match-area-container-land{
+	background:url(images/transparent.gif) repeat;
 }
 .qp-match-area-container{
 	width:420px;

@@ -49,7 +49,7 @@ public class AssessmentItem implements IStateful, IActivity {
 	
 	    responseProcessor = new ResponseProcessor(xmlData.getDocument().getElementsByTagName("responseProcessing"));
 	    
-	    feedbackManager = new FeedbackManager(xmlData.getDocument().getElementsByTagName("modalFeedback"));
+	    feedbackManager = new FeedbackManager(xmlData.getDocument().getElementsByTagName("modalFeedback"), xmlData.getBaseURL());
 	    
 	    responseManager = new VariableManager<Response>(xmlData.getDocument().getElementsByTagName("responseDeclaration"), new IVariableCreator<Response>() {
 				@Override
