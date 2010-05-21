@@ -520,6 +520,12 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	}
 
 	@Override
+	public void lock(boolean l) {
+		currentAssessmentItem.lock(l);
+		
+	}
+
+	@Override
 	public void showCorrectAnswers() {
 		
 	}
@@ -545,4 +551,5 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 		String userAgent = styleManager.getUserAgent();
 		styleManager.registerItemStyles(currentAssessmentItem.styleDeclaration.getStyleLinksForUserAgent(userAgent));
 	}
+
 }

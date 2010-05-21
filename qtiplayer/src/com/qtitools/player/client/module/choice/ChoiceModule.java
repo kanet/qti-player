@@ -56,7 +56,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 	private boolean shuffle = false;
 	/** option widgets */
 	private Vector<SimpleChoice> interactionElements;
-	
+		
 	
 	public ChoiceModule(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener){
 		
@@ -122,7 +122,22 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 
 
 	// ------------------------- INTERFACES --------------------------------
-	
+
+
+	@Override
+	public void onOwnerAttached() {
+		// do nothing
+		
+	}
+
+
+	@Override
+	public void lock(boolean l) {
+		for (SimpleChoice currSC:interactionElements){
+			currSC.setEnabled(!l);
+		}
+		
+	}
 	
 	@Override
 	public void markAnswers() {
@@ -261,11 +276,5 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		stateListener.onStateChanged(this);
 	}
 
-
-	@Override
-	public void onOwnerAttached() {
-		// do nothing
-		
-	}
 
 }

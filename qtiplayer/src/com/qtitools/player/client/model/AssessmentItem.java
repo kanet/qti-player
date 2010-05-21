@@ -178,6 +178,12 @@ public class AssessmentItem implements IStateful, IActivity {
 		itemBody.reset();
 	}
 
+
+	@Override
+	public void lock(boolean l) {
+		itemBody.lock(l);
+	}
+
 	@Override
 	public void showCorrectAnswers() {
 		itemBody.showCorrectAnswers();

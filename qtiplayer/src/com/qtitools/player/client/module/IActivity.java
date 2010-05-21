@@ -40,4 +40,7 @@ public interface IActivity {
 	
 	/** Show correct answers */
 	public void showCorrectAnswers();
+	
+	/** lock activity */
+	public void lock(boolean l);
 }

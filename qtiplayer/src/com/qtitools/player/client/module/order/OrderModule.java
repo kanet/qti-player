@@ -49,6 +49,8 @@ public class OrderModule extends Composite implements IInteractionModule {
 	
 	private DragContainerPanel container;
 	private VerticalPanel mainPanel;
+	
+	private boolean locked = false;
 
 	public OrderModule(Element element, IModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener) {
 
@@ -183,6 +185,8 @@ public class OrderModule extends Composite implements IInteractionModule {
 
 	@Override
 	public void markAnswers() {
+		lock(true);
+		
 		Vector<String> correctAnswers = response.correctAnswers;
 
 		Vector<Integer> optionsIndexes = container.getElementsOrder();
@@ -201,6 +205,8 @@ public class OrderModule extends Composite implements IInteractionModule {
 
 	@Override
 	public void unmark() {
+		lock(false);
+		
 		for (int i = 0 ; i < options.size() ; i++){
 			AbsolutePanel currOption = options.get(i);
 			((SimplePanel)currOption.getWidget(0)).setStyleName("qp-order-option-content");
@@ -226,6 +232,12 @@ public class OrderModule extends Composite implements IInteractionModule {
 		}
 		onOwnerAttached();
 
+	}
+
+	@Override
+	public void lock(boolean l) {
+		locked = l;
+		
 	}
 
 	@Override
@@ -280,6 +292,9 @@ public class OrderModule extends Composite implements IInteractionModule {
 
 	@Override
 	public void handleEvent(String tagId, InternalEvent event) {
+		if (locked)
+			return;
+		
 		if (event.getTypeInt() == Event.ONMOUSEDOWN){
 			int currWidgetIndex = tagIdMap.get(tagId);
 			container.startDrag(currWidgetIndex, event.getClientX(), event.getClientY());

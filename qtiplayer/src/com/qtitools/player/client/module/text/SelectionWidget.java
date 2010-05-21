@@ -83,6 +83,20 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 		setStyleName("qp-text-choice");
 	}
 
+	// ------------------------ INTERFACES ------------------------ 
+
+	@Override
+	public void onOwnerAttached() {
+		// do nothing
+		
+	}
+
+	@Override
+	public void lock(boolean l) {
+		  listBox.setEnabled(!l);
+		
+	}
+
 	/**
 	 * @see IActivity#markAnswers()
 	 */
@@ -252,11 +266,4 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 		response.add(lastValue);
 		stateListener.onStateChanged(this);
 	}
-
-	@Override
-	public void onOwnerAttached() {
-		// do nothing
-		
-	}
-
 }

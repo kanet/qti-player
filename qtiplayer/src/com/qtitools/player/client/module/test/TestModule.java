@@ -193,4 +193,10 @@ public class TestModule extends Composite implements IInteractionModule {
 
 	}
 
+	@Override
+	public void lock(boolean l) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

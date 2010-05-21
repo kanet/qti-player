@@ -92,6 +92,13 @@ public class MatchModule extends Composite implements IInteractionModule {
 
 	}
 
+
+	@Override
+	public void lock(boolean l) {
+		locked = l;
+		
+	}
+
 	@Override
 	public void showCorrectAnswers() {
 		// TODO Auto-generated method stub

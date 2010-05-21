@@ -73,6 +73,20 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 		
 	}
 
+	// ------------------------ INTERFACES ------------------------ 
+
+	@Override
+	public void onOwnerAttached() {
+		// do nothing
+		
+	}
+
+	@Override
+	public void lock(boolean l) {
+		textBox.setEnabled(!l);
+		
+	}
+  
 	/**
 	 * @see IActivity#markAnswers()
 	 */
@@ -170,11 +184,5 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	
 	}
 
-	@Override
-	public void onOwnerAttached() {
-		// do nothing
-		
-	}
-  
 
 }

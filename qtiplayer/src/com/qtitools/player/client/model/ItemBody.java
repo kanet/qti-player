@@ -224,6 +224,13 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	}
 
 	@Override
+	public void lock(boolean l) {
+		for(IActivity currModule : modules)
+			currModule.lock(l);
+		
+	}
+
+	@Override
 	public void showCorrectAnswers() {
 		for(IActivity currModule : modules)
 			currModule.showCorrectAnswers();
