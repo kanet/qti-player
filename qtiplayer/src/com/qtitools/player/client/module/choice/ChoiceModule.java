@@ -29,7 +29,6 @@ import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONBoolean;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
@@ -37,6 +36,7 @@ import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
+import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleSocket;
 import com.qtitools.player.client.module.IStateChangedListener;
@@ -70,7 +70,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		VerticalPanel vp = new VerticalPanel();
 		
 		vp.setStyleName("qp-choice-module");
-		vp.add(getPromptView(element));
+		vp.add(CommonsFactory.getPromptView(XMLUtils.getFirstElementWithTagName(element, "prompt")));
 		vp.add(getOptionsView(element));
 		
 		initWidget(vp);
@@ -79,25 +79,6 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 
 	// ------------------------- MODULE CERATION --------------------------------
 	
-	
-	/**
-	 * Get prompt
-	 * @return
-	 */
-	private Widget getPromptView(Element element){
-		
-		HTML	promptHTML = new HTML();
-		Element prompt = XMLUtils.getFirstElementWithTagName(element, "prompt");
-		
-		promptHTML.setStyleName("qp-choice-prompt");
-		
-		if(prompt != null){
-			promptHTML.setHTML(prompt.getFirstChild().getNodeValue());
-		}
-		
-		return promptHTML;
-		
-	}
 
 	  /**
 	   * Get options view

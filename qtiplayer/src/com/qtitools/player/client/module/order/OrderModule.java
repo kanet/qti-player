@@ -9,12 +9,8 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.components.TouchablePanel;
@@ -23,6 +19,7 @@ import com.qtitools.player.client.components.htmldnd.DragMode;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
+import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.IModuleSocket;
@@ -89,7 +86,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 		container.setDragMode(DragMode.HORIZONTAL);
 		
 		mainPanel = new VerticalPanel();
-		mainPanel.add(getPromptView(element));
+		mainPanel.add(CommonsFactory.getPromptView(XMLUtils.getFirstElementWithTagName(element, "prompt")));
 		mainPanel.add(container);
 		mainPanel.setStylePrimaryName("qp-order-module");
 		
@@ -135,25 +132,6 @@ public class OrderModule extends Composite implements IInteractionModule {
 
 	}
 
-	/**
-	 * Get prompt
-	 * @return
-	 */
-	private Widget getPromptView(Element element){
-		
-		HTML	promptHTML = new HTML();
-		Element prompt = XMLUtils.getFirstElementWithTagName(element, "prompt");
-		
-		promptHTML.setStyleName("qp-order-prompt");
-		
-		if(prompt != null){
-			promptHTML.setHTML(prompt.getFirstChild().getNodeValue());
-		}
-		
-		return promptHTML;
-		
-	}
-	
 	private void extractOptionsWidgets(Element element){
 		options = new Vector<AbsolutePanel>();
 		

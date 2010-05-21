@@ -1,13 +1,6 @@
 package com.qtitools.player.client.module.match.area;
 
-
 import java.util.Vector;
-import org.vaadin.gwtgraphics.client.Group;
-import org.vaadin.gwtgraphics.client.shape.Circle;
-import org.vaadin.gwtgraphics.client.shape.Rectangle;
-
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;

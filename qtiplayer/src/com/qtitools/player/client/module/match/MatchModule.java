@@ -26,6 +26,7 @@ import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
+import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.IModuleSocket;
@@ -65,30 +66,11 @@ public class MatchModule extends Composite implements IInteractionModule {
 		container.setStylePrimaryName("qp-match-container");
 		
 		mainPanel = new VerticalPanel();
-		mainPanel.add(getPromptView(element));
+		mainPanel.add(CommonsFactory.getPromptView(XMLUtils.getFirstElementWithTagName(element, "prompt")));
 		mainPanel.add(container);
 		mainPanel.setStylePrimaryName("qp-match-module");
 
 		initWidget(mainPanel);
-	}
-	
-	/**
-	 * Get prompt
-	 * @return
-	 */
-	private Widget getPromptView(Element element){
-		
-		HTML	promptHTML = new HTML();
-		Element prompt = XMLUtils.getFirstElementWithTagName(element, "prompt");
-		
-		promptHTML.setStyleName("qp-match-prompt");
-		
-		if(prompt != null){
-			promptHTML.setHTML(prompt.getFirstChild().getNodeValue());
-		}
-		
-		return promptHTML;
-		
 	}
 
 	@Override

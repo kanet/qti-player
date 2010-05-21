@@ -2,8 +2,6 @@ package com.qtitools.player.client.module.match.area;
 
 import org.vaadin.gwtgraphics.client.Line;
 
-import com.google.gwt.dom.client.Document;
-
 public class MatchConnection {
 
 	public MatchConnection(MatchElement _from, MatchElement _to, String _lineId){
