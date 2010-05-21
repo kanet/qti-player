@@ -15,6 +15,9 @@
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.qtitools.player.client.PlayerEntryPoint'/>
   
+  <!-- Application standard css (override standard.css) -->
+  <stylesheet src="standardplayer.css" />
+  
 	<!-- Flash player as default value -->
 	<script src="video/AC_RunActiveContent.js" />
 	<script src="video/FAVideo.js" />
