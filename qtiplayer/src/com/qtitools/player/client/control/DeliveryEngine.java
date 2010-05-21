@@ -5,7 +5,6 @@ import java.util.Vector;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Document;
 import com.qtitools.player.client.control.style.StyleLinkManager;
 import com.qtitools.player.client.model.Assessment;

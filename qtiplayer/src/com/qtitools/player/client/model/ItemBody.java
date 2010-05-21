@@ -1,11 +1,8 @@
 package com.qtitools.player.client.model;
 
 import java.util.Vector;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
@@ -156,11 +153,11 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	public void processEvent(InternalEvent event){
 		
 		com.google.gwt.dom.client.Element element = event.getEventTargetElement();
-		
+
+		/*
 		@SuppressWarnings("unused")
 		String tmpId = element.getId();
 		int evtType= event.getTypeInt();
-/*
 		if (tmpId.length() > 1)
 			traceLabel.setText(tmpId);
 		else
@@ -173,7 +170,7 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 		} else if (evtType == Event.ONMOUSEMOVE){
 			traceLabel.setText(traceLabel.getText() + " MOVE");
 		}
-*/		
+		 */		
 		Vector<IInteractionModule> handlers = eventManager.getHandlers(element.getId(), event.getTypeInt());
 		
 		if (handlers.size() > 0){
