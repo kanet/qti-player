@@ -61,6 +61,8 @@ public class PlayerWidget extends Composite{
 	private PushButton					nextButton;
 	/** Finish button */ 
 	private PushButton					finishButton;
+	/** Summary button */ 
+	private PushButton					summaryButton;
 	/** Page combo */
 	
 	/**
@@ -80,12 +82,19 @@ public class PlayerWidget extends Composite{
 	public PushButton getCheckButton(){
 		return checkButton;
 	}
-	
+
 	/**
 	 * @return finish button
 	 */
 	public PushButton getFinishButton(){
 		return finishButton;
+	}
+	
+	/**
+	 * @return summary button
+	 */
+	public PushButton getSummaryButton(){
+		return summaryButton;
 	}
 	
 	/**
@@ -136,6 +145,8 @@ public class PlayerWidget extends Composite{
 		
 //		this.assessmentItem = assessmentItem; 
 		bodyPanel.clear();
+		footer.setVisible(true);
+		counterPanel.setVisible(true);
 		showFeedback("");
 
 		counterListBox.setSelectedIndex(pageIndex);
@@ -217,35 +228,29 @@ public class PlayerWidget extends Composite{
     footerContainer.setStyleName("qp-footer-buttons");
 
     checkButton = new PushButton();
-    //checkButton.setWidth("70");
-    //checkButton.setHeight("20");
     checkButton.setStylePrimaryName("qp-check-button");
     footerContainer.add(checkButton);
     
     resetButton = new PushButton();
-   // resetButton.setWidth("70");
-    //resetButton.setHeight("20");
     resetButton.setStylePrimaryName("qp-reset-button");
     footerContainer.add(resetButton);
 
     prevButton = new PushButton();
-    //prevButton.setWidth("70");
-    //prevButton.setHeight("20");
     prevButton.setStylePrimaryName("qp-prev-button");
     footerContainer.add(prevButton);
     
     nextButton = new PushButton();
-    //nextButton.setWidth("70");
-    //nextButton.setHeight("20");
     nextButton.setStylePrimaryName("qp-next-button");
     footerContainer.add(nextButton);
     
     finishButton = new PushButton();
-    //finishButton.setWidth("70");
-    //finishButton.setHeight("20");
     finishButton.setStylePrimaryName("qp-finish-button");
     footerContainer.add(finishButton);
-        
+    
+    summaryButton = new PushButton();
+    summaryButton.setStylePrimaryName("qp-summary-button");
+    footerContainer.add(summaryButton);
+    
     footer = new FlowPanel();
     footer.setStyleName("qp-footer");
     footer.add(footerContainer);

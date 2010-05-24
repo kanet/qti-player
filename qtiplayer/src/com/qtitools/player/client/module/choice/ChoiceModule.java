@@ -56,6 +56,8 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 	private boolean shuffle = false;
 	/** option widgets */
 	private Vector<SimpleChoice> interactionElements;
+	
+	private boolean locked = false;
 		
 	
 	public ChoiceModule(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener){
@@ -133,6 +135,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 
 	@Override
 	public void lock(boolean l) {
+		locked = l;
 		for (SimpleChoice currSC:interactionElements){
 			currSC.setEnabled(!l);
 		}
@@ -209,6 +212,8 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 
 	@Override
 	public void handleEvent(String tagID, InternalEvent param) {
+		if (locked)
+			return;
 
 		SimpleChoice target = null;
 		

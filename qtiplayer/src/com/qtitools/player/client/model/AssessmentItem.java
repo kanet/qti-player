@@ -183,6 +183,10 @@ public class AssessmentItem implements IStateful, IActivity {
 	public void lock(boolean l) {
 		itemBody.lock(l);
 	}
+	
+	public boolean isLocked(){
+		return itemBody.isLocked();
+	}
 
 	@Override
 	public void showCorrectAnswers() {

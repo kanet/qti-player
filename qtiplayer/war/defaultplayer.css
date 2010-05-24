@@ -159,6 +159,24 @@
 }
 
 
+.qp-summary-button{
+	float:left;
+	width:70px;
+	height:20px;
+	margin-left: 6px;
+	cursor:pointer;
+	background-image:url(images/btn_summary.png);
+}
+.qp-summary-button-up-hovering{
+	background-image:url(images/btn_summary_uh.png);
+}
+.qp-summary-button-down-hovering{
+	background-image:url(images/btn_summary_dh.png);
+}
+.qp-summary-button-up-disabled{
+	background-image:url(images/btn_summary_dis.png);
+}
+
 /**
  * TextModule styles
  */
@@ -296,6 +314,13 @@ color:#990000;
 .qp-resultpage-container{
 }
 .qp-resultpage-items{
+}
+.qp-resultpage-item-title{
+}
+.qp-resultpage-item-title-hover{
+	cursor:pointer;
+	cursor:hand;
+	text-decoration:underline;
 }
 .qp-resultpage-score{
 	font-weight:bold;

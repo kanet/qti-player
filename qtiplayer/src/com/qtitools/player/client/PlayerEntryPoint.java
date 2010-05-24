@@ -92,6 +92,10 @@ public class PlayerEntryPoint implements EntryPoint {
 		  player.navigateFinishAssessment = function(){
 		  	 @com.qtitools.player.client.PlayerEntryPoint::navigateFinishAssessment()();
 		  }
+		  
+		  player.navigateSummaryAssessment = function(){
+		  	 @com.qtitools.player.client.PlayerEntryPoint::navigateSummaryAssessment()();
+		  }
 
 		  player.navigateResetItem = function(){
 		  	 @com.qtitools.player.client.PlayerEntryPoint::navigateResetItem()();
@@ -188,6 +192,10 @@ public class PlayerEntryPoint implements EntryPoint {
 
 	public static void navigateFinishAssessment() {
 		((EntryPointEventListener) player).onNavigateFinishAssessment();
+	}
+
+	public static void navigateSummaryAssessment() {
+		((EntryPointEventListener) player).onNavigateSummaryAssessment();
 	}
 
 	public static void navigateResetItem() {

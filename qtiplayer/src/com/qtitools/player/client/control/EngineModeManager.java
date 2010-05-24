@@ -4,6 +4,8 @@ public class EngineModeManager {
 
 	private EngineMode state;
 	
+	private boolean finished = false;
+	
 	EngineModeManager(){
 		state = EngineMode.NONE;
 	}
@@ -26,7 +28,9 @@ public class EngineModeManager {
 
 	public boolean canBeginItemLoading(){
 		return (state == EngineMode.ASSESSMENT_LOADED  ||  
-				state == EngineMode.RUNNING);
+				state == EngineMode.RUNNING  ||  
+				state == EngineMode.FINISHED  ||  
+				state == EngineMode.PREVIEW);
 	}
 	
 	public void beginItemLoading(){
@@ -42,18 +46,36 @@ public class EngineModeManager {
 	}
 	
 	public boolean canRun(){
-		return (state == EngineMode.ITEM_LOADED);
+		return (state == EngineMode.ITEM_LOADED  &&  !finished);
 	}
 	
 	public void run(){
 		state = EngineMode.RUNNING;
 	}
+	
+	public boolean canPreview(){
+		return (state == EngineMode.ITEM_LOADED  &&  finished);
+	}
+	
+	public void preview(){
+		state = EngineMode.PREVIEW;
+	}
 
+	
 	public boolean canFinish(){
-		return (state == EngineMode.RUNNING);
+		return (state == EngineMode.RUNNING  &&  !finished);
+	}
+	
+	public boolean canSummary(){
+		return (state == EngineMode.PREVIEW  &&  finished);
 	}
 	
 	public void finish(){
+		state = EngineMode.FINISHED;
+		finished = true;
+	}
+	
+	public void summary(){
 		state = EngineMode.FINISHED;
 	}
 	
@@ -67,7 +89,7 @@ public class EngineModeManager {
 	}
 	
 	public boolean canNavigate(){
-		return (state == EngineMode.RUNNING);
+		return (state == EngineMode.RUNNING  ||  state == EngineMode.FINISHED  ||  state == EngineMode.PREVIEW);
 	}
 	
 	public String toString(){

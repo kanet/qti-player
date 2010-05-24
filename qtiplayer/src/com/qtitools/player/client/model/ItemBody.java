@@ -32,13 +32,12 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	public InternalEventManager eventManager;
 	
 	private JSONArray stateAsync;
-	private boolean attached;
+	private boolean attached = false;
+	private boolean locked = false;
 	
 	//private Label traceLabel;
 	
 	public ItemBody(Node itemBodyNode, IModuleSocket moduleSocket, final IStateChangedListener stateChangedListener){
-		
-		attached = false;
 		
 		eventManager = new InternalEventManager();
 		
@@ -225,9 +224,14 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 
 	@Override
 	public void lock(boolean l) {
+		locked = l;
 		for(IActivity currModule : modules)
 			currModule.lock(l);
 		
+	}
+	
+	public boolean isLocked(){
+		return locked;
 	}
 
 	@Override

@@ -225,6 +225,10 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 		return mode.canNavigate();
 	}
 	
+	public boolean isAssessmentItemLocked(){
+		return currentAssessmentItem.isLocked();
+	}
+	
 	
 	/**
 	 * Begins assessment session.
@@ -259,6 +263,17 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 			mode.finish();
 			assessmentSessionTimeFinished = (long) ((new Date()).getTime() * 0.001);
 			listener.onAssessmentSessionFinished();
+		} 
+	}
+
+	/**
+	 * Returns to assessment summary in preview mode.
+	 */
+	public void gotoAssessmentSummary(){
+		if (mode.canSummary()){
+			endItemSession();
+			mode.finish();
+			listener.onAssessmentSessionFinished();
 		}
 	}
 
@@ -268,6 +283,7 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	public void beginItemSession(){
 
 		if (mode.canRun()){
+			
 			if (currentAssessmentItem != null){
 			    // Load state
 				updateState();
@@ -278,6 +294,19 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 				listener.onAssessmentItemLoadingError("Could not load Assessment Item.");
 			}
 			mode.run();
+			
+		} else if (mode.canPreview()){
+			
+			if (currentAssessmentItem != null){
+			    // Load state
+				updateState();
+			    currentAssessmentItem.lock(true);
+			    listener.onItemSessionBegin(currentAssessmentItemIndex);
+			} else {
+				listener.onAssessmentItemLoadingError("Could not load Assessment Item.");
+			}
+			mode.preview();
+			
 		}
 	}
 
@@ -288,6 +317,7 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 		if (mode.canNavigate()){
 			if (currentAssessmentItem != null){
 				//onStateChanged();
+				updateHistory();
 				listener.onItemSessionFinished(currentAssessmentItemIndex);
 			} else {
 				listener.onItemSessionFinished(currentAssessmentItemIndex);

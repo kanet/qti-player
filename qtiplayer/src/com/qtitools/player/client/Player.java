@@ -28,14 +28,23 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.qtitools.player.client.components.TaggedLabel;
 import com.qtitools.player.client.control.DeliveryEngine;
 import com.qtitools.player.client.control.DeliveryEngineEventListener;
 import com.qtitools.player.client.control.IAssessmentSessionReport;
@@ -237,6 +246,12 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
 	      }
 	    });
 	    
+	    playerView.getSummaryButton().addMouseUpHandler(new MouseUpHandler(){
+	      public void onMouseUp(MouseUpEvent event) {
+	    	  onNavigateSummaryAssessment();
+	      }
+	    });
+	    
 	    playerView.getCounterListBox().addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
 				playerView.getCounterListBox().setEnabled(false);
@@ -256,8 +271,10 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
    */
   private void createAssessmentItemView(){
     
-	playerView.getCheckButton().setVisible(true);
+	playerView.getCheckButton().setVisible(!deliveryEngine.currentAssessmentItem.isLocked());
 	playerView.getResetButton().setVisible(false);
+	playerView.getFinishButton().setVisible(!deliveryEngine.currentAssessmentItem.isLocked());
+	playerView.getSummaryButton().setVisible(deliveryEngine.currentAssessmentItem.isLocked());
 
 	playerView.getCheckButton().setEnabled(deliveryEngine.report().getAssessmentItemModulesCount() > 0);
     playerView.getNextButton().setEnabled(false);
@@ -314,11 +331,38 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     resultItemsInfo.setStylePrimaryName("qp-resultpage-items");
     
     for (int i = 0 ; i < report.getAssessmentItemsCount() ; i ++){
+    	
+    	// title
+    	
     	String currTitle = deliveryEngine.getAssessmentItemTitle(i);
     	if (currTitle == null)
     		currTitle = "Not visited";
-    	
-    	resultItemsInfo.setText(i, 0, currTitle + ": ");
+
+    	TaggedLabel titleLabel = new TaggedLabel(currTitle, String.valueOf(i));
+    	titleLabel.setStyleName("qp-resultpage-item-title");
+    	titleLabel.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				onNavigateGotoItem( Integer.parseInt( ((TaggedLabel)event.getSource()).getTag() ) );
+			}
+		});
+    	titleLabel.addMouseOverHandler(new MouseOverHandler() {
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				((Label)event.getSource()).setStyleName("qp-resultpage-item-title-hover");
+				
+			}
+		});
+    	titleLabel.addMouseOutHandler(new MouseOutHandler() {
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				((Label)event.getSource()).setStyleName("qp-resultpage-item-title");
+				
+			}
+		});
+    	   	
+    	//resultItemsInfo.setText(i, 0, currTitle + ": ");
+    	resultItemsInfo.setWidget(i, 0, titleLabel);
     	
     	Result currItemResult = deliveryEngine.getAssessmentItemResult(i);
     	String resultString;
@@ -458,7 +502,7 @@ public void onNavigateFinishAssessment() {
 
 @Override
 public void onNavigateFinishItem() {
-	if (deliveryEngine.isNavigationPossible()){
+	if (deliveryEngine.isNavigationPossible()  &&  !deliveryEngine.isAssessmentItemLocked()){
 		deliveryEngine.endItemSession();
 		showItemResult();
 	}
@@ -496,16 +540,24 @@ public void onNavigateResetAssessment() {
 
 @Override
 public void onNavigateResetItem() {
-	if (deliveryEngine.isNavigationPossible()){
+	if (deliveryEngine.isNavigationPossible()  &&  !deliveryEngine.isAssessmentItemLocked()){
 		resetItem();
 	}
 }
 
 @Override
 public void onNavigateContinueItem() {
-	if (deliveryEngine.isNavigationPossible()){
+	if (deliveryEngine.isNavigationPossible()  &&  !deliveryEngine.isAssessmentItemLocked()){
 		clearItem();
 	}
+}
+
+@Override
+public void onNavigateSummaryAssessment() {
+	if (deliveryEngine.isNavigationPossible()){
+		deliveryEngine.gotoAssessmentSummary();
+	}
+	
 }
 
 }
