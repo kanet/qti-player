@@ -91,31 +91,40 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		  VerticalPanel panel = new VerticalPanel();
 		  NodeList optionNodes = element.getElementsByTagName("simpleChoice");
 		  RandomizedSet<Element> randomizedNodes = new RandomizedSet<Element>();
+		  RandomizedSet<Integer> randomizedIndices = new RandomizedSet<Integer>();
 
 		  interactionElements = new Vector<SimpleChoice>();
+		  for (int el = 0 ; el < optionNodes.getLength() ; el ++)
+			  interactionElements.add(null);
 		  
 		  // Add randomized nodes to shuffle table
 		  if(shuffle){
 			  for(int i = 0; i < optionNodes.getLength(); i++){
 				  Element	option = (Element)optionNodes.item(i);
-				  if(!XMLUtils.getAttributeAsBoolean(option, "fixed"))
+				  if(!XMLUtils.getAttributeAsBoolean(option, "fixed")){
 					  randomizedNodes.push(option);
+					  randomizedIndices.push(i);
+				  }
 			  }
 		  }
 
 		  // Create buttons
 		  for(int i = 0; i < optionNodes.getLength(); i++){
+			  int optionIndex = i;
 			  Element option = (Element)optionNodes.item(i);
 			  SimpleChoice currInteractionElement;
 			  String currInputId = Document.get().createUniqueId();
 			  String currLabelId = Document.get().createUniqueId();
 
 			  if(shuffle && !XMLUtils.getAttributeAsBoolean(option, "fixed") ){
-				  option = randomizedNodes.pull();
+				  //option = randomizedNodes.pull();
+				  optionIndex = randomizedIndices.pull();
+				  option = (Element)optionNodes.item(optionIndex);
 			  }
 
 			  currInteractionElement = new SimpleChoice(option, currInputId, currLabelId, multi);
-			  interactionElements.add(currInteractionElement);
+			  //interactionElements.add(currInteractionElement);
+			  interactionElements.set(optionIndex, currInteractionElement);
 			  panel.add(currInteractionElement);
 		  }
 
