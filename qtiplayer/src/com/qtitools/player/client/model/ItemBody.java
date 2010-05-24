@@ -195,6 +195,8 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 		attached = true;
 		
 		setState(stateAsync);
+		if (locked)
+			markAnswers();
 		
 	}
 
