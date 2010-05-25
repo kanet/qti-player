@@ -480,7 +480,9 @@ public class MatchContainer extends FlowPanel{
 			currResponseValues.add(mc.getAsDirectedPair());
 		}
 		
-		response.set(currResponseValues);
-		stateListener.onStateChanged(moduleReference);
+		if (!response.compare(currResponseValues)){
+			response.set(currResponseValues);
+			stateListener.onStateChanged(moduleReference);
+		}
 	}
 }

@@ -47,8 +47,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.qtitools.player.client.components.TaggedLabel;
 import com.qtitools.player.client.control.DeliveryEngine;
 import com.qtitools.player.client.control.DeliveryEngineEventListener;
-import com.qtitools.player.client.control.IAssessmentSessionReport;
 import com.qtitools.player.client.control.Result;
+import com.qtitools.player.client.control.session.IAssessmentSessionReport;
 import com.qtitools.player.client.view.PlayerWidget;
 /**
  * Main class with player API

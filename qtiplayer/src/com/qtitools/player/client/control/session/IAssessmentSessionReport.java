@@ -1,4 +1,6 @@
-package com.qtitools.player.client.control;
+package com.qtitools.player.client.control.session;
+
+import com.qtitools.player.client.control.Result;
 
 /**
  * The report about current assessment state. 

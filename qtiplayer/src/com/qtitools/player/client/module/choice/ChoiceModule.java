@@ -286,8 +286,10 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 			//currSC.showFeedback(currSC.isSelected());
 		}
 		
-		response.set(currResponseValues);
-		stateListener.onStateChanged(this);
+		if (!response.compare(currResponseValues)){
+			response.set(currResponseValues);
+			stateListener.onStateChanged(this);
+		}
 	}
 
 

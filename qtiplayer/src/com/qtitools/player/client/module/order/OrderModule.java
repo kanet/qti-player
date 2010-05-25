@@ -319,8 +319,10 @@ public class OrderModule extends Composite implements IInteractionModule {
 			currResponseValues.add(optionsIdentifiers.get(i));
 		}
 		
-		response.set(currResponseValues);
-		stateListener.onStateChanged(this);
+		if (!response.compare(currResponseValues)){
+			response.set(currResponseValues);
+			stateListener.onStateChanged(this);
+		}
 	}
 
 

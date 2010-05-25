@@ -116,6 +116,19 @@ public class Response extends Variable {
 	public void set(Vector<String> keys){
 		values = keys;
 	}
+	
+	public boolean compare(Vector<String> test){
+		if (values.size() != test.size())
+			return false;
+		
+		for (int i = 0 ; i < values.size() ; i ++){
+			if (values.get(i).compareTo(test.get(i)) != 0)
+				return false;
+		}
+		
+		return true;
+			
+	}
 
 	/**
 	 * Reset results

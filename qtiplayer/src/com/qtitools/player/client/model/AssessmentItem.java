@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.control.Result;
-import com.qtitools.player.client.control.XMLData;
+import com.qtitools.player.client.control.document.XMLData;
 import com.qtitools.player.client.control.style.StyleLinkDeclaration;
 import com.qtitools.player.client.model.feedback.ModalFeedbackManager;
 import com.qtitools.player.client.model.responseprocessing.ResponseProcessor;
