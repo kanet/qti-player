@@ -25,6 +25,7 @@ package com.qtitools.player.client.model;
 
 import java.util.Vector;
 
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
@@ -33,6 +34,7 @@ import com.qtitools.player.client.control.IDocumentLoaded;
 import com.qtitools.player.client.control.ItemReference;
 import com.qtitools.player.client.control.XMLData;
 import com.qtitools.player.client.control.style.StyleLinkDeclaration;
+import com.qtitools.player.client.model.feedback.AssessmentFeedbackManager;
 
 public class Assessment{
 
@@ -51,6 +53,8 @@ public class Assessment{
 
 	public StyleLinkDeclaration styleDeclaration;
 	
+	private AssessmentFeedbackManager feedbackManager;
+	
 		
 	/**
 	 * C'tor
@@ -63,6 +67,8 @@ public class Assessment{
 		Node rootNode = xmlData.getDocument().getElementsByTagName("assessmentTest").item(0);
 		
 		styleDeclaration = new StyleLinkDeclaration(xmlData.getDocument().getElementsByTagName("styleDeclaration"), data.getBaseURL());
+		
+		feedbackManager = new AssessmentFeedbackManager(xmlData.getDocument().getElementsByTagName("assessmentFeedback"));
 	    
 		NodeList nodes = xmlData.getDocument().getElementsByTagName("assessmentItemRef");
 		Node itemRefNode;
@@ -105,6 +111,10 @@ public class Assessment{
 	 */
 	public String getTitle(){
 			return title;
+	}
+	
+	public Widget getFeedbackView(int percentageScore){
+		return feedbackManager.getView(percentageScore);
 	}
 	
 	/**

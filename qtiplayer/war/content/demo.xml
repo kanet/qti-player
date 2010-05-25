@@ -9,13 +9,18 @@
 	</styleDeclaration>
 
 	<testPart>
-	  <assessmentSection identifier="sectionA" title="Section A" visible="true">
-		<assessmentItemRef identifier="match" href="demo/match.xml"/>
-		<assessmentItemRef identifier="order" href="demo/order.xml"/>
-		<assessmentItemRef identifier="choice" href="demo/choice_single.xml"/>
-		<assessmentItemRef identifier="choice_multiple" href="demo/choice_multiple.xml"/>
-		<assessmentItemRef identifier="inline_choice" href="demo/inline_choice.xml"/>
-		<assessmentItemRef identifier="text_entry" href="demo/text_entry.xml"/>
+		<assessmentSection identifier="sectionA" title="Section A" visible="true">
+			<assessmentItemRef identifier="match" href="demo/match.xml"/>
+			<assessmentItemRef identifier="order" href="demo/order.xml"/>
+			<assessmentItemRef identifier="choice" href="demo/choice_single.xml"/>
+			<assessmentItemRef identifier="choice_multiple" href="demo/choice_multiple.xml"/>
+			<assessmentItemRef identifier="inline_choice" href="demo/inline_choice.xml"/>
+			<assessmentItemRef identifier="text_entry" href="demo/text_entry.xml"/>
+			<assessmentFeedback>
+				<assessmentFeedbackCase percentageScore="75">Feedback for 75%</assessmentFeedbackCase>
+				<assessmentFeedbackCase percentageScore="50">Feedback for 50%</assessmentFeedbackCase>
+				<assessmentFeedbackCase percentageScore="25">Feedback for 25%</assessmentFeedbackCase>
+			</assessmentFeedback>
 		</assessmentSection>
 	</testPart>
 </assessmentTest>

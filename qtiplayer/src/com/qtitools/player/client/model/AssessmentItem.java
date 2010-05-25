@@ -9,7 +9,7 @@ import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.control.Result;
 import com.qtitools.player.client.control.XMLData;
 import com.qtitools.player.client.control.style.StyleLinkDeclaration;
-import com.qtitools.player.client.model.feedback.FeedbackManager;
+import com.qtitools.player.client.model.feedback.ModalFeedbackManager;
 import com.qtitools.player.client.model.responseprocessing.ResponseProcessor;
 import com.qtitools.player.client.model.variables.BaseType;
 import com.qtitools.player.client.model.variables.BaseTypeConverter;
@@ -28,7 +28,7 @@ public class AssessmentItem implements IStateful, IActivity {
 	
 	private ResponseProcessor responseProcessor;
 	
-	private FeedbackManager feedbackManager;
+	private ModalFeedbackManager feedbackManager;
 	
 	public VariableManager<Response> responseManager;
 	
@@ -49,7 +49,7 @@ public class AssessmentItem implements IStateful, IActivity {
 	
 	    responseProcessor = new ResponseProcessor(xmlData.getDocument().getElementsByTagName("responseProcessing"));
 	    
-	    feedbackManager = new FeedbackManager(xmlData.getDocument().getElementsByTagName("modalFeedback"), xmlData.getBaseURL());
+	    feedbackManager = new ModalFeedbackManager(xmlData.getDocument().getElementsByTagName("modalFeedback"), xmlData.getBaseURL());
 	    
 	    responseManager = new VariableManager<Response>(xmlData.getDocument().getElementsByTagName("responseDeclaration"), new IVariableCreator<Response>() {
 				@Override
@@ -114,7 +114,6 @@ public class AssessmentItem implements IStateful, IActivity {
 	}
 	
 	public Widget getContentView(){
-		
 		return itemBody;
 	}
 	

@@ -382,6 +382,7 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     FlowPanel resultInfo = new FlowPanel();
     resultInfo.setStylePrimaryName("qp-resultpage-container");
     resultInfo.add(resultItemsInfo);
+    resultInfo.add(deliveryEngine.assessment.getFeedbackView((score * 100)/max));
     resultInfo.add(resultScoreInfo);
     
     playerView.showResultPage(resultInfo);

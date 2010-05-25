@@ -9,9 +9,9 @@ import com.qtitools.player.client.model.variables.Variable;
 import com.qtitools.player.client.model.variables.outcome.Outcome;
 import com.qtitools.player.client.model.variables.response.Response;
 
-public class FeedbackManager {
+public class ModalFeedbackManager {
 
-	public FeedbackManager(NodeList feedbackNodes, String baseUrl){
+	public ModalFeedbackManager(NodeList feedbackNodes, String baseUrl){
 
 		modals = new Vector<ModalFeedback>();
 		ModalFeedback currModal;
