@@ -48,6 +48,7 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 
 	/** response processing interface */
 	private Response response;
+	private String responseIdentifier;
 	/** module state changed listener */
 	private IStateChangedListener stateListener;
 	/** widget id */
@@ -57,6 +58,7 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	/** Shuffle? */	private boolean 		shuffle = false;
 	/** Last selected value */
 	private String	lastValue = null;
+	
 
 	/**
 	 * constructor
@@ -64,7 +66,7 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	 */
 	public SelectionWidget(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener){
 		
-		String responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
+		responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
 
 		id = Document.get().createUniqueId();
 		response = moduleSocket.getResponse(responseIdentifier);
@@ -265,5 +267,10 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 		lastValue = listBox.getValue(listBox.getSelectedIndex());
 		response.add(lastValue);
 		stateListener.onStateChanged(this);
+	}
+
+	@Override
+	public String getIdentifier() {
+		return responseIdentifier;
 	}
 }

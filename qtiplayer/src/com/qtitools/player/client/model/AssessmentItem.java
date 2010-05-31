@@ -101,9 +101,13 @@ public class AssessmentItem implements IStateful, IActivity {
 	};
 	
 	public void process(boolean userTriggered){
+		process(userTriggered, "");
+	}
+	
+	public void process(boolean userTriggered, String senderIdentifier){
 		responseProcessor.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap());
 		if (userTriggered){
-			feedbackManager.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap());
+			feedbackManager.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap(), senderIdentifier);
 			//MathJaxProcessor.process();
 		}
 	}

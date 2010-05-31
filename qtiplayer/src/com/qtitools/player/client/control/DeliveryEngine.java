@@ -569,7 +569,7 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 
 	@Override
 	public void onStateChanged(IInteractionModule sender) {
-		currentAssessmentItem.process(sender != null);
+		currentAssessmentItem.process(sender != null, sender.getIdentifier());
 		updateHistory();
 	}
 	

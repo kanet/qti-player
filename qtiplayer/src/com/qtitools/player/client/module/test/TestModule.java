@@ -199,4 +199,10 @@ public class TestModule extends Composite implements IInteractionModule {
 		
 	}
 
+	@Override
+	public String getIdentifier() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

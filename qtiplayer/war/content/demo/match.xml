@@ -15,6 +15,8 @@
 		</mapping>
 	</responseDeclaration>
 	<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
+	<outcomeDeclaration identifier="SCOREHISTORY" cardinality="multiple" baseType="float"/>
+	<outcomeDeclaration identifier="SCORECHANGES" cardinality="multiple" baseType="float"/>
 	<itemBody>
 		<matchInteraction responseIdentifier="RESPONSE" shuffle="false" maxAssociations="4">
 			<prompt>Match the following 
@@ -49,10 +51,10 @@
 		</matchInteraction>
 	</itemBody>
 	<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"/>
-	<modalFeedback outcomeIdentifier="RESPONSE" identifier=".*P T.*" showHide="show" >Very good! Prospero is correct! <math><msqrt><msup><mi>x</mi><mn>71</mn></msup></msqrt></math></modalFeedback>
+	<modalFeedback outcomeIdentifier="SCORECHANGES" identifier=".*;1$" showHide="show"  senderIdentifier="^RESP.*">Score is +1</modalFeedback>
+	<modalFeedback outcomeIdentifier="RESPONSE" identifier=".*P T.*" showHide="show">Very good! Prospero is correct! <math><msqrt><msup><mi>x</mi><mn>71</mn></msup></msqrt></math></modalFeedback>
 	<modalFeedback outcomeIdentifier="RESPONSE" identifier=".*C [^R].*" showHide="show" >Capulet is wrong</modalFeedback>
 	<modalFeedback outcomeIdentifier="RESPONSE" identifier=".*((D M;.*L M)|(L M;.*D M)).*" showHide="show">A Midsummer-Night's Dream is correct</modalFeedback>
-	<modalFeedback outcomeIdentifier="SCORE" identifier=">=1" showHide="show" >Score is 1</modalFeedback>
 	<modalFeedback outcomeIdentifier="SCORE" identifier="==0" showHide="show" sound="http://qti-player.googlecode.com/svn/trunk/qtiplayer/war/content/test/click.mp3">Click if exercise is not done</modalFeedback>
 	
 </assessmentItem>

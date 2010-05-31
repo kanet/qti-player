@@ -327,5 +327,9 @@ public class OrderModule extends Composite implements IInteractionModule {
 		}
 	}
 
+	@Override
+	public String getIdentifier() {
+		return responseIdentifier;
+	}
 
 }

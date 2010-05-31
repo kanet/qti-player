@@ -28,6 +28,7 @@ public class MatchModule extends Composite implements IInteractionModule {
 	/** The main panel for the module */
 	private MatchContainer container;
 	private String containerId;
+	private String responseIdentifier;
 	
 	private boolean locked = false;
 	
@@ -37,7 +38,7 @@ public class MatchModule extends Composite implements IInteractionModule {
 		boolean shuffle = XMLUtils.getAttributeAsBoolean(element, "shuffle");
 		int maxAssociations = XMLUtils.getAttributeAsInt(element, "maxAssociations");
 
-		String responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier");
+		responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier");
 		Response response = moduleSocket.getResponse(responseIdentifier);
 		
 		NodeList setNodes = element.getElementsByTagName("simpleMatchSet");
@@ -156,4 +157,8 @@ public class MatchModule extends Composite implements IInteractionModule {
 
 	}
 
+	@Override
+	public String getIdentifier() {
+		return responseIdentifier;
+	}
 }

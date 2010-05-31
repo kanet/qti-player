@@ -33,7 +33,7 @@ public class ModalFeedbackManager {
 		return container;
 	}
 	
-	public void process (HashMap<String, Response> responses, HashMap<String, Outcome> outcomes){
+	public void process (HashMap<String, Response> responses, HashMap<String, Outcome> outcomes, String senderIdentifier){
 		
 		Variable currVar;
 		
@@ -85,6 +85,10 @@ public class ModalFeedbackManager {
 				}
 			} else {
 				condition = currVar.compareValues(currModal.getValue().split(";"));
+			}
+			
+			if (currModal.getSenderIdentifier().length() > 0){
+				condition = (condition  && senderIdentifier.matches(currModal.getSenderIdentifier()));  
 			}
 			
 			if (!validated)

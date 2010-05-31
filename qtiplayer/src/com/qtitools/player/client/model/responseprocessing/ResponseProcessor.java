@@ -83,13 +83,35 @@ public final class ResponseProcessor {
 				else
 					outcomes.get(currKey+"-SCOREHISTORY").values.add("0");
 			}
+			if (outcomes.containsKey(currKey+"-SCORECHANGES")  &&  outcomes.containsKey(currKey+"-SCOREHISTORY")){
+				if (outcomes.get(currKey+"-SCOREHISTORY").values.size() == 1) {
+					outcomes.get(currKey+"-SCORECHANGES").values.add(outcomes.get(currKey+"-SCOREHISTORY").values.get(0));
+				} else {
+					int currModuleScore = Integer.parseInt( outcomes.get(currKey+"-SCOREHISTORY").values.get(outcomes.get(currKey+"-SCOREHISTORY").values.size()-1) );
+					int prevModuleScore = Integer.parseInt( outcomes.get(currKey+"-SCOREHISTORY").values.get(outcomes.get(currKey+"-SCOREHISTORY").values.size()-2) );
+					outcomes.get(currKey+"-SCORECHANGES").values.add( String.valueOf(currModuleScore - prevModuleScore) );
+				}
+			}
 		}
 
 		outcomes.get("SCORE").values.clear();
 		
 		outcomes.get("SCORE").values.add(points.toString());
 		
-		// MAKRO PROCESSING
+		if (outcomes.containsKey("SCOREHISTORY")){
+			outcomes.get("SCOREHISTORY").values.add(points.toString());
+		}
+		if (outcomes.containsKey("SCOREHISTORY")  &&  outcomes.containsKey("SCORECHANGES")){
+			if (outcomes.get("SCOREHISTORY").values.size() == 1) {
+				outcomes.get("SCORECHANGES").values.add(outcomes.get("SCOREHISTORY").values.get(0));
+			} else {
+				int currModuleScore = Integer.parseInt( outcomes.get("SCOREHISTORY").values.get(outcomes.get("SCOREHISTORY").values.size()-1) );
+				int prevModuleScore = Integer.parseInt( outcomes.get("SCOREHISTORY").values.get(outcomes.get("SCOREHISTORY").values.size()-2) );
+				outcomes.get("SCORECHANGES").values.add( String.valueOf(currModuleScore - prevModuleScore) );
+			}
+		}
+		
+		// MACRO PROCESSING
 		
 		iter = responses.keySet().iterator();
 		while (iter.hasNext()){

@@ -46,6 +46,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 
 	/** response processing interface */
 	private Response 	response;
+	private String responseIdentifier;
 	/** module state changed listener */
 	private IStateChangedListener stateListener;
   /** widget id */
@@ -61,7 +62,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	 */
 	public TextEntryWidget(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener){
 
-		String responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
+		responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
 
 		id = Document.get().createUniqueId();
 		response = moduleSocket.getResponse(responseIdentifier);
@@ -184,5 +185,9 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	
 	}
 
+	@Override
+	public String getIdentifier() {
+		return responseIdentifier;
+	}
 
 }

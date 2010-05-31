@@ -29,6 +29,11 @@ public class ModalFeedback {
 			soundAddress = node.getAttributes().getNamedItem("sound").getNodeValue();
 		else 
 			soundAddress = "";
+
+		if (node.getAttributes().getNamedItem("senderIdentifier") != null)
+			senderIdentifier = node.getAttributes().getNamedItem("senderIdentifier").getNodeValue();
+		else 
+			senderIdentifier = "";
 		
 		
 		show = (node.getAttributes().getNamedItem("showHide").getNodeValue().toLowerCase().compareTo("show") == 0);
@@ -52,6 +57,7 @@ public class ModalFeedback {
 	//private String contentsHTML;
 	private Widget contentWidget;
 	private String soundAddress;
+	private String senderIdentifier;
 	private boolean show;
 	
 	private String baseUrl;
@@ -63,9 +69,13 @@ public class ModalFeedback {
 	public FlowPanel getView(){
 		return container;
 	}
-
+	
 	public String getVariableIdentifier(){
 		return variable;
+	}
+	
+	public String getSenderIdentifier(){
+		return senderIdentifier;
 	}
 
 	public String getValue(){

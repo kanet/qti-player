@@ -292,5 +292,9 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		}
 	}
 
+	@Override
+	public String getIdentifier() {
+		return responseIdentifier;
+	}
 
 }
