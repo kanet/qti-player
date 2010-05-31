@@ -19,9 +19,16 @@ public abstract class XMLConverter {
 		parseXMLElement(element, dom, null, null, null, null);
 		return dom;
 	}
+	
 	public static Element getDOM(com.google.gwt.xml.client.Element element, IModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener, IModuleCreator moduleCreator){
 		Element dom = Document.get().createElement(translateNodeName(element.getNodeName()));
 		parseXMLElement(element, dom, moduleSocket, moduleEventsListener, moduleCreator, null);
+		return dom;
+	}
+
+	public static Element getDOM(com.google.gwt.xml.client.Element element, IModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener, IModuleCreator moduleCreator, Vector<String> ignoredTags){
+		Element dom = Document.get().createElement(translateNodeName(element.getNodeName()));
+		parseXMLElement(element, dom, moduleSocket, moduleEventsListener, moduleCreator, ignoredTags);
 		return dom;
 	}
 
@@ -79,6 +86,8 @@ public abstract class XMLConverter {
 	
 	private static String translateNodeName(String nodeName){
 		if (nodeName.toLowerCase().compareTo("itembody") == 0)
+			return "div";
+		if (nodeName.toLowerCase().compareTo("prompt") == 0)
 			return "div";
 		
 		return nodeName;

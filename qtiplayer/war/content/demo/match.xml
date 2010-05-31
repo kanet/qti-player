@@ -17,23 +17,39 @@
 	<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
 	<itemBody>
 		<matchInteraction responseIdentifier="RESPONSE" shuffle="false" maxAssociations="4">
-			<prompt>Match the following characters to the Shakespeare play they appeared in:</prompt>
+			<prompt>Match the following 
+			<math xmlns="http://www.w3.org/1998/Math/MathML">
+			<mrow>
+			  <mi>a</mi>
+			  <mo>&#x2062;<!-- &InvisibleTimes; --></mo>
+			  <msup>
+				<mi>x</mi>
+				<mn>2</mn>
+			  </msup>
+			  <mo>+</mo>
+			  <mi>b</mi>
+			  <mo>&#x2062;<!-- &InvisibleTimes; --></mo>
+			  <mi>x</mi>
+			  <mo>+</mo>
+			  <mi>c</mi>
+			</mrow>
+		  </math>
+		characters to the Shakespeare play they appeared in:</prompt>
 			<simpleMatchSet>
 				<simpleAssociableChoice identifier="C" matchMax="1">Capulet</simpleAssociableChoice>
 				<simpleAssociableChoice identifier="D" matchMax="1">Demetrius</simpleAssociableChoice>
 				<simpleAssociableChoice identifier="L" matchMax="1">Lysander</simpleAssociableChoice>
-				<simpleAssociableChoice identifier="P" matchMax="1">Prospero</simpleAssociableChoice>
+				<simpleAssociableChoice identifier="P" matchMax="1">Prospero<math><msqrt><msup><mi>x</mi><mn>71</mn></msup></msqrt></math></simpleAssociableChoice>
 			</simpleMatchSet>
 			<simpleMatchSet>
 				<simpleAssociableChoice identifier="M" matchMax="4">A Midsummer-Night's Dream</simpleAssociableChoice>
 				<simpleAssociableChoice identifier="R" matchMax="4">Romeo and Juliet</simpleAssociableChoice>
-				<simpleAssociableChoice identifier="T" matchMax="4">The
-				Tempest</simpleAssociableChoice>
+				<simpleAssociableChoice identifier="T" matchMax="4">The	Tempest</simpleAssociableChoice>
 			</simpleMatchSet>
 		</matchInteraction>
 	</itemBody>
 	<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"/>
-	<modalFeedback outcomeIdentifier="RESPONSE" identifier=".*P T.*" showHide="show" >Very good! Prospero is correct!</modalFeedback>
+	<modalFeedback outcomeIdentifier="RESPONSE" identifier=".*P T.*" showHide="show" >Very good! Prospero is correct! <math><msqrt><msup><mi>x</mi><mn>71</mn></msup></msqrt></math></modalFeedback>
 	<modalFeedback outcomeIdentifier="RESPONSE" identifier=".*C [^R].*" showHide="show" >Capulet is wrong</modalFeedback>
 	<modalFeedback outcomeIdentifier="RESPONSE" identifier=".*((D M;.*L M)|(L M;.*D M)).*" showHide="show">A Midsummer-Night's Dream is correct</modalFeedback>
 	<modalFeedback outcomeIdentifier="SCORE" identifier=">=1" showHide="show" >Score is 1</modalFeedback>

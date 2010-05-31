@@ -26,6 +26,7 @@ package com.qtitools.player.client.view;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
@@ -159,7 +160,16 @@ public class PlayerWidget extends Composite{
 		bodyPanel.add(assessmentItem.getContentView());
 		
 		bodyPanel.add(assessmentItem.getFeedbackView());
+		/*
+		InlineHTML h = new InlineHTML();
+		h.setHTML("asdasd<script type=\"math/mml\"><math display=\"inline\"><mi>x</mi><mo>=</mo><mn>1</mn></math></script>");
+		bodyPanel.add(h);
+		*/
 		
+	}
+	
+	public void bodyPanelAdd(Widget w){
+		bodyPanel.add(w);
 	}
 	
 	public void showFeedback(String feedback){

@@ -3,10 +3,10 @@ package com.qtitools.player.client.module.match.area;
 import java.util.Vector;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
-import com.qtitools.player.client.util.xml.XMLConverter;
+import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
 public class MatchElement {
@@ -20,10 +20,11 @@ public class MatchElement {
 
 		Vector<String> ignoredTags = new Vector<String>();
 		ignoredTags.add("feedbackInline");
-		com.google.gwt.dom.client.Element dom = XMLConverter.getDOM(element, ignoredTags);
+		//com.google.gwt.dom.client.Element dom = XMLConverter.getDOM(element, ignoredTags);
+		Widget contentWidget = CommonsFactory.getInlineTextView(element, ignoredTags);
 		
-		text = new InlineHTML();
-		text.setHTML(dom.getInnerHTML());	
+		text = new FlowPanel();
+		text.add(contentWidget);	
 		if (side == MatchSide.LEFT)
 			text.setStylePrimaryName("qp-match-element-left-text");
 		else if (side == MatchSide.RIGHT)
@@ -67,7 +68,7 @@ public class MatchElement {
 	
 	public HorizontalPanel view;
 	public FlowPanel textContainer;
-	public InlineHTML text;
+	public FlowPanel text;
 	public FlowPanel slot;
 	
 	private int slotAnchorX;

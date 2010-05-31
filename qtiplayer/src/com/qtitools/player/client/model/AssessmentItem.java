@@ -21,6 +21,7 @@ import com.qtitools.player.client.module.IActivity;
 import com.qtitools.player.client.module.IModuleSocket;
 import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.module.IStateful;
+import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
 
 public class AssessmentItem implements IStateful, IActivity {
 		
@@ -101,8 +102,10 @@ public class AssessmentItem implements IStateful, IActivity {
 	
 	public void process(boolean userTriggered){
 		responseProcessor.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap());
-		if (userTriggered)
+		if (userTriggered){
 			feedbackManager.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap());
+			//MathJaxProcessor.process();
+		}
 	}
 
 	public String getTitle(){

@@ -21,6 +21,7 @@
 	<!-- Flash player as default value -->
 	<script src="video/AC_RunActiveContent.js" />
 	<script src="video/FAVideo.js" />
+	<!--script src="MathJax/MathJax.js" /-->
   <replace-with class="com.qtitools.player.client.module.object.impl.FlashVideoImpl">
     <when-type-is class="com.qtitools.player.client.module.object.impl.VideoImpl"/>
   </replace-with>

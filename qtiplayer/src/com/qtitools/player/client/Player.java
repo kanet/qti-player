@@ -41,6 +41,7 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -293,8 +294,9 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     }
     
     playerView.showPage(deliveryEngine.assessment, deliveryEngine.currentAssessmentItem, deliveryEngine.getCurrentAssessmentItemIndex());
-    
+
   }
+
 
   /**
    * Reset

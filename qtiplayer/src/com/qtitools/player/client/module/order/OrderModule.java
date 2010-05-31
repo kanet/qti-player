@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.components.TouchablePanel;
@@ -26,7 +27,6 @@ import com.qtitools.player.client.module.IModuleSocket;
 import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.module.ITouchEventsListener;
 import com.qtitools.player.client.util.RandomizedSet;
-import com.qtitools.player.client.util.xml.XMLConverter;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
 public class OrderModule extends Composite implements IInteractionModule {
@@ -160,12 +160,15 @@ public class OrderModule extends Composite implements IInteractionModule {
 			
 			Vector<String> ignoredTags = new Vector<String>();
 			ignoredTags.add("feedbackInline");
-			com.google.gwt.dom.client.Element dom = XMLConverter.getDOM(option, ignoredTags);
+			//com.google.gwt.dom.client.Element dom = XMLConverter.getDOM(option, ignoredTags);
+			
+			Widget contentWidget = CommonsFactory.getInlineTextView(option, ignoredTags);
 			
 			SimplePanel optionContentPanel = new SimplePanel();
 			optionContentPanel.getElement().setId(Document.get().createUniqueId());
 			optionContentPanel.setStylePrimaryName("qp-order-option-content");
-			optionContentPanel.getElement().setInnerHTML(dom.getInnerHTML());
+			//optionContentPanel.getElement().setInnerHTML(dom.getInnerHTML());
+			optionContentPanel.add(contentWidget);
 			DOM.setElementProperty(optionContentPanel.getElement(), "align", "center"); 
 
 			optionPanel.insert(optionContentPanel, 0,0,0);
@@ -270,7 +273,6 @@ public class OrderModule extends Composite implements IInteractionModule {
 		
 		container.setElementsOrder(optionsIndexes);
 		updateResponse();
-		stateListener.onStateChanged(this);
 	}
 
 	@Override

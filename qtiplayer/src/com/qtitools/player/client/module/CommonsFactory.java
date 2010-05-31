@@ -1,8 +1,11 @@
 package com.qtitools.player.client.module;
 
-import com.google.gwt.user.client.ui.HTML;
+import java.util.Vector;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
+import com.qtitools.player.client.components.ElementWrapperWidget;
+import com.qtitools.player.client.model.IModuleCreator;
+import com.qtitools.player.client.util.xml.XMLConverter;
 
 public class CommonsFactory {
 
@@ -13,14 +16,52 @@ public class CommonsFactory {
 	 */
 	public static Widget getPromptView(Element prompt){
 		
-		HTML	promptHTML = new HTML();
-		promptHTML.setStyleName("qp-prompt");
+		com.google.gwt.dom.client.Element promptElement = XMLConverter.getDOM(prompt, null, null, new IModuleCreator() {
+			
+			@Override
+			public boolean isSupported(String name) {
+				return InlineModuleFactory.isSupported(name);
+			}
+			
+			@Override
+			public com.google.gwt.dom.client.Element createModule(Element element,
+					IModuleSocket moduleSocket,
+					IModuleEventsListener moduleEventsListener) {
+				Widget widget = ModuleFactory.createWidget(element, moduleSocket, moduleEventsListener);
+				return widget.getElement();
+			}
+		});
+			
+		ElementWrapperWidget promptWidget = new ElementWrapperWidget(promptElement);
+		promptWidget.setStyleName("qp-prompt");
 		
-		if(prompt != null){
-			promptHTML.setHTML(prompt.getFirstChild().getNodeValue());
-		}
+		return promptWidget;
 		
-		return promptHTML;
+	}
+	
+	public static Widget getInlineTextView(Element contents, Vector<String> ignoredTags){
+		
+		com.google.gwt.dom.client.Element promptElement = XMLConverter.getDOM(contents, null, null, new IModuleCreator() {
+			
+			@Override
+			public boolean isSupported(String name) {
+				return InlineModuleFactory.isSupported(name);
+			}
+			
+			@Override
+			public com.google.gwt.dom.client.Element createModule(Element element,
+					IModuleSocket moduleSocket,
+					IModuleEventsListener moduleEventsListener) {
+				Widget widget = InlineModuleFactory.createWidget(element, moduleSocket, moduleEventsListener);
+				return widget.getElement();
+			}
+		}, ignoredTags);
+			
+		ElementWrapperWidget promptWidget = new ElementWrapperWidget(promptElement);
+		promptWidget.setStyleName("qp-text-inline");
+		
+		return promptWidget;
+		
 		
 	}
 }

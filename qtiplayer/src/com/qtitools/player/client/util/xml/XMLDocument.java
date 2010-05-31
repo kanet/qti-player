@@ -35,6 +35,7 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 import com.qtitools.player.client.control.document.IDocumentLoaded;
+import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
 
 public class XMLDocument {
 
@@ -68,10 +69,11 @@ public class XMLDocument {
 					// StatusCode == 0 when loading from local file
 					try {
 						if (response.getStatusCode() == 200 || response.getStatusCode() == 0) {
-	
+							
 							dom = XMLParser.parse(response.getText());
 							fix(dom, baseUrl);
 							listener.finishedLoading(dom, baseUrl);
+							
 						} else {
 							// Handle the error.  Can get the status text from response.getStatusText()
 							errorString = "Wrong status: " + response.getText();

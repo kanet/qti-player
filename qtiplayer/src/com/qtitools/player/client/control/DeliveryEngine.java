@@ -5,6 +5,7 @@ import java.util.Vector;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.xml.client.Document;
 import com.qtitools.player.client.control.document.IDocumentLoaded;
 import com.qtitools.player.client.control.document.XMLData;
@@ -15,6 +16,7 @@ import com.qtitools.player.client.model.AssessmentItem;
 import com.qtitools.player.client.module.IActivity;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IStateChangedListener;
+import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
 import com.qtitools.player.client.util.xml.XMLDocument;
 
 /**
@@ -134,9 +136,11 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 
 				public void finishedLoading(Document document, String baseURL) {
 					if (mode.canEndItemLoading()){
+						
 						currentAssessmentItem = new AssessmentItem(new XMLData(document, baseURL), listener);
 						mode.endItemLoading();
 						beginItemSession();
+						
 					}
 				}
 

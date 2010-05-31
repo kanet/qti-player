@@ -6,8 +6,10 @@ import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
+import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.util.xml.XMLConverter;
 
 public class ModalFeedback {
@@ -31,11 +33,14 @@ public class ModalFeedback {
 		
 		show = (node.getAttributes().getNamedItem("showHide").getNodeValue().toLowerCase().compareTo("show") == 0);
 		
-		contentsHTML = XMLConverter.getDOM((Element)node, new Vector<String>()).getInnerHTML();
+		//contentsHTML = XMLConverter.getDOM((Element)node, new Vector<String>()).getInnerHTML();
+		contentWidget = CommonsFactory.getInlineTextView((Element)node, null);
 		
-		contents = new InlineHTML();
+		contents = new FlowPanel();
+		//contents = new InlineHTML();
 		contents.setStyleName("qp-feedback-modal-contents");
-		contents.setHTML(contentsHTML);
+		//contents.setHTML(contentsHTML);
+		contents.add(contentWidget);
 		
 		container = new FlowPanel();
 		container.setStyleName("qp-feedback-modal");
@@ -44,14 +49,16 @@ public class ModalFeedback {
 	
 	private String variable;
 	private String value;
-	private String contentsHTML;
+	//private String contentsHTML;
+	private Widget contentWidget;
 	private String soundAddress;
 	private boolean show;
 	
 	private String baseUrl;
 	
 	private FlowPanel container;
-	private InlineHTML contents;
+	private FlowPanel contents;
+	//private InlineHTML contents;
 	
 	public FlowPanel getView(){
 		return container;
@@ -66,7 +73,8 @@ public class ModalFeedback {
 	}
 	
 	public boolean hasHTMLContent(){
-		return contentsHTML.length() > 0;
+		//return contentsHTML.length() > 0;
+		return contentWidget.getElement().toString().length() > 0;
 	}
 	
 	public boolean hasSoundContent(){

@@ -17,6 +17,7 @@ import com.qtitools.player.client.module.IModuleSocket;
 import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.module.ModuleFactory;
+import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
 import com.qtitools.player.client.util.xml.XMLConverter;
 
 public class ItemBody extends Widget implements IActivity, IStateful {
@@ -84,16 +85,6 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 
 				if (widget instanceof IInteractionModule)
 					addModule((IInteractionModule)widget);
-				
-				// debug
-				//addModuleWidget(widget);
-				
-				
-				// store widgets tag id
-				//widget.getElement().setId(Document.get().createUniqueId());
-				//String wid = widget.getElement().getId();
-				//idsIB.add(wid);
-				
 				
 				return widget.getElement();
 			}
@@ -195,9 +186,15 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 		attached = true;
 		
 		setState(stateAsync);
+		
 		if (locked)
 			markAnswers();
 		
+	}
+	
+	public void onLoad(){
+		//MathJaxProcessor.process();
+		//alert("onLoad - after MathJaxProcessor.process()");
 	}
 
 	public int getModuleCount(){

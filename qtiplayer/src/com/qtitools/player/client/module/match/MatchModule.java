@@ -1,26 +1,12 @@
 package com.qtitools.player.client.module.match;
 
 import java.util.Vector;
-
-import org.vaadin.gwtgraphics.client.DrawingArea;
-import org.vaadin.gwtgraphics.client.Line;
-import org.vaadin.gwtgraphics.client.shape.Circle;
-import org.vaadin.gwtgraphics.client.shape.Rectangle;
-import org.vaadin.gwtgraphics.client.shape.Text;
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONString;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
@@ -30,11 +16,7 @@ import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.IModuleSocket;
-import com.qtitools.player.client.module.IStateChangedListener;
-import com.qtitools.player.client.module.ITouchEventsListener;
-import com.qtitools.player.client.module.choice.SimpleChoice;
 import com.qtitools.player.client.module.match.area.MatchContainer;
-import com.qtitools.player.client.module.match.area.MatchElement;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
 public class MatchModule extends Composite implements IInteractionModule {

@@ -132,6 +132,7 @@ public class MatchContainer extends FlowPanel{
 		
 		updateSlotsAnchors(areaWidth, heightPerElement, leftPanelMargin, rightPanelMargin);
 		
+		updateResponse();
 	}
 	
 	private void insertElements(){
