@@ -363,7 +363,18 @@ public class MatchContainer extends FlowPanel{
 	}
 	
 	public void addLine(int endElementIndex){
-		MatchConnection newMC = new MatchConnection(elements.get(dragManager.getSourceIndex()), elements.get(endElementIndex) , useLineId());
+		MatchElement leftElem;
+		MatchElement rightElem;
+		
+		if (elements.get(dragManager.getSourceIndex()).side == MatchSide.LEFT){
+			leftElem = elements.get(dragManager.getSourceIndex());
+			rightElem = elements.get(endElementIndex);
+		} else {
+			leftElem = elements.get(endElementIndex);
+			rightElem = elements.get(dragManager.getSourceIndex());
+		}
+		
+		MatchConnection newMC = new MatchConnection(leftElem, rightElem , useLineId());
 		addLine(newMC);
 	}
 	
