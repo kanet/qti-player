@@ -50,6 +50,8 @@ import com.qtitools.player.client.control.DeliveryEngine;
 import com.qtitools.player.client.control.DeliveryEngineEventListener;
 import com.qtitools.player.client.control.Result;
 import com.qtitools.player.client.control.session.IAssessmentSessionReport;
+import com.qtitools.player.client.util.localisation.LocalePublisher;
+import com.qtitools.player.client.util.localisation.LocaleVariable;
 import com.qtitools.player.client.view.PlayerWidget;
 /**
  * Main class with player API
@@ -339,6 +341,8 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     	String currTitle = deliveryEngine.getAssessmentItemTitle(i);
     	if (currTitle == null)
     		currTitle = "Not visited";
+    	
+    	currTitle = LocalePublisher.getText(LocaleVariable.SUMMARY_PAGE) + " " + String.valueOf(i+1) + ": " + currTitle;
 
     	TaggedLabel titleLabel = new TaggedLabel(currTitle, String.valueOf(i));
     	titleLabel.setStyleName("qp-resultpage-item-title");
