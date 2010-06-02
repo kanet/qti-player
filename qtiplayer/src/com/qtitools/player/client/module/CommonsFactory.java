@@ -1,6 +1,8 @@
 package com.qtitools.player.client.module;
 
 import java.util.Vector;
+
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.qtitools.player.client.components.ElementWrapperWidget;
@@ -15,6 +17,12 @@ public class CommonsFactory {
 	 * @return
 	 */
 	public static Widget getPromptView(Element prompt){
+		
+		if (prompt == null){
+			Widget emptyPrompt =  new FlowPanel();
+			emptyPrompt.setStyleName("qp-prompt");
+			return emptyPrompt;
+		}
 		
 		com.google.gwt.dom.client.Element promptElement = XMLConverter.getDOM(prompt, null, null, new IModuleCreator() {
 			
