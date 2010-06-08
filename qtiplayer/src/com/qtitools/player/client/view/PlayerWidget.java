@@ -214,6 +214,7 @@ public class PlayerWidget extends Composite{
     counterListBox.setStyleName("qp-page-counter-list");
     for (int p = 0 ; p <  assessment.getAssessmentItemsCount(); p ++)
     	counterListBox.addItem(String.valueOf(p+1));
+        
     
     counterLabel = new Label("/" + assessment.getAssessmentItemsCount());
     counterLabel.setStyleName("qp-page-counter-count");

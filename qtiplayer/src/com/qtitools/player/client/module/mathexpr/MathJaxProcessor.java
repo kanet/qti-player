@@ -14,6 +14,8 @@ public abstract class MathJaxProcessor {
 		if (!isMathJaxInstalled())
 			return;
 		
+		//queue = createQueue();
+		
 		if (!queueCreated){
 			try{
 			queue = createQueue();
@@ -24,6 +26,7 @@ public abstract class MathJaxProcessor {
 		try {
 			pushTypesetToQueue(queue, e);
 		} catch(Exception exc){
+			String s = exc.getMessage();
 		}
 		
 	}
