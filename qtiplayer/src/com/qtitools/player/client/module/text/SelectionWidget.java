@@ -172,8 +172,7 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 				break;
 			}
 		}
-		updateResponse();
-		stateListener.onStateChanged(this);
+		updateResponse(false);
   }
   
 	/**
@@ -256,17 +255,17 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 
 	@Override
 	public void handleEvent(String tagID, InternalEvent param) {
-		updateResponse();
+		updateResponse(true);
 	}
 	
-	private void updateResponse(){
+	private void updateResponse(boolean markSender){
 
 		if(lastValue != null)
 			response.remove(lastValue);
 		
 		lastValue = listBox.getValue(listBox.getSelectedIndex());
 		response.add(lastValue);
-		stateListener.onStateChanged(this);
+		stateListener.onStateChanged(markSender ? this : null);
 	}
 
 	@Override

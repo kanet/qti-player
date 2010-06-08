@@ -130,7 +130,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 			
 		}
 		
-		updateResponse();
+		updateResponse(false);
 
 	}
 
@@ -272,7 +272,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 		}
 		
 		container.setElementsOrder(optionsIndexes);
-		updateResponse();
+		updateResponse(false);
 	}
 
 	@Override
@@ -304,14 +304,14 @@ public class OrderModule extends Composite implements IInteractionModule {
 			container.drag(event.getClientX(), event.getClientY());
 		} else if (event.getTypeInt() == Event.ONMOUSEUP || event.getTypeInt() == Event.ONMOUSEOUT  || event.getTypeInt() == Event.ONMOUSEOVER){
 			container.stopDrag();
-			updateResponse();
+			updateResponse(true);
 		}
 
 	}
 	
 
 	
-	private void updateResponse(){
+	private void updateResponse(boolean markSender){
 		
 		Vector<Integer> optionsIndexes = container.getElementsOrder();
 		
@@ -323,7 +323,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 		
 		if (!response.compare(currResponseValues)){
 			response.set(currResponseValues);
-			stateListener.onStateChanged(this);
+			stateListener.onStateChanged(markSender ? this : null);
 		}
 	}
 

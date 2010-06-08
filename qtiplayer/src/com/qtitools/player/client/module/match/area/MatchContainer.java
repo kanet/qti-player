@@ -132,7 +132,7 @@ public class MatchContainer extends FlowPanel{
 		
 		updateSlotsAnchors(areaWidth, heightPerElement, leftPanelMargin, rightPanelMargin);
 		
-		updateResponse();
+		updateResponse(false);
 	}
 	
 	private void insertElements(){
@@ -284,7 +284,7 @@ public class MatchContainer extends FlowPanel{
 			}
 			if (validated){
 				addLine(endElementIndex);
-				updateResponse();
+				updateResponse(true);
 			}
 		}
 
@@ -401,7 +401,7 @@ public class MatchContainer extends FlowPanel{
 		if (lineIndex != -1){
 			freeLineId(tagId);
 			removeConnection(lineIndex);
-			updateResponse();
+			updateResponse(true);
 		}
 		
 	}
@@ -484,7 +484,7 @@ public class MatchContainer extends FlowPanel{
 	}
 
 	
-	private void updateResponse(){
+	private void updateResponse(boolean markSender){
 		
 		Vector<String> currResponseValues = new Vector<String>();
 		
@@ -494,7 +494,7 @@ public class MatchContainer extends FlowPanel{
 		
 		if (!response.compare(currResponseValues)){
 			response.set(currResponseValues);
-			stateListener.onStateChanged(moduleReference);
+			stateListener.onStateChanged(markSender ? moduleReference : null);
 		}
 	}
 }

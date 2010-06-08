@@ -203,7 +203,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 			
 		}
 		
-		updateResponse(null);
+		updateResponse(null, false);
 		//stateListener.onStateChanged(this);
 	}
 
@@ -270,11 +270,11 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		param.stopPropagation();
 		// pass response
 		
-		updateResponse(target);
+		updateResponse(target, true);
 		
 	}
 	
-	private void updateResponse(SimpleChoice target){
+	private void updateResponse(SimpleChoice target, boolean markSender){
 		Vector<String> currResponseValues = new Vector<String>();
 		
 		for (SimpleChoice currSC:interactionElements){
@@ -288,7 +288,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		
 		if (!response.compare(currResponseValues)){
 			response.set(currResponseValues);
-			stateListener.onStateChanged(this);
+			stateListener.onStateChanged(markSender ? this : null);
 		}
 	}
 

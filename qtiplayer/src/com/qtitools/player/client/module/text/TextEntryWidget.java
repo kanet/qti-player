@@ -156,8 +156,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	
 		textBox.setText(state);
 		
-		updateResponse();
-		stateListener.onStateChanged(this);
+		updateResponse(false);
 		
   }
 
@@ -170,18 +169,18 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 
 	@Override
 	public void handleEvent(String tagID, InternalEvent param) {
-		updateResponse();
+		updateResponse(true);
 		
 	}
 	
-	private void updateResponse(){
+	private void updateResponse(boolean markSender){
 		
 		if(lastValue != null)
 			response.remove(lastValue);
 		
 		lastValue = textBox.getText();
 		response.add(lastValue);
-		stateListener.onStateChanged(this);
+		stateListener.onStateChanged(markSender ? this : null);
 	
 	}
 
