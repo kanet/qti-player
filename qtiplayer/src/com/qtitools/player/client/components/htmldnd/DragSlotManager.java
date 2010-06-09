@@ -233,7 +233,7 @@ public class DragSlotManager {
 	}
 	*/
 
-	private void organizeSlots(){
+	public void organizeSlots(){
 		for (int i = 0 ; i < slots.size() && i < elements.size() ; i ++){
 			
 			//DragElement currElement = elements.get(i);

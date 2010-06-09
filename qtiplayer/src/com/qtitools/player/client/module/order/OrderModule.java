@@ -129,9 +129,8 @@ public class OrderModule extends Composite implements IInteractionModule {
 			container.setElementsOrder(randomOrder);
 			
 		}
-		
+				
 		updateResponse(false);
-
 	}
 
 	private void extractOptionsWidgets(Element element){

@@ -198,6 +198,7 @@ public class DragContainerPanel extends AbsolutePanel {
 			if (currElementFromSlot != currElementToSlot)
 				slotManager.switchDragElements(currElementFromSlot, currElementToSlot);
 		}
+		slotManager.organizeSlots();
 		organizeWidgets();
 	}
 	
