@@ -1,16 +1,12 @@
 package com.qtitools.player.client.model.feedback;
 
-import java.util.Vector;
-
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.module.CommonsFactory;
-import com.qtitools.player.client.util.xml.XMLConverter;
 
 public class ModalFeedback {
 

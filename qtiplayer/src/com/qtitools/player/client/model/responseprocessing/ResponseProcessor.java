@@ -92,6 +92,15 @@ public final class ResponseProcessor {
 					outcomes.get(currKey+"-SCORECHANGES").values.add( String.valueOf(currModuleScore - prevModuleScore) );
 				}
 			}
+			if (outcomes.containsKey(currKey+"-PREVIOUS")  &&  outcomes.containsKey(currKey+"-LASTCHANGE")){
+				outcomes.get(currKey+"-LASTCHANGE").values = TemplateMatchCorrectMultiplePerformer.getDifference(responses.get(currKey).values, outcomes.get(currKey+"-PREVIOUS").values);
+			}
+			if (outcomes.containsKey(currKey+"-PREVIOUS")){
+				outcomes.get(currKey+"-PREVIOUS").values.clear();
+				for (int a = 0 ; a < responses.get(currKey).values.size() ; a ++ ){
+					outcomes.get(currKey+"-PREVIOUS").values.add(responses.get(currKey).values.get(a));
+				}
+			}
 		}
 
 		outcomes.get("SCORE").values.clear();

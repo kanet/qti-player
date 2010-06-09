@@ -127,8 +127,4 @@ public class ModalFeedbackManager {
 		}
 		
 	}
-
-	private native void alert(String s)/*-{
-		alert(s);
-	}-*/; 
 }
