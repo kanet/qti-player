@@ -71,6 +71,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 		textBox.setMaxLength(XMLUtils.getAttributeAsInt(element, "expectedLength"));
 		textBox.getElement().setId(id);
 		getElement().appendChild(textBox.getElement());
+		setStyleName("qp-text-textentry");
 		
 	}
 
@@ -104,7 +105,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	 */
 	public void unmark() {
 		textBox.setEnabled(true);
-		setStyleName("");
+		setStyleName("qp-text-textentry");
 	}
 
 
@@ -113,7 +114,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	 */
 	public void reset() {
 		textBox.setEnabled(true);
-		setStyleName("");
+		setStyleName("qp-text-textentry");
 	}
 
 	/**
