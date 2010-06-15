@@ -10,7 +10,7 @@ public abstract class MathJaxProcessor {
 	private static boolean queueCreated = false;
 	private static JavaScriptObject queue;
 	
-	public static void addMathExprElement(Element e, boolean forReal){
+	public static void addMathExprElement(Element e){
 		if (!isMathJaxInstalled())
 			return;
 		
@@ -24,11 +24,9 @@ public abstract class MathJaxProcessor {
 			}
 		}
 		try {
-			if (forReal)
-				mathExprElements.add(e);
-			//pushTypesetToQueue(queue, e);
+			mathExprElements.add(e);
 		} catch(Exception exc){
-			String s = exc.getMessage();
+			//String s = exc.getMessage();
 		}
 		
 	}
