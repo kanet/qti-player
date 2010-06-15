@@ -27,6 +27,7 @@ import java.util.Vector;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -35,6 +36,7 @@ import com.qtitools.player.client.components.AccessibleCheckBox;
 import com.qtitools.player.client.components.AccessibleRadioButton;
 import com.qtitools.player.client.components.ElementWrapperWidget;
 import com.qtitools.player.client.module.CommonsFactory;
+import com.qtitools.player.client.module.mathexpr.MathExprInlineModule;
 import com.qtitools.player.client.util.xml.XMLConverter;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
@@ -48,6 +50,7 @@ public class SimpleChoice extends Composite {
 	private AccessibleCheckBox button;
 	private AbsolutePanel cover;
 	private AbsolutePanel container;
+	private HorizontalPanel panel;
 
 	public String inputId;
 	//public String labelId;
@@ -86,22 +89,14 @@ public class SimpleChoice extends Composite {
 		container.add(contentWidget, 0, 0);
 		container.add(cover, 0, 0);
 		
-	    button.setHTML(container.getElement().getString());
+		panel = new HorizontalPanel();
+		panel.setStyleName("qp-choice-option");
+		panel.add(button);
+		panel.add(container);
 	    
 	    com.google.gwt.dom.client.Element buttonElement = (com.google.gwt.dom.client.Element)button.getElement();
 		(buttonElement.getElementsByTagName("input").getItem(0)).setId(inputId);
-		if (buttonElement.getElementsByTagName("img").getLength() > 0)
-			(buttonElement.getElementsByTagName("img").getItem(0)).setId(labelId);
-		else
-			(buttonElement.getElementsByTagName("label").getItem(0)).setId(labelId);
-		
-		
-		// panel
 
-		VerticalPanel panel = new VerticalPanel();
-		panel.setStyleName("qp-choice-option");
-		panel.add(button);
-		
 		initWidget(panel);
 		
 		// feedback

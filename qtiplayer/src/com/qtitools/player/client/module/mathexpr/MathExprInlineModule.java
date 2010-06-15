@@ -6,12 +6,27 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 
 public class MathExprInlineModule extends Widget{
-	
+
 	public MathExprInlineModule(Element e){
 		/* */
 		contentsElement = Document.get().createElement("script");
 		contentsElement.setAttribute("type", "math/mml");
 		String contentsHTML = "<math display=\"inline\">" + e.getChildNodes().toString() + "</math>";
+		setText(contentsElement, contentsHTML);
+		
+		contentsWrapper = Document.get().createElement("span");
+		contentsWrapper.appendChild(contentsElement);
+		
+		setElement(contentsWrapper);
+
+		MathJaxProcessor.addMathExprElement(contentsElement);
+	}
+
+	public MathExprInlineModule(String math){
+		/* */
+		contentsElement = Document.get().createElement("script");
+		contentsElement.setAttribute("type", "math/mml");
+		String contentsHTML = "<math display=\"inline\">" + math + "</math>";
 		setText(contentsElement, contentsHTML);
 		
 		contentsWrapper = Document.get().createElement("span");

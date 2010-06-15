@@ -29,7 +29,7 @@ identifier="choice" title="Simple choice and picture inside a text." adaptive="f
 		
 		
 		<choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1">
-			<prompt>Looook at the picture. Can you guess from the picture which city is itzzz?</prompt>
+			<prompt>Looook at the picture. Can you guess from the picture which city is it?<math><mi>x</mi><mo>=</mo><msqrt><msup><mi>y</mi><mn>9</mn></msup></msqrt></math></prompt>
 			<simpleChoice identifier="ChoiceA">It is Paris.<math><mi>x</mi><mo>=</mo><msqrt><msup><mi>y</mi><mn>9</mn></msup></msqrt></math></simpleChoice>
 			<simpleChoice identifier="ChoiceB">It is Berlin.</simpleChoice>
 			<simpleChoice identifier="ChoiceC">It is London.</simpleChoice>
