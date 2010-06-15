@@ -190,6 +190,8 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 		if (locked)
 			markAnswers();
 		
+		MathJaxProcessor.pushAll();
+		
 	}
 	
 	public void onLoad(){

@@ -89,6 +89,8 @@ public abstract class XMLConverter {
 			return "div";
 		if (nodeName.toLowerCase().compareTo("prompt") == 0)
 			return "div";
+		if (nodeName.toLowerCase().compareTo("simplechoice") == 0)
+			return "span";
 		
 		return nodeName;
 	}

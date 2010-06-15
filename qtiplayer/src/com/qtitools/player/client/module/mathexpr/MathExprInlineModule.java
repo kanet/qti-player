@@ -13,6 +13,35 @@ public class MathExprInlineModule extends Widget{
 		contentsElement.setAttribute("type", "math/mml");
 		String contentsHTML = "<math display=\"inline\">" + e.getChildNodes().toString() + "</math>";
 		setText(contentsElement, contentsHTML);
+		
+		contentsWrapper = Document.get().createElement("span");
+		contentsWrapper.appendChild(contentsElement);
+		
+		setElement(contentsWrapper);
+
+		MathJaxProcessor.addMathExprElement(contentsElement, true);
+		
+		/*/
+		contents = new InlineHTML();
+		contents.setStyleName("qp-mathexpr");
+		String contentsHTML = "<script type=\"math/mml\"><math display=\"inline\">" + e.getChildNodes().toString() + "</math></script>";
+		contents.setHTML(contentsHTML);
+		setElement(contents.getElement());
+
+		try {
+			//processMathJax(contents.getElement());
+		} catch (Exception exc) {	}
+		
+		MathJaxProcessor.addMathExprElement(contents.getElement()); 
+		/**/
+	}
+	
+	public MathExprInlineModule(String math){
+		/* */
+		contentsElement = Document.get().createElement("script");
+		contentsElement.setAttribute("type", "math/mml");
+		String contentsHTML = "<math display=\"inline\">" + math + "</math>";
+		setText(contentsElement, contentsHTML);
 		//setElement(contentsElement);
 		
 		contentsWrapper = Document.get().createElement("span");
@@ -20,7 +49,7 @@ public class MathExprInlineModule extends Widget{
 		
 		setElement(contentsWrapper);
 
-		MathJaxProcessor.addMathExprElement(contentsElement);
+		MathJaxProcessor.addMathExprElement(contentsElement, true);
 		
 		/*/
 		contents = new InlineHTML();

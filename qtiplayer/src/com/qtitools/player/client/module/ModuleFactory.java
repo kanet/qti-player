@@ -74,7 +74,7 @@ public abstract class ModuleFactory {
 			widget = new MatchModule(element, moduleSocket, moduleEventsListener);
 		else if(element.getNodeName().compareTo("math") == 0)
 			widget = new MathExprInlineModule(element);
-	    else if(element.getNodeType() == Node.ELEMENT_NODE)
+		else if(element.getNodeType() == Node.ELEMENT_NODE)
 	    	widget = new DebugModule(element);
 		
 		return widget;

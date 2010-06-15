@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
 	<application>qtitestx</application>
-	<version>v1123</version>
+	<version>v1124</version>
 	
 	<!-- Configure java.util.logging -->
 	<system-properties>

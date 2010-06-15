@@ -8,6 +8,8 @@ identifier="choice" title="Simple choice and picture inside a text." adaptive="f
 			<value>ChoiceA</value>
 		</correctResponse>
 	</responseDeclaration>
+  <outcomeDeclaration identifier="RESPONSE-PREVIOUS" cardinality="multiple" baseType="directedPair"/>
+  <outcomeDeclaration identifier="RESPONSE-LASTCHANGE" cardinality="multiple" baseType="directedPair"/>
 	<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer">
 		<defaultValue>
 			<value>0</value>
@@ -28,7 +30,7 @@ identifier="choice" title="Simple choice and picture inside a text." adaptive="f
 		
 		<choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1">
 			<prompt>Looook at the picture. Can you guess from the picture which city is itzzz?</prompt>
-			<simpleChoice identifier="ChoiceA">It is Paris.</simpleChoice>
+			<simpleChoice identifier="ChoiceA">It is Paris.<math><mi>x</mi><mo>=</mo><msqrt><msup><mi>y</mi><mn>9</mn></msup></msqrt></math></simpleChoice>
 			<simpleChoice identifier="ChoiceB">It is Berlin.</simpleChoice>
 			<simpleChoice identifier="ChoiceC">It is London.</simpleChoice>
 		</choiceInteraction>
