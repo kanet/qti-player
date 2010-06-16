@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.control.Result;
-import com.qtitools.player.client.control.document.XMLData;
 import com.qtitools.player.client.control.style.StyleLinkDeclaration;
 import com.qtitools.player.client.model.feedback.ModalFeedbackManager;
 import com.qtitools.player.client.model.responseprocessing.ResponseProcessor;
@@ -22,6 +21,7 @@ import com.qtitools.player.client.module.IModuleSocket;
 import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
+import com.qtitools.player.client.util.xml.document.XMLData;
 
 public class AssessmentItem implements IStateful, IActivity {
 		

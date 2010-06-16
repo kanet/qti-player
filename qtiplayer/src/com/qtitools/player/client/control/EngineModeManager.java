@@ -65,18 +65,26 @@ public class EngineModeManager {
 	public boolean canFinish(){
 		return (state == EngineMode.RUNNING  &&  !finished);
 	}
-	
-	public boolean canSummary(){
-		return (state == EngineMode.PREVIEW  &&  finished);
-	}
-	
+
 	public void finish(){
 		state = EngineMode.FINISHED;
 		finished = true;
 	}
+
+	public boolean canSummary(){
+		return (state == EngineMode.PREVIEW  &&  finished);
+	}
 	
 	public void summary(){
 		state = EngineMode.FINISHED;
+	}
+
+	public boolean canContinueAssessment(){
+		return (state == EngineMode.FINISHED);
+	}
+	
+	public void continueAssessment(){
+		finished = false;
 	}
 	
 	public boolean isAssessmentLoaded(){

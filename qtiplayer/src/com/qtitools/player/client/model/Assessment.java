@@ -31,10 +31,10 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.control.ItemReference;
-import com.qtitools.player.client.control.document.IDocumentLoaded;
-import com.qtitools.player.client.control.document.XMLData;
 import com.qtitools.player.client.control.style.StyleLinkDeclaration;
 import com.qtitools.player.client.model.feedback.AssessmentFeedbackManager;
+import com.qtitools.player.client.util.xml.document.IDocumentLoaded;
+import com.qtitools.player.client.util.xml.document.XMLData;
 
 public class Assessment{
 

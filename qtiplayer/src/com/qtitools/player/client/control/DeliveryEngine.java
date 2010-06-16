@@ -7,8 +7,6 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.xml.client.Document;
-import com.qtitools.player.client.control.document.IDocumentLoaded;
-import com.qtitools.player.client.control.document.XMLData;
 import com.qtitools.player.client.control.session.IAssessmentSessionReport;
 import com.qtitools.player.client.control.style.StyleLinkManager;
 import com.qtitools.player.client.model.Assessment;
@@ -18,6 +16,8 @@ import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
 import com.qtitools.player.client.util.xml.XMLDocument;
+import com.qtitools.player.client.util.xml.document.IDocumentLoaded;
+import com.qtitools.player.client.util.xml.document.XMLData;
 
 /**
  * Responsible for:
@@ -281,6 +281,16 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 			endItemSession();
 			mode.finish();
 			listener.onAssessmentSessionFinished();
+		}
+	}
+	
+	/**
+	 * Returns to assessment summary in preview mode.
+	 */
+	public void continueAssessment(){
+		if (mode.canContinueAssessment()){
+			mode.continueAssessment();
+			gotoAssessmentItem(assessment.getAssessmentItemsCount()-1);
 		}
 	}
 

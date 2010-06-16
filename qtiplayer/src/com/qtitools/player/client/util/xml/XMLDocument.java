@@ -34,8 +34,8 @@ import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
-import com.qtitools.player.client.control.document.IDocumentLoaded;
 import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
+import com.qtitools.player.client.util.xml.document.IDocumentLoaded;
 
 public class XMLDocument {
 

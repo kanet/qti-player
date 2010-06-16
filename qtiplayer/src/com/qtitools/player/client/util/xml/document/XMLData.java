@@ -1,4 +1,4 @@
-package com.qtitools.player.client.control.document;
+package com.qtitools.player.client.util.xml.document;
 
 import com.google.gwt.xml.client.Document;
 

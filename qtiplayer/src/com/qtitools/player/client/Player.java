@@ -38,13 +38,11 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONParser;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.qtitools.player.client.components.TaggedLabel;
 import com.qtitools.player.client.control.DeliveryEngine;
 import com.qtitools.player.client.control.DeliveryEngineEventListener;
@@ -84,8 +82,9 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     //listener = l;
     
     deliveryEngine = new DeliveryEngine(this);
+    
   }
-
+  
   public void loadAssessment(String url){
 	  deliveryEngine.loadAssessment(url);
   }
@@ -384,12 +383,22 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     Label resultScoreInfo = new Label("Your score is: " + (int)((score * 100)/max) + "% " + score + " points.");
     resultScoreInfo.setStylePrimaryName("qp-resultpage-score");
     
+    PushButton resultContinue = new PushButton();
+    resultContinue.setStylePrimaryName("qp-resultpage-continue");
+    resultContinue.addClickHandler(new ClickHandler() {
+		@Override
+		public void onClick(ClickEvent event) {
+			onNavigateContinueAssessment();
+		}
+	});
+    
     
     FlowPanel resultInfo = new FlowPanel();
     resultInfo.setStylePrimaryName("qp-resultpage-container");
     resultInfo.add(resultItemsInfo);
     resultInfo.add(deliveryEngine.assessment.getFeedbackView((score * 100)/max));
     resultInfo.add(resultScoreInfo);
+    //resultInfo.add(resultContinue);
     
     playerView.showResultPage(resultInfo);
     
@@ -563,6 +572,14 @@ public void onNavigateContinueItem() {
 public void onNavigateSummaryAssessment() {
 	if (deliveryEngine.isNavigationPossible()){
 		deliveryEngine.gotoAssessmentSummary();
+	}
+	
+}
+
+@Override
+public void onNavigateContinueAssessment() {
+	if (deliveryEngine.isNavigationPossible()){
+		deliveryEngine.continueAssessment();
 	}
 	
 }

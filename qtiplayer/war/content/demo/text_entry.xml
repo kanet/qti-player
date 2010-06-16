@@ -11,6 +11,15 @@ identifier="textEntry" title="Interactive text part 2" adaptive="false" timeDepe
 			<mapEntry mapKey="york" mappedValue="0.5"/>
 		</mapping>
 	</responseDeclaration>
+	<responseDeclaration identifier="RESPONSE2" cardinality="single" baseType="string">
+		<correctResponse>
+			<value>123</value>
+		</correctResponse>
+		<mapping defaultValue="0">
+			<mapEntry mapKey="York" mappedValue="1"/>
+			<mapEntry mapKey="york" mappedValue="0.5"/>
+		</mapping>
+	</responseDeclaration>
 	<!--outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/-->
 	<itemBody>
 		<p>This page presents text interaction with editable gaps.</p>
@@ -19,6 +28,12 @@ identifier="textEntry" title="Interactive text part 2" adaptive="false" timeDepe
 		<blockquote>
 			<p>Now is the winter of our discontent<br/> Made glorious summer by this sun of
                     <textEntryInteraction responseIdentifier="RESPONSE" expectedLength="15"/>;<br/>
+                And all the clouds that lour'd upon our house<br/> In the deep bosom of the ocean buried.</p>
+		</blockquote>
+		<br/>
+		<blockquote>
+			<p>Now is the winter of our discontent<br/> Made glorious summer by this sun of
+                    <textEntryInteraction responseIdentifier="RESPONSE2" expectedLength="15"/>;<br/>
                 And all the clouds that lour'd upon our house<br/> In the deep bosom of the ocean buried.</p>
 		</blockquote>
 	</itemBody>

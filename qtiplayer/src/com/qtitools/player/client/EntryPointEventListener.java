@@ -18,4 +18,6 @@ public interface EntryPointEventListener {
 
 	void onNavigateSummaryAssessment();
 	
+	void onNavigateContinueAssessment();
+	
 }
