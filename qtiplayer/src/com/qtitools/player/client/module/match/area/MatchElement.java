@@ -84,6 +84,22 @@ public class MatchElement {
 	}
 	
 	public boolean isBelongingLocation(int x, int y, int parentX, int parentY){
+		
+		int vx=0, vy=0, vw=0, vh=0;
+		int margin = slot.getOffsetWidth()/2;
+		
+		if (side == MatchSide.LEFT){
+			vx = view.getAbsoluteLeft() - parentX + view.getOffsetWidth() - slot.getOffsetWidth() - margin;
+			vy = view.getAbsoluteTop() - parentY;
+			vw = slot.getOffsetWidth() + margin*2;
+			vh = view.getOffsetHeight();
+		} else if (side == MatchSide.RIGHT){
+			vx = view.getAbsoluteLeft() - parentX - margin;
+			vy = view.getAbsoluteTop() - parentY;
+			vw = slot.getOffsetWidth() + margin*2;
+			vh = view.getOffsetHeight();
+		}
+		/*
 		int vx = view.getAbsoluteLeft() - parentX;
 		int vy = view.getAbsoluteTop() - parentY;
 		int vw = view.getOffsetWidth();
@@ -94,7 +110,7 @@ public class MatchElement {
 		}else {
 			vx -= slot.getOffsetWidth();
 			vw += slot.getOffsetWidth();
-		}
+		}*/
 		
 		return (x >= vx &&  y >= vy && x <= vx+vw &&  y <= vy+vh);
 	}

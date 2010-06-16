@@ -35,6 +35,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.qtitools.player.client.model.Assessment;
 import com.qtitools.player.client.model.AssessmentItem;
+import com.qtitools.player.client.module.mathexpr.MathExprInlineModule;
+import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
 
 public class PlayerWidget extends Composite{
 
@@ -146,6 +148,7 @@ public class PlayerWidget extends Composite{
 		
 //		this.assessmentItem = assessmentItem; 
 		bodyPanel.clear();
+		
 		footer.setVisible(true);
 		counterPanel.setVisible(true);
 		showFeedback("");
@@ -165,6 +168,8 @@ public class PlayerWidget extends Composite{
 		h.setHTML("asdasd<script type=\"math/mml\"><math display=\"inline\"><mi>x</mi><mo>=</mo><mn>1</mn></math></script>");
 		bodyPanel.add(h);
 		*/
+		//MathExprInlineModule mein = new MathExprInlineModule("<msup><mfenced><mrow><mi>x</mi><mo>=</mo><mn>1</mn></mrow></mfenced><mn>4</mn></msup>");
+		//bodyPanel.add(mein);
 		
 	}
 	

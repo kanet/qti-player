@@ -54,7 +54,7 @@
 	<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"/>
 	<modalFeedback outcomeIdentifier="SCORECHANGES" identifier=".*;1$" showHide="show"  senderIdentifier="^RESP.*">Score is +1</modalFeedback>
 	<modalFeedback outcomeIdentifier="RESPONSE" identifier=".*P T.*" showHide="show">Very good! Prospero is correct!</modalFeedback>
-	<modalFeedback outcomeIdentifier="RESPONSE" identifier=".*C [^R].*" showHide="show" >Capulet is wrong</modalFeedback>
+	<modalFeedback outcomeIdentifier="RESPONSE" identifier=".*C [^R].*" showHide="show" ><span style="color:#ff0000;">Capulet is wrong</span></modalFeedback>
 	<modalFeedback outcomeIdentifier="RESPONSE" identifier=".*((D M;.*L M)|(L M;.*D M)).*" showHide="show">A Midsummer-Night's Dream is correct</modalFeedback>
 	<modalFeedback outcomeIdentifier="SCORE" identifier="==0" showHide="show" sound="http://qti-player.googlecode.com/svn/trunk/qtiplayer/war/content/test/click.mp3">Click if exercise is not done</modalFeedback>
 	
