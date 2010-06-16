@@ -398,7 +398,7 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     resultInfo.add(resultItemsInfo);
     resultInfo.add(deliveryEngine.assessment.getFeedbackView((score * 100)/max));
     resultInfo.add(resultScoreInfo);
-    //resultInfo.add(resultContinue);
+    resultInfo.add(resultContinue);
     
     playerView.showResultPage(resultInfo);
     

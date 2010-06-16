@@ -342,7 +342,14 @@ color:#990000;
 .qp-resultpage-score{
 	font-weight:bold;
 }
-
+.qp-resultpage-continue{
+	float:left;
+	width:70px;
+	height:20px;
+	margin-left: 6px;
+	cursor:pointer;
+	background-image:url(images/btn_reset.png);
+}
 
 /*
  * MATCH
@@ -408,35 +415,6 @@ color:#990000;
 	background-image:url(images/slot.png);
 	width:20px;
 	height:40px;
-}
-.qp-match-element-cover-svg{
-	stroke-width: 0;
-	fill-opacity: 0;
-}
-.qp-match-element-cover-vml{
-	_stroke-width: 0;
-	_fill-opacity: 0;
-}
-.qp-match-slot-bait{
-	width: 20px;
-	height: 20px;
-}
-.qp-match-slot-outer-svg{
-	fill: green;
-	stroke-width: 0;
-}
-.qp-match-slot-outer-vml{
-	behavior:url(#default#VML);
-	fillcolor: green;
-	strokewidth: 0;
-}
-.qp-match-slot-inner-svg{
-	fill: white;
-	stroke-width: 0;
-}
-.qp-match-slot-inner-vml{
-	_fill-color: white;
-	_stroke-width: 0;
 }
 .qp-match-area-dragline-svg{
 	stroke-width: 2;
