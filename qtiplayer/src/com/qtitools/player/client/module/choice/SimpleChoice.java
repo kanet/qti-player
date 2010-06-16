@@ -24,20 +24,18 @@
 package com.qtitools.player.client.module.choice;
 
 import java.util.Vector;
-
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.qtitools.player.client.components.AccessibleCheckBox;
 import com.qtitools.player.client.components.AccessibleRadioButton;
 import com.qtitools.player.client.components.ElementWrapperWidget;
 import com.qtitools.player.client.module.CommonsFactory;
-import com.qtitools.player.client.module.mathexpr.MathExprInlineModule;
-import com.qtitools.player.client.util.xml.XMLConverter;
+import com.qtitools.player.client.util.BrowserCompatibility;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
 public class SimpleChoice extends Composite {
@@ -96,8 +94,20 @@ public class SimpleChoice extends Composite {
 	    
 	    com.google.gwt.dom.client.Element buttonElement = (com.google.gwt.dom.client.Element)button.getElement();
 		(buttonElement.getElementsByTagName("input").getItem(0)).setId(inputId);
+		
+		Widget widgetWrapped;
+		
+		if (BrowserCompatibility.detectIPhone()){			
+			com.google.gwt.dom.client.Element a = Document.get().createElement("a");
+			a.setAttribute("href", "#");
+			a.appendChild(panel.getElement());
+			
+			widgetWrapped = new ElementWrapperWidget(a);
+		} else {
+			widgetWrapped = panel;
+		}
 
-		initWidget(panel);
+		initWidget(widgetWrapped);
 		
 		// feedback
 
