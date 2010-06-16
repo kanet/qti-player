@@ -56,7 +56,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	/** Last selected value */
 	private String	lastValue = null;
 
-	/**
+	/**	
 	 * constructor
 	 * @param moduleSocket
 	 */
@@ -70,6 +70,9 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 		textBox = new TextBox();
 		textBox.setMaxLength(XMLUtils.getAttributeAsInt(element, "expectedLength"));
 		textBox.getElement().setId(id);
+		
+		if (!response.correctAnswers.get(0).matches(".*[^0-9].*"))
+			textBox.getElement().setAttribute("type", "number");
 		getElement().appendChild(textBox.getElement());
 		setStyleName("qp-text-textentry");
 		
