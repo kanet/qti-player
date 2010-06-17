@@ -29,6 +29,8 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.qtitools.player.client.components.AccessibleCheckBox;
@@ -49,7 +51,7 @@ public class SimpleChoice extends Composite {
 	private AccessibleCheckBox button;
 	private AbsolutePanel cover;
 	private AbsolutePanel container;
-	private HorizontalPanel panel;
+	private Panel panel;
 
 	public String inputId;
 	//public String labelId;
@@ -102,7 +104,7 @@ public class SimpleChoice extends Composite {
 			(buttonElement.getElementsByTagName("label").getItem(0)).setId(labelId);
 		// /tmp
 
-		panel = new HorizontalPanel();
+		panel = new VerticalPanel();
 		panel.setStyleName("qp-choice-option");
 		panel.add(button);
 		//panel.add(container); tmp
