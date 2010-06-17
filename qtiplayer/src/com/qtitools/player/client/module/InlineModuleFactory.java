@@ -16,11 +16,11 @@ public class InlineModuleFactory {
 		return false;
 	}
 	
-	public static Widget createWidget(Element element, IModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener){
+	public static Widget createWidget(Element element, Widget attachedParent){
 		Widget	widget = null;
 
 		if(element.getNodeName().compareTo("math") == 0){
-			widget = new MathExprInlineModule(element);
+			widget = new MathExprInlineModule(element, attachedParent == null);
 		}
 		
 		return widget;

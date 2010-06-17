@@ -1,14 +1,18 @@
 package com.qtitools.player.client.model.feedback;
 
+import java.util.Vector;
+
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.module.CommonsFactory;
+import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
 
-public class ModalFeedback {
+public class ModalFeedback extends Composite {
 
 	public ModalFeedback(Node node, String _baseUrl){
 		
@@ -35,7 +39,10 @@ public class ModalFeedback {
 		show = (node.getAttributes().getNamedItem("showHide").getNodeValue().toLowerCase().compareTo("show") == 0);
 		
 		//contentsHTML = XMLConverter.getDOM((Element)node, new Vector<String>()).getInnerHTML();
-		contentWidget = CommonsFactory.getInlineTextView((Element)node, null);
+		
+		mathElements = new Vector<com.google.gwt.dom.client.Element>();
+		
+		contentWidget = CommonsFactory.getFeedbackView((Element)node, this, mathElements);
 		
 		contents = new FlowPanel();
 		//contents = new InlineHTML();
@@ -46,6 +53,9 @@ public class ModalFeedback {
 		container = new FlowPanel();
 		container.setStyleName("qp-feedback-modal");
 		container.add(contents);
+		
+		initWidget(container);
+		
 	}
 	
 	private String variable;
@@ -62,8 +72,18 @@ public class ModalFeedback {
 	private FlowPanel contents;
 	//private InlineHTML contents;
 	
-	public FlowPanel getView(){
-		return container;
+	private Vector<com.google.gwt.dom.client.Element> mathElements;
+	
+	public Widget getView(){
+		return this;
+	}
+	
+	public void onAttach(){
+		super.onAttach();
+		for (com.google.gwt.dom.client.Element e : mathElements)
+			MathJaxProcessor.addMathExprElement(e);
+		
+		MathJaxProcessor.pushAll();
 	}
 	
 	public String getVariableIdentifier(){

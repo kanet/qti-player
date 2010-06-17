@@ -6,8 +6,12 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 
 public class MathExprInlineModule extends Widget{
-
+	
 	public MathExprInlineModule(Element e){
+		this(e, true);
+	}
+
+	public MathExprInlineModule(Element e, boolean autoProcessElement){
 		/* */
 		contentsElement = Document.get().createElement("script");
 		contentsElement.setAttribute("type", "math/mml");
@@ -19,7 +23,8 @@ public class MathExprInlineModule extends Widget{
 		
 		setElement(contentsWrapper);
 
-		MathJaxProcessor.addMathExprElement(contentsElement);
+		if (autoProcessElement)
+			MathJaxProcessor.addMathExprElement(contentsElement);
 	}
 
 	public MathExprInlineModule(String math){
@@ -39,6 +44,10 @@ public class MathExprInlineModule extends Widget{
 	
 	private com.google.gwt.dom.client.Element contentsElement;
 	private com.google.gwt.dom.client.Element contentsWrapper;
+	
+	public com.google.gwt.dom.client.Element getContentsElement(){
+		return contentsElement;
+	}
 	
 	public native void processMathJax(com.google.gwt.dom.client.Element e)/*-{
 		if (typeof $wnd.MathJax !== 'undefined'  &&  $wnd.MathJax != null ){
