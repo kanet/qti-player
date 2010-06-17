@@ -36,6 +36,7 @@ import com.qtitools.player.client.components.AccessibleRadioButton;
 import com.qtitools.player.client.components.ElementWrapperWidget;
 import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.util.BrowserCompatibility;
+import com.qtitools.player.client.util.xml.XMLConverter;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
 public class SimpleChoice extends Composite {
@@ -73,11 +74,11 @@ public class SimpleChoice extends Composite {
 
 		Vector<String> ignoredTags = new Vector<String>();
 		ignoredTags.add("feedbackInline");
-		//com.google.gwt.dom.client.Element dom = XMLConverter.getDOM(element, ignoredTags);
+		com.google.gwt.dom.client.Element dom = XMLConverter.getDOM(element, ignoredTags);
 		//ElementWrapperWidget domWidget = new ElementWrapperWidget(dom);
 
-		Widget contentWidget = CommonsFactory.getInlineTextView(element, ignoredTags);
-		
+		//Widget contentWidget = CommonsFactory.getInlineTextView(element, ignoredTags);
+		/*
 		cover = new AbsolutePanel();
 		cover.getElement().setId(coverId);
 		cover.setStyleName("qp-choice-option-cover");
@@ -86,14 +87,25 @@ public class SimpleChoice extends Composite {
 		container.setStyleName("qp-choice-option-container");
 		container.add(contentWidget, 0, 0);
 		container.add(cover, 0, 0);
+		*/
 		
+		// tmp
+		button.setHTML(dom.getInnerHTML());
+		// /tmp
+		
+	    com.google.gwt.dom.client.Element buttonElement = (com.google.gwt.dom.client.Element)button.getElement();
+		(buttonElement.getElementsByTagName("input").getItem(0)).setId(inputId);
+		// tmp
+		if (buttonElement.getElementsByTagName("img").getLength() > 0)
+			(buttonElement.getElementsByTagName("img").getItem(0)).setId(labelId);
+		else
+			(buttonElement.getElementsByTagName("label").getItem(0)).setId(labelId);
+		// /tmp
+
 		panel = new HorizontalPanel();
 		panel.setStyleName("qp-choice-option");
 		panel.add(button);
-		panel.add(container);
-	    
-	    com.google.gwt.dom.client.Element buttonElement = (com.google.gwt.dom.client.Element)button.getElement();
-		(buttonElement.getElementsByTagName("input").getItem(0)).setId(inputId);
+		//panel.add(container); tmp
 		
 		Widget widgetWrapped;
 		
@@ -106,6 +118,7 @@ public class SimpleChoice extends Composite {
 		} else {
 			widgetWrapped = panel;
 		}
+		
 
 		initWidget(widgetWrapped);
 		
