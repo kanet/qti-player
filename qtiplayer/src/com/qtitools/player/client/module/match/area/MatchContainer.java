@@ -484,7 +484,7 @@ public class MatchContainer extends FlowPanel{
 	}
 
 	
-	private void updateResponse(boolean markSender){
+	public void updateResponse(boolean markSender){
 		
 		Vector<String> currResponseValues = new Vector<String>();
 		

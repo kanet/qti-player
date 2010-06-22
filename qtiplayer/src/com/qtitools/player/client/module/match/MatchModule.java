@@ -1,6 +1,8 @@
 package com.qtitools.player.client.module.match;
 
 import java.util.Vector;
+
+import com.google.gwt.dev.shell.CheckForUpdates.UpdateResult;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONString;
@@ -116,7 +118,7 @@ public class MatchModule extends Composite implements IInteractionModule {
 				container.addLine(connectionIdentifiers[0], connectionIdentifiers[1]);
 			}
 		}
-
+		container.updateResponse(false);
 	}
 
 	@Override
