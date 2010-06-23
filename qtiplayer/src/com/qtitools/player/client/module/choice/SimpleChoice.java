@@ -27,6 +27,7 @@ import java.util.Vector;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
@@ -51,7 +52,8 @@ public class SimpleChoice extends Composite {
 	private AccessibleCheckBox button;
 	private AbsolutePanel cover;
 	private AbsolutePanel container;
-	private Panel panel;
+	private Panel optionPanel;
+	private Panel labelPanel;
 
 	public String inputId;
 	//public String labelId;
@@ -76,11 +78,11 @@ public class SimpleChoice extends Composite {
 
 		Vector<String> ignoredTags = new Vector<String>();
 		ignoredTags.add("feedbackInline");
-		com.google.gwt.dom.client.Element dom = XMLConverter.getDOM(element, ignoredTags);
+		//com.google.gwt.dom.client.Element dom = XMLConverter.getDOM(element, ignoredTags);
 		//ElementWrapperWidget domWidget = new ElementWrapperWidget(dom);
 
-		//Widget contentWidget = CommonsFactory.getInlineTextView(element, ignoredTags);
-		/*
+		Widget contentWidget = CommonsFactory.getInlineTextView(element, ignoredTags);
+		
 		cover = new AbsolutePanel();
 		cover.getElement().setId(coverId);
 		cover.setStyleName("qp-choice-option-cover");
@@ -89,36 +91,42 @@ public class SimpleChoice extends Composite {
 		container.setStyleName("qp-choice-option-container");
 		container.add(contentWidget, 0, 0);
 		container.add(cover, 0, 0);
-		*/
+		
 		
 		// tmp
-		button.setHTML(dom.getInnerHTML());
+		//button.setHTML(dom.getInnerHTML());
 		// /tmp
 		
 	    com.google.gwt.dom.client.Element buttonElement = (com.google.gwt.dom.client.Element)button.getElement();
 		(buttonElement.getElementsByTagName("input").getItem(0)).setId(inputId);
-		// tmp
+		// tmp 
+		/*
 		if (buttonElement.getElementsByTagName("img").getLength() > 0)
 			(buttonElement.getElementsByTagName("img").getItem(0)).setId(labelId);
 		else
 			(buttonElement.getElementsByTagName("label").getItem(0)).setId(labelId);
+		*/
 		// /tmp
+		
+		labelPanel = new FlowPanel();
+		labelPanel.setStyleName("qp-choice-label");
+		labelPanel.add(container);
 
-		panel = new VerticalPanel();
-		panel.setStyleName("qp-choice-option");
-		panel.add(button);
-		//panel.add(container); tmp
+		optionPanel = new HorizontalPanel();
+		optionPanel.setStyleName("qp-choice-option");
+		optionPanel.add(button);
+		optionPanel.add(labelPanel); // tmp
 		
 		Widget widgetWrapped;
 		
 		if (BrowserCompatibility.detectIPhone()){			
 			com.google.gwt.dom.client.Element a = Document.get().createElement("a");
 			a.setAttribute("href", "#");
-			a.appendChild(panel.getElement());
+			a.appendChild(optionPanel.getElement());
 			
 			widgetWrapped = new ElementWrapperWidget(a);
 		} else {
-			widgetWrapped = panel;
+			widgetWrapped = optionPanel;
 		}
 		
 
@@ -130,7 +138,7 @@ public class SimpleChoice extends Composite {
 	    if(feedbackInline != null){
 	    	feedback = XMLUtils.getText(feedbackInline);
 			feedbackLabel = new Label();
-			panel.add(feedbackLabel);
+			labelPanel.add(feedbackLabel);
 	    }
 	    
 	}
