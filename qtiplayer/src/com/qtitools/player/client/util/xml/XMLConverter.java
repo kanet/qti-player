@@ -48,8 +48,8 @@ public abstract class XMLConverter {
 			Node node = nodes.item(i);
 			if(node.getNodeType() == Node.TEXT_NODE){
 				dstElement.appendChild(doc.createTextNode(node.getNodeValue()));
-			}
-			else if(moduleCreator != null && moduleCreator.isSupported(node.getNodeName()))
+			} else  if (node.getNodeType() == Node.COMMENT_NODE){
+			}else if(moduleCreator != null && moduleCreator.isSupported(node.getNodeName()))
 			{
 				domElement = moduleCreator.createModule((com.google.gwt.xml.client.Element)node, moduleSocket, moduleEventsListener);
 				if( domElement != null )
