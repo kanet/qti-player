@@ -28,5 +28,5 @@ identifier="choice" title="Multiple choice" adaptive="false" timeDependent="fals
 			<simpleChoice identifier="ChoiceE" fixed="true">None of the above.</simpleChoice>
 		</choiceInteraction>
 	</itemBody>
-	<responseProcessing template="http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"/>
+	<responseProcessing template="http://www.ydp.eu/qti/rptemplates/match_correct_multiple"/>
 </assessmentItem>

@@ -39,7 +39,7 @@
 		  </math>
 		characters to the Shakespeare play they appeared in:</prompt>
 			<simpleMatchSet>
-				<simpleAssociableChoice identifier="C" matchMax="1">Capulet</simpleAssociableChoice>
+				<simpleAssociableChoice identifier="C" matchMax="1">Capulet<img src="http://ryb.nspace.pl/lab/11j1.jpg"/></simpleAssociableChoice>
 				<simpleAssociableChoice identifier="D" matchMax="1">Demetrius</simpleAssociableChoice>
 				<simpleAssociableChoice identifier="L" matchMax="1">Lysander</simpleAssociableChoice>
 				<simpleAssociableChoice identifier="P" matchMax="1">Prospero<math><msqrt><msup><mi>x</mi><mn>71</mn></msup></msqrt></math></simpleAssociableChoice>
@@ -51,7 +51,7 @@
 			</simpleMatchSet>
 		</matchInteraction>
 	</itemBody>
-	<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response"/>
+	<responseProcessing template="http://www.ydp.eu/qti/rptemplates/match_correct_multiple"/>
 	<modalFeedback outcomeIdentifier="SCORECHANGES" identifier=".*;1$" showHide="show"  senderIdentifier="^RESP.*">Score is +1</modalFeedback>
 	<modalFeedback outcomeIdentifier="RESPONSE" identifier=".*P T.*" showHide="show">Very good! Prospero is correct!</modalFeedback>
 	<modalFeedback outcomeIdentifier="RESPONSE" identifier=".*C [^R].*" showHide="show" ><span style="color:#ff0000;">Capulet is wrong<math><msqrt><msup><mi>x</mi><mn>71</mn></msup></msqrt></math></span></modalFeedback>

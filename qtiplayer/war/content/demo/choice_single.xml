@@ -37,5 +37,5 @@ identifier="choice" title="Simple choice and picture inside a text." adaptive="f
 		
 		
 	</itemBody>
-	<!--responseProcessing template="http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"/-->
+	<responseProcessing template="http://www.ydp.eu/qti/rptemplates/match_correct_multiple"/>
 </assessmentItem>
