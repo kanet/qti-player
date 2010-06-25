@@ -12,6 +12,7 @@ import com.qtitools.player.client.model.feedback.ModalFeedbackManager;
 import com.qtitools.player.client.model.responseprocessing.ResponseProcessor;
 import com.qtitools.player.client.model.variables.BaseType;
 import com.qtitools.player.client.model.variables.BaseTypeConverter;
+import com.qtitools.player.client.model.variables.Cardinality;
 import com.qtitools.player.client.model.variables.IVariableCreator;
 import com.qtitools.player.client.model.variables.VariableManager;
 import com.qtitools.player.client.model.variables.outcome.Outcome;
@@ -76,15 +77,73 @@ public class AssessmentItem implements IStateful, IActivity {
 	}
 	
 	private void checkVariables(){
-		if (outcomeManager.variables.size() == 0){
-			if (responseManager.getVariablesMap().keySet().size() > 0){
-				Iterator<String> iterator = responseManager.getVariablesMap().keySet().iterator();
+		if (responseManager.getVariablesMap().keySet().size() > 0){
+			if (!outcomeManager.getVariablesMap().containsKey("SCORE")){
 				Outcome tmpOutcome = new Outcome();
 				tmpOutcome.identifier = "SCORE";
-				tmpOutcome.cardinality = responseManager.getVariable(iterator.next()).cardinality;
-				tmpOutcome.baseType = BaseType.STRING;
+				tmpOutcome.cardinality = Cardinality.SINGLE;
+				tmpOutcome.baseType = BaseType.INTEGER;
 
 				outcomeManager.variables.put("SCORE", tmpOutcome);
+			}
+			if (!outcomeManager.getVariablesMap().containsKey("SCOREHISTORY")){
+				Outcome tmpOutcome = new Outcome();
+				tmpOutcome.identifier = "SCOREHISTORY";
+				tmpOutcome.cardinality = Cardinality.MULTIPLE;
+				tmpOutcome.baseType = BaseType.INTEGER;
+
+				outcomeManager.variables.put("SCOREHISTORY", tmpOutcome);
+			}
+			if (!outcomeManager.getVariablesMap().containsKey("SCORECHANGES")){
+				Outcome tmpOutcome = new Outcome();
+				tmpOutcome.identifier = "SCORECHANGES";
+				tmpOutcome.cardinality = Cardinality.MULTIPLE;
+				tmpOutcome.baseType = BaseType.INTEGER;
+
+				outcomeManager.variables.put("SCORECHANGES", tmpOutcome);
+			}
+			if (!outcomeManager.getVariablesMap().containsKey("MISTAKES")){
+				Outcome tmpOutcome = new Outcome();
+				tmpOutcome.identifier = "MISTAKES";
+				tmpOutcome.cardinality = Cardinality.SINGLE;
+				tmpOutcome.baseType = BaseType.INTEGER;
+				tmpOutcome.values.add("0");
+
+				outcomeManager.variables.put("MISTAKES", tmpOutcome);
+			}
+			Iterator<String> responseKeys = responseManager.getVariablesMap().keySet().iterator();
+			
+			while (responseKeys.hasNext()){
+				Response currResp = responseManager.getVariablesMap().get(responseKeys.next());
+				String currRespIdentifier = currResp.identifier;
+				if (!outcomeManager.getVariablesMap().containsKey(currRespIdentifier+"-LASTCHANGE")){
+					Outcome tmpOutcome = new Outcome();
+					tmpOutcome.identifier = currRespIdentifier+"-LASTCHANGE";
+					tmpOutcome.cardinality = Cardinality.MULTIPLE;
+					tmpOutcome.baseType = BaseType.INTEGER;
+
+					outcomeManager.variables.put(currRespIdentifier+"-LASTCHANGE", tmpOutcome);
+					
+				}
+				if (!outcomeManager.getVariablesMap().containsKey(currRespIdentifier+"-PREVIOUS")){
+					Outcome tmpOutcome = new Outcome();
+					tmpOutcome.identifier = currRespIdentifier+"-PREVIOUS";
+					tmpOutcome.cardinality = Cardinality.MULTIPLE;
+					tmpOutcome.baseType = BaseType.INTEGER;
+
+					outcomeManager.variables.put(currRespIdentifier+"-PREVIOUS", tmpOutcome);
+					
+				}
+				if (!outcomeManager.getVariablesMap().containsKey(currRespIdentifier+"-MISTAKES")){
+					Outcome tmpOutcome = new Outcome();
+					tmpOutcome.identifier = currRespIdentifier+"-MISTAKES";
+					tmpOutcome.cardinality = Cardinality.SINGLE;
+					tmpOutcome.baseType = BaseType.INTEGER;
+					tmpOutcome.values.add("0");
+
+					outcomeManager.variables.put(currRespIdentifier+"-MISTAKES", tmpOutcome);
+					
+				}
 			}
 		}
 	}
@@ -105,7 +164,7 @@ public class AssessmentItem implements IStateful, IActivity {
 	}
 	
 	public void process(boolean userTriggered, String senderIdentifier){
-		responseProcessor.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap());
+		responseProcessor.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap(), senderIdentifier);
 		if (userTriggered){
 			feedbackManager.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap(), senderIdentifier);
 			//MathJaxProcessor.process();
@@ -164,6 +223,19 @@ public class AssessmentItem implements IStateful, IActivity {
 		
 		return result;
 	}
+	
+	public int getMistakesCount(){
+		if (outcomeManager.getVariablesMap().containsKey("MISTAKES")){
+			if (outcomeManager.getVariable("MISTAKES").values.size() == 1){
+				int mistakesCount = Integer.parseInt( outcomeManager.getVariable("MISTAKES").values.get(0) );
+				outcomeManager.getVariable("MISTAKES").values.set(0, "0");
+				return mistakesCount; 
+			}
+		}
+		return 0;
+	}
+	
+	// -------------------------- IACTIVITY -------------------------------
 	
 	@Override
 	public void markAnswers() {

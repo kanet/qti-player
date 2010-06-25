@@ -11,6 +11,7 @@ import com.qtitools.player.client.control.session.IAssessmentSessionReport;
 import com.qtitools.player.client.control.style.StyleLinkManager;
 import com.qtitools.player.client.model.Assessment;
 import com.qtitools.player.client.model.AssessmentItem;
+import com.qtitools.player.client.model.AssessmentItemStatistics;
 import com.qtitools.player.client.module.IActivity;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IStateChangedListener;
@@ -43,6 +44,7 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	public JSONArray states;
 	public Result[] results;
 	public String[] titles;
+	public AssessmentItemStatistics[] stats;
 	
 	public EngineModeManager mode;
 	
@@ -267,6 +269,7 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	public void endAssessmentSession(){
 		if (mode.canFinish()){
 			endItemSession();
+			currentAssessmentItem = null;
 			mode.finish();
 			assessmentSessionTimeFinished = (long) ((new Date()).getTime() * 0.001);
 			listener.onAssessmentSessionFinished();
@@ -304,6 +307,7 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 			if (currentAssessmentItem != null){
 			    // Load state
 				updateState();
+				initItemSessionStatistics();
 				itemsVisited.set(currentAssessmentItemIndex, true);
 			    listener.onItemSessionBegin(currentAssessmentItemIndex);
 				currentAssessmentItem.process(false);
@@ -335,6 +339,7 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 			if (currentAssessmentItem != null){
 				//onStateChanged();
 				updateHistory();
+				updateItemSessionStatistics();
 				listener.onItemSessionFinished(currentAssessmentItemIndex);
 			} else {
 				listener.onItemSessionFinished(currentAssessmentItemIndex);
@@ -390,10 +395,17 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	    
 	    return new Result(score, min, max);
 	}
-	
+
 	public String getAssessmentItemTitle(int index){
 		if (index < titles.length)
 			return titles[index];
+			
+		return null;
+	}
+	
+	public AssessmentItemStatistics getAssessmentItemStatistics(int index){
+		if (index < stats.length)
+			return stats[index];
 			
 		return null;
 	}
@@ -522,17 +534,33 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	private void initHistory(){
 	    results = new Result[assessment.getAssessmentItemsCount()];
 	    titles = new String[assessment.getAssessmentItemsCount()];
+	    stats = new AssessmentItemStatistics[assessment.getAssessmentItemsCount()];
 	    if (states == null)
 	    	states = new JSONArray(); 
 	}
 	
 	/**
-	 * Called when item session is finished
+	 * Called when item session is finished or the state of the page changes
 	 */
 	private void updateHistory() {
 		states.set(currentAssessmentItemIndex, currentAssessmentItem.getState());
 		results[currentAssessmentItemIndex] = currentAssessmentItem.getResult();
 		titles[currentAssessmentItemIndex] = currentAssessmentItem.getTitle();
+	}
+	
+	public void initItemSessionStatistics(){
+		if (stats[currentAssessmentItemIndex] == null)
+			stats[currentAssessmentItemIndex] = new AssessmentItemStatistics();
+		
+		stats[currentAssessmentItemIndex].onBeginItemSession();
+	}
+	
+	/**
+	 * Called when item session is finished
+	 */
+	private void updateItemSessionStatistics(){
+		stats[currentAssessmentItemIndex].onEndItemSession();
+		stats[currentAssessmentItemIndex].addMistakesCount(currentAssessmentItem.getMistakesCount());
 	}
 	
 	//------------------------- IACTIVITY --------------------------------
@@ -541,6 +569,7 @@ public class DeliveryEngine implements IActivity, IStateChangedListener {
 	public void markAnswers() {
 		if (currentAssessmentItem != null){
 			currentAssessmentItem.markAnswers();
+			stats[currentAssessmentItemIndex].addCheckIncident();
 		}
 	}
 	

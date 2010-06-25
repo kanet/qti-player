@@ -8,7 +8,7 @@ public abstract class TemplateMatchCorrectMultiplePerformer {
 		Vector<String> differences = new Vector<String>();
 
 		for (int s = 0 ; s < current.size() ; s ++){
-			if (previous.indexOf(current.get(s)) == -1){
+			if (previous.indexOf(current.get(s)) == -1  &&  (current.get(s).length() > 0  || previous.size() > 0)){
 				differences.add("+" + current.get(s));
 			}
 		}

@@ -28,7 +28,7 @@ public final class ResponseProcessor {
 	
 	private ResponseProcessorTemplate template = ResponseProcessorTemplate.NONE;
 	
-	public void process (HashMap<String, Response> responses, HashMap<String, Outcome> outcomes){
+	public void process (HashMap<String, Response> responses, HashMap<String, Outcome> outcomes, String senderIdentifier){
 		if (outcomes.size() == 0 ||  responses.size() == 0)
 			return;
 		
@@ -36,7 +36,7 @@ public final class ResponseProcessor {
 			if (template == ResponseProcessorTemplate.MATCH_CORRECT)
 				processTemplateMatchCorrect(responses, outcomes);
 			else if (template == ResponseProcessorTemplate.MATCH_CORRECT_MULTIPLE)
-				processTemplateMatchCorrectMultiple(responses, outcomes);
+				processTemplateMatchCorrectMultiple(responses, outcomes, senderIdentifier);
 		} catch (Exception e) {
 			
 		}
@@ -55,7 +55,7 @@ public final class ResponseProcessor {
 		
 	}
 	
-	private void processTemplateMatchCorrectMultiple(HashMap<String, Response> responses, HashMap<String, Outcome> outcomes){
+	private void processTemplateMatchCorrectMultiple(HashMap<String, Response> responses, HashMap<String, Outcome> outcomes, String senderIdentifier){
 		
 		Integer points = 0;
 		String currKey;
@@ -101,6 +101,14 @@ public final class ResponseProcessor {
 					outcomes.get(currKey+"-PREVIOUS").values.add(responses.get(currKey).values.get(a));
 				}
 			}
+			if (outcomes.containsKey(currKey+"-LASTCHANGE")  &&  outcomes.containsKey(currKey+"-MISTAKES")){
+				int mistakes = processCheckMistakes( responses.get(currKey), outcomes.get(currKey+"-LASTCHANGE") );
+				if (responses.get(currKey).cardinality != Cardinality.ORDERED){
+					outcomes.get(currKey+"-MISTAKES").values.set(0, String.valueOf(Integer.parseInt(outcomes.get(currKey+"-MISTAKES").values.get(0))+mistakes));
+				} else if (senderIdentifier.length() > 0){
+					outcomes.get(currKey+"-MISTAKES").values.set(0, String.valueOf(mistakes));
+				}
+			}
 		}
 
 		outcomes.get("SCORE").values.clear();
@@ -118,6 +126,17 @@ public final class ResponseProcessor {
 				int prevModuleScore = Integer.parseInt( outcomes.get("SCOREHISTORY").values.get(outcomes.get("SCOREHISTORY").values.size()-2) );
 				outcomes.get("SCORECHANGES").values.add( String.valueOf(currModuleScore - prevModuleScore) );
 			}
+		}
+		if (outcomes.containsKey("MISTAKES")){
+			Integer mistakes = 0;
+			Iterator<String> keys = responses.keySet().iterator();
+			while (keys.hasNext()){
+				String currKey2 = keys.next();
+				if (outcomes.containsKey(currKey2+"-MISTAKES")){
+					mistakes += Integer.parseInt( outcomes.get(currKey2+"-MISTAKES").values.get(0) );
+				}
+			}
+			outcomes.get("MISTAKES").values.set(0, mistakes.toString());
 		}
 		
 		// MACRO PROCESSING
@@ -175,5 +194,41 @@ public final class ResponseProcessor {
 		
 		return passed;
 		
+	}
+	
+	private int processCheckMistakes(Response response, Outcome moduleLastChange){
+		
+		int mistakesCounter = 0;
+
+		if (response.cardinality == Cardinality.SINGLE  ||  response.cardinality == Cardinality.MULTIPLE){
+			
+			for (int v = 0 ; v < moduleLastChange.values.size() ; v ++){
+				String currVal = moduleLastChange.values.get(v);
+				if (currVal.startsWith("+"))
+					currVal = currVal.substring(1);
+				else
+					continue;
+				
+					
+					boolean answerFound = false;
+					
+					for (int correct = 0 ; correct < response.correctAnswers.size() ; correct ++){
+						if (response.correctAnswers.get(correct).compareTo(currVal) == 0){
+							answerFound = true;
+							break;
+						}
+					}
+					
+					if (!answerFound){
+						mistakesCounter++;
+					}
+					
+			}
+		} else if (response.cardinality == Cardinality.ORDERED){
+			if (!processMatchCorrect(response))
+				mistakesCounter++;
+		}
+		
+		return mistakesCounter;
 	}
 }

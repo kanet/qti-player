@@ -48,6 +48,7 @@ import com.qtitools.player.client.control.DeliveryEngine;
 import com.qtitools.player.client.control.DeliveryEngineEventListener;
 import com.qtitools.player.client.control.Result;
 import com.qtitools.player.client.control.session.IAssessmentSessionReport;
+import com.qtitools.player.client.model.AssessmentItemStatistics;
 import com.qtitools.player.client.util.localisation.LocalePublisher;
 import com.qtitools.player.client.util.localisation.LocaleVariable;
 import com.qtitools.player.client.view.PlayerWidget;
@@ -320,7 +321,7 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
    */
   private void showAssessmentResult(){
 
-    deliveryEngine.endItemSession();
+    //deliveryEngine.endItemSession();
     
     Result assessmentResult = deliveryEngine.getAssessmentResult();
     IAssessmentSessionReport report = deliveryEngine.report();
@@ -330,7 +331,7 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     
     testResult = new JavaScriptResult(score, max);
     
-    Grid resultItemsInfo = new Grid(report.getAssessmentItemsCount(), 2);
+    Grid resultItemsInfo = new Grid(report.getAssessmentItemsCount(), 5);
     resultItemsInfo.setStylePrimaryName("qp-resultpage-items");
     
     for (int i = 0 ; i < report.getAssessmentItemsCount() ; i ++){
@@ -378,9 +379,24 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     	}
     	
     	resultItemsInfo.setText(i, 1, resultString);
+    	
+
+    	AssessmentItemStatistics stats = deliveryEngine.getAssessmentItemStatistics(i);
+    	if (stats != null){
+    		resultItemsInfo.setText(i, 2, String.valueOf(stats.getTimeTotal())+LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_TIME_SUFIX));
+    		resultItemsInfo.setText(i, 3, String.valueOf(stats.getCheckCount())+LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_CHECKCOUNT_SUFIX));
+    		resultItemsInfo.setText(i, 4, String.valueOf(stats.getMistakesCount())+LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_MISTAKES_SUFIX));
+    	} else {
+    		resultItemsInfo.setText(i, 2, LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_TIME_NO));
+    		resultItemsInfo.setText(i, 3, LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_CHECKCOUNT_NO));
+    		resultItemsInfo.setText(i, 4, LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_MISTAKES_NO));
+    	}
     }
     
-    Label resultScoreInfo = new Label("Your score is: " + (int)((score * 100)/max) + "% " + score + " points.");
+    Label resultScoreInfo = new Label(LocalePublisher.getText(LocaleVariable.SUMMARY_INFO_YOURSCOREIS1) + (int)((score * 100)/max) + 
+    		LocalePublisher.getText(LocaleVariable.SUMMARY_INFO_YOURSCOREIS2) + score + 
+    		LocalePublisher.getText(LocaleVariable.SUMMARY_INFO_YOURSCOREIS3) + String.valueOf(report.getAssessmentSessionTime()) + 
+    		LocalePublisher.getText(LocaleVariable.SUMMARY_INFO_YOURSCOREIS4));
     resultScoreInfo.setStylePrimaryName("qp-resultpage-score");
     
     PushButton resultContinue = new PushButton();
