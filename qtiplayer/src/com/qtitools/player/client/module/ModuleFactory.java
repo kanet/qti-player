@@ -23,9 +23,13 @@
 */
 package com.qtitools.player.client.module;
 
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
+import com.qtitools.player.client.components.ElementWrapperWidget;
+import com.qtitools.player.client.components.EmptyWidget;
 import com.qtitools.player.client.module.choice.ChoiceModule;
 import com.qtitools.player.client.module.debug.DebugModule;
 import com.qtitools.player.client.module.match.MatchModule;
@@ -45,7 +49,8 @@ public abstract class ModuleFactory {
 												"matchInteraction",
 												"testInteraction",
 												"object",
-												"math"};
+												"math",
+												"qy:comment"};
 
 	public static boolean isSupported(String test){
 		for (int s= 0 ; s <SUPPORTED_MODULES.length ; s++)
@@ -74,6 +79,8 @@ public abstract class ModuleFactory {
 			widget = new MatchModule(element, moduleSocket, moduleEventsListener);
 		else if(element.getNodeName().compareTo("math") == 0)
 			widget = new MathExprInlineModule(element);
+		else if(element.getNodeName().compareTo("qy:comment") == 0)
+			widget = new EmptyWidget();
 		else if(element.getNodeType() == Node.ELEMENT_NODE)
 	    	widget = new DebugModule(element);
 		
