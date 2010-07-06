@@ -127,6 +127,7 @@
 
     <zip destfile="dist/qtiplayer.zip" basedir="dist/build/qtiplayer"/>
     <zip destfile="dist/qtiplayer-${version}.zip" basedir="dist/build"/>
+  	<zip destfile="dist/qtiplayerLibs.zip" basedir="./libs"/>
   </target>
   
   <target name="publish" depends="dist, modulelib" description="Publish artifacts into Ivy repository">  	

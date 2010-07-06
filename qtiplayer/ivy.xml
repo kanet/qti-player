@@ -2,10 +2,12 @@
   <info organisation="com.klangner" module="qtiplayer"/>
 	<configurations>
 		<conf name="qtiplayer"  description="Player runtime"/>
+		<conf name="libs" description="Libs required to build qtiplayer"/>
   </configurations>
   
   <publications>
   	<artifact name="qtiplayer" type="zip" conf="qtiplayer" ext="zip"/>
+	<artifact name="qtiplayerLibs" type="zip" conf="libs" ext="zip"/>
 	<artifact name="qtiplayerlib" type="jar" conf="qtiplayer" ext="jar"/>
   </publications>
 
