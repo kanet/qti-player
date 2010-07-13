@@ -1,3 +1,0 @@
-#!/bin/sh
-APPDIR=`dirname $0`;
-java  -Dgwt.args="-web -out www-test" -Xmx256M -cp "$APPDIR/src:$APPDIR/test:$APPDIR/war/WEB-INF/classes:/home/klangner/bin/eclipse-pde-3.4.1/plugins/org.junit_3.8.2.v20080602-1318/junit.jar:/home/klangner/lib/gwt-linux-1.7.1/gwt-user.jar:/home/klangner/lib/gwt-linux-1.7.1/gwt-dev-linux.jar" junit.textui.TestRunner com.qtitools.player.client.QtiplayerTest "$@";
