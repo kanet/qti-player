@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+
+    <link type="text/css" rel="stylesheet" href="defaultplayer.css">
+	<!--link type="text/css" rel="stylesheet" href="script_00007_013.css"-->
+
+    <title>QTI Player demo</title>
+    
+	<!--script type="text/javascript" language="javascript" src="qtiplayer/MathJax/MathJax.js"></script-->    
+    <script type="text/javascript" language="javascript" src="locale_en.js"></script>    
+    <script type="text/javascript" language="javascript" src="qtiplayer/qtiplayer.nocache.js"></script>
+    <script language="javascript">
+    var player1;
+      function qpOnAppLoaded(){
+        // Load assessment
+        player1 = qpCreatePlayer('player');
+        player1.load('content/demo.xml');
+        player1.setMasteryScore(10);
+        
+      }
+      
+      function manageState(){
+      	var state = player1.getStateString();
+      	player1.setStateString(state);
+        //player1.setStateString('[[[2,0,1]],[[true,false,false]],[[true,true,false,false]],[["Y"]],[["York"]]]');
+      }
+      function report(){
+        var report = player1.getAssessmentSessionReport();
+        alert("time: " + report.getTime());
+        alert("score: " + report.getScore());
+        alert("max score: " + report.getScoreMax());
+        alert("lesson status: " + report.getLessonStatus());
+        alert("item: " + report.getItemIndex() + " / " + report.getItemsCount());
+        
+      }
+      
+    </script>
+    
+  </head>
+
+  <body onLoad="">
+
+	<INPUT TYPE="button" NAME="button" Value="next" onClick="player1.navigateNextItem();">
+	<INPUT TYPE="button" NAME="button" Value="previous" onClick="player1.navigatePreviousItem();">
+	<INPUT TYPE="button" NAME="button" Value="finish item" onClick="player1.navigateFinishItem();">
+	<INPUT TYPE="button" NAME="button" Value="finish assessment" onClick="player1.navigateFinishAssessment();">
+	<INPUT TYPE="button" NAME="button" Value="reset item" onClick="player1.navigateResetItem();">
+	<INPUT TYPE="button" NAME="button" Value="continue item" onClick="player1.navigateContinueItem();">
+	<INPUT TYPE="button" NAME="button" Value="summary" onClick="player1.navigateSummaryAssessment();">
+	<INPUT TYPE="button" NAME="button" Value="mode" onClick="alert(player1.getEngineMode().toString());">
+	<INPUT TYPE="button" NAME="button" Value="state" onClick="manageState();">
+	<INPUT TYPE="button" NAME="button" Value="report" onClick="report();">
+
+	<div id="player"></div>
+<!--
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-3468179-4");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+-->
+  </body>
+</html>

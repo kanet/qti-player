@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Thie example adapted from the PET Handbook, copyright University of Cambridge ESOL Examinations -->
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd" 
+identifier="choice" title="Unattended Luggage" adaptive="false" timeDependent="false">
+	<itemBody>
+		<p>Look at the text in the picture. No module page.</p>
+		<p>
+			<img src="media/sign.png" alt="NEVER LEAVE LUGGAGE UNATTENDED"/>
+		</p>
+
+	</itemBody>
+	<responseProcessing template="http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"/>
+</assessmentItem>
