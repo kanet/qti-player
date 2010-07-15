@@ -6,11 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 
     <link type="text/css" rel="stylesheet" href="defaultplayer.css">
-	<!--link type="text/css" rel="stylesheet" href="script_00007_013.css"-->
 
     <title>QTI Player demo</title>
     
-	<!--script type="text/javascript" language="javascript" src="qtiplayer/MathJax/MathJax.js"></script-->    
     <script type="text/javascript" language="javascript" src="locale_en.js"></script>    
     <script type="text/javascript" language="javascript" src="qtiplayer/qtiplayer.nocache.js"></script>
     <script language="javascript">
@@ -18,15 +16,16 @@
       function qpOnAppLoaded(){
         // Load assessment
         player1 = qpCreatePlayer('player');
+		player1.setFlowOptions({showToC: true, showSummary: true, itemsDisplayMode: "ONE"});
         player1.load('content/demo.xml');
         player1.setMasteryScore(10);
         
       }
       
       function manageState(){
-      	var state = player1.getStateString();
-      	player1.setStateString(state);
-        //player1.setStateString('[[[2,0,1]],[[true,false,false]],[[true,true,false,false]],[["Y"]],[["York"]]]');
+      	//var state = player1.getStateString();
+      	//player1.setStateString(state);
+        player1.setStateString('[[["P R","C T"]],[[2,0,1]],[[true,false,false]],[],[],[]]');
       }
       function report(){
         var report = player1.getAssessmentSessionReport();

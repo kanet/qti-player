@@ -353,7 +353,17 @@ color:#990000;
 	cursor:pointer;
 	background-image:url(images/btn_reset.png);
 }
-
+/**
+ * ToC
+ */
+ 
+.qp-toc-item-title{
+}
+.qp-toc-item-title-hover{
+	cursor:pointer;
+	cursor:hand;
+	text-decoration:underline;
+}
 /*
  * MATCH
  */

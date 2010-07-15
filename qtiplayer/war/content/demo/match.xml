@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/imsqti_v2p1.xsd" identifier="match" title="Characters and Plays" adaptive="false" timeDependent="false">
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:qy="http://www.w3.org/TR/html4/"
+xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/imsqti_v2p1.xsd" 
+identifier="match" title="Characters and Plays" adaptive="false" timeDependent="false">
 	<responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="directedPair">
 		<correctResponse>
 			<value>C R</value>
@@ -18,6 +21,7 @@
 	<outcomeDeclaration identifier="SCOREHISTORY" cardinality="multiple" baseType="float"/>
 	<outcomeDeclaration identifier="SCORECHANGES" cardinality="multiple" baseType="float"/>
 	<itemBody>
+		<qy:comment>asd</qy:comment>
 		<math><msqrt><msup><mi>x</mi><mn>71</mn></msup></msqrt></math>
 		<matchInteraction responseIdentifier="RESPONSE" shuffle="false" maxAssociations="4">
 			<prompt>Match the following 

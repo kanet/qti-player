@@ -1,6 +1,13 @@
 window.QtiPlayer = {};
 
 window.QtiPlayer.locale = {
+	PLAYER_HEADER: "",
+	PLAYER_FOOTER: "",	
+	TOC_TITLE: "Table of Contents",
+	TOC_PAGE: "Page",
+	ITEM_SCORE1: "Score: ",
+	ITEM_SCORE2: " out of ",
+	ITEM_SCORE3: " points.",	
 	SUMMARY_PAGE: "Page", 
 	SUMMARY_INFO_YOURSCOREIS1: "Your score is: ",
 	SUMMARY_INFO_YOURSCOREIS2: "% ",
