@@ -21,15 +21,14 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-package com.qtitools.player.client.model;
+package com.qtitools.player.client.module;
 
-import com.qtitools.player.client.module.IInteractionModule;
 
 /**
  * child state changed listener 
  * @author Rafal Rybacki
  */
-public interface ItemStateChangedEventsListener {
+public interface ModuleStateChangedEventsListener {
 
-	public void onItemStateChanged(IInteractionModule sender);
+	public void onStateChanged(boolean userInteract, IInteractionModule sender);
 }

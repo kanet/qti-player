@@ -8,17 +8,17 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
-import com.qtitools.player.client.model.ItemStateChangedEventsListener;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.ITouchEventsListener;
+import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.util.RandomizedSet;
 
 public class MatchContainer extends FlowPanel{
 
 	/** module state changed listener */
-	private ItemStateChangedEventsListener stateListener;
+	private ModuleStateChangedEventsListener stateListener;
 	/** module state changed listener */
 	private ITouchEventsListener touchEventsListener;
 	/** response processing interface */
@@ -47,7 +47,7 @@ public class MatchContainer extends FlowPanel{
 	public MatchContainer(NodeList nodes, boolean _shuffle, int _maxAssociations, Response _response, 
 			IModuleEventsListener moduleEventsListener, IInteractionModule _moduleReference){
 
-		stateListener = (ItemStateChangedEventsListener)moduleEventsListener;
+		stateListener = (ModuleStateChangedEventsListener)moduleEventsListener;
 		touchEventsListener = (ITouchEventsListener)moduleEventsListener;
 		response = _response;
 		moduleReference = _moduleReference;
@@ -484,7 +484,7 @@ public class MatchContainer extends FlowPanel{
 	}
 
 	
-	public void updateResponse(boolean markSender){
+	public void updateResponse(boolean userInteract){
 		
 		Vector<String> currResponseValues = new Vector<String>();
 		
@@ -494,7 +494,7 @@ public class MatchContainer extends FlowPanel{
 		
 		if (!response.compare(currResponseValues)){
 			response.set(currResponseValues);
-			stateListener.onItemStateChanged(markSender ? moduleReference : null);
+			stateListener.onStateChanged(userInteract, moduleReference);
 		}
 	}
 }

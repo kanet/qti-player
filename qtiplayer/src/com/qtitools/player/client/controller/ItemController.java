@@ -5,12 +5,12 @@ import com.qtitools.player.client.controller.flow.navigation.NavigationIncidentT
 import com.qtitools.player.client.controller.session.ItemSessionResultAndStats;
 import com.qtitools.player.client.controller.session.ItemSessionSocket;
 import com.qtitools.player.client.model.Item;
-import com.qtitools.player.client.model.ItemStateChangedEventsListener;
 import com.qtitools.player.client.module.IInteractionModule;
+import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.view.item.ItemViewCarrier;
 import com.qtitools.player.client.view.item.ItemViewSocket;
 
-public class ItemController implements ItemStateChangedEventsListener {
+public class ItemController implements ModuleStateChangedEventsListener {
 
 	public ItemController(ItemViewSocket ivs, ItemSessionSocket iss){
 		itemViewSocket = ivs;
@@ -29,8 +29,8 @@ public class ItemController implements ItemStateChangedEventsListener {
 	public void init(ItemData data){
 		item = new Item(data.data, this);
 		itemIndex = data.itemIndex;
-		itemViewSocket.setItemView(new ItemViewCarrier(String.valueOf(itemIndex+1) + ". " + item.getTitle(), item.getContentView(), item.getFeedbackView(), item.getScoreView()));
 		item.setState(itemSessionSocket.getState(itemIndex));
+		itemViewSocket.setItemView(new ItemViewCarrier(String.valueOf(itemIndex+1) + ". " + item.getTitle(), item.getContentView(), item.getFeedbackView(), item.getScoreView()));
 		itemSessionSocket.beginItemSession(itemIndex);
 		navigationIncidentsStats = new ItemNavigationIncidentsStats();
 	}
@@ -58,14 +58,12 @@ public class ItemController implements ItemStateChangedEventsListener {
 	}
 
 	@Override
-	public void onItemStateChanged(IInteractionModule sender) {
-		item.process(sender != null, sender != null ? sender.getIdentifier() : "");
-		// update result
+	public void onStateChanged(boolean processFeedback, IInteractionModule sender) {
+		item.process(processFeedback, sender != null ? sender.getIdentifier() : "");
 		itemSessionSocket.setSessionResult(itemIndex, item.getResult());
-		if (sender != null)
-			itemSessionSocket.setState(itemIndex, item.getState());
+		itemSessionSocket.setState(itemIndex, item.getState());
 	}
-
+	
 	public void onNavigationIncident(NavigationIncidentType nit){
 		if (item != null){
 			if (nit == NavigationIncidentType.CHECK){

@@ -20,10 +20,9 @@ import com.qtitools.player.client.model.variables.IVariableCreator;
 import com.qtitools.player.client.model.variables.VariableManager;
 import com.qtitools.player.client.model.variables.outcome.Outcome;
 import com.qtitools.player.client.model.variables.response.Response;
-import com.qtitools.player.client.module.IActivity;
 import com.qtitools.player.client.module.IModuleSocket;
 import com.qtitools.player.client.module.IStateful;
-import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
+import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.util.localisation.LocalePublisher;
 import com.qtitools.player.client.util.localisation.LocaleVariable;
 import com.qtitools.player.client.util.xml.document.XMLData;
@@ -48,7 +47,7 @@ public class Item implements IStateful {
 
 	private XMLData xmlData;
 			
-	public Item(XMLData data, ItemStateChangedEventsListener stateChangedListener){
+	public Item(XMLData data, ModuleStateChangedEventsListener stateChangedListener){
 
 		xmlData = data;
 		
@@ -172,9 +171,9 @@ public class Item implements IStateful {
 		process(userTriggered, "");
 	}
 	
-	public void process(boolean userTriggered, String senderIdentifier){
+	public void process(boolean processFeedback, String senderIdentifier){
 		responseProcessor.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap(), senderIdentifier);
-		if (userTriggered){
+		if (processFeedback){
 			feedbackManager.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap(), senderIdentifier);
 			//MathJaxProcessor.process();
 		}
