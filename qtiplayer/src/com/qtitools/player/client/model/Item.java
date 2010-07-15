@@ -266,13 +266,13 @@ public class Item implements IStateful {
 	// -------------------------- NAVIGATION -------------------------------
 
 	public void checkItem(){
-		itemBody.markAnswers();
+		itemBody.markAnswers(true);
 		itemBody.lock(true);
 		showScore();
 	}
 
 	public void continueItem(){
-		itemBody.unmark();
+		itemBody.markAnswers(false);
 		itemBody.lock(false);
 		hideScore();
 	}

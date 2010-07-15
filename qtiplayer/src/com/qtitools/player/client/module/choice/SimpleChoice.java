@@ -31,7 +31,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.qtitools.player.client.components.AccessibleCheckBox;
@@ -39,7 +38,6 @@ import com.qtitools.player.client.components.AccessibleRadioButton;
 import com.qtitools.player.client.components.ElementWrapperWidget;
 import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.util.BrowserCompatibility;
-import com.qtitools.player.client.util.xml.XMLConverter;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
 public class SimpleChoice extends Composite {

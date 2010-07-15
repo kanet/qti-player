@@ -32,14 +32,11 @@ public interface IActivity {
 	/** Reset module (as if it was created once again) */
 	public void reset();
 
-	/** Reset style for the module, after markAnswers etc */
-	public void unmark();
-	
 	/** Mark wrong and show correct answers */
-	public void markAnswers();
+	public void markAnswers(boolean mark);
 	
 	/** Show correct answers */
-	public void showCorrectAnswers();
+	public void showCorrectAnswers(boolean show);
 	
 	/** lock activity */
 	public void lock(boolean l);

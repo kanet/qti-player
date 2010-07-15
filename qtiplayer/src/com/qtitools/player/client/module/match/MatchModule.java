@@ -63,9 +63,14 @@ public class MatchModule extends Composite implements IInteractionModule {
 	}
 
 	@Override
-	public void markAnswers() {
-		locked = true;
-		container.markAnswers();
+	public void markAnswers(boolean mark) {
+		if (mark){
+			locked = true;
+			container.markAnswers();
+		} else {
+			container.unmark();
+			locked = false;
+		}
 
 	}
 
@@ -75,7 +80,6 @@ public class MatchModule extends Composite implements IInteractionModule {
 
 	}
 
-
 	@Override
 	public void lock(boolean l) {
 		locked = l;
@@ -83,15 +87,9 @@ public class MatchModule extends Composite implements IInteractionModule {
 	}
 
 	@Override
-	public void showCorrectAnswers() {
+	public void showCorrectAnswers(boolean show) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public void unmark() {
-		container.unmark();
-		locked = false;
 	}
 
 	@Override

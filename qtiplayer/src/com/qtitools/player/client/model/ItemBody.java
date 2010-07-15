@@ -187,7 +187,7 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 		setState(stateAsync);
 		
 		if (locked)
-			markAnswers();
+			markAnswers(true);
 		
 		MathJaxProcessor.pushAll();
 		
@@ -203,18 +203,12 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	}
 	
 	@Override
-	public void markAnswers() {
+	public void markAnswers(boolean mark) {
 		for(IActivity currModule : modules)
-			currModule.markAnswers();
+			currModule.markAnswers(mark);
 
 	}
 	
-	@Override
-	public void unmark() {
-		for(IActivity currModule : modules)
-			currModule.unmark();
-	}
-
 	@Override
 	public void reset() {
 		for(IActivity currModule : modules)
@@ -235,9 +229,9 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	}
 
 	@Override
-	public void showCorrectAnswers() {
+	public void showCorrectAnswers(boolean show) {
 		for(IActivity currModule : modules)
-			currModule.showCorrectAnswers();
+			currModule.showCorrectAnswers(show);
 
 	}
 

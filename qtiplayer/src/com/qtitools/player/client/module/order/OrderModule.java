@@ -186,33 +186,36 @@ public class OrderModule extends Composite implements IInteractionModule {
 	}
 
 	@Override
-	public void markAnswers() {
-		lock(true);
+	public void markAnswers(boolean mark) {
 		
-		Vector<String> correctAnswers = response.correctAnswers;
-
-		Vector<Integer> optionsIndexes = container.getElementsOrder();
-		
-		Vector<String> currResponseValues = new Vector<String>();
-		
-		for (Integer i : optionsIndexes){
-			currResponseValues.add(optionsIdentifiers.get(i));
+		if (mark){
+	
+			lock(true);
+			
+			Vector<String> correctAnswers = response.correctAnswers;
+	
+			Vector<Integer> optionsIndexes = container.getElementsOrder();
+			
+			Vector<String> currResponseValues = new Vector<String>();
+			
+			for (Integer i : optionsIndexes){
+				currResponseValues.add(optionsIdentifiers.get(i));
+			}
+			
+			for (int i = 0 ; i < correctAnswers.size()  &&  i < currResponseValues.size() ; i ++){
+				markOptionAnswer(optionsIndexes.get(i), (correctAnswers.get(i).compareTo(currResponseValues.get(i)) == 0));
+			}
+			
+		} else {
+			lock(false);
+			
+			for (int i = 0 ; i < options.size() ; i++){
+				AbsolutePanel currOption = options.get(i);
+				((SimplePanel)currOption.getWidget(0)).setStyleName("qp-order-option-content");
+			}
 		}
 		
-		for (int i = 0 ; i < correctAnswers.size()  &&  i < currResponseValues.size() ; i ++){
-			markOptionAnswer(optionsIndexes.get(i), (correctAnswers.get(i).compareTo(currResponseValues.get(i)) == 0));
-		}
 		
-	}
-
-	@Override
-	public void unmark() {
-		lock(false);
-		
-		for (int i = 0 ; i < options.size() ; i++){
-			AbsolutePanel currOption = options.get(i);
-			((SimplePanel)currOption.getWidget(0)).setStyleName("qp-order-option-content");
-		}
 	}
 
 	
@@ -243,7 +246,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 	}
 
 	@Override
-	public void showCorrectAnswers() {
+	public void showCorrectAnswers(boolean show) {
 		// TODO Auto-generated method stub
 
 	}

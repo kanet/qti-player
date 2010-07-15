@@ -102,20 +102,17 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	/**
 	 * @see IActivity#markAnswers()
 	 */
-	public void markAnswers() {
-	  listBox.setEnabled(false);
-		if( response.isCorrectAnswer(lastValue) )
-			setStyleName("qp-text-choice-correct");
-		else
-			setStyleName("qp-text-choice-wrong");
-	}
-
-	/**
-	 * @see IActivity#unmark()
-	 */
-	public void unmark() {
-		  listBox.setEnabled(true);
-		  setStyleName("qp-text-choice");
+	public void markAnswers(boolean mark) {
+		if (mark){
+			listBox.setEnabled(false);
+			if( response.isCorrectAnswer(lastValue) )
+				setStyleName("qp-text-choice-correct");
+			else
+				setStyleName("qp-text-choice-wrong");
+		} else {
+			listBox.setEnabled(true);
+			setStyleName("qp-text-choice");
+		}
 	}
 
 	/**
@@ -129,8 +126,8 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	/**
 	 * @see IActivity#showCorrectAnswers()
 	 */
-	public void showCorrectAnswers() {
-	  listBox.setEnabled(false);
+	public void showCorrectAnswers(boolean show) {
+	  
 	}
 	
   /**

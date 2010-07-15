@@ -124,15 +124,10 @@ public class TestModule extends Composite implements IInteractionModule {
 	}
 	
 	@Override
-	public void markAnswers() {
+	public void markAnswers(boolean mark) {
 		// TODO Auto-generated method stub
 
 	}	
-	@Override
-	public void unmark() {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void reset() {
@@ -141,7 +136,7 @@ public class TestModule extends Composite implements IInteractionModule {
 	}
 
 	@Override
-	public void showCorrectAnswers() {
+	public void showCorrectAnswers(boolean show) {
 		// TODO Auto-generated method stub
 
 	}

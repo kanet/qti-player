@@ -152,20 +152,16 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 	}
 	
 	@Override
-	public void markAnswers() {
+	public void markAnswers(boolean mark) {
 		
 		for (SimpleChoice currSC:interactionElements){
-			currSC.markAnswers( response.correctAnswers.contains(currSC.getIdentifier()) );
+			if (mark)
+				currSC.markAnswers( response.correctAnswers.contains(currSC.getIdentifier()) );
+			else 
+				currSC.unmark();
 		}
 	}
 
-	@Override
-	public void unmark() {
-		for (SimpleChoice currSC:interactionElements){
-			currSC.unmark();
-		}
-		
-	}
 
 	@Override
 	public void reset() {
@@ -176,7 +172,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 	}
 
 	@Override
-	public void showCorrectAnswers() {
+	public void showCorrectAnswers(boolean show) {
 		
 	}
 

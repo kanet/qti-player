@@ -95,22 +95,18 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	/**
 	 * @see IActivity#markAnswers()
 	 */
-	public void markAnswers() {
-		
-	  textBox.setEnabled(false);
-		if( response.isCorrectAnswer(lastValue) )
-			setStyleName("qp-text-textentry-correct");
-		else
-			setStyleName("qp-text-textentry-wrong");
+	public void markAnswers(boolean mark) {
+		if (mark){
+			textBox.setEnabled(false);
+			if( response.isCorrectAnswer(lastValue) )
+				setStyleName("qp-text-textentry-correct");
+			else
+				setStyleName("qp-text-textentry-wrong");
+		} else {
+			textBox.setEnabled(true);
+			setStyleName("qp-text-textentry");
+		}
 	}
-	/**
-	 * @see IActivity#unmark()
-	 */
-	public void unmark() {
-		textBox.setEnabled(true);
-		setStyleName("qp-text-textentry");
-	}
-
 
 	/**
 	 * @see IActivity#reset()
@@ -123,8 +119,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	/**
 	 * @see IActivity#showCorrectAnswers()
 	 */
-	public void showCorrectAnswers() {
-	  textBox.setEnabled(false);
+	public void showCorrectAnswers(boolean show) {
 	}
 	
   /**
