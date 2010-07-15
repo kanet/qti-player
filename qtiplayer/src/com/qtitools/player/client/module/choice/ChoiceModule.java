@@ -33,13 +33,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
+import com.qtitools.player.client.model.ItemStateChangedEventsListener;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleSocket;
-import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.util.RandomizedSet;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
@@ -47,7 +47,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 	/** response processing interface */
 	private Response response;
 	/** module state changed listener */
-	private IStateChangedListener stateListener;
+	private ItemStateChangedEventsListener stateListener;
 	/** response id */
 	private String responseIdentifier;
 	/** Work mode single or multiple choice */
@@ -60,7 +60,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 	private boolean locked = false;
 		
 	
-	public ChoiceModule(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener){
+	public ChoiceModule(Element element, IModuleSocket moduleSocket, ItemStateChangedEventsListener stateChangedListener){
 		
 		multi = (XMLUtils.getAttributeAsInt(element, "maxChoices") != 1);
 		shuffle = XMLUtils.getAttributeAsBoolean(element, "shuffle");
@@ -288,7 +288,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		
 		if (!response.compare(currResponseValues)){
 			response.set(currResponseValues);
-			stateListener.onStateChanged(markSender ? this : null);
+			stateListener.onItemStateChanged(markSender ? this : null);
 		}
 	}
 

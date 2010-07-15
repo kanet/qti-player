@@ -23,12 +23,9 @@
 */
 package com.qtitools.player.client.module;
 
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
-import com.qtitools.player.client.components.ElementWrapperWidget;
 import com.qtitools.player.client.components.EmptyWidget;
 import com.qtitools.player.client.module.choice.ChoiceModule;
 import com.qtitools.player.client.module.debug.DebugModule;

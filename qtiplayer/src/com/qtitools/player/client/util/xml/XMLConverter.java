@@ -8,9 +8,9 @@ import com.google.gwt.xml.client.NamedNodeMap;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.IModuleCreator;
+import com.qtitools.player.client.model.ItemStateChangedEventsListener;
 import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.IModuleSocket;
-import com.qtitools.player.client.module.IStateChangedListener;
 
 public abstract class XMLConverter {
 

@@ -32,13 +32,13 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.xml.client.Element;
+import com.qtitools.player.client.model.ItemStateChangedEventsListener;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IActivity;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleSocket;
-import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
@@ -48,7 +48,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	private Response 	response;
 	private String responseIdentifier;
 	/** module state changed listener */
-	private IStateChangedListener stateListener;
+	private ItemStateChangedEventsListener stateListener;
   /** widget id */
   private String  id;
   /** text box control */
@@ -60,7 +60,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	 * constructor
 	 * @param moduleSocket
 	 */
-	public TextEntryWidget(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener){
+	public TextEntryWidget(Element element, IModuleSocket moduleSocket, ItemStateChangedEventsListener stateChangedListener){
 
 		responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
 
@@ -184,7 +184,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 		
 		lastValue = textBox.getText();
 		response.add(lastValue);
-		stateListener.onStateChanged(markSender ? this : null);
+		stateListener.onItemStateChanged(markSender ? this : null);
 	
 	}
 

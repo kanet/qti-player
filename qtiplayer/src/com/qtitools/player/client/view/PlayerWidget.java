@@ -34,7 +34,7 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.qtitools.player.client.model.Assessment;
-import com.qtitools.player.client.model.AssessmentItem;
+import com.qtitools.player.client.model.Item;
 import com.qtitools.player.client.module.mathexpr.MathExprInlineModule;
 import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
 
@@ -142,7 +142,7 @@ public class PlayerWidget extends Composite{
 	 * Create view for given assessment item and show it in player
 	 * @param index of assessment item
 	 */
-	public void showPage(Assessment assessment, AssessmentItem assessmentItem, int pageIndex){
+	public void showPage(Assessment assessment, Item assessmentItem, int pageIndex){
 
 		Label itemTitleLabel = new Label();
 		
@@ -154,7 +154,7 @@ public class PlayerWidget extends Composite{
 		showFeedback("");
 
 		counterListBox.setSelectedIndex(pageIndex);
-		counterLabel.setText("/" + assessment.getAssessmentItemsCount());		
+		counterLabel.setText("/" + assessment.DEBUGgetAssessmentItemsCount());		
 
 		itemTitleLabel.setText(String.valueOf(pageIndex+1) + ". " + assessmentItem.getTitle());
 		itemTitleLabel.setStyleName("qp-item-title");
@@ -217,11 +217,11 @@ public class PlayerWidget extends Composite{
     counterListBox = new ListBox();
     counterListBox.setVisibleItemCount(1);
     counterListBox.setStyleName("qp-page-counter-list");
-    for (int p = 0 ; p <  assessment.getAssessmentItemsCount(); p ++)
+    for (int p = 0 ; p <  assessment.DEBUGgetAssessmentItemsCount(); p ++)
     	counterListBox.addItem(String.valueOf(p+1));
         
     
-    counterLabel = new Label("/" + assessment.getAssessmentItemsCount());
+    counterLabel = new Label("/" + assessment.DEBUGgetAssessmentItemsCount());
     counterLabel.setStyleName("qp-page-counter-count");
     
     counterPanel = new FlowPanel();

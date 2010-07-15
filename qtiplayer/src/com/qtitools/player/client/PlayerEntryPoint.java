@@ -25,6 +25,8 @@ package com.qtitools.player.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.qtitools.player.client.controller.communication.FlowOptions;
+import com.qtitools.player.client.controller.communication.PageItemsDisplayMode;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -108,10 +110,14 @@ public class PlayerEntryPoint implements EntryPoint {
 		  player.getEngineMode = function(){
 		  	 return @com.qtitools.player.client.PlayerEntryPoint::getEngineMode()();
 		  }
-
-		  player.addStyle = function(){
-		  	 @com.qtitools.player.client.PlayerEntryPoint::addStyle()();
+		  
+		  player.setFlowOptions = function(obj){
+		  	@com.qtitools.player.client.PlayerEntryPoint::setFlowOptions(Lcom/google/gwt/core/client/JavaScriptObject;)(obj);
 		  }
+
+		  //player.addStyle = function(){
+		  //	 @com.qtitools.player.client.PlayerEntryPoint::addStyle()();
+		  //}
 
 
 		  return player;
@@ -179,35 +185,34 @@ public class PlayerEntryPoint implements EntryPoint {
 	}
 
 	public static void navigateNextItem() {
-		((EntryPointEventListener) player).onNavigateNextItem();
+		player.getNavigationCommandsListener().nextPage();
 	}
 
 	public static void navigatePreviousItem() {
-		((EntryPointEventListener) player).onNavigatePreviousItem();
+		player.getNavigationCommandsListener().previousPage();
 	}
 
 	public static void navigateFinishItem() {
-		((EntryPointEventListener) player).onNavigateFinishItem();
 	}
 
 	public static void navigateFinishAssessment() {
-		((EntryPointEventListener) player).onNavigateFinishAssessment();
+		player.getNavigationCommandsListener().gotoSummary();
 	}
 
 	public static void navigateSummaryAssessment() {
-		((EntryPointEventListener) player).onNavigateSummaryAssessment();
+		player.getNavigationCommandsListener().gotoSummary();
 	}
 
 	public static void navigateResetItem() {
-		((EntryPointEventListener) player).onNavigateResetItem();
+		player.getNavigationCommandsListener().resetPage();
 	}
 	
 	public static void navigateContinueItem() {
-		((EntryPointEventListener) player).onNavigateContinueItem();
+		player.getNavigationCommandsListener().continuePage();
 	}
 
 	public static void navigateResetAssessment() {
-		((EntryPointEventListener) player).onNavigateResetAssessment();
+		
 	}
 
 	/**
@@ -216,18 +221,29 @@ public class PlayerEntryPoint implements EntryPoint {
 	 * @param url
 	 */
 	public static void load(String url) {
-		player.loadAssessment(url);
+		player.load(url);
 	}
-
-	public static native void addStyle()/*-{
-		var headID = $wnd.document.getElementsByTagName("head")[0];         
-		var cssNode = $wnd.document.createElement('link');
-		cssNode.type = 'text/css';
-		cssNode.rel = 'stylesheet';
-		cssNode.href = 's.css';
-		cssNode.media = 'screen';
-		headID.appendChild(cssNode);
+	
+	public static void setFlowOptions(JavaScriptObject o){
+		FlowOptions fo = new FlowOptions();
+		try {
+			fo.showToC = decodeFlowOptionsObjectShowToC(o);
+			fo.showSummary = decodeFlowOptionsObjectShowSummary(o);
+			fo.itemsDisplayMode = (decodeFlowOptionsObjectPageItemsDisplayMode(o).compareTo(PageItemsDisplayMode.ALL.toString()) == 0) ? PageItemsDisplayMode.ALL : PageItemsDisplayMode.ONE;
+		} catch (Exception e) {}
+		player.setFlowOptions(fo);
+	}
+	
+	public native static boolean decodeFlowOptionsObjectShowToC(JavaScriptObject obj)/*-{
+		return obj.showToC;
+	}-*/;
+	
+	public native static boolean decodeFlowOptionsObjectShowSummary(JavaScriptObject obj)/*-{
+		return obj.showSummary;
 	}-*/;
 
+	public native static String decodeFlowOptionsObjectPageItemsDisplayMode(JavaScriptObject obj)/*-{
+		return obj.itemsDisplayMode;
+	}-*/;
 
 }

@@ -1,6 +1,8 @@
 package com.qtitools.player.client.module;
 
-public interface IModuleEventsListener extends IStateChangedListener,
+import com.qtitools.player.client.model.ItemStateChangedEventsListener;
+
+public interface IModuleEventsListener extends ItemStateChangedEventsListener,
 		ITouchEventsListener {
 
 }

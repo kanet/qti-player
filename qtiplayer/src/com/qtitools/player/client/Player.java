@@ -24,48 +24,26 @@
 package com.qtitools.player.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Node;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.json.client.JSONParser;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.qtitools.player.client.components.TaggedLabel;
-import com.qtitools.player.client.control.DeliveryEngine;
-import com.qtitools.player.client.control.DeliveryEngineEventListener;
-import com.qtitools.player.client.control.Result;
-import com.qtitools.player.client.control.session.IAssessmentSessionReport;
-import com.qtitools.player.client.model.AssessmentItemStatistics;
-import com.qtitools.player.client.util.localisation.LocalePublisher;
-import com.qtitools.player.client.util.localisation.LocaleVariable;
-import com.qtitools.player.client.view.PlayerWidget;
+import com.qtitools.player.client.controller.DeliveryEngine;
+import com.qtitools.player.client.controller.DeliveryEngineEventListener;
+import com.qtitools.player.client.controller.communication.FlowOptions;
+import com.qtitools.player.client.controller.communication.IAssessmentReport;
+import com.qtitools.player.client.controller.flow.navigation.NavigationCommandsListener;
+import com.qtitools.player.client.util.xml.document.XMLData;
+import com.qtitools.player.client.view.ViewEngine;
 /**
  * Main class with player API
  * @author Krzysztof Langner
  */
-public class Player implements DeliveryEngineEventListener, EntryPointEventListener {
+public class Player implements DeliveryEngineEventListener {
 
-  /** player node id */
-  private String              id;
+
   /** JavaScript object representing this java object */
   private JavaScriptObject    jsObject;
-  /** Player view */
-  private PlayerWidget          playerView;
   /** Delivery engine do manage the assessment content */
   public DeliveryEngine deliveryEngine;
+  /** View engine maintains the view tasks */
+  private ViewEngine viewEngine;
   
   private JavaScriptResult    testResult;  
     
@@ -76,19 +54,28 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
    */
   public Player(String id){
   
-    this.id = id;
+    //this.id = id;
     this.jsObject = JavaScriptObject.createFunction();
     testResult = new JavaScriptResult(0, 0);
     
     //listener = l;
-    
-    deliveryEngine = new DeliveryEngine(this);
+
+	viewEngine = new ViewEngine(id);
+    deliveryEngine = new DeliveryEngine(viewEngine.getPlayerViewSocket(), this);
     
   }
   
-  public void loadAssessment(String url){
-	  deliveryEngine.loadAssessment(url);
-  }
+	public void load(String url){
+		deliveryEngine.load(url);
+	}
+
+	public void load(XMLData assessmentData, XMLData[] itemsData){
+		deliveryEngine.load(assessmentData, itemsData);
+	}
+	
+	public NavigationCommandsListener getNavigationCommandsListener(){
+		return deliveryEngine.getNavigationListener();
+	}
   
   /**
    * @return js object representing this player
@@ -106,19 +93,21 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     return testResult;
   }
   
+  // ZOSTAJE
+  
   /**
    * Return interface to get assessment session time
    */
   public JavaScriptObject getAssessmentSessionReport() {
 
-	  IAssessmentSessionReport report = deliveryEngine.report();
+	  IAssessmentReport report = deliveryEngine.report();
 	  
 	  int assessmentSessionTime = report.getAssessmentSessionTime();
-	  int score = (int)(deliveryEngine.getAssessmentResult().getScore() - deliveryEngine.getAssessmentResult().getMinPoints());
-	  int max = (int)(deliveryEngine.getAssessmentResult().getMaxPoints() - deliveryEngine.getAssessmentResult().getMinPoints());
-	  int itemIndex = report.getAssessmentItemIndex();
-	  int itemsCount = report.getAssessmentItemsCount();
-	  int itemsVisited = report.getAssessmentItemsVisitedCount();
+	  int score = (int)(report.getAssessmentResult().getScore() - report.getAssessmentResult().getMinPoints());
+	  int max = (int)(report.getAssessmentResult().getMaxPoints() - report.getAssessmentResult().getMinPoints());
+	  int itemIndex = report.getCurrentItemIndex();
+	  int itemsCount = report.getItemsCount();
+	  int itemsVisited = report.getItemsVisitedCount();
 	  boolean passed = report.getAssessmentMasteryPassed();
 	  
 	  String lessonStatus = "INCOMPLETE";
@@ -130,8 +119,6 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
 		  else
 			  lessonStatus = "FAILED";
 	  }
-		  
-		  
 	  
 	  JavaScriptObject obj = JavaScriptObject.createObject();
 	  
@@ -162,29 +149,28 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
 	  }
   }-*/;
 
-  public void setMasteryScore(int mastery){
-	  deliveryEngine.setMasteryScore(mastery);
-  }
-  
-  /**
-   * Return interface to get assessment session state
-   */
-  public String getState() {
-	  
-	  String stateString = deliveryEngine.getState().toString();
-	  return stateString;
-  }
-  
-  /**
-   * Return interface to get assessment session time
-   */
-  public void setState(String obj) {
-	  try {
-		  JSONArray statesArr = (JSONArray)JSONParser.parse(obj);
-		  deliveryEngine.setState(statesArr);
-	  } catch (Exception e) {
+	public void setMasteryScore(int mastery){
+		deliveryEngine.setMasteryScore(mastery);
 	}
-  }
+	
+	public void setFlowOptions(FlowOptions o){
+		deliveryEngine.setFlowOptions(o);
+	}
+  
+	/**
+	 * Return interface to get assessment session state
+	 */
+	public String getState() {  
+		String stateString = deliveryEngine.getStateInterface().exportState().toString();
+		return stateString;
+	}
+  
+	/**
+	 * Return interface to get assessment session time
+	 */
+	public void setState(String obj) {
+		 deliveryEngine.getStateInterface().importState(obj);
+	}
   
   
   	public JavaScriptObject getEngineMode(){
@@ -201,9 +187,7 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
 	}-*/;
 
   
-  /**
-   * Create user interface
-   */
+  /*
   private void createUserInterface() {
 
 	RootPanel rootPanel = RootPanel.get(id); 
@@ -268,10 +252,8 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     	rootPanel.add(l);
 	}
   }
-  
-  /**
-   * create view for assessment item
-   */
+  */
+  /*
   private void createAssessmentItemView(){
     
 	playerView.getCheckButton().setVisible(!deliveryEngine.currentAssessmentItem.isLocked());
@@ -298,11 +280,9 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     playerView.showPage(deliveryEngine.assessment, deliveryEngine.currentAssessmentItem, deliveryEngine.getCurrentAssessmentItemIndex());
 
   }
+*/
 
-
-  /**
-   * Reset
-   */
+  /*
   public void resetActivities(){
 
 	  deliveryEngine.reset();
@@ -313,12 +293,9 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
 	  playerView.getResetButton().setVisible(false);
 
   }
-
+*/
   
-  /**
-   * Show assessment item in body part of player
-   * @param index
-   */
+  /*
   private void showAssessmentResult(){
 
     //deliveryEngine.endItemSession();
@@ -419,11 +396,9 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
     playerView.showResultPage(resultInfo);
     
   }
-   
-  /**
-   * Check score
-   * @param index
    */
+    
+  /*
   private void showItemResult(){
 
 	  
@@ -443,7 +418,8 @@ public class Player implements DeliveryEngineEventListener, EntryPointEventListe
 
 	  playerView.showFeedback(feedback);
   }
-
+*/
+    /*
 private void resetItem(){
 	deliveryEngine.reset();
 	playerView.showFeedback("");
@@ -454,60 +430,9 @@ private void clearItem(){
 	playerView.showFeedback("");
 }
 
+*/
 
-@Override
-public void onAssessmentSessionBegin() {
-	deliveryEngine.updateAssessmentStyle();
-	createUserInterface();
-	onAssessmentSessionBeginJS(jsObject);
-}
-
-private static native void onAssessmentSessionBeginJS(JavaScriptObject player) /*-{
-	if(typeof player.onAssessmentSessionBegin == 'function') {
-		player.onAssessmentSessionBegin();
-}
-}-*/;
-
-
-@Override
-public void onAssessmentSessionFinished() {
-	showAssessmentResult();
-    onAssessmentSessionFinishedJS(jsObject);
-    	
-}
-
-private static native void onAssessmentSessionFinishedJS(JavaScriptObject player) /*-{
-  	if(typeof player.onAssessmentSessionFinished == 'function') {
-		player.onAssessmentSessionFinished();
-	}
-}-*/;
-
-@Override
-public void onItemSessionBegin(int currentAssessmentItemIndex) {
-	playerView.getCounterListBox().setEnabled(true);
-	deliveryEngine.updateItemStyle();
-	createAssessmentItemView();
-	onItemSessionBeginJS(jsObject);
-}
-
-private static native void onItemSessionBeginJS(JavaScriptObject player) /*-{
-	if(typeof player.onItemSessionBegin == 'function') {
-		player.onItemSessionBegin();
-	}
-}-*/;
-
-@Override
-public void onItemSessionFinished(int currentAssessmentItemIndex) {
-	onItemSessionFinishedJS(jsObject);
-	
-}
-
-private static native void onItemSessionFinishedJS(JavaScriptObject player) /*-{
-	if(typeof player.onItemSessionFinished == 'function') {
-		player.onItemSessionFinished();
-	}
-}-*/;
-
+/*
 @Override
 public void onAssessmentItemLoadingError(String errorMessage) {
 	playerView.getCheckButton().setVisible(false);
@@ -523,7 +448,8 @@ public void onAssessmentLoadingError(String errorMessage) {
 	RootPanel.get(id).add(errorLabel);
 	
 }
-
+*/
+/*
 @Override
 public void onNavigateFinishAssessment() {
 	if (deliveryEngine.isNavigationPossible()){
@@ -599,5 +525,24 @@ public void onNavigateContinueAssessment() {
 	}
 	
 }
+*/
+
+	@Override
+	public void onAssessmentLoaded() {
+		
+		
+	}
+
+	@Override
+	public void onAssessmentStarted() {
+		FlowEventsJSCallbackCaller.onAssessmentSessionBeginJS(jsObject);
+		
+	}
+	
+	@Override
+	public void onSummary() {
+		FlowEventsJSCallbackCaller.onAssessmentSessionFinishedJS(jsObject);
+		
+	}
 
 }

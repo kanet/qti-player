@@ -23,4 +23,7 @@ public class XMLData {
 		return baseURL;
 	}
 	
+	public boolean checkIntegrity(){
+		return true;
+	}
 }

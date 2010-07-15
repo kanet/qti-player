@@ -15,15 +15,15 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.qtitools.player.client.components.htmldnd.DragContainerPanel;
 import com.qtitools.player.client.components.htmldnd.DragMode;
+import com.qtitools.player.client.model.ItemStateChangedEventsListener;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleSocket;
-import com.qtitools.player.client.module.IStateChangedListener;
 
 public class TestModule extends Composite implements IInteractionModule {
 
-	public TestModule(Element element, IModuleSocket moduleSocket, IStateChangedListener stateChangedListener){
+	public TestModule(Element element, IModuleSocket moduleSocket, ItemStateChangedEventsListener stateChangedListener){
 		
 		String dm = element.getAttribute("dragMode");
 		

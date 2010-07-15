@@ -14,7 +14,6 @@ import com.qtitools.player.client.module.IActivity;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.IModuleSocket;
-import com.qtitools.player.client.module.IStateChangedListener;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.module.ModuleFactory;
 import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
@@ -38,7 +37,7 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	
 	//private Label traceLabel;
 	
-	public ItemBody(Node itemBodyNode, IModuleSocket moduleSocket, final IStateChangedListener stateChangedListener){
+	public ItemBody(Node itemBodyNode, IModuleSocket moduleSocket, final ItemStateChangedEventsListener stateChangedListener){
 		
 		eventManager = new InternalEventManager();
 		
@@ -65,8 +64,8 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 			}
 			
 			@Override
-			public void onStateChanged(IInteractionModule sender) {
-				stateChangedListener.onStateChanged(sender);
+			public void onItemStateChanged(IInteractionModule sender) {
+				stateChangedListener.onItemStateChanged(sender);
 				
 			}
 		};

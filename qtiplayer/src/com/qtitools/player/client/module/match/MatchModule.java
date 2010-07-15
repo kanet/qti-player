@@ -1,8 +1,6 @@
 package com.qtitools.player.client.module.match;
 
 import java.util.Vector;
-
-import com.google.gwt.dev.shell.CheckForUpdates.UpdateResult;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONString;
@@ -111,6 +109,7 @@ public class MatchModule extends Composite implements IInteractionModule {
 	@Override
 	public void setState(JSONArray newState) {
 		String answer;
+		container.removeAllLines();
 		for (int j = 0 ; j < newState.size() ; j ++){
 			answer = newState.get(j).isString().stringValue();
 			String connectionIdentifiers[] = answer.split(" ");
