@@ -7,6 +7,8 @@ import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
+import com.qtitools.player.client.controller.communication.FlowOptions;
+import com.qtitools.player.client.controller.communication.PageItemsDisplayMode;
 import com.qtitools.player.client.util.xml.XMLDocument;
 import com.qtitools.player.client.util.xml.document.IDocumentLoaded;
 import com.qtitools.player.client.util.xml.document.XMLData;
@@ -109,6 +111,8 @@ public class DirectLoadInterfaceTest implements EntryPoint {
 	 */
 	public void createPlayer(){
 		Player p = new Player("root");
+		// optionally flow options could be set
+		p.setFlowOptions(new FlowOptions(false, false, PageItemsDisplayMode.ONE));
 		p.load(assessmentData, itemDatas);
 	}
 }
