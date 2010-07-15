@@ -24,6 +24,7 @@
 package com.qtitools.player.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.qtitools.player.client.controller.DeliveryEngine;
 import com.qtitools.player.client.controller.DeliveryEngineEventListener;
 import com.qtitools.player.client.controller.communication.FlowOptions;
@@ -48,23 +49,24 @@ public class Player implements DeliveryEngineEventListener {
   private JavaScriptResult    testResult;  
     
   
-  /**
-   * constructor
-   * @param id
-   */
-  public Player(String id){
-  
-    //this.id = id;
-    this.jsObject = JavaScriptObject.createFunction();
-    testResult = new JavaScriptResult(0, 0);
-    
-    //listener = l;
+	/**
+	 * constructor
+	 * @param id
+	 */
+	public Player(String id){
+		this.jsObject = JavaScriptObject.createFunction();
+		testResult = new JavaScriptResult(0, 0);
+		viewEngine = new ViewEngine(id);
+		deliveryEngine = new DeliveryEngine(viewEngine.getPlayerViewSocket(), this);
+	}
 
-	viewEngine = new ViewEngine(id);
-    deliveryEngine = new DeliveryEngine(viewEngine.getPlayerViewSocket(), this);
-    
-  }
-  
+	public Player(ComplexPanel container){
+		this.jsObject = JavaScriptObject.createFunction();
+		testResult = new JavaScriptResult(0, 0);
+		viewEngine = new ViewEngine(container);
+		deliveryEngine = new DeliveryEngine(viewEngine.getPlayerViewSocket(), this);
+	}
+
 	public void load(String url){
 		deliveryEngine.load(url);
 	}
