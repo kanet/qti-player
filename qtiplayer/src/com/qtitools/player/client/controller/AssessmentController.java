@@ -3,7 +3,6 @@ package com.qtitools.player.client.controller;
 import com.qtitools.player.client.controller.communication.PageData;
 import com.qtitools.player.client.controller.communication.PageDataSummary;
 import com.qtitools.player.client.controller.communication.PageType;
-import com.qtitools.player.client.controller.flow.navigation.NavigationIncidentEventsListener;
 import com.qtitools.player.client.controller.flow.navigation.NavigationIncidentType;
 import com.qtitools.player.client.controller.flow.navigation.NavigationSocket;
 import com.qtitools.player.client.controller.flow.navigation.NavigationViewSocket;
@@ -26,6 +25,7 @@ public class AssessmentController {
 	private AssessmentViewSocket assessmentViewSocket;
 	private NavigationViewSocket navigationViewSocket;
 	
+	@SuppressWarnings("unused")
 	private AssessmentSessionSocket assessmentSessionSocket;
 	
 	private Assessment assessment;
