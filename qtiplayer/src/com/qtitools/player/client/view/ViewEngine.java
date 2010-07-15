@@ -8,7 +8,7 @@ import com.qtitools.player.client.view.player.PlayerViewSocket;
 public class ViewEngine {
 	
 	public ViewEngine(String id){
-		root = RootPanel.get(id);
+		RootPanel root = RootPanel.get(id);
 		mountView(root);
 	}
 	
@@ -19,11 +19,10 @@ public class ViewEngine {
 	public void mountView(ComplexPanel container){
 		
 		playerView = new PlayerContentView();
-		root.add(playerView.getView());
+		container.add(playerView.getView());
 		
 	}
 	
-	private RootPanel root;
 	private PlayerContentView playerView;
 	
 	public PlayerViewSocket getPlayerViewSocket(){
