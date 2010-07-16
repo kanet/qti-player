@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -12,7 +13,7 @@ import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
 
-public class ModalFeedback extends Composite {
+public class ModalFeedback extends Composite implements IItemFeedback {
 
 	public ModalFeedback(Node node, String _baseUrl){
 		
@@ -120,6 +121,20 @@ public class ModalFeedback extends Composite {
 		SoundController ctrl = new SoundController();
 		Sound sound = ctrl.createSound(Sound.MIME_TYPE_AUDIO_MPEG, combinedAddress);
 		sound.play();
+	}
+
+	@Override
+	public void hide(ComplexPanel parent) {
+		if (parent.getWidgetIndex(getView()) != -1)
+			parent.remove(getView());
+		
+	}
+
+	@Override
+	public void show(ComplexPanel parent) {
+		if (parent.getWidgetIndex(getView()) == -1)
+			parent.add(getView());
+		
 	}
 	
 }

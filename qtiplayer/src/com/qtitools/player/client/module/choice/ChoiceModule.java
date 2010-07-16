@@ -33,12 +33,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
+import com.qtitools.player.client.model.feedback.InlineFeedbackSocket;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.module.IInteractionModule;
-import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.util.RandomizedSet;
 import com.qtitools.player.client.util.xml.XMLUtils;
@@ -60,7 +61,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 	private boolean locked = false;
 		
 	
-	public ChoiceModule(Element element, IModuleSocket moduleSocket, ModuleStateChangedEventsListener stateChangedListener){
+	public ChoiceModule(Element element, ModuleSocket moduleSocket, ModuleStateChangedEventsListener stateChangedListener){
 		
 		multi = (XMLUtils.getAttributeAsInt(element, "maxChoices") != 1);
 		shuffle = XMLUtils.getAttributeAsBoolean(element, "shuffle");
@@ -73,7 +74,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		
 		vp.setStyleName("qp-choice-module");
 		vp.add(CommonsFactory.getPromptView(XMLUtils.getFirstElementWithTagName(element, "prompt")));
-		vp.add(getOptionsView(element));
+		vp.add(getOptionsView(element, moduleSocket));
 		
 		initWidget(vp);
 	}
@@ -86,7 +87,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 	   * Get options view
 	   * @return
 	   */
-	  private Widget getOptionsView(Element element){
+	  private Widget getOptionsView(Element element, InlineFeedbackSocket inlineFeedbackSocket){
 
 		  VerticalPanel panel = new VerticalPanel();
 		  NodeList optionNodes = element.getElementsByTagName("simpleChoice");
@@ -122,7 +123,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 				  option = (Element)optionNodes.item(optionIndex);
 			  }
 
-			  currInteractionElement = new SimpleChoice(option, currInputId, currLabelId, multi);
+			  currInteractionElement = new SimpleChoice(option, currInputId, currLabelId, multi, inlineFeedbackSocket);
 			  //interactionElements.add(currInteractionElement);
 			  interactionElements.set(optionIndex, currInteractionElement);
 			  panel.add(currInteractionElement);

@@ -18,12 +18,12 @@ import com.qtitools.player.client.components.htmldnd.DragMode;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.module.IInteractionModule;
-import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 
 public class TestModule extends Composite implements IInteractionModule {
 
-	public TestModule(Element element, IModuleSocket moduleSocket, ModuleStateChangedEventsListener stateChangedListener){
+	public TestModule(Element element, ModuleSocket moduleSocket, ModuleStateChangedEventsListener stateChangedListener){
 		
 		String dm = element.getAttribute("dragMode");
 		

@@ -33,9 +33,13 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.Node;
+import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.components.AccessibleCheckBox;
 import com.qtitools.player.client.components.AccessibleRadioButton;
 import com.qtitools.player.client.components.ElementWrapperWidget;
+import com.qtitools.player.client.model.feedback.InlineFeedback;
+import com.qtitools.player.client.model.feedback.InlineFeedbackSocket;
 import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.util.BrowserCompatibility;
 import com.qtitools.player.client.util.xml.XMLUtils;
@@ -58,7 +62,7 @@ public class SimpleChoice extends Composite {
 	public String coverId;
 	
 	
-	public SimpleChoice(Element element, String inputId, String labelId, boolean multi) {
+	public SimpleChoice(Element element, String inputId, String labelId, boolean multi, InlineFeedbackSocket inlineFeedbackSocket) {
 		
 		
 		this.inputId = inputId;
@@ -131,6 +135,12 @@ public class SimpleChoice extends Composite {
 		initWidget(widgetWrapped);
 		
 		// feedback
+		
+		NodeList inlineFeedbackNodes = element.getElementsByTagName("feedbackInline");
+		for (int f = 0 ; f < inlineFeedbackNodes.getLength() ; f ++){
+			inlineFeedbackSocket.add(new InlineFeedback(labelPanel, inlineFeedbackNodes.item(f)));
+		}
+		
 
 	    Element feedbackInline = XMLUtils.getFirstElementWithTagName(element, "feedbackInline");
 	    if(feedbackInline != null){
@@ -217,7 +227,7 @@ public class SimpleChoice extends Composite {
 	 * @param show 
 	 */
 	public void showFeedback(boolean show, boolean correct) {
-
+		/*
 		if( feedbackLabel != null ){
 			if(show){
 				feedbackLabel.setText(feedback);
@@ -235,6 +245,7 @@ public class SimpleChoice extends Composite {
 			
 				
 		}
+		*/
 	}
 
 }

@@ -15,7 +15,7 @@ import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
-import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.match.area.MatchContainer;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
@@ -32,7 +32,7 @@ public class MatchModule extends Composite implements IInteractionModule {
 	
 	private boolean locked = false;
 	
-	public MatchModule(Element element, IModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener){
+	public MatchModule(Element element, ModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener){
 
 		/** Shuffle? */
 		boolean shuffle = XMLUtils.getAttributeAsBoolean(element, "shuffle");
@@ -40,10 +40,8 @@ public class MatchModule extends Composite implements IInteractionModule {
 
 		responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier");
 		Response response = moduleSocket.getResponse(responseIdentifier);
-		
-		NodeList setNodes = element.getElementsByTagName("simpleMatchSet");
-		
-		container = new MatchContainer(setNodes, shuffle, maxAssociations, response, moduleEventsListener, this);
+				
+		container = new MatchContainer(element, shuffle, maxAssociations, moduleSocket, response, moduleEventsListener, this);
 		containerId = Document.get().createUniqueId();
 		container.getElement().setId(containerId);
 		container.setStylePrimaryName("qp-match-container");

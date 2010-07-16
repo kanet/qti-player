@@ -23,7 +23,7 @@ public class DirectLoadInterfaceTest implements EntryPoint {
 	private int itemLoadingCounter = 0;;
 	
 	public void onModuleLoad() {
-		loadAssessment("content/demo.xml");
+		loadAssessment("content/test.xml");
 	}
 	
 	public void loadAssessment(String url){

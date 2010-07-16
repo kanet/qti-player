@@ -32,12 +32,14 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NodeList;
+import com.qtitools.player.client.model.feedback.InlineFeedback;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IActivity;
 import com.qtitools.player.client.module.IInteractionModule;
-import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.util.xml.XMLUtils;
@@ -60,7 +62,7 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	 * constructor
 	 * @param moduleSocket
 	 */
-	public TextEntryWidget(Element element, IModuleSocket moduleSocket, ModuleStateChangedEventsListener stateChangedListener){
+	public TextEntryWidget(Element element, ModuleSocket moduleSocket, ModuleStateChangedEventsListener stateChangedListener){
 
 		responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
 
@@ -75,6 +77,11 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 			textBox.getElement().setAttribute("type", "number");
 		getElement().appendChild(textBox.getElement());
 		setStyleName("qp-text-textentry");
+		
+		NodeList inlineFeedbackNodes = element.getElementsByTagName("feedbackInline");
+		for (int f = 0 ; f < inlineFeedbackNodes.getLength() ; f ++){
+			moduleSocket.add(new InlineFeedback(this, inlineFeedbackNodes.item(f)));
+		}
 		
 	}
 

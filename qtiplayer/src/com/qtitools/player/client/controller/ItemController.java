@@ -36,6 +36,7 @@ public class ItemController implements ModuleStateChangedEventsListener {
 	}
 	
 	public void close(){
+		item.close();
 		itemSessionSocket.setState(itemIndex, item.getState());
 		/*
 		ItemSessionData isd = new ItemSessionData();

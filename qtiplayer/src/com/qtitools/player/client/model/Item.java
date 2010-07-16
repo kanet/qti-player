@@ -11,7 +11,8 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.controller.communication.Result;
 import com.qtitools.player.client.controller.style.StyleLinkDeclaration;
-import com.qtitools.player.client.model.feedback.ModalFeedbackManager;
+import com.qtitools.player.client.model.feedback.FeedbackManager;
+import com.qtitools.player.client.model.feedback.InlineFeedback;
 import com.qtitools.player.client.model.responseprocessing.ResponseProcessor;
 import com.qtitools.player.client.model.variables.BaseType;
 import com.qtitools.player.client.model.variables.BaseTypeConverter;
@@ -20,7 +21,7 @@ import com.qtitools.player.client.model.variables.IVariableCreator;
 import com.qtitools.player.client.model.variables.VariableManager;
 import com.qtitools.player.client.model.variables.outcome.Outcome;
 import com.qtitools.player.client.model.variables.response.Response;
-import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.util.localisation.LocalePublisher;
@@ -35,7 +36,7 @@ public class Item implements IStateful {
 	
 	private ResponseProcessor responseProcessor;
 	
-	private ModalFeedbackManager feedbackManager;
+	private FeedbackManager feedbackManager;
 	
 	public VariableManager<Response> responseManager;
 	
@@ -56,7 +57,7 @@ public class Item implements IStateful {
 	
 	    responseProcessor = new ResponseProcessor(xmlData.getDocument().getElementsByTagName("responseProcessing"));
 	    
-	    feedbackManager = new ModalFeedbackManager(xmlData.getDocument().getElementsByTagName("modalFeedback"), xmlData.getBaseURL());
+	    feedbackManager = new FeedbackManager(xmlData.getDocument().getElementsByTagName("modalFeedback"), xmlData.getBaseURL());
 	    
 	    responseManager = new VariableManager<Response>(xmlData.getDocument().getElementsByTagName("responseDeclaration"), new IVariableCreator<Response>() {
 				@Override
@@ -159,13 +160,23 @@ public class Item implements IStateful {
 	/**
 	 * Inner class for module socket implementation
 	 */
-	private IModuleSocket moduleSocket = new IModuleSocket(){
+	private ModuleSocket moduleSocket = new ModuleSocket(){
 
 		public com.qtitools.player.client.model.variables.response.Response getResponse(String id) {
 			return responseManager.getVariable(id);
 		}
 
+		@Override
+		public void add(InlineFeedback inlineFeedback) {
+			feedbackManager.add(inlineFeedback);
+			
+		}
+
 	};
+	
+	public void close(){
+		feedbackManager.hideAllInlineFeedbacks();
+	}
 	
 	public void process(boolean userTriggered){
 		process(userTriggered, "");
@@ -192,7 +203,7 @@ public class Item implements IStateful {
 	}
 	
 	public Widget getFeedbackView(){
-		return feedbackManager.getView();
+		return feedbackManager.getModalFeedbackView();
 	}
 	
 	public Widget getScoreView(){

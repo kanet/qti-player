@@ -13,7 +13,7 @@ import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.module.IActivity;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
-import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.module.ModuleFactory;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
@@ -38,7 +38,7 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	
 	//private Label traceLabel;
 	
-	public ItemBody(Node itemBodyNode, IModuleSocket moduleSocket, final ModuleStateChangedEventsListener stateChangedListener){
+	public ItemBody(Node itemBodyNode, ModuleSocket moduleSocket, final ModuleStateChangedEventsListener stateChangedListener){
 		
 		eventManager = new InternalEventManager();
 		
@@ -80,7 +80,7 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 			}
 			
 			@Override
-			public com.google.gwt.dom.client.Element createModule(Element element, IModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener) {
+			public com.google.gwt.dom.client.Element createModule(Element element, ModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener) {
 				Widget widget = ModuleFactory.createWidget(element, moduleSocket, moduleEventsListener);
 
 				if (widget instanceof IInteractionModule)

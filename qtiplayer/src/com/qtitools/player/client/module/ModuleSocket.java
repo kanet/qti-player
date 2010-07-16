@@ -23,15 +23,12 @@
 */
 package com.qtitools.player.client.module;
 
-import com.qtitools.player.client.model.variables.response.Response;
+import com.qtitools.player.client.model.feedback.InlineFeedbackSocket;
 
 /**
  * Socket interface for modules
  * @author Krzysztof Langner
  */
-public interface IModuleSocket {
-
-	/** Get access to response */
-	public Response getResponse(String id);
+public interface ModuleSocket extends ResponseSocket, InlineFeedbackSocket{
 	
 }

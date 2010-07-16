@@ -8,6 +8,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
+import com.qtitools.player.client.model.feedback.InlineFeedback;
+import com.qtitools.player.client.model.feedback.InlineFeedbackSocket;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
@@ -44,9 +46,11 @@ public class MatchContainer extends FlowPanel{
 	private boolean shuffle = false;
 	public int maxAssociations = 4;
 	
-	public MatchContainer(NodeList nodes, boolean _shuffle, int _maxAssociations, Response _response, 
-			IModuleEventsListener moduleEventsListener, IInteractionModule _moduleReference){
+	public MatchContainer(Element element, boolean _shuffle, int _maxAssociations, InlineFeedbackSocket inlineFeedbackSocket, 
+			Response _response, IModuleEventsListener moduleEventsListener, IInteractionModule _moduleReference){
 
+		NodeList setNodes = element.getElementsByTagName("simpleMatchSet");
+		
 		stateListener = (ModuleStateChangedEventsListener)moduleEventsListener;
 		touchEventsListener = (ITouchEventsListener)moduleEventsListener;
 		response = _response;
@@ -60,10 +64,10 @@ public class MatchContainer extends FlowPanel{
 		connections = new Vector<MatchConnection>();
 		elements = new Vector<MatchElement>();
 		
-		for (int n = 0 ; n < nodes.getLength()  &&  n < 2 ; n ++){
-			NodeList choiceNodes = ((Element)(nodes.item(n))).getElementsByTagName("simpleAssociableChoice");
+		for (int n = 0 ; n < setNodes.getLength()  &&  n < 2 ; n ++){
+			NodeList choiceNodes = ((Element)(setNodes.item(n))).getElementsByTagName("simpleAssociableChoice");
 			for (int nn = 0 ; nn < choiceNodes.getLength() ; nn++){
-				elements.add(new MatchElement((Element)choiceNodes.item(nn), (n == 0)? MatchSide.LEFT : MatchSide.RIGHT));
+				elements.add(new MatchElement((Element)choiceNodes.item(nn), (n == 0)? MatchSide.LEFT : MatchSide.RIGHT, inlineFeedbackSocket));
 			}
 		}
 		
@@ -89,13 +93,17 @@ public class MatchContainer extends FlowPanel{
 		layoutPanel.add(rightPanel, 0, 0);
 		layoutPanel.add(areaPanel, 0, 0);
 		
-		
 		area = new MatchArea(50, 50, touchEventsListener);
 		
 		insertElements();
 		
 		add(layoutPanel);
-		
+
+		NodeList childNodes = element.getChildNodes();
+		for (int f = 0 ; f < childNodes.getLength() ; f ++){
+			if (childNodes.item(f).getNodeName().compareTo("feedbackInline") == 0)
+			inlineFeedbackSocket.add(new InlineFeedback(area.getView(), childNodes.item(f)));
+		}
 	}
 	
 	public void init(){

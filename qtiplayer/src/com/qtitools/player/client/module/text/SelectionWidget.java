@@ -33,12 +33,13 @@ import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
+import com.qtitools.player.client.model.feedback.InlineFeedback;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IActivity;
 import com.qtitools.player.client.module.IInteractionModule;
-import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.util.RandomizedSet;
@@ -64,7 +65,7 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	 * constructor
 	 * @param moduleSocket
 	 */
-	public SelectionWidget(Element element, IModuleSocket moduleSocket, ModuleStateChangedEventsListener stateChangedListener){
+	public SelectionWidget(Element element, ModuleSocket moduleSocket, ModuleStateChangedEventsListener stateChangedListener){
 		
 		responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
 
@@ -82,7 +83,13 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 		listBox.getElement().setId(id);
 		getElement().appendChild(listBox.getElement());
 		
-		setStyleName("qp-text-choice");
+		setStyleName("qp-text-choice");		
+
+		NodeList inlineFeedbackNodes = element.getElementsByTagName("feedbackInline");
+		for (int f = 0 ; f < inlineFeedbackNodes.getLength() ; f ++){
+			moduleSocket.add(new InlineFeedback(listBox, inlineFeedbackNodes.item(f)));
+		}
+		
 	}
 
 	// ------------------------ INTERFACES ------------------------ 

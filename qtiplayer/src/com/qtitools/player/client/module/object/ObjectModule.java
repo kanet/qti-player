@@ -27,7 +27,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.xml.client.Element;
-import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.module.object.impl.AudioImpl;
 import com.qtitools.player.client.module.object.impl.VideoImpl;
@@ -39,7 +39,7 @@ public class ObjectModule extends Composite{
 	 * constructor
 	 * @param node
 	 */
-	public ObjectModule(Element node, IModuleSocket  moduleSocket, ModuleStateChangedEventsListener stateChangedListener){
+	public ObjectModule(Element node, ModuleSocket  moduleSocket, ModuleStateChangedEventsListener stateChangedListener){
 		
 	  String html;
 	  String src = XMLUtils.getAttributeAsString(node, "data");

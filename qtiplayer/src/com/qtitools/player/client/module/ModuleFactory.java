@@ -57,7 +57,7 @@ public abstract class ModuleFactory {
 		return false;
 	}
 	
-	public static Widget createWidget(Element element, IModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener){
+	public static Widget createWidget(Element element, ModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener){
 		Widget	widget = null;
 
 		if(element.getNodeName().compareTo("choiceInteraction") == 0)

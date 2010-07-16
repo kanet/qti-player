@@ -9,7 +9,7 @@ import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.IModuleCreator;
 import com.qtitools.player.client.module.IModuleEventsListener;
-import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 
 public abstract class XMLConverter {
@@ -20,13 +20,13 @@ public abstract class XMLConverter {
 		return dom;
 	}
 	
-	public static Element getDOM(com.google.gwt.xml.client.Element element, IModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener, IModuleCreator moduleCreator){
+	public static Element getDOM(com.google.gwt.xml.client.Element element, ModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener, IModuleCreator moduleCreator){
 		Element dom = Document.get().createElement(translateNodeName(element.getNodeName()));
 		parseXMLElement(element, dom, moduleSocket, moduleEventsListener, moduleCreator, null);
 		return dom;
 	}
 
-	public static Element getDOM(com.google.gwt.xml.client.Element element, IModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener, IModuleCreator moduleCreator, Vector<String> ignoredTags){
+	public static Element getDOM(com.google.gwt.xml.client.Element element, ModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener, IModuleCreator moduleCreator, Vector<String> ignoredTags){
 		Element dom = Document.get().createElement(translateNodeName(element.getNodeName()));
 		parseXMLElement(element, dom, moduleSocket, moduleEventsListener, moduleCreator, ignoredTags);
 		return dom;
@@ -39,7 +39,7 @@ public abstract class XMLConverter {
 	}
 	
 	private static void parseXMLElement(com.google.gwt.xml.client.Element srcElement, com.google.gwt.dom.client.Element dstElement, 
-			IModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener, IModuleCreator moduleCreator, Vector<String> ignoredTags){
+			ModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener, IModuleCreator moduleCreator, Vector<String> ignoredTags){
 		NodeList	nodes = srcElement.getChildNodes();
 		Document	doc = Document.get();
 		com.google.gwt.dom.client.Element domElement;

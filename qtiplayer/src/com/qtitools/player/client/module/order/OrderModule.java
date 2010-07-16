@@ -17,13 +17,16 @@ import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.components.TouchablePanel;
 import com.qtitools.player.client.components.htmldnd.DragContainerPanel;
 import com.qtitools.player.client.components.htmldnd.DragMode;
+import com.qtitools.player.client.model.feedback.FeedbackManager;
+import com.qtitools.player.client.model.feedback.InlineFeedback;
+import com.qtitools.player.client.model.feedback.InlineFeedbackSocket;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
-import com.qtitools.player.client.module.IModuleSocket;
+import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.ITouchEventsListener;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.util.RandomizedSet;
@@ -52,7 +55,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 	
 	private boolean locked = false;
 
-	public OrderModule(Element element, IModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener) {
+	public OrderModule(Element element, ModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener) {
 
 		shuffle = XMLUtils.getAttributeAsBoolean(element, "shuffle");
 		
@@ -67,7 +70,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 		
 		optionsIdentifiers = new Vector<String>();
 		
-		extractOptionsWidgets(element);
+		extractOptionsWidgets(element, moduleSocket);
 
 		// update tag id 
 
@@ -93,6 +96,13 @@ public class OrderModule extends Composite implements IInteractionModule {
 		mainPanel.setStylePrimaryName("qp-order-module");
 		
 		initWidget(mainPanel);
+
+		NodeList childNodes = element.getChildNodes();
+		for (int f = 0 ; f < childNodes.getLength() ; f ++){
+			if (childNodes.item(f).getNodeName().compareTo("feedbackInline") == 0)
+			moduleSocket.add(new InlineFeedback(container, childNodes.item(f)));
+		}
+		
 	}
 
 	@Override
@@ -133,7 +143,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 		updateResponse(false);
 	}
 
-	private void extractOptionsWidgets(Element element){
+	private void extractOptionsWidgets(Element element, InlineFeedbackSocket inlineFeedbackSocket){
 		options = new Vector<AbsolutePanel>();
 		
 		NodeList optionNodes = element.getElementsByTagName("simpleChoice");
@@ -182,6 +192,11 @@ public class OrderModule extends Composite implements IInteractionModule {
 			String currIdentifier = XMLUtils.getAttributeAsString(option, "identifier");
 			
 			optionsIdentifiers.add(currIdentifier);
+			
+			NodeList inlineFeedbackNodes = option.getElementsByTagName("feedbackInline");
+			for (int f = 0 ; f < inlineFeedbackNodes.getLength() ; f ++){
+				inlineFeedbackSocket.add(new InlineFeedback(optionPanel, inlineFeedbackNodes.item(f)));
+			}
 		}
 	}
 

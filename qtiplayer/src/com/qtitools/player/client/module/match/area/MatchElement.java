@@ -6,12 +6,15 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NodeList;
+import com.qtitools.player.client.model.feedback.InlineFeedback;
+import com.qtitools.player.client.model.feedback.InlineFeedbackSocket;
 import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
 public class MatchElement {
 
-	public MatchElement(Element element, MatchSide _side){
+	public MatchElement(Element element, MatchSide _side, InlineFeedbackSocket inlineFeedbackSocket){
 		side = _side;
 		title = "asd";
 
@@ -58,6 +61,11 @@ public class MatchElement {
 		}
 		
 		//view.add(labelCover, 0, 0);
+
+		NodeList inlineFeedbackNodes = element.getElementsByTagName("feedbackInline");
+		for (int f = 0 ; f < inlineFeedbackNodes.getLength() ; f ++){
+			inlineFeedbackSocket.add(new InlineFeedback(textContainer, inlineFeedbackNodes.item(f)));
+		}
 	}
 	
 	public MatchSide side;
