@@ -69,6 +69,7 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 
 			public void finishedLoading(Document document, String baseURL) {
 				assessmentDataManager.setAssessmentData(new XMLData(document, baseURL));
+				loadItems();
 			}
 
 			@Override
@@ -76,6 +77,10 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 				assessmentDataManager.setAssessmentLoadingError(error);
 			}
 		});
+	}
+
+	public void loadItems(){
+		loadItems(assessmentDataManager.getItemUrls());		
 	}
 	
 	private void loadItems(String[] urls){
@@ -109,8 +114,6 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 	public void loadData(XMLData ad, XMLData[] ids){
 		assessmentDataManager.setAssessmentData(ad);
 		itemDataCollectionManager.setItemDataCollection(ids);
-		mode = DataSourceManagerMode.SERVING;
-		listener.onDataReady();
 	}
 	
 	public PageData generatePageData(PageReference ref){
@@ -150,9 +153,8 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 		
 		mode = DataSourceManagerMode.SERVING;
 		
-		loadItems(assessmentDataManager.getItemUrls());
-		
 	}
+	
 
 	@Override
 	public void onItemCollectionLoaded() {

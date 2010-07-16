@@ -48,7 +48,10 @@ public class ItemDataSourceCollectionManager {
 	}
 	
 	public int getItemsCount(){
-		return items.length;
+		if (items != null)
+			return items.length;
+		else
+			return 0;
 	}
 	
 	public Vector<String> getStyleLinksForUserAgent(int itemIndex, String userAgent){
