@@ -144,7 +144,7 @@ public class FlowManager implements NavigationSocket {
 			if (flowOptions.itemsDisplayMode == PageItemsDisplayMode.ALL){
 				
 			} else if (flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE){
-				if (currentPageIndex-1 >= 0  &&  currentPageIndex+1 < itemsCount){
+				if (currentPageIndex-1 >= 0  &&  currentPageIndex-1 < itemsCount){
 					gotoPage(currentPageIndex-1);
 				}
 			}
