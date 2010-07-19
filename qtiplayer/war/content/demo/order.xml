@@ -43,9 +43,10 @@
 				  </mrow>
 				</math> correct finishing order?
 				</prompt>
-            <simpleChoice identifier="DriverA">Rubens Barrichello</simpleChoice>
+            <simpleChoice identifier="DriverA">Rubens Barrichello<feedbackInline outcomeIdentifier="RESPONSE" identifier=".*DriverA$" showHide="show"  senderIdentifier="^RESPONSE$">Barrichello wasn't last!</feedbackInline></simpleChoice>
             <simpleChoice identifier="DriverB">Jenson Button<br/><math><mi>x</mi><mo>=</mo><msqrt><msup><mi>y</mi><mn>9</mn></msup></msqrt></math></simpleChoice>
             <simpleChoice identifier="DriverC" fixed="true">Michael Schumacher</simpleChoice>
+			<feedbackInline outcomeIdentifier="RESPONSE" identifier="(DriverC;DriverA;DriverB)" showHide="show"  senderIdentifier="^RESPONSE$">Good order!</feedbackInline>
         </orderInteraction>
     </itemBody>
     <responseProcessing template="http://www.ydp.eu/qti/rptemplates/match_correct_multiple"/>

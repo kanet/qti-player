@@ -16,6 +16,7 @@
       function qpOnAppLoaded(){
         // Load assessment
         player1 = qpCreatePlayer('player');
+		//manageState();
 		player1.setFlowOptions({showToC: true, showSummary: true, itemsDisplayMode: "ONE"});
         player1.load('content/demo.xml');
         player1.setMasteryScore(10);

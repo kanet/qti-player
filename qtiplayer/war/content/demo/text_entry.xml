@@ -27,7 +27,7 @@ identifier="textEntry" title="Interactive text part 2" adaptive="false" timeDepe
 		<p>Identify the missing word in this famous quote from Shakespeare's Richard III.</p>
 		<blockquote>
 			<p>Now is the winter of our discontent<br/> Made glorious summer by this sun of
-                    <textEntryInteraction responseIdentifier="RESPONSE" expectedLength="15"/>;<br/>
+                    <textEntryInteraction responseIdentifier="RESPONSE" expectedLength="15"><feedbackInline outcomeIdentifier="RESPONSE" identifier="York" showHide="show"  senderIdentifier="^RESPONSE$">Feedback inline for York</feedbackInline></textEntryInteraction>;<br/>
                 And all the clouds that lour'd upon our house<br/> In the deep bosom of the ocean buried.</p>
 		</blockquote>
 		<br/>

@@ -178,6 +178,25 @@
 }
 
 /**
+ * feedback styles
+ */
+.qp-feedback-inline{
+	width:280px;
+	height:20px;
+	background-color:#99FF00;
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+
+}
+
+.qp-feedback-inline-contents{
+	width:280px;
+	height:20px;
+	cursor:hand;
+	cursor:pointer;
+}
+/**
  * TextModule styles
  */
 .qp-text-module{

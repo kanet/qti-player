@@ -25,6 +25,7 @@ identifier="inlineChoice" title="Interactive text" adaptive="false" timeDependen
 					<inlineChoice identifier="G">Gloucester</inlineChoice>
 					<inlineChoice identifier="L">Lancaster</inlineChoice>
 					<inlineChoice identifier="Y">York</inlineChoice>
+					<feedbackInline outcomeIdentifier="RESPONSE" identifier="Y" showHide="show"  senderIdentifier="^RESPONSE$">Feedback inline for York</feedbackInline>
 				</inlineChoiceInteraction>;<br/> And all the clouds that lour'd upon our house<br/>
                 In the deep bosom of the ocean buried.</p>
 		</blockquote>
