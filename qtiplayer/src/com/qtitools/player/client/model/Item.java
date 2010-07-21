@@ -178,13 +178,13 @@ public class Item implements IStateful {
 		feedbackManager.hideAllInlineFeedbacks();
 	}
 	
-	public void process(boolean userTriggered){
-		process(userTriggered, "");
+	public void process(boolean userInteract){
+		process(userInteract, "");
 	}
 	
-	public void process(boolean processFeedback, String senderIdentifier){
-		responseProcessor.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap(), senderIdentifier);
-		if (processFeedback){
+	public void process(boolean userInteract, String senderIdentifier){
+		responseProcessor.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap(), userInteract);
+		if (userInteract){
 			feedbackManager.process(responseManager.getVariablesMap(), outcomeManager.getVariablesMap(), senderIdentifier);
 			//MathJaxProcessor.process();
 		}

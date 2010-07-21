@@ -108,7 +108,8 @@ public class SessionDataManager implements SessionSocket, StateInterface {
 
 	@Override
 	public void beginItemSession(int itemIndex) {
-		itemSessionDatas[itemIndex] = new ItemSessionData();
+		if (itemSessionDatas[itemIndex] == null)
+			itemSessionDatas[itemIndex] = new ItemSessionData();
 		itemSessionDatas[itemIndex].begin();
 		
 	}

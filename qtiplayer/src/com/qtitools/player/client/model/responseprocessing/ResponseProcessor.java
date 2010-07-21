@@ -28,7 +28,7 @@ public final class ResponseProcessor {
 	
 	private ResponseProcessorTemplate template = ResponseProcessorTemplate.NONE;
 	
-	public void process (HashMap<String, Response> responses, HashMap<String, Outcome> outcomes, String senderIdentifier){
+	public void process (HashMap<String, Response> responses, HashMap<String, Outcome> outcomes, boolean userInteract){
 		if (outcomes.size() == 0 ||  responses.size() == 0)
 			return;
 		
@@ -36,7 +36,7 @@ public final class ResponseProcessor {
 			if (template == ResponseProcessorTemplate.MATCH_CORRECT)
 				processTemplateMatchCorrect(responses, outcomes);
 			else if (template == ResponseProcessorTemplate.MATCH_CORRECT_MULTIPLE)
-				processTemplateMatchCorrectMultiple(responses, outcomes, senderIdentifier);
+				processTemplateMatchCorrectMultiple(responses, outcomes, userInteract);
 		} catch (Exception e) {
 			
 		}
@@ -55,7 +55,7 @@ public final class ResponseProcessor {
 		
 	}
 	
-	private void processTemplateMatchCorrectMultiple(HashMap<String, Response> responses, HashMap<String, Outcome> outcomes, String senderIdentifier){
+	private void processTemplateMatchCorrectMultiple(HashMap<String, Response> responses, HashMap<String, Outcome> outcomes, boolean userInteract){
 		
 		Integer points = 0;
 		String currKey;
@@ -93,7 +93,10 @@ public final class ResponseProcessor {
 				}
 			}
 			if (outcomes.containsKey(currKey+"-PREVIOUS")  &&  outcomes.containsKey(currKey+"-LASTCHANGE")){
-				outcomes.get(currKey+"-LASTCHANGE").values = TemplateMatchCorrectMultiplePerformer.getDifference(responses.get(currKey).values, outcomes.get(currKey+"-PREVIOUS").values);
+				if (userInteract)
+					outcomes.get(currKey+"-LASTCHANGE").values = TemplateMatchCorrectMultiplePerformer.getDifference(responses.get(currKey), outcomes.get(currKey+"-PREVIOUS"));
+				else
+					outcomes.get(currKey+"-LASTCHANGE").values.clear();
 			}
 			if (outcomes.containsKey(currKey+"-PREVIOUS")){
 				outcomes.get(currKey+"-PREVIOUS").values.clear();
@@ -103,10 +106,9 @@ public final class ResponseProcessor {
 			}
 			if (outcomes.containsKey(currKey+"-LASTCHANGE")  &&  outcomes.containsKey(currKey+"-MISTAKES")){
 				int mistakes = processCheckMistakes( responses.get(currKey), outcomes.get(currKey+"-LASTCHANGE") );
-				if (responses.get(currKey).cardinality != Cardinality.ORDERED){
-					outcomes.get(currKey+"-MISTAKES").values.set(0, String.valueOf(Integer.parseInt(outcomes.get(currKey+"-MISTAKES").values.get(0))+mistakes));
-				} else if (senderIdentifier.length() > 0){
-					outcomes.get(currKey+"-MISTAKES").values.set(0, String.valueOf(mistakes));
+				if (userInteract){
+					int currMistakesCount = Integer.parseInt(outcomes.get(currKey+"-MISTAKES").values.get(0));
+					outcomes.get(currKey+"-MISTAKES").values.set(0,  String.valueOf(currMistakesCount + mistakes));
 				}
 			}
 		}
@@ -225,8 +227,22 @@ public final class ResponseProcessor {
 					
 			}
 		} else if (response.cardinality == Cardinality.ORDERED){
-			if (!processMatchCorrect(response))
-				mistakesCounter++;
+			
+			for (int v = 0 ; v < response.correctAnswers.size()  &&  v < moduleLastChange.values.size() ; v ++){
+				String currAnswer = response.correctAnswers.get(v);
+				String[] changeSplited = moduleLastChange.values.get(v).split("->");
+				
+				if (changeSplited.length != 2)
+					continue;
+				
+				if (changeSplited[0].compareTo(currAnswer) == 0  &&  
+					changeSplited[1].compareTo(currAnswer) != 0){
+					mistakesCounter++;
+					break;
+				}
+					
+			}
+			
 		}
 		
 		return mistakesCounter;

@@ -69,8 +69,8 @@ public class ItemController implements ModuleStateChangedEventsListener {
 	}
 
 	@Override
-	public void onStateChanged(boolean processFeedback, IInteractionModule sender) {
-		item.process(processFeedback, sender != null ? sender.getIdentifier() : "");
+	public void onStateChanged(boolean userInteract, IInteractionModule sender) {
+		item.process(userInteract, sender != null ? sender.getIdentifier() : "");
 		itemSessionSocket.setSessionResult(itemIndex, item.getResult());
 		itemSessionSocket.setState(itemIndex, item.getState());
 	}

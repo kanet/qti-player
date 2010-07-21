@@ -44,6 +44,10 @@ public class AssessmentController {
 		pageController.initPage(pageData);
 	}
 	
+	public void closePage(){
+		pageController.close();
+	}
+	
 	public void updateState(){
 		pageController.updateState();
 	}

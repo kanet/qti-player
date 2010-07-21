@@ -138,6 +138,7 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 	public void onNavigatePageSwitched() {
 		PageReference pr = flowManager.getPageReference();
 		PageData pd = dataManager.generatePageData(pr);
+		assessmentController.closePage();
 		if (pd.type == PageType.SUMMARY)
 			((PageDataSummary)pd).setSessionData( sessionDataManager.getSessionData() );
 		assessmentController.initPage(pd);

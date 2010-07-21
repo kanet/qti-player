@@ -33,12 +33,6 @@ public final class PageController {
 	
 	public void initPage(PageData pageData){
 		
-		if (items != null){
-			for (int i = 0 ; i < items.length ; i ++){
-				items[i].close();
-			}
-		}
-		
 		// conception compatibility issue
 		page = new Page();
 
@@ -67,9 +61,20 @@ public final class PageController {
 			}
 			
 		} else if (pageData.type == PageType.TOC){
+			items = null;
 			pageViewSocket.setPageViewCarrier(new PageViewCarrier((PageDataToC)pageData, navigationSocket));
 		} else if (pageData.type == PageType.SUMMARY){
+			items = null;
 			pageViewSocket.setPageViewCarrier(new PageViewCarrier((PageDataSummary)pageData, navigationSocket));
+		}
+	}
+	
+	public void close(){
+		
+		if (items != null){
+			for (int i = 0 ; i < items.length ; i ++){
+				items[i].close();
+			}
 		}
 	}
 	
