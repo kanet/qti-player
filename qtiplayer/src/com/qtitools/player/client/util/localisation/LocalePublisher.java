@@ -33,8 +33,33 @@ public abstract class LocalePublisher {
 	
 	private static String getDefaultValue(LocaleVariable var){
 		switch(var){
-			case SUMMARY_PAGE:
-				return "Page";
+			case SUMMARY_PAGE: return "Page";
+			case MESSAGE_TITLE_ERROR: return "Error:";
+			case MESSAGE_TITLE_WARNING: return "Warning:";
+			case MESSAGE_TITLE_INFO: return "Status:";
+			case MESSAGE_LOADING: return "Loading contents...";
+			case MESSAGE_LOADED: return "Contents loaded";
+			case MESSAGE_ASSESSMENT_ERROR: return "Failed to display assessment";
+			case MESSAGE_ITEM_ERROR: return "Failed to display item";
+			case ERROR_ASSESSMENT_FAILED_TO_LOAD: return "Failed to load assessment: return ";
+			case ERROR_ITEM_FAILED_TO_LOAD: return "Failed to load item: return ";
+			case PLAYER_HEADER: return "";
+			case PLAYER_FOOTER: return "";	
+			case TOC_TITLE: return "Table of Contents";
+			case TOC_PAGE: return "Page";
+			case ITEM_SCORE1: return "Score: return ";
+			case ITEM_SCORE2: return " out of ";
+			case ITEM_SCORE3: return " points.";	
+			case SUMMARY_INFO_YOURSCOREIS1: return "Your score is: return ";
+			case SUMMARY_INFO_YOURSCOREIS2: return "% ";
+			case SUMMARY_INFO_YOURSCOREIS3: return " points. Time: return ";
+			case SUMMARY_INFO_YOURSCOREIS4: return "s";
+			case SUMMARY_STATS_TIME_SUFIX: return " s"; 
+			case SUMMARY_STATS_TIME_NO: return "-"; 
+			case SUMMARY_STATS_CHECKCOUNT_NO: return "-"; 
+			case SUMMARY_STATS_CHECKCOUNT_SUFIX: return " checks"; 
+			case SUMMARY_STATS_MISTAKES_SUFIX: return " mistakes"; 
+			case SUMMARY_STATS_MISTAKES_NO: return "-"; 
 		}
 		return "";
 	}

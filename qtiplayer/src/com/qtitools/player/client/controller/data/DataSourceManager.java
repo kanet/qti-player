@@ -1,11 +1,15 @@
 package com.qtitools.player.client.controller.data;
 
+import com.google.gwt.user.client.Timer;
 import java.util.Vector;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.xml.client.Document;
 import com.qtitools.player.client.controller.communication.ItemData;
 import com.qtitools.player.client.controller.communication.PageData;
+import com.qtitools.player.client.controller.communication.PageDataError;
 import com.qtitools.player.client.controller.communication.PageDataSummary;
 import com.qtitools.player.client.controller.communication.PageDataTest;
 import com.qtitools.player.client.controller.communication.PageReference;
@@ -14,6 +18,11 @@ import com.qtitools.player.client.controller.communication.PageType;
 import com.qtitools.player.client.controller.data.events.AssessmentDataLoaderEventListener;
 import com.qtitools.player.client.controller.data.events.DataLoaderEventListener;
 import com.qtitools.player.client.controller.data.events.ItemDataCollectionLoaderEventListener;
+import com.qtitools.player.client.controller.log.OperationLogEvent;
+import com.qtitools.player.client.controller.log.OperationLogManager;
+import com.qtitools.player.client.controller.messages.OperationMessage;
+import com.qtitools.player.client.controller.messages.OperationMessagePoint;
+import com.qtitools.player.client.controller.messages.OperationMessageType;
 import com.qtitools.player.client.util.xml.XMLDocument;
 import com.qtitools.player.client.util.xml.document.IDocumentLoaded;
 import com.qtitools.player.client.util.xml.document.XMLData;
@@ -49,6 +58,8 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 		if (mode == DataSourceManagerMode.LOADING_ASSESSMENT  ||  mode == DataSourceManagerMode.LOADING_ITEMS)
 			return;
 		
+		OperationLogManager.logEvent(OperationLogEvent.LOADING_STARTED);
+		
 		mode = DataSourceManagerMode.LOADING_ASSESSMENT;
 
 		String resolvedURL;
@@ -75,6 +86,7 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 			@Override
 			public void loadingErrorHandler(String error) {
 				assessmentDataManager.setAssessmentLoadingError(error);
+				onLoadFinished();
 			}
 		});
 	}
@@ -103,7 +115,7 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 
 				@Override
 				public void loadingErrorHandler(String error) {
-					itemDataCollectionManager.setItemData(ii, null);
+					itemDataCollectionManager.setItemData(ii, error);
 				}
 			});
 		}
@@ -118,6 +130,12 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 	
 	public PageData generatePageData(PageReference ref){
 		PageData pd;
+		
+		if (assessmentDataManager.isError()){
+			pd = new PageDataError(assessmentDataManager.getErrorMessage());
+			return pd;
+		}
+		
 		if (ref.type == PageType.TOC){
 			pd = new PageDataToC(itemDataCollectionManager.getTitlesList());
 		} else if (ref.type == PageType.SUMMARY){
@@ -148,19 +166,19 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 
 	@Override
 	public void onAssessmentDataLoaded() {
-		
 		listener.onAssessmentLoaded();
-		
-		mode = DataSourceManagerMode.SERVING;
-		
+		mode = DataSourceManagerMode.SERVING;		
 	}
 	
-
 	@Override
 	public void onItemCollectionLoaded() {
-		mode = DataSourceManagerMode.SERVING;
-		listener.onDataReady();
-		
+		onLoadFinished();
+	}
+	
+	public void onLoadFinished(){
+		mode = DataSourceManagerMode.SERVING;		
+		OperationLogManager.logEvent(OperationLogEvent.LOADING_FINISHED);
+		listener.onDataReady();		
 	}
 	
 	public DataSourceManagerMode getMode(){

@@ -16,6 +16,7 @@ import com.qtitools.player.client.controller.flow.FlowEventsListener;
 import com.qtitools.player.client.controller.flow.FlowManager;
 import com.qtitools.player.client.controller.flow.navigation.NavigationCommandsListener;
 import com.qtitools.player.client.controller.flow.navigation.NavigationIncidentType;
+import com.qtitools.player.client.controller.log.OperationLogManager;
 import com.qtitools.player.client.controller.session.SessionDataManager;
 import com.qtitools.player.client.controller.session.StateInterface;
 import com.qtitools.player.client.controller.session.events.StateChangedEventsListener;
@@ -119,11 +120,6 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 		flowManager.startFlow();
 		updateAssessmentStyle();
 		deliveryEngineEventsListener.onAssessmentStarted();
-		/*
-		PageReference pr = flowManager.getPageReference();
-		PageData pd = dataManager.generatePageData(pr);
-		assessmentController.initPage(pd);
-		*/
 		updatePageStyle();
 	}
 

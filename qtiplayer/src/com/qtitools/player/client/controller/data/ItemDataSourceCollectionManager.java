@@ -26,6 +26,13 @@ public class ItemDataSourceCollectionManager {
 		if (itemsLoadCounter == items.length)
 			listener.onItemCollectionLoaded();
 	}
+
+	public void setItemData(int index, String error){
+		items[index] = new ItemDataSource(error);
+		itemsLoadCounter++;
+		if (itemsLoadCounter == items.length)
+			listener.onItemCollectionLoaded();
+	}
 	
 	public void setItemDataCollection(XMLData[] ds){
 		items = new ItemDataSource[ds.length];
@@ -36,7 +43,10 @@ public class ItemDataSourceCollectionManager {
 	}
 
 	public ItemData getItemData(int index){
-		return new ItemData(index, items[index].getItemData());
+		if (!items[index].isError())
+			return new ItemData(index, items[index].getItemData());
+		else
+			return new ItemData(index, items[index].getErrorMessage());
 	}
 	
 	public String[] getTitlesList(){
@@ -55,6 +65,8 @@ public class ItemDataSourceCollectionManager {
 	}
 	
 	public Vector<String> getStyleLinksForUserAgent(int itemIndex, String userAgent){
-		return items[itemIndex].getStyleLinksForUserAgent(userAgent);
+		if (items != null)
+			return items[itemIndex].getStyleLinksForUserAgent(userAgent);
+		return new Vector<String>();
 	}
 }

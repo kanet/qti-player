@@ -32,8 +32,10 @@ public class AssessmentController {
 	private PageController pageController;
 	
 	public void init(XMLData data){
-		assessment = new Assessment(data);
-		assessmentViewSocket.setAssessmentViewCarrier(new AssessmentViewCarrier(assessment, navigationViewSocket));
+		if (data != null){
+			assessment = new Assessment(data);
+			assessmentViewSocket.setAssessmentViewCarrier(new AssessmentViewCarrier(assessment, navigationViewSocket));
+		}
 	}
 	
 	public void initPage(PageData pageData){

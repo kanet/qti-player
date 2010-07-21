@@ -1,12 +1,15 @@
 package com.qtitools.player.client.controller;
 
 import com.qtitools.player.client.controller.communication.PageData;
+import com.qtitools.player.client.controller.communication.PageDataError;
 import com.qtitools.player.client.controller.communication.PageDataSummary;
 import com.qtitools.player.client.controller.communication.PageDataTest;
 import com.qtitools.player.client.controller.communication.PageDataToC;
 import com.qtitools.player.client.controller.communication.PageType;
 import com.qtitools.player.client.controller.flow.navigation.NavigationIncidentType;
 import com.qtitools.player.client.controller.flow.navigation.NavigationSocket;
+import com.qtitools.player.client.controller.log.OperationLogEvent;
+import com.qtitools.player.client.controller.log.OperationLogManager;
 import com.qtitools.player.client.controller.session.PageSessionSocket;
 import com.qtitools.player.client.model.Page;
 import com.qtitools.player.client.view.page.PageViewCarrier;
@@ -38,8 +41,14 @@ public final class PageController {
 		
 		// conception compatibility issue
 		page = new Page();
-		
-		if (pageData.type == PageType.TEST ){
+
+		if (pageData.type == PageType.ERROR ){
+			
+			pageViewSocket.setPageViewCarrier( new PageViewCarrier((PageDataError)pageData) );
+			
+			OperationLogManager.logEvent(OperationLogEvent.DISPLAY_PAGE_FAILED);
+			
+		} else if (pageData.type == PageType.TEST ){
 			
 			PageDataTest pageDataTest = (PageDataTest)pageData;
 			
@@ -56,12 +65,11 @@ public final class PageController {
 				items[i].init(pageDataTest.datas[i]);
 				
 			}
+			
 		} else if (pageData.type == PageType.TOC){
-			pageViewSocket.setPageViewCarrier(new PageViewCarrier((PageDataToC)pageData, navigationSocket));	
+			pageViewSocket.setPageViewCarrier(new PageViewCarrier((PageDataToC)pageData, navigationSocket));
 		} else if (pageData.type == PageType.SUMMARY){
-			pageViewSocket.setPageViewCarrier(new PageViewCarrier((PageDataSummary)pageData, navigationSocket));	
-		} else {
-			pageViewSocket.setPageViewCarrier(new PageViewCarrier());	
+			pageViewSocket.setPageViewCarrier(new PageViewCarrier((PageDataSummary)pageData, navigationSocket));
 		}
 	}
 	

@@ -2,6 +2,8 @@ package com.qtitools.player.client.controller;
 
 import com.qtitools.player.client.controller.communication.ItemData;
 import com.qtitools.player.client.controller.flow.navigation.NavigationIncidentType;
+import com.qtitools.player.client.controller.log.OperationLogEvent;
+import com.qtitools.player.client.controller.log.OperationLogManager;
 import com.qtitools.player.client.controller.session.ItemSessionResultAndStats;
 import com.qtitools.player.client.controller.session.ItemSessionSocket;
 import com.qtitools.player.client.model.Item;
@@ -27,29 +29,37 @@ public class ItemController implements ModuleStateChangedEventsListener {
 	private ItemNavigationIncidentsStats navigationIncidentsStats;
 	
 	public void init(ItemData data){
-		item = new Item(data.data, this);
-		itemIndex = data.itemIndex;
-		item.setState(itemSessionSocket.getState(itemIndex));
-		itemViewSocket.setItemView(new ItemViewCarrier(String.valueOf(itemIndex+1) + ". " + item.getTitle(), item.getContentView(), item.getFeedbackView(), item.getScoreView()));
-		itemSessionSocket.beginItemSession(itemIndex);
-		navigationIncidentsStats = new ItemNavigationIncidentsStats();
+		boolean success = false;
+		try {
+			if (data.data != null){
+				item = new Item(data.data, this);
+				itemIndex = data.itemIndex;
+				item.setState(itemSessionSocket.getState(itemIndex));
+				itemViewSocket.setItemView(new ItemViewCarrier(String.valueOf(itemIndex+1) + ". " + item.getTitle(), item.getContentView(), item.getFeedbackView(), item.getScoreView()));
+				itemSessionSocket.beginItemSession(itemIndex);
+				navigationIncidentsStats = new ItemNavigationIncidentsStats();
+				success = true;
+			}
+		} finally {
+			if (!success){
+				item = null;
+				itemViewSocket.setItemView(new ItemViewCarrier(data.errorMessage));
+				OperationLogManager.logEvent(OperationLogEvent.DISPLAY_ITEM_FAILED);
+			}
+		}
+		
 	}
 	
 	public void close(){
-		item.close();
-		itemSessionSocket.setState(itemIndex, item.getState());
-		/*
-		ItemSessionData isd = new ItemSessionData();
-		itemSessionSocket.setSessionData(itemIndex, isd);
-		*/
-		itemSessionSocket.endItemSession(itemIndex);
-		itemSessionSocket.setSessionResultAndStats(itemIndex, 
-				new ItemSessionResultAndStats(item.getResult(), navigationIncidentsStats.getNavigationIncidentsCount(NavigationIncidentType.CHECK), item.getMistakesCount())
-			);
-		// albo zresetowaæ mistakes count
-		// albo zrobiæ przekazywanie mistakes count tylko na zamkniêciu (close())
-		// to zale¿y od tego kto bêdzie pokazywa³ item results
-		// POBIERANIE ON CLOSE - STATS RESETUJ¥ SIÊ SAME
+		if (item != null){
+			item.close();
+			itemSessionSocket.setState(itemIndex, item.getState());
+			itemSessionSocket.endItemSession(itemIndex);
+			itemSessionSocket.setSessionResultAndStats(itemIndex, 
+					new ItemSessionResultAndStats(item.getResult(), navigationIncidentsStats.getNavigationIncidentsCount(NavigationIncidentType.CHECK), item.getMistakesCount())
+				);
+		}
+
 	}
 	
 	public void updateState(){

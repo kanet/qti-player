@@ -7,6 +7,8 @@ import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.controller.data.events.AssessmentDataLoaderEventListener;
 import com.qtitools.player.client.controller.style.StyleLinkDeclaration;
+import com.qtitools.player.client.util.localisation.LocalePublisher;
+import com.qtitools.player.client.util.localisation.LocaleVariable;
 import com.qtitools.player.client.util.xml.document.XMLData;
 
 public class AssessmentDataSourceManager {
@@ -31,7 +33,10 @@ public class AssessmentDataSourceManager {
 	}
 	
 	public void setAssessmentLoadingError(String err){
-		errorMessage = err;
+		String detail = "";
+		if (err.indexOf(":") != -1)
+			detail = err.substring(0, err.indexOf(":"));
+		errorMessage = LocalePublisher.getText(LocaleVariable.ERROR_ASSESSMENT_FAILED_TO_LOAD) + detail;
 	}
 	
 	public XMLData getAssessmentData(){
@@ -40,6 +45,10 @@ public class AssessmentDataSourceManager {
 	
 	public boolean isError(){
 		return errorMessage.length() > 0;
+	}
+	
+	public String getErrorMessage(){
+		return errorMessage;
 	}
 	
 	public String getAssessmentTitle(){
@@ -83,6 +92,8 @@ public class AssessmentDataSourceManager {
 	}
 	
 	public Vector<String> getStyleLinksForUserAgent(String userAgent){
-		return styleDeclaration.getStyleLinksForUserAgent(userAgent);
+		if (styleDeclaration != null)
+			return styleDeclaration.getStyleLinksForUserAgent(userAgent);
+		return new Vector<String>();
 	}
 }

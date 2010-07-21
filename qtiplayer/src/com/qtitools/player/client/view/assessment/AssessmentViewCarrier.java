@@ -26,4 +26,5 @@ public class AssessmentViewCarrier {
 	public Widget getTitleView(){
 		return new Label(assessmentTitle);
 	}
+	
 }

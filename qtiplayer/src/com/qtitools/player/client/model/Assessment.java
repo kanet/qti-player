@@ -53,6 +53,10 @@ public class Assessment implements AssessmentFeedbackSocket{
 	 */
 	public Assessment(XMLData data){
 		
+		if (data == null){
+			
+		}
+		
 		xmlData = data;
 		
 		Node rootNode = xmlData.getDocument().getElementsByTagName("assessmentTest").item(0);

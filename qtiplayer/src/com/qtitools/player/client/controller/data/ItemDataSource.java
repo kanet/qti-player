@@ -5,6 +5,8 @@ import java.util.Vector;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.controller.style.StyleLinkDeclaration;
+import com.qtitools.player.client.util.localisation.LocalePublisher;
+import com.qtitools.player.client.util.localisation.LocaleVariable;
 import com.qtitools.player.client.util.xml.document.XMLData;
 
 public class ItemDataSource {
@@ -18,7 +20,10 @@ public class ItemDataSource {
 	}
 	
 	public ItemDataSource(String err){
-		errorMessage = err;
+		String detail = "";
+		if (err.indexOf(":") != -1)
+			detail = err.substring(0, err.indexOf(":"));
+		errorMessage = LocalePublisher.getText(LocaleVariable.ERROR_ITEM_FAILED_TO_LOAD) + detail;
 	}
 	
 	private XMLData data;
@@ -31,11 +36,17 @@ public class ItemDataSource {
 	}
 	
 	public Vector<String> getStyleLinksForUserAgent(String userAgent){
-		return styleDeclaration.getStyleLinksForUserAgent(userAgent);
+		if (styleDeclaration != null)
+			return styleDeclaration.getStyleLinksForUserAgent(userAgent);
+		return new Vector<String>();
 	}
-	
+
 	public boolean isError(){
 		return errorMessage.length() > 0;
+	}
+
+	public String getErrorMessage(){
+		return errorMessage;
 	}
 	
 	public String getTitle(){

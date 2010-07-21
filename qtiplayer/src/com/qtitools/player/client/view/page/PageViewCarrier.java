@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.qtitools.player.client.controller.communication.ItemActivityOptions;
 import com.qtitools.player.client.controller.communication.ItemData;
+import com.qtitools.player.client.controller.communication.PageDataError;
 import com.qtitools.player.client.controller.communication.PageDataSummary;
 import com.qtitools.player.client.controller.communication.PageDataTest;
 import com.qtitools.player.client.controller.communication.PageDataToC;
@@ -41,10 +42,15 @@ public class PageViewCarrier {
 		assessmentFeedbackSocket = p.getAssessmentFeedbackSocket();
 	}
 
+	public PageViewCarrier(PageDataError p){
+		pageType = PageType.ERROR;
+		errorMessage = p.errorMessage;
+	}
 	public PageType pageType;
 		
 	public String[] titles;
 	public SessionDataCarrier sessionData;
+	public String errorMessage;
 	
 	public NavigationCommandsListener navigationCommandsListener;
 	public AssessmentFeedbackSocket assessmentFeedbackSocket;

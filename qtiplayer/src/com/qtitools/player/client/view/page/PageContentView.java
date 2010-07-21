@@ -65,8 +65,16 @@ public class PageContentView implements PageViewSocket {
 		
 		if (pvc.hasContent()){
 			contentPanel = new FlowPanel();
-			
-			if (pvc.pageType == PageType.TOC){
+
+			if (pvc.pageType == PageType.ERROR){
+
+				contentPanel.setStyleName("qp-page-error");
+				
+				Label errorLabel =  new Label(pvc.errorMessage);
+				errorLabel.setStyleName("qp-page-error-text");
+				contentPanel.add(errorLabel);
+				
+			} else if (pvc.pageType == PageType.TOC){
 				contentPanel.setStyleName("qp-toc");
 				
 				Label tocTitle = new Label(LocalePublisher.getText(LocaleVariable.TOC_TITLE));
