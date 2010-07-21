@@ -132,13 +132,13 @@ public class NavigationView implements NavigationViewSocket {
 	
 	
 	public void updateButtons(PageType pageType, int pageIndex, int pageCount, FlowOptions flowOptions, boolean isChecked, ItemActivityOptions iao){
-		checkButton.setVisible(!isChecked  &&  pageType == PageType.TEST);
-		continueItemButton.setVisible(isChecked  &&  pageType == PageType.TEST);
+		checkButton.setVisible(!isChecked  &&  pageType == PageType.TEST  &&  !iao.previewMode);
+		continueItemButton.setVisible(isChecked  &&  pageType == PageType.TEST  &&  !iao.previewMode);
 		prevButton.setVisible(pageType == PageType.TEST  &&  flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE);
 		prevButton.setEnabled(pageIndex != 0);
 		nextButton.setVisible((pageType == PageType.TEST  &&  flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE)  ||  pageType == PageType.TOC);
 		nextButton.setEnabled(pageIndex < pageCount-1);
-		finishButton.setVisible(pageType == PageType.TEST  &&  flowOptions.showSummary);
+		finishButton.setVisible(pageType == PageType.TEST  &&  flowOptions.showSummary  &&  !iao.previewMode);
 		finishButton.setEnabled(pageIndex == pageCount-1);
 		summaryButton.setVisible(iao.previewMode  &&  pageType == PageType.TEST);
 		continueAssessmentButton.setVisible(pageType == PageType.SUMMARY);

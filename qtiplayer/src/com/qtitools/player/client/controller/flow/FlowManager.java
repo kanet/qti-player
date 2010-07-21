@@ -206,10 +206,10 @@ public class FlowManager implements NavigationSocket {
 	}
 
 	@Override
-	public void preview() {
+	public void previewPage(int index) {
 		onPageChange();
 		activityOptions.previewMode = true;
-		gotoLastPage();
+		gotoPage(index);
 	}
 	
 	public void onPageChange(){

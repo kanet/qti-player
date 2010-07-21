@@ -13,5 +13,5 @@ public interface NavigationCommandsListener {
 	public void checkPage();
 	public void continuePage();
 	public void resetPage();
-	public void preview();
+	public void previewPage(int index);
 }

@@ -57,8 +57,12 @@ public final class PageController {
 			}
 			for (int i = 0 ; i < pageDataTest.datas.length ; i ++){
 				items[i].init(pageDataTest.datas[i]);
-				
+
+				if (pageDataTest.activityOptions.previewMode){
+					items[i].setPreviewMode();
+				}
 			}
+				
 			
 		} else if (pageData.type == PageType.TOC){
 			items = null;

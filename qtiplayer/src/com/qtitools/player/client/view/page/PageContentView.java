@@ -121,7 +121,7 @@ public class PageContentView implements PageViewSocket {
 					titleLabel.setStyleName("qp-toc-item-title");
 					titleLabel.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent event) {
-							naviListener.gotoPage(tt);
+							naviListener.previewPage(tt);
 						}
 					});
 					titleLabel.addMouseOverHandler(new MouseOverHandler() {

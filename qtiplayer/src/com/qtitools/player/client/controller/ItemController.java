@@ -87,4 +87,9 @@ public class ItemController implements ModuleStateChangedEventsListener {
 			navigationIncidentsStats.addNavigiationIncident(nit);
 		}
 	}
+	
+	public void setPreviewMode(){
+		if(item != null)
+			item.checkItem();
+	}
 }
