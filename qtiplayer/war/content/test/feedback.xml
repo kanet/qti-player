@@ -22,21 +22,21 @@ identifier="feedback" title="Mexican President" adaptive="false" timeDependent="
 	<itemBody>
 		<choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1">
 			<prompt>Who is the President of Mexico?</prompt>
-			<simpleChoice identifier="MGH001A"> George W Bush <feedbackInline outcomeIdentifier="FEEDBACK" identifier="MGH001A" showHide="show">No, he is the
+			<simpleChoice identifier="MGH001A"> George W Bush <feedbackInline outcomeIdentifier="RESPONSE" identifier="MGH001A" showHide="show">No, he is the
                     President of the USA.</feedbackInline>
 			</simpleChoice>
-			<simpleChoice identifier="MGH001B"> Tony Blair <feedbackInline outcomeIdentifier="FEEDBACK" identifier="MGH001B" showHide="show">No, he is the
+			<simpleChoice identifier="MGH001B"> Tony Blair <feedbackInline outcomeIdentifier="RESPONSE" identifier="MGH001B" showHide="show">No, he is the
                     Prime Minister of England.</feedbackInline>
 			</simpleChoice>
-			<simpleChoice identifier="MGH001C"> Vicente Fox <feedbackInline outcomeIdentifier="FEEDBACK" identifier="MGH001C" showHide="show">Yes.</feedbackInline>
+			<simpleChoice identifier="MGH001C"> Vicente Fox <feedbackInline outcomeIdentifier="RESPONSE" identifier="MGH001C" showHide="show">Yes.</feedbackInline>
 			</simpleChoice>
-			<simpleChoice identifier="MGH001D"> Ariel Sharon <feedbackInline outcomeIdentifier="FEEDBACK" identifier="MGH001D" showHide="show">No, he is the
+			<simpleChoice identifier="MGH001D"> Ariel Sharon <feedbackInline outcomeIdentifier="RESPONSE" identifier="MGH001D" showHide="show">No, he is the
                     Prime Minister of Israel.</feedbackInline>
 			</simpleChoice>
 		</choiceInteraction>
 		<choiceInteraction responseIdentifier="RESPONSE2" shuffle="false" maxChoices="1">
 			<prompt>Who is the President of Mexico?</prompt>
-			<simpleChoice identifier="MGH001A"> George W Bush <feedbackInline outcomeIdentifier="FEEDBACK" identifier="MGH001A" showHide="show">No, he is the
+			<simpleChoice identifier="MGH001A"> George W Bush <feedbackInline outcomeIdentifier="RESPONSE2" identifier="MGH001A" showHide="show">No, he is the
                     President of the USA.</feedbackInline>
 			</simpleChoice>
 			<simpleChoice identifier="MGH001B"> Tony Blair <feedbackInline outcomeIdentifier="FEEDBACK" identifier="MGH001B" showHide="show">No, he is the

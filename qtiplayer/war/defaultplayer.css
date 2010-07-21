@@ -8,6 +8,16 @@
 .qp-error{
 	color:	red;
 }
+.qp-page-error{
+}
+.qp-page-error-text{
+	color:	red;
+}
+.qp-item-error{
+}
+.qp-item-error-text{
+	color:	red;
+}
 	
 .qp-header{
 	width:	100%;
@@ -195,6 +205,43 @@
 	height:20px;
 	cursor:hand;
 	cursor:pointer;
+}
+
+/**
+ *  Operation messages
+ */
+.qp-message-box{
+	padding: 3px;
+	font-size:10px;
+}
+.qp-message-error{
+	background-color:#FFCCFF;
+	height:13px;
+	padding: 0px 5px;
+	color:#000000;
+	border:1px solid #FF3300;
+}
+.qp-message-warning{
+	background-color:#FFFFCC;
+	height:13px;
+	padding: 0px 5px;
+	color:#000000;
+	border:1px solid #FFCC00;
+}
+.qp-message-info{
+	background-color:#CCFFFF;
+	height:13px;
+	padding: 0px 5px;
+	color:#000000;
+	border:1px solid #0099FF;
+}
+.qp-message-title{
+	float:left;
+	padding-right:4px;
+}
+.qp-message-content{
+	color:#000000;
+	float:right;
 }
 /**
  * TextModule styles

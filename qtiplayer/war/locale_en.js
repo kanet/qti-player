@@ -1,6 +1,15 @@
 window.QtiPlayer = {};
 
 window.QtiPlayer.locale = {
+	MESSAGE_TITLE_ERROR: "Error:",
+	MESSAGE_TITLE_WARNING: "Warning:",
+	MESSAGE_TITLE_INFO: "Status:",
+	MESSAGE_LOADING: "Loading contents...",
+	MESSAGE_LOADED: "Contents loaded",
+	MESSAGE_ASSESSMENT_ERROR: "Failed to display assessment",
+	MESSAGE_ITEM_ERROR: "Failed to display item",
+	ERROR_ASSESSMENT_FAILED_TO_LOAD: "Failed to load assessment: ",
+	ERROR_ITEM_FAILED_TO_LOAD: "Failed to load item: ",
 	PLAYER_HEADER: "",
 	PLAYER_FOOTER: "",	
 	TOC_TITLE: "Table of Contents",
