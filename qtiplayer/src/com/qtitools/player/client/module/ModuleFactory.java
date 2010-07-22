@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.components.EmptyWidget;
+import com.qtitools.player.client.module.audioplayer.AudioPlayerModule;
 import com.qtitools.player.client.module.choice.ChoiceModule;
 import com.qtitools.player.client.module.debug.DebugModule;
 import com.qtitools.player.client.module.match.MatchModule;
@@ -47,7 +48,8 @@ public abstract class ModuleFactory {
 												"testInteraction",
 												"object",
 												"math",
-												"qy:comment"};
+												"qy:comment"
+												,"audioPlayer"};
 
 	public static boolean isSupported(String test){
 		for (int s= 0 ; s <SUPPORTED_MODULES.length ; s++)
@@ -76,6 +78,8 @@ public abstract class ModuleFactory {
 			widget = new MatchModule(element, moduleSocket, moduleEventsListener);
 		else if(element.getNodeName().compareTo("math") == 0)
 			widget = new MathExprInlineModule(element);
+		else if(element.getNodeName().compareTo("audioPlayer") == 0)
+			widget = new AudioPlayerModule(element);
 		else if(element.getNodeName().compareTo("qy:comment") == 0)
 			widget = new EmptyWidget();
 		else if(element.getNodeType() == Node.ELEMENT_NODE)
