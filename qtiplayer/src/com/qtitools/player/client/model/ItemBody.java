@@ -24,12 +24,6 @@ import com.qtitools.player.client.util.xml.XMLConverter;
 
 public class ItemBody extends Widget implements IActivity, IStateful {
 
-	// debug
-	public Vector<Widget>	widgets = new Vector<Widget>();
-	
-	// debug
-	//public Vector<String> idsIB = new Vector<String>();
-	
 	public Vector<Widget> modules = new Vector<Widget>();
 	
 	public InternalEventManager eventManager;
