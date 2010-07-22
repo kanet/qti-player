@@ -209,11 +209,7 @@ public class Item implements IStateful {
 	public Widget getScoreView(){
 		return scorePanel;
 	}
-	
-	public Vector<Widget> getModules(){
-		return itemBody.widgets;
-	}
-	
+		
 	public Result getResult(){
 		
 		Result result;
