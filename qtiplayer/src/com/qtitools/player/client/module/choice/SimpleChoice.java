@@ -47,9 +47,6 @@ import com.qtitools.player.client.util.xml.XMLUtils;
 public class SimpleChoice extends Composite {
 
 	public String identifier;
-	
-	public String feedback;
-	public Label feedbackLabel;
 
 	private AccessibleCheckBox button;
 	private AbsolutePanel cover;
@@ -141,43 +138,36 @@ public class SimpleChoice extends Composite {
 			inlineFeedbackSocket.add(new InlineFeedback(labelPanel, inlineFeedbackNodes.item(f)));
 		}
 		
-
-	    Element feedbackInline = XMLUtils.getFirstElementWithTagName(element, "feedbackInline");
-	    if(feedbackInline != null){
-	    	feedback = XMLUtils.getText(feedbackInline);
-			feedbackLabel = new Label();
-			labelPanel.add(feedbackLabel);
-	    }
 	    
 	}
 
-	public void markAnswers(boolean correct) {
+	public void markAnswers(boolean mark, boolean correct) {
 
-		if(button.isChecked()){
-			if( correct )
-				button.setStyleName("qp-choice-selected-correct");
-			else
-				button.setStyleName("qp-choice-selected-wrong");
+		if (mark){
+			if(button.isChecked()){
+				if( correct )
+					button.setStyleName("qp-choice-selected-correct");
+				else
+					button.setStyleName("qp-choice-selected-wrong");
+			}
+			else{
+				if( correct )
+					button.setStyleName("qp-choice-notselected-wrong");
+				else
+					button.setStyleName("qp-choice-notselected-correct");
+			}
+			
+			setEnabled(false);
+			
+		} else {
+
+			button.setStyleName("qp-choice-button");
+			setEnabled(true);
 		}
-		else{
-			if( correct )
-				button.setStyleName("qp-choice-notselected-wrong");
-			else
-				button.setStyleName("qp-choice-notselected-correct");
-		}
-		
-		setEnabled(false);
 
 	}
 	
-	public void unmark(){
-		button.setStyleName("qp-choice-button");
-		setEnabled(true);
-	}
-
 	public void setSelected(boolean sel){
-		if (!sel)
-			showFeedback(false, false);
 		button.setChecked(sel);
 	}
 
@@ -191,7 +181,6 @@ public class SimpleChoice extends Composite {
 	 */
 	public void setEnabled(boolean mode){
 		button.setEnabled(mode);
-		showFeedback(false, false);
 	}
 
 	/**
@@ -222,30 +211,6 @@ public class SimpleChoice extends Composite {
 		setEnabled(true);
 	}
 
-	/**
-	 * Show or hide feedback
-	 * @param show 
-	 */
-	public void showFeedback(boolean show, boolean correct) {
-		/*
-		if( feedbackLabel != null ){
-			if(show){
-				feedbackLabel.setText(feedback);
-				if (correct){
-					feedbackLabel.setStylePrimaryName("qp-choice-feedback-correct");
-				} else {
-					feedbackLabel.setStylePrimaryName("qp-choice-feedback-wrong");
-					
-				}
-			}
-			else{
-				feedbackLabel.setText("");
-				feedbackLabel.setStylePrimaryName("qp-choice-feedback");
-			}
-			
-				
-		}
-		*/
-	}
+
 
 }

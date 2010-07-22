@@ -156,10 +156,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 	public void markAnswers(boolean mark) {
 		
 		for (SimpleChoice currSC:interactionElements){
-			if (mark)
-				currSC.markAnswers( response.correctAnswers.contains(currSC.getIdentifier()) );
-			else 
-				currSC.unmark();
+			currSC.markAnswers(mark, response.correctAnswers.contains(currSC.getIdentifier()) );
 		}
 	}
 
@@ -242,7 +239,6 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 					if (currSC.getInputId().compareTo(lastSelectedId) == 0){
 						if (!multi  &&  !currSC.isSelected())
 							currSC.setSelected(!currSC.isSelected());
-						currSC.showFeedback((!multi && currSC.isSelected())  ||  (multi && !currSC.isSelected()), response.correctAnswers.contains(currSC.getIdentifier()));
 						target = currSC;
 						continue;
 					} else if (!multi){
@@ -254,7 +250,6 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 				for (SimpleChoice currSC:interactionElements){
 					if (currSC.getLabelId().compareTo(lastSelectedId) == 0){
 						currSC.setSelected(!currSC.isSelected());
-						currSC.showFeedback(currSC.isSelected(), response.correctAnswers.contains(currSC.getIdentifier()));
 						continue;
 					} else if (!multi){
 						currSC.setSelected(false);
