@@ -11,8 +11,10 @@ import com.qtitools.player.client.model.internalevents.InternalEventHandlerInfo;
 import com.qtitools.player.client.model.internalevents.InternalEventManager;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.module.IActivity;
+import com.qtitools.player.client.module.IBrowserEventHandler;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
+import com.qtitools.player.client.module.IUnattachedComponent;
 import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.module.ModuleFactory;
@@ -28,7 +30,7 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	// debug
 	//public Vector<String> idsIB = new Vector<String>();
 	
-	public Vector<IInteractionModule> modules = new Vector<IInteractionModule>();
+	public Vector<Widget> modules = new Vector<Widget>();
 	
 	public InternalEventManager eventManager;
 	
@@ -84,7 +86,7 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 				Widget widget = ModuleFactory.createWidget(element, moduleSocket, moduleEventsListener);
 
 				if (widget instanceof IInteractionModule)
-					addModule((IInteractionModule)widget);
+					addModule(widget);
 				
 				return widget.getElement();
 			}
@@ -106,26 +108,23 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 
 	}
 		
-	protected void addModule(IInteractionModule newModule){
+	protected void addModule(Widget newModule){
 		
 		//modules.put(newModule.getInputsId(), newModule);
 		
 		modules.add(newModule);
 		
-		Vector<InternalEventTrigger> triggers = newModule.getTriggers();
+		if (newModule instanceof IBrowserEventHandler){
 		
-		if (triggers != null)
-			for (InternalEventTrigger t : triggers)
-				eventManager.register(new InternalEventHandlerInfo(newModule, t));
+			Vector<InternalEventTrigger> triggers = ((IBrowserEventHandler)newModule).getTriggers();
+			
+			if (triggers != null)
+				for (InternalEventTrigger t : triggers)
+					eventManager.register(new InternalEventHandlerInfo(((IBrowserEventHandler)newModule), t));
+		}
 
 	}
 
-	
-	protected void addModuleWidget(Widget newModule){
-		
-		widgets.add(newModule);
-
-	}
 	
 	// ------------------------- EVENTS --------------------------------
 		
@@ -161,14 +160,14 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 			traceLabel.setText(traceLabel.getText() + " MOVE");
 		}
 		 */		
-		Vector<IInteractionModule> handlers = eventManager.getHandlers(element.getId(), event.getTypeInt());
+		Vector<IBrowserEventHandler> handlers = eventManager.getHandlers(element.getId(), event.getTypeInt());
 		
 		if (handlers.size() > 0){
 			int dasd = 343;
 			dasd++;
 		}
 		
-		for (IInteractionModule m : handlers)
+		for (IBrowserEventHandler m : handlers)
 			m.handleEvent(element.getId(), event);
 		
 	}
@@ -180,8 +179,10 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	public void onAttach(){
 		super.onAttach();
 		if (modules.size() > 0)
-			for (IInteractionModule mod : modules)
-				mod.onOwnerAttached();
+			for (Widget mod : modules){
+				if (mod instanceof IUnattachedComponent)
+					((IUnattachedComponent)mod).onOwnerAttached();
+			}
 
 		attached = true;
 		
@@ -205,23 +206,29 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	
 	@Override
 	public void markAnswers(boolean mark) {
-		for(IActivity currModule : modules)
-			currModule.markAnswers(mark);
+		for(Widget currModule : modules){
+			if (currModule instanceof IActivity)
+				((IActivity)currModule).markAnswers(mark);
+		}
 
 	}
 	
 	@Override
 	public void reset() {
-		for(IActivity currModule : modules)
-			currModule.reset();
+		for(Widget currModule : modules){
+			if (currModule instanceof IActivity)
+				((IActivity)currModule).reset();
+		}
 
 	}
 
 	@Override
 	public void lock(boolean l) {
 		locked = l;
-		for(IActivity currModule : modules)
-			currModule.lock(l);
+		for(Widget currModule : modules){
+			if (currModule instanceof IActivity)
+				((IActivity)currModule).lock(l);
+		}
 		
 	}
 	
@@ -231,8 +238,10 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 
 	@Override
 	public void showCorrectAnswers(boolean show) {
-		for(IActivity currModule : modules)
-			currModule.showCorrectAnswers(show);
+		for(Widget currModule : modules){
+			if (currModule instanceof IActivity)
+				((IActivity)currModule).showCorrectAnswers(show);
+		}
 
 	}
 
@@ -241,8 +250,11 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 		
 		JSONArray states = new JSONArray();
 			    
-	    for(IStateful currModule : modules){
-	    	states.set(states.size(), currModule.getState());
+		for(Widget currModule : modules){
+			if (currModule instanceof IStateful)
+				states.set(states.size(), ((IStateful)currModule).getState());
+			else
+				states.set(states.size(), new JSONArray());
 	    }
 	    
 	    return states;
@@ -258,7 +270,8 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 		    	for (int i = 0 ; i < newState.size()  &&  i < modules.size() ; i ++){
 			    	if (newState.get(i) != null){
 			    		JSONArray stateArr = newState.get(i).isArray();
-			    		modules.get(i).setState(stateArr);
+			    		if (modules.get(i) instanceof IStateful)
+			    			((IStateful)modules.get(i)).setState(stateArr);
 		    		}
 		    	}
 		    	

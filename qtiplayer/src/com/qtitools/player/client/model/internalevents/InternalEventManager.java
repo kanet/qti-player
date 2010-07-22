@@ -1,8 +1,7 @@
 package com.qtitools.player.client.model.internalevents;
 
 import java.util.Vector;
-
-import com.qtitools.player.client.module.IInteractionModule;
+import com.qtitools.player.client.module.IBrowserEventHandler;
 
 public class InternalEventManager {
 	public InternalEventManager(){
@@ -15,9 +14,9 @@ public class InternalEventManager {
 		handlers.add(iehi);
 	}
 	
-	public Vector<IInteractionModule> getHandlers(String id, int e){
+	public Vector<IBrowserEventHandler> getHandlers(String id, int e){
 		
-		Vector<IInteractionModule> h = new Vector<IInteractionModule>(0);
+		Vector<IBrowserEventHandler> h = new Vector<IBrowserEventHandler>(0);
 		
 		for (InternalEventHandlerInfo hi : handlers){
 			if (hi.match(id, e))

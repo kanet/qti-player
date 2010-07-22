@@ -1,24 +1,24 @@
 package com.qtitools.player.client.model.internalevents;
 
-import com.qtitools.player.client.module.IInteractionModule;
+import com.qtitools.player.client.module.IBrowserEventHandler;
 
 public class InternalEventHandlerInfo extends InternalEventTrigger {
 
-	public InternalEventHandlerInfo(IInteractionModule m , String id, int e){
+	public InternalEventHandlerInfo(IBrowserEventHandler m , String id, int e){
 		super(id, e);
 		module = m;
 	}
-	public InternalEventHandlerInfo(IInteractionModule m , InternalEventTrigger t){
+	public InternalEventHandlerInfo(IBrowserEventHandler m , InternalEventTrigger t){
 		super(t.getTagId(), t.getEventTypeInt());
 		module = m;
 	}
 	
-	protected IInteractionModule module;
+	protected IBrowserEventHandler module;
 
 	/**
 	 * @return the module
 	 */
-	public IInteractionModule getModule() {
+	public IBrowserEventHandler getModule() {
 		return module;
 	}
 	
