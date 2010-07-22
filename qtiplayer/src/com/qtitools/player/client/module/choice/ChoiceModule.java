@@ -245,8 +245,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 						currSC.showFeedback((!multi && currSC.isSelected())  ||  (multi && !currSC.isSelected()), response.correctAnswers.contains(currSC.getIdentifier()));
 						target = currSC;
 						continue;
-					}
-					if (!multi){
+					} else if (!multi){
 						currSC.setSelected(false);
 					}
 				}
@@ -257,8 +256,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 						currSC.setSelected(!currSC.isSelected());
 						currSC.showFeedback(currSC.isSelected(), response.correctAnswers.contains(currSC.getIdentifier()));
 						continue;
-					}
-					if (!multi){
+					} else if (!multi){
 						currSC.setSelected(false);
 					}
 				}

@@ -123,7 +123,7 @@ public class SimpleChoice extends Composite {
 		
 		if (BrowserCompatibility.detectIPhone()){			
 			com.google.gwt.dom.client.Element a = Document.get().createElement("a");
-			a.setAttribute("href", "#");
+			a.setAttribute("href", "javascript:void(0)");
 			a.appendChild(optionPanel.getElement());
 			
 			widgetWrapped = new ElementWrapperWidget(a);
