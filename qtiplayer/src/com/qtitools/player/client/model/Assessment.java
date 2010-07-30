@@ -33,12 +33,9 @@ import com.qtitools.player.client.util.xml.document.XMLData;
 
 public class Assessment implements AssessmentFeedbackSocket{
 
-	/** Array with references to items */
-	//private Vector<String>   itemRefs;
-	/** Array with item titles */
-	//private Vector<String>  itemTitles;
 	/** Whole assessment title */
 	private String title;
+	
 	/** XML DOM of the assessment */
 	private XMLData xmlData;
 
@@ -64,17 +61,7 @@ public class Assessment implements AssessmentFeedbackSocket{
 		styleDeclaration = new StyleLinkDeclaration(xmlData.getDocument().getElementsByTagName("styleDeclaration"), data.getBaseURL());
 		
 		feedbackManager = new AssessmentFeedbackManager(xmlData.getDocument().getElementsByTagName("assessmentFeedback"));
-	    /*
-		NodeList nodes = xmlData.getDocument().getElementsByTagName("assessmentItemRef");
-		Node itemRefNode;
-
-		itemRefs = new Vector<String>();
-    
-	    for(int i = 0; i < nodes.getLength(); i++){
-	    	itemRefNode = nodes.item(i);
-	    	itemRefs.add( xmlData.getBaseURL() + ((Element)itemRefNode).getAttribute("href") );
-	    }
-	    */
+		
 	    title = ((Element)rootNode).getAttribute("title");
 	    
 	}
@@ -86,20 +73,6 @@ public class Assessment implements AssessmentFeedbackSocket{
 	public int DEBUGgetAssessmentItemsCount(){
 		return 0;
 	}
-
-	/**
-	 * @return item ref
-	 */
-	//public String getAssessmentItemRef(int index){
-	//	return itemRefs.get(index);
-	//}
-
-	/** 
-	 * @return item title
-	 */
-	//public String getAssessmentItemTitle(int index){
-	//	return itemTitles.get(index);
-	//}
 
 	/**
 	 * @return assessment title

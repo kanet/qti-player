@@ -2,17 +2,12 @@ package com.qtitools.player.client.view.page;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.qtitools.player.client.controller.communication.ItemActivityOptions;
-import com.qtitools.player.client.controller.communication.ItemData;
 import com.qtitools.player.client.controller.communication.PageDataError;
 import com.qtitools.player.client.controller.communication.PageDataSummary;
-import com.qtitools.player.client.controller.communication.PageDataTest;
 import com.qtitools.player.client.controller.communication.PageDataToC;
 import com.qtitools.player.client.controller.communication.PageType;
-import com.qtitools.player.client.controller.communication.Result;
 import com.qtitools.player.client.controller.flow.navigation.NavigationCommandsListener;
 import com.qtitools.player.client.controller.session.SessionDataCarrier;
-import com.qtitools.player.client.model.Page;
 import com.qtitools.player.client.model.feedback.AssessmentFeedbackSocket;
 
 /**

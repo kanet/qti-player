@@ -3,7 +3,6 @@ package com.qtitools.player.client.view.assessment;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
 import com.qtitools.player.client.view.page.PageContentView;
 import com.qtitools.player.client.view.page.PageViewSocket;
 

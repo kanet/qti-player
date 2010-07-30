@@ -24,16 +24,15 @@
 package com.qtitools.player.client.module.choice;
 
 import java.util.Vector;
+
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
-import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.components.AccessibleCheckBox;
 import com.qtitools.player.client.components.AccessibleRadioButton;

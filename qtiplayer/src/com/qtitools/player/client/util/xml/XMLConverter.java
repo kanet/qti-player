@@ -10,7 +10,6 @@ import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.IModuleCreator;
 import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.ModuleSocket;
-import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 
 public abstract class XMLConverter {
 

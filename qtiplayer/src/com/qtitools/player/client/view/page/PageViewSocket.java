@@ -1,6 +1,5 @@
 package com.qtitools.player.client.view.page;
 
-import com.google.gwt.user.client.ui.Widget;
 import com.qtitools.player.client.view.item.ItemViewSocket;
 
 public interface PageViewSocket {

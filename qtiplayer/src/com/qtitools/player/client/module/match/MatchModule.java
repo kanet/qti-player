@@ -1,6 +1,7 @@
 package com.qtitools.player.client.module.match;
 
 import java.util.Vector;
+
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONString;
@@ -8,7 +9,6 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.xml.client.Element;
-import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.model.variables.response.Response;

@@ -26,7 +26,6 @@ package com.qtitools.player.client.view;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
@@ -35,8 +34,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.qtitools.player.client.model.Assessment;
 import com.qtitools.player.client.model.Item;
-import com.qtitools.player.client.module.mathexpr.MathExprInlineModule;
-import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
 
 public class PlayerWidget extends Composite{
 
