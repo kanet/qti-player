@@ -65,7 +65,7 @@ public class ItemDataSourceCollectionManager {
 	}
 	
 	public Vector<String> getStyleLinksForUserAgent(int itemIndex, String userAgent){
-		if (items != null)
+		if (items != null && itemIndex<=items.length)
 			return items[itemIndex].getStyleLinksForUserAgent(userAgent);
 		return new Vector<String>();
 	}
