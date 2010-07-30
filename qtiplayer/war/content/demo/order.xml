@@ -8,6 +8,9 @@
         </correctResponse>
     </responseDeclaration>
     <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer"/>
+	<styleDeclaration>
+		<link href="order.css" userAgent=".*"/>
+	</styleDeclaration>
     <itemBody>
         <orderInteraction responseIdentifier="RESPONSE" shuffle="true">
             <prompt>The following F1 drivers finished on the podium in the first ever Grand Prix of
