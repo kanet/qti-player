@@ -12,6 +12,7 @@ import com.qtitools.player.client.controller.log.OperationLogEvent;
 import com.qtitools.player.client.controller.log.OperationLogManager;
 import com.qtitools.player.client.controller.session.PageSessionSocket;
 import com.qtitools.player.client.model.Page;
+import com.qtitools.player.client.style.StyleSocket;
 import com.qtitools.player.client.view.page.PageViewCarrier;
 import com.qtitools.player.client.view.page.PageViewSocket;
 
@@ -30,6 +31,11 @@ public final class PageController {
 	private PageSessionSocket pageSessionSocket;
 	private NavigationSocket navigationSocket;
 	private ItemController[] items;
+	
+	private StyleSocket styleSocket;
+	public void setStyleSocket( StyleSocket ss) {
+		styleSocket = ss;
+	}
 	
 	public void initPage(PageData pageData){
 		
@@ -52,17 +58,14 @@ public final class PageController {
 			pageViewSocket.setPageViewCarrier(new PageViewCarrier());
 	
 			for (int i = 0 ; i < pageDataTest.datas.length ; i ++){
-				items[i] = new ItemController(pageViewSocket.getItemViewSocket(i), pageSessionSocket.getItemSessionSocket());
-				
-			}
-			for (int i = 0 ; i < pageDataTest.datas.length ; i ++){
-				items[i].init(pageDataTest.datas[i]);
-
+				ItemController controller = new ItemController(pageViewSocket.getItemViewSocket(i), pageSessionSocket.getItemSessionSocket());
+				controller.setStyleSocket( styleSocket );
+				controller.init(pageDataTest.datas[i]);
 				if (pageDataTest.activityOptions.previewMode){
-					items[i].setPreviewMode();
+					controller.setPreviewMode();
 				}
+				items[i] = controller;
 			}
-				
 			
 		} else if (pageData.type == PageType.TOC){
 			items = null;

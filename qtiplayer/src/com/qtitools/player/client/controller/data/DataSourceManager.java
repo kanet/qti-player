@@ -1,43 +1,52 @@
 package com.qtitools.player.client.controller.data;
 
-import com.google.gwt.user.client.Timer;
+import java.util.List;
 import java.util.Vector;
+
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.IncrementalCommand;
+import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.xml.client.Document;
 import com.qtitools.player.client.controller.communication.ItemData;
 import com.qtitools.player.client.controller.communication.PageData;
 import com.qtitools.player.client.controller.communication.PageDataError;
 import com.qtitools.player.client.controller.communication.PageDataSummary;
 import com.qtitools.player.client.controller.communication.PageDataTest;
-import com.qtitools.player.client.controller.communication.PageReference;
 import com.qtitools.player.client.controller.communication.PageDataToC;
+import com.qtitools.player.client.controller.communication.PageReference;
 import com.qtitools.player.client.controller.communication.PageType;
 import com.qtitools.player.client.controller.data.events.AssessmentDataLoaderEventListener;
 import com.qtitools.player.client.controller.data.events.DataLoaderEventListener;
 import com.qtitools.player.client.controller.data.events.ItemDataCollectionLoaderEventListener;
+import com.qtitools.player.client.controller.data.events.StyleDataLoaderEventListener;
 import com.qtitools.player.client.controller.log.OperationLogEvent;
 import com.qtitools.player.client.controller.log.OperationLogManager;
-import com.qtitools.player.client.controller.messages.OperationMessage;
-import com.qtitools.player.client.controller.messages.OperationMessagePoint;
-import com.qtitools.player.client.controller.messages.OperationMessageType;
+import com.qtitools.player.client.style.StyleSocket;
 import com.qtitools.player.client.util.xml.XMLDocument;
 import com.qtitools.player.client.util.xml.document.IDocumentLoaded;
 import com.qtitools.player.client.util.xml.document.XMLData;
 
-public class DataSourceManager implements AssessmentDataLoaderEventListener, ItemDataCollectionLoaderEventListener {
+public class DataSourceManager implements AssessmentDataLoaderEventListener, ItemDataCollectionLoaderEventListener, StyleDataLoaderEventListener {
 	
 	public DataSourceManager(DataLoaderEventListener l){
 		mode = DataSourceManagerMode.NONE;
 		listener = l;
 		assessmentDataManager = new AssessmentDataSourceManager(this);
 		itemDataCollectionManager = new ItemDataSourceCollectionManager(this);
+		styleDataSourceManager = new StyleDataSourceManager(this);
 	}
 	
 	private AssessmentDataSourceManager assessmentDataManager;
 	private ItemDataSourceCollectionManager itemDataCollectionManager;
+	private StyleDataSourceManager styleDataSourceManager;
+	private int styleLoadCounter;
 	private DataSourceManagerMode mode;
 	private DataLoaderEventListener listener;
 	
@@ -47,6 +56,10 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 
 	public ItemData getItemData(int index){
 		return itemDataCollectionManager.getItemData(index);
+	}
+	
+	public StyleSocket getStyleProvider() {
+		return styleDataSourceManager;
 	}
 	
 	public int getItemsCount(){
@@ -90,7 +103,7 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 			}
 		});
 	}
-
+	
 	public void loadItems(){
 		loadItems(assessmentDataManager.getItemUrls());		
 	}
@@ -121,7 +134,6 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 		}
 		
 	}
-	
 	
 	public void loadData(XMLData ad, XMLData[] ids){
 		assessmentDataManager.setAssessmentData(ad);
@@ -172,6 +184,86 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 	
 	@Override
 	public void onItemCollectionLoaded() {
+		// load item styles
+		loadStyles();
+	}
+	
+	private void loadStyles() {
+		mode = DataSourceManagerMode.LOADING_STYLES;
+		String userAgent = Navigator.getUserAgent().toLowerCase();
+		try {
+			// load assesment styles
+			List<String> aStyles = assessmentDataManager.getStyleLinksForUserAgent(userAgent);
+			for (String styleURL : aStyles) {
+				RequestBuilder builder = new RequestBuilder( RequestBuilder.GET, styleURL);
+				styleLoadCounter++;
+				builder.setCallback( new RequestCallback() {
+					@Override
+					public void onResponseReceived(Request request, Response response) {
+						styleLoadCounter--;
+						if (response.getStatusCode()==Response.SC_OK) { 
+							styleDataSourceManager.addAssessmentStyle( response.getText() );
+						} else {
+							// TODO add error handling
+						}
+					}
+					
+					@Override
+					public void onError(Request request, Throwable exception) {
+						// TODO Add error handling
+						styleLoadCounter--;
+					}
+				});
+				builder.send();
+			}
+			// load item styles
+			int itemCount = itemDataCollectionManager.getItemsCount();
+			for (int i=itemCount-1;i>=0;i--) {
+				List<String> iStyles = itemDataCollectionManager.getStyleLinksForUserAgent(i, userAgent);
+				for (String styleURL : iStyles) {
+					final int ii = i;
+					RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, styleURL);
+					styleLoadCounter++;
+					builder.setCallback( new RequestCallback() {
+						@Override
+						public void onResponseReceived(Request request, Response response) {
+							styleLoadCounter--;
+							if (response.getStatusCode()==Response.SC_OK) {
+								styleDataSourceManager.addItemStyle(ii, response.getText());
+							} else {
+								// TODO add error handling
+							}
+						}
+						
+						@Override
+						public void onError(Request request, Throwable exception) {
+							// TODO add error handling
+							styleLoadCounter--;
+						}
+					});
+					builder.send();
+				}
+			}
+		} catch (RequestException e) {
+			e.printStackTrace();
+		}
+		
+		// check if all styles are loaded
+		DeferredCommand.addCommand( new IncrementalCommand() {
+			@Override
+			public boolean execute() {
+				if (styleLoadCounter==0) {
+					onLoadFinished();
+					return false;
+				}
+				return true;
+			}
+		});
+		
+	}
+
+	@Override
+	public void onStyleDataLoaded() {
 		onLoadFinished();
 	}
 	
@@ -192,4 +284,5 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 	public String getItemTitle(int index){
 		return itemDataCollectionManager.getTitlesList()[index];
 	}
+
 }

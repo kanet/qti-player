@@ -8,6 +8,7 @@ import com.qtitools.player.client.controller.flow.navigation.NavigationSocket;
 import com.qtitools.player.client.controller.flow.navigation.NavigationViewSocket;
 import com.qtitools.player.client.controller.session.AssessmentSessionSocket;
 import com.qtitools.player.client.model.Assessment;
+import com.qtitools.player.client.style.StyleSocket;
 import com.qtitools.player.client.util.xml.document.XMLData;
 import com.qtitools.player.client.view.assessment.AssessmentViewCarrier;
 import com.qtitools.player.client.view.assessment.AssessmentViewSocket;
@@ -24,6 +25,10 @@ public class AssessmentController {
 	
 	private AssessmentViewSocket assessmentViewSocket;
 	private NavigationViewSocket navigationViewSocket;
+	
+	public void setStyleSocket( StyleSocket ss) {
+		pageController.setStyleSocket( ss );
+	}
 	
 	@SuppressWarnings("unused")
 	private AssessmentSessionSocket assessmentSessionSocket;

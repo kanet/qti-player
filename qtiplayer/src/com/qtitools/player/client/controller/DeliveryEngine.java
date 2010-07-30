@@ -1,5 +1,7 @@
 package com.qtitools.player.client.controller;
 
+import java.util.Vector;
+
 import com.qtitools.player.client.controller.communication.ActivityActionType;
 import com.qtitools.player.client.controller.communication.FlowOptions;
 import com.qtitools.player.client.controller.communication.IAssessmentReport;
@@ -16,7 +18,6 @@ import com.qtitools.player.client.controller.flow.FlowEventsListener;
 import com.qtitools.player.client.controller.flow.FlowManager;
 import com.qtitools.player.client.controller.flow.navigation.NavigationCommandsListener;
 import com.qtitools.player.client.controller.flow.navigation.NavigationIncidentType;
-import com.qtitools.player.client.controller.log.OperationLogManager;
 import com.qtitools.player.client.controller.session.SessionDataManager;
 import com.qtitools.player.client.controller.session.StateInterface;
 import com.qtitools.player.client.controller.session.events.StateChangedEventsListener;
@@ -32,37 +33,22 @@ import com.qtitools.player.client.view.player.PlayerViewSocket;
  * - delivering content to player,
  * - managing state, results and reports about the assessments.
  * 
+ * TODO use com.google.gwt.event.shared.HandlerManager to propagate events
+ * TODO use com.google.gwt.user.client.History to change application states
+ * 
  * @author Rafal Rybacki
  *
  */
 public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListener, StateChangedEventsListener {
 
-	/*
-	public Assessment assessment;
-	public Item currentAssessmentItem;
-	private int currentAssessmentItemIndex;
-	
-	private long assessmentSessionTimeStarted;
-	private long assessmentSessionTimeFinished;
-	
-	private DeliveryEngineEventListener listener;
-	
-	public JSONArray states;
-	public Result[] results;
-	public String[] titles;
-	public AssessmentItemStatistics[] stats;
-	*/
 	public EngineModeManager mode;
 	
 	private int masteryScore;
-	//private Vector<Boolean> itemsVisited;
 	
 	private StyleLinkManager styleManager;
 	
-	//private AssessmentEventsHandler deliveryEngineHandler;
-	
-
 	private DataSourceManager dataManager;
+	
 	private FlowManager flowManager;
 	private SessionDataManager sessionDataManager;
 	
@@ -88,6 +74,7 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 		sessionDataManager = new SessionDataManager(this);
 		
 		assessmentController = new AssessmentController(playerViewSocket.getAssessmentViewSocket(), flowManager, sessionDataManager);
+		assessmentController.setStyleSocket( dataManager.getStyleProvider() );
 		
 		playerViewSocket.setPlayerViewCarrier(new PlayerViewCarrier());
 		
@@ -138,6 +125,7 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 	public void onNavigatePageSwitched() {
 		PageReference pr = flowManager.getPageReference();
 		PageData pd = dataManager.generatePageData(pr);
+		dataManager.getStyleProvider().setCurrentPages( pr );
 		assessmentController.closePage();
 		if (pd.type == PageType.SUMMARY)
 			((PageDataSummary)pd).setSessionData( sessionDataManager.getSessionData() );
@@ -259,408 +247,18 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 	
 	//------------------------- CONTROLLER --------------------------------
 
-	/*
-	public void nextAssessmentItem(){
-		
-		if(currentAssessmentItemIndex  < assessment.getAssessmentItemsCount()-1)
-			gotoAssessmentItem(currentAssessmentItemIndex+1);
-	}
-
-	public void previousAssessmentItem(){
-		
-		if(currentAssessmentItemIndex  > 0)
-			gotoAssessmentItem(currentAssessmentItemIndex-1);
-	}
-
-	public void gotoAssessmentItem(int index){
-
-		if (!mode.canNavigate())
-			return;
-		
-		if(index >= 0  &&  index < assessment.getAssessmentItemsCount()){
-		
-			if (currentAssessmentItem != null)
-				endItemSession();
-			
-			loadAssessmentItem(index);
-		}
-	}
-	
-	public int getCurrentAssessmentItemIndex(){
-		return currentAssessmentItemIndex;
-	}
-	
-	public int getAssessmentItemCount(){
-		return assessment.getAssessmentItemsCount();
-	}
-
-	public boolean isLastAssessmentItem(){
-		return (currentAssessmentItemIndex == assessment.getAssessmentItemsCount()-1);
-	}
-
-	public boolean isFirstAssessmentItem(){
-		return (currentAssessmentItemIndex == 0);
-	}
-	
-	public boolean isNavigationPossible(){
-		return mode.canNavigate();
-	}
-	
-	public boolean isAssessmentItemLocked(){
-		return currentAssessmentItem.isLocked();
-	}
-	
-	/*
-	public void beginAssessmentSession(){
-		
-		itemsVisited = new Vector<Boolean>();
-		for (int i = 0 ; i < assessment.getAssessmentItemsCount() ; i ++){
-			itemsVisited.add(false);
-		}
-		
-		assessmentSessionTimeStarted = (long) ((new Date()).getTime() * 0.001);
-		listener.onAssessmentSessionBegin();
-		
-		if (assessment != null){
-			initHistory();
-			loadAssessmentItem(0);
-		} else {
-			listener.onAssessmentLoadingError("Could not load Assessment");
-			
-		}
-		
-		
-	}
-
-	public void endAssessmentSession(){
-		if (mode.canFinish()){
-			endItemSession();
-			currentAssessmentItem = null;
-			mode.finish();
-			assessmentSessionTimeFinished = (long) ((new Date()).getTime() * 0.001);
-			listener.onAssessmentSessionFinished();
-		} 
-	}
-
-	public void gotoAssessmentSummary(){
-		if (mode.canSummary()){
-			endItemSession();
-			mode.finish();
-			listener.onAssessmentSessionFinished();
-		}
-	}
-	
-	public void continueAssessment(){
-		if (mode.canContinueAssessment()){
-			mode.continueAssessment();
-			gotoAssessmentItem(assessment.getAssessmentItemsCount()-1);
-		}
-	}
-
-	public void beginItemSession(){
-
-		if (mode.canRun()){
-			
-			if (currentAssessmentItem != null){
-			    // Load state
-				updateState();
-				initItemSessionStatistics();
-				itemsVisited.set(currentAssessmentItemIndex, true);
-			    listener.onItemSessionBegin(currentAssessmentItemIndex);
-				currentAssessmentItem.process(false);
-			} else {
-				listener.onAssessmentItemLoadingError("Could not load Assessment Item.");
-			}
-			mode.run();
-			
-		} else if (mode.canPreview()){
-			
-			if (currentAssessmentItem != null){
-			    // Load state
-				updateState();
-			    currentAssessmentItem.lock(true);
-			    listener.onItemSessionBegin(currentAssessmentItemIndex);
-			} else {
-				listener.onAssessmentItemLoadingError("Could not load Assessment Item.");
-			}
-			mode.preview();
-			
-		}
-	}
-
-	public void endItemSession(){
-		if (mode.canNavigate()){
-			if (currentAssessmentItem != null){
-				//onStateChanged();
-				updateHistory();
-				updateItemSessionStatistics();
-				listener.onItemSessionFinished(currentAssessmentItemIndex);
-			} else {
-				listener.onItemSessionFinished(currentAssessmentItemIndex);
-			}
-		}
-		
-	}
-*/
-	
-	/*
-	public Result getAssessmentResult(){
-	    float score = 0;
-	    float min = 0;
-	    float max = 0;
-		
-	    for ( int r = 0 ; r < results.length ; r ++){
-	    	
-	    	Result result = results[r];
-	    
-	    	if(result != null){
-		      score += result.getScore();
-		      max += result.getMaxPoints();
-		      min += result.getMinPoints();
-	    	} else {
-	    		max++;
-	    	}
-	    }
-	    
-	    return new Result(score, min, max);
-	}
-
-	public Result getAssessmentItemResult(){
-		return getAssessmentItemResult(currentAssessmentItemIndex);
-	}
-	public Result getAssessmentItemResult(int item){
-	    float score = 0;
-	    float min = 0;
-	    float max = 0;
-		
-    	if(results[item] != null){
-	      score = results[item].getScore();
-	      max = results[item].getMaxPoints();
-	      min = results[item].getMinPoints();
-    	}
-	    
-	    return new Result(score, min, max);
-	}
-
-	public String getAssessmentItemTitle(int index){
-		if (index < titles.length)
-			return titles[index];
-			
-		return null;
-	}
-	
-	public AssessmentItemStatistics getAssessmentItemStatistics(int index){
-		if (index < stats.length)
-			return stats[index];
-			
-		return null;
-	}
-*/
-	/*
-	public IAssessmentSessionReport report(){
-		
-		final DeliveryEngine owner = this;
-		
-		return new IAssessmentSessionReport() {
-			
-			@Override
-			public String getAssessmentTitle() {
-				return assessment.getTitle();
-			}
-			
-			@Override
-			public int getAssessmentSessionTime() {
-				if (assessmentSessionTimeStarted == 0)
-					return 0;
-				
-				if (assessmentSessionTimeFinished != 0)
-					return new Long(assessmentSessionTimeFinished - assessmentSessionTimeStarted).intValue();
-				
-				return new Long(((long) ((new Date()).getTime() * 0.001)) - assessmentSessionTimeStarted).intValue();
-			}
-			
-			@Override
-			public Result getAssessmentResult() {
-				return owner.getAssessmentResult();
-			}
-			
-			@Override
-			public Result getItemResult() {
-				return getAssessmentItemResult(currentAssessmentItemIndex);
-			}
-			
-			@Override
-			public int getAssessmentItemIndex() {
-				return currentAssessmentItemIndex;
-			}
-			
-			@Override
-			public int getAssessmentItemsCount() {
-				return assessment.getAssessmentItemsCount();
-			}
-			
-			@Override
-			public String getAssessmentItemTitle() {
-				return assessment.getAssessmentItemTitle(currentAssessmentItemIndex);
-			}
-
-			@Override
-			public boolean getAssessmentMasteryPassed() {
-				Result r = getAssessmentResult();
-				
-				if (r.getMaxPoints() - r.getMinPoints() == 0)
-					return false;
-				
-				return (100*r.getScore()/(r.getMaxPoints() - r.getMinPoints()) >= masteryScore);
-			}
-
-			@Override
-			public int getAssessmentItemsVisitedCount() {
-				int count = 0;
-				for (Boolean i : itemsVisited){
-					if (i) count++;
-				}
-				return count;
-			}
-
-			@Override
-			public int getAssessmentItemModulesCount() {
-				return currentAssessmentItem.getModuleCount();
-			}
-		};
-	}
-*/
-/*
-	public JSONArray getState(){
-		if (mode.isAssessmentLoaded())
-			return states;
-		else
-			return null;
-	}
-	
-
-	public void setState(JSONArray obj){
-		states = obj;
-		if (mode.isAssessmentLoaded()){
-			updateState();
-		}
-	}
-	*/
-	/*
-	private void updateState(){
-		
-		if (states.size() <= currentAssessmentItemIndex  ||  states.get(currentAssessmentItemIndex) == null)
-			return;
-		
-	    if(states.get(currentAssessmentItemIndex).isArray() != null){
-	    	JSONArray statesArr = states.get(currentAssessmentItemIndex).isArray();
-	    	currentAssessmentItem.setState(statesArr);
-	    }
-	}
-	*/
-
-	
-	//------------------------- HISTORY --------------------------------
-
-	/**
-	 * Initiates the history of the assessment session.
-	 * 
-	 * The history of assessment session consists of 
-	 * results and interaction modules' states for each
-	 * assessment item.
-	 */
-	/*
-	private void initHistory(){
-	    results = new Result[assessment.getAssessmentItemsCount()];
-	    titles = new String[assessment.getAssessmentItemsCount()];
-	    stats = new AssessmentItemStatistics[assessment.getAssessmentItemsCount()];
-	    if (states == null)
-	    	states = new JSONArray(); 
-	}
-	*/
-	/**
-	 * Called when item session is finished or the state of the page changes
-	 */
-	/*
-	private void updateHistory() {
-		states.set(currentAssessmentItemIndex, currentAssessmentItem.getState());
-		results[currentAssessmentItemIndex] = currentAssessmentItem.getResult();
-		titles[currentAssessmentItemIndex] = currentAssessmentItem.getTitle();
-	}
-	
-	public void initItemSessionStatistics(){
-		if (stats[currentAssessmentItemIndex] == null)
-			stats[currentAssessmentItemIndex] = new AssessmentItemStatistics();
-		
-		stats[currentAssessmentItemIndex].onBeginItemSession();
-	}
-	*/
-	/**
-	 * Called when item session is finished
-	 */
-	/*
-	private void updateItemSessionStatistics(){
-		stats[currentAssessmentItemIndex].onEndItemSession();
-		stats[currentAssessmentItemIndex].addMistakesCount(currentAssessmentItem.getMistakesCount());
-	}
-	*/
-	
-	//------------------------- IACTIVITY --------------------------------
-/*
-	@Override
-	public void markAnswers() {
-		if (currentAssessmentItem != null){
-			currentAssessmentItem.markAnswers();
-			stats[currentAssessmentItemIndex].addCheckIncident();
-		}
-	}
-	
-	@Override
-	public void unmark() {
-		if (currentAssessmentItem != null){
-			currentAssessmentItem.unmark();
-		}
-	}
-
-
-	@Override
-	public void reset() {
-
-		if (mode.canNavigate()){
-		
-			results[currentAssessmentItemIndex] = null;
-			currentAssessmentItem.reset();
-		}
-		
-	}
-
-	@Override
-	public void lock(boolean l) {
-		currentAssessmentItem.lock(l);
-		
-	}
-
-	@Override
-	public void showCorrectAnswers() {
-		
-	}
-	@Override
-	public void onStateChanged(IInteractionModule sender) {
-		currentAssessmentItem.process(sender != null, sender != null ? sender.getIdentifier() : "");
-		updateHistory();
-	}
-	
-*/
 	//------------------------- STYLE --------------------------------
 
 	public void updateAssessmentStyle(){
 		String userAgent = styleManager.getUserAgent();
-		styleManager.registerAssessmentStyles(dataManager.getAssessmentStyleLinksForUserAgent(userAgent));
+		Vector<String> links = dataManager.getAssessmentStyleLinksForUserAgent(userAgent);
+		styleManager.registerAssessmentStyles( links );
 	}
 
 	public void updatePageStyle(){
 		String userAgent = styleManager.getUserAgent();
-		styleManager.registerItemStyles(dataManager.getPageStyleLinksForUserAgent(flowManager.getPageReference(), userAgent));
+		Vector<String> links = dataManager.getPageStyleLinksForUserAgent(flowManager.getPageReference(), userAgent);
+		styleManager.registerItemStyles( links );
 	}
 
 }

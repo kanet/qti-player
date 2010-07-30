@@ -24,11 +24,12 @@
 package com.qtitools.player.client.module;
 
 import com.qtitools.player.client.model.feedback.InlineFeedbackSocket;
+import com.qtitools.player.client.style.StyleSocket;
 
 /**
  * Socket interface for modules
  * @author Krzysztof Langner
  */
-public interface ModuleSocket extends ResponseSocket, InlineFeedbackSocket{
+public interface ModuleSocket extends ResponseSocket, InlineFeedbackSocket, StyleSocket {
 	
 }

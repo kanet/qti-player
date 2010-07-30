@@ -9,6 +9,7 @@ import com.qtitools.player.client.controller.session.ItemSessionSocket;
 import com.qtitools.player.client.model.Item;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
+import com.qtitools.player.client.style.StyleSocket;
 import com.qtitools.player.client.view.item.ItemViewCarrier;
 import com.qtitools.player.client.view.item.ItemViewSocket;
 
@@ -25,6 +26,11 @@ public class ItemController implements ModuleStateChangedEventsListener {
 	
 	private ItemViewSocket itemViewSocket;
 	private ItemSessionSocket itemSessionSocket;
+
+	private StyleSocket styleSocket;
+	public void setStyleSocket( StyleSocket ss) {
+		styleSocket = ss;
+	}
 	
 	private ItemNavigationIncidentsStats navigationIncidentsStats;
 	
@@ -32,7 +38,7 @@ public class ItemController implements ModuleStateChangedEventsListener {
 		boolean success = false;
 		try {
 			if (data.data != null){
-				item = new Item(data.data, this);
+				item = new Item(data.data, this, styleSocket);
 				itemIndex = data.itemIndex;
 				item.setState(itemSessionSocket.getState(itemIndex));
 				itemViewSocket.setItemView(new ItemViewCarrier(String.valueOf(itemIndex+1) + ". " + item.getTitle(), item.getContentView(), item.getFeedbackView(), item.getScoreView()));

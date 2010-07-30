@@ -1,7 +1,9 @@
 package com.qtitools.player.client.module.order;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
+
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONNumber;
@@ -17,7 +19,6 @@ import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.components.TouchablePanel;
 import com.qtitools.player.client.components.htmldnd.DragContainerPanel;
 import com.qtitools.player.client.components.htmldnd.DragMode;
-import com.qtitools.player.client.model.feedback.FeedbackManager;
 import com.qtitools.player.client.model.feedback.InlineFeedback;
 import com.qtitools.player.client.model.feedback.InlineFeedbackSocket;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
@@ -26,8 +27,8 @@ import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
-import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.ITouchEventsListener;
+import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.util.RandomizedSet;
 import com.qtitools.player.client.util.xml.XMLUtils;
@@ -54,6 +55,8 @@ public class OrderModule extends Composite implements IInteractionModule {
 	private VerticalPanel mainPanel;
 	
 	private boolean locked = false;
+	
+	public static final String styleSelector = "order";
 
 	public OrderModule(Element element, ModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener) {
 
@@ -86,9 +89,12 @@ public class OrderModule extends Composite implements IInteractionModule {
 		}
 		
 		container = new DragContainerPanel();
-		//container.setSize("200", "200");
 		container.setStylePrimaryName("qp-order-container");
-		container.setDragMode(DragMode.HORIZONTAL);
+		
+		// get DragMode from style sheet
+		Map<String,String> styles = moduleSocket.getStyles( element );
+		DragMode dm = (styles.containsKey("module-layout") && styles.get("module-layout").equals("vertical"))? DragMode.VERTICAL : DragMode.HORIZONTAL;
+		container.setDragMode( dm );
 		
 		mainPanel = new VerticalPanel();
 		mainPanel.add(CommonsFactory.getPromptView(XMLUtils.getFirstElementWithTagName(element, "prompt")));
@@ -169,7 +175,6 @@ public class OrderModule extends Composite implements IInteractionModule {
 			
 			Vector<String> ignoredTags = new Vector<String>();
 			ignoredTags.add("feedbackInline");
-			//com.google.gwt.dom.client.Element dom = XMLConverter.getDOM(option, ignoredTags);
 			
 			Widget contentWidget = CommonsFactory.getInlineTextView(option, ignoredTags);
 			
