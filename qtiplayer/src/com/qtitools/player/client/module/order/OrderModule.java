@@ -56,8 +56,6 @@ public class OrderModule extends Composite implements IInteractionModule {
 	
 	private boolean locked = false;
 	
-	public static final String styleSelector = "order";
-
 	public OrderModule(Element element, ModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener) {
 
 		shuffle = XMLUtils.getAttributeAsBoolean(element, "shuffle");
@@ -268,7 +266,6 @@ public class OrderModule extends Composite implements IInteractionModule {
 	@Override
 	public void showCorrectAnswers(boolean show) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
