@@ -61,12 +61,15 @@ public class DragContainerPanel extends AbsolutePanel {
 	}
 	
 	public void setAutoSize(){
+		if (slotManager.getCount()==0) {
+			return;
+		}
 		int pw = getOffsetWidth();
 		int ph = getOffsetHeight();
 		int lastSlotRight = slotManager.getSlot(slotManager.getCount()-1).getRight();
 		int lastSlotBottom = slotManager.getSlot(slotManager.getCount()-1).getBottom();
-		if (pw < lastSlotRight &&  ph < lastSlotBottom){
-			setSize(String.valueOf(lastSlotRight), String.valueOf(lastSlotBottom));
+		if (pw < lastSlotRight ||  ph < lastSlotBottom){
+			setSize( String.valueOf( Math.max(pw,lastSlotRight) ), String.valueOf( Math.max(ph,lastSlotBottom)) );
 		}
 	}
 	
