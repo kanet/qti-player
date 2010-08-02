@@ -33,9 +33,6 @@ public class DragSlotManager {
 	}
 	
 	private Rectangle addSlot(int forElementIndex){
-		//int left = findNextSlotLeft(-1);
-		//int top = findNextSlotTop(-1);
-		//DragSlot slot = new DragSlot(left, top, forWidget.getOffsetWidth(), forWidget.getOffsetHeight());
 		Rectangle slot = findNextSlot(forElementIndex);
 		slots.add(slot);
 		return slot;
@@ -192,57 +189,11 @@ public class DragSlotManager {
 		return false;
 			
 	}
-	/*
-	protected int findNextSlotLeft(int slotIndex){
-		int left = 0;
-		
-		if (slots.size() > 0){
-			
-			int prevSlotIndex = slotIndex-1;
-			if (prevSlotIndex > slots.size()-1)
-				prevSlotIndex = slots.size()-1;
-
-			DragSlot prevSlot = slots.get(slotIndex);
-			DragElement prevElement = elements.get(slotIndex);
-			
-			left = prevSlot.getLeft();
-			if (layout == DragSlotLayout.HORIZONTAL){
-				left += prevSlot.getWidth();
-			}
-		}
-		return left;
-	}
-	
-	protected int findNextSlotTop(int slotIndex){
-		int top = 0;
-		
-		if (slots.size() > 0){
-			
-			int prevSlotIndex = slotIndex-1;
-			if (prevSlotIndex > slots.size()-1  ||  slotIndex < 0)
-				prevSlotIndex = slots.size()-1;
-			
-			DragSlot prevSlot= slots.get(slotIndex);
-			
-			top = prevSlot.getTop();
-			if (layout == DragSlotLayout.HORIZONTAL){
-				top += prevSlot.getHeight();
-			}
-		}
-		return top;
-	}
-	*/
 
 	public void organizeSlots(){
 		for (int i = 0 ; i < slots.size() && i < elements.size() ; i ++){
-			
-			//DragElement currElement = elements.get(i);
-			//DragSlot currSlot = slots.get(i);
-			
 			Rectangle nextSlot = findNextSlot(i);
-			
 			slots.set(i, nextSlot);
-				
 		}
 	}
 	

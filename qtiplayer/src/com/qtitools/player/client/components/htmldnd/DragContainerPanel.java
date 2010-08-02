@@ -79,22 +79,7 @@ public class DragContainerPanel extends AbsolutePanel {
 			slotManager.setSlotLayout(DragSlotLayout.fromDragServiceMode(dsm));
 		}
 	}
-	/*
-	private void updateSlots(){
-		if (isDragging  &&  DragMode.isSlotManagerEnabled(mode)){
-			Rectangle tmpSlot = new Rectangle(getWidgetLeft(currDraggedElement.getWidget()), 
-											  getWidgetTop(currDraggedElement.getWidget()), 
-											  currDraggedElement.getWidget().getOffsetWidth(), 
-											  currDraggedElement.getWidget().getOffsetHeight());
-			
-			boolean slotsUpdated = slotManager.updateSlotsForFloatingSlot(tmpSlot, currDraggedElement.getElementIndex());
-			
-			if (slotsUpdated){
-				organizeWidgets();
-			}
-		}
-	}
-	*/
+
 	private void organizeWidgets(){
 		for (int i = 0 ; i < slotManager.getCount() ; i ++){
 			
