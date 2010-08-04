@@ -2,6 +2,10 @@ package com.qtitools.player.client.controller;
 
 import java.util.Vector;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.inject.client.Ginjector;
+import com.google.inject.Injector;
+import com.qtitools.player.client.PlayerGinjector;
 import com.qtitools.player.client.controller.communication.ActivityActionType;
 import com.qtitools.player.client.controller.communication.FlowOptions;
 import com.qtitools.player.client.controller.communication.IAssessmentReport;
@@ -69,7 +73,8 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 		playerViewSocket = pvs;
 		deliveryEngineEventsListener = deel;
 		
-		dataManager = new DataSourceManager(this);
+		PlayerGinjector injector = GWT.create( PlayerGinjector.class );
+		dataManager = injector.getDataSourceManager();
 		flowManager = new FlowManager(this);
 		sessionDataManager = new SessionDataManager(this);
 		

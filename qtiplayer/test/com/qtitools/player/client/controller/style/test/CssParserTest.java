@@ -43,12 +43,7 @@ public class CssParserTest extends GWTTestCase {
 	}
 
 	public void testStyleDataSourceManager() {
-		StyleDataSourceManager sdsm = new StyleDataSourceManager( new StyleDataLoaderEventListener() {
-			@Override
-			public void onStyleDataLoaded() {
-				System.out.println("style data loaded");
-			}
-		});
+		StyleDataSourceManager sdsm = new StyleDataSourceManager();
 		
 		Document doc = XMLParser.parse("<orderInteraction responseIdentifier=\"RESPONSE\" shuffle=\"true\" />");
 		Element e = doc.getDocumentElement();
@@ -80,12 +75,7 @@ public class CssParserTest extends GWTTestCase {
 	}
 	
 	public void testEmptyStyleManager() {
-		StyleDataSourceManager sdsm = new StyleDataSourceManager( new StyleDataLoaderEventListener() {
-			@Override
-			public void onStyleDataLoaded() {
-				System.out.println("style data loaded");
-			}
-		});
+		StyleDataSourceManager sdsm = new StyleDataSourceManager();
 		
 		Document doc = XMLParser.parse("<customSelector />");
 		Element e = doc.getDocumentElement();
@@ -96,12 +86,7 @@ public class CssParserTest extends GWTTestCase {
 	}
 	
 	public void testStylesForDifferentPages() {
-		StyleDataSourceManager sdsm = new StyleDataSourceManager( new StyleDataLoaderEventListener() {
-			@Override
-			public void onStyleDataLoaded() {
-				System.out.println("style data loaded");
-			}
-		});
+		StyleDataSourceManager sdsm = new StyleDataSourceManager();
 		sdsm.addAssessmentStyle(css1);
 		sdsm.addItemStyle(0, css2);
 		sdsm.addItemStyle(1, css3);

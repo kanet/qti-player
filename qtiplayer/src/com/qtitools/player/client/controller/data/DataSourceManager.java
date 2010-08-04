@@ -14,6 +14,7 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.IncrementalCommand;
 import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.xml.client.Document;
+import com.google.inject.Inject;
 import com.qtitools.player.client.controller.communication.ItemData;
 import com.qtitools.player.client.controller.communication.PageData;
 import com.qtitools.player.client.controller.communication.PageDataError;
@@ -35,18 +36,21 @@ import com.qtitools.player.client.util.xml.document.XMLData;
 
 public class DataSourceManager implements AssessmentDataLoaderEventListener, ItemDataCollectionLoaderEventListener, StyleDataLoaderEventListener {
 	
-	public DataSourceManager(DataLoaderEventListener l){
+	@Inject
+	public DataSourceManager(DataLoaderEventListener l, StyleDataSourceManager sdsm){
 		mode = DataSourceManagerMode.NONE;
 		listener = l;
 		assessmentDataManager = new AssessmentDataSourceManager(this);
 		itemDataCollectionManager = new ItemDataSourceCollectionManager(this);
-		styleDataSourceManager = new StyleDataSourceManager(this);
+		styleDataSourceManager = sdsm;
 	}
+	
+	
+	private StyleDataSourceManager styleDataSourceManager;
+	private int styleLoadCounter;
 	
 	private AssessmentDataSourceManager assessmentDataManager;
 	private ItemDataSourceCollectionManager itemDataCollectionManager;
-	private StyleDataSourceManager styleDataSourceManager;
-	private int styleLoadCounter;
 	private DataSourceManagerMode mode;
 	private DataLoaderEventListener listener;
 	

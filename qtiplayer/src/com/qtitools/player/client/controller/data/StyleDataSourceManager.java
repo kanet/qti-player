@@ -23,8 +23,6 @@ import com.qtitools.player.client.util.js.JSOModel;
  */
 public class StyleDataSourceManager implements StyleSocket {
 
-	StyleDataLoaderEventListener listener;
-
 	// style declarations for assessment
 	List<JavaScriptObject> assessmentStyle;
 
@@ -37,14 +35,13 @@ public class StyleDataSourceManager implements StyleSocket {
 	 */
 	Vector<List<JavaScriptObject>> activeItemStyles;
 
-	public StyleDataSourceManager(StyleDataLoaderEventListener l) {
-		this.listener = l;
+	public StyleDataSourceManager() {
 		assessmentStyle = new ArrayList<JavaScriptObject>();
 
 		itemStyle = new Vector<List<JavaScriptObject>>();
 		activeItemStyles = new Vector<List<JavaScriptObject>>();
 	}
-
+	
 	public void addAssessmentStyle(String css) {
 		assessmentStyle.add(parseCss(css));
 	}
