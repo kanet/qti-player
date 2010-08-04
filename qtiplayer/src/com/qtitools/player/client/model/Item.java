@@ -323,11 +323,4 @@ public class Item implements IStateful {
 
 	}
 	
-
-	//------------------------- STYLE --------------------------------
-	
-	public void setStyleSocket( StyleSocket ss ) {
-		this.styleSocket = ss;
-	}
-
 }
