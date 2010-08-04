@@ -23,8 +23,10 @@
 */
 package com.qtitools.player.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.ui.ComplexPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.qtitools.player.client.controller.DeliveryEngine;
 import com.qtitools.player.client.controller.DeliveryEngineEventListener;
 import com.qtitools.player.client.controller.communication.FlowOptions;
@@ -56,15 +58,23 @@ public class Player implements DeliveryEngineEventListener {
 	public Player(String id){
 		this.jsObject = JavaScriptObject.createFunction();
 		testResult = new JavaScriptResult(0, 0);
-		viewEngine = new ViewEngine(id);
-		deliveryEngine = new DeliveryEngine(viewEngine.getPlayerViewSocket(), this);
+		PlayerGinjector injector = GWT.create( PlayerGinjector.class );
+		viewEngine = injector.getViewEngine();
+		RootPanel root = RootPanel.get(id);
+		viewEngine.mountView(root);
+		deliveryEngine = injector.getDeliveryEngine();
+		deliveryEngine.setDeliveryEngineEventsListener( this );
 	}
 
 	public Player(ComplexPanel container){
 		this.jsObject = JavaScriptObject.createFunction();
 		testResult = new JavaScriptResult(0, 0);
-		viewEngine = new ViewEngine(container);
-		deliveryEngine = new DeliveryEngine(viewEngine.getPlayerViewSocket(), this);
+		
+		PlayerGinjector injector = GWT.create( PlayerGinjector.class );
+		viewEngine = injector.getViewEngine();
+		viewEngine.mountView(container);
+		deliveryEngine = injector.getDeliveryEngine();
+		deliveryEngine.setDeliveryEngineEventsListener( this );
 	}
 
 	public void load(String url){

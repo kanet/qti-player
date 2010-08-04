@@ -2,10 +2,7 @@ package com.qtitools.player.client.controller;
 
 import java.util.Vector;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.inject.client.Ginjector;
-import com.google.inject.Injector;
-import com.qtitools.player.client.PlayerGinjector;
+import com.google.inject.Inject;
 import com.qtitools.player.client.controller.communication.ActivityActionType;
 import com.qtitools.player.client.controller.communication.FlowOptions;
 import com.qtitools.player.client.controller.communication.IAssessmentReport;
@@ -26,6 +23,7 @@ import com.qtitools.player.client.controller.session.SessionDataManager;
 import com.qtitools.player.client.controller.session.StateInterface;
 import com.qtitools.player.client.controller.session.events.StateChangedEventsListener;
 import com.qtitools.player.client.controller.style.StyleLinkManager;
+import com.qtitools.player.client.style.StyleSocket;
 import com.qtitools.player.client.util.xml.document.XMLData;
 import com.qtitools.player.client.view.player.PlayerViewCarrier;
 import com.qtitools.player.client.view.player.PlayerViewSocket;
@@ -60,26 +58,28 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 	private DeliveryEngineEventListener deliveryEngineEventsListener;
 	
 	private AssessmentController assessmentController;
+
+	private StyleSocket styleSocket;
 	
 	/**
 	 * C'tor.
 	 */
-	public DeliveryEngine(PlayerViewSocket pvs, DeliveryEngineEventListener deel){
-
+	@Inject
+	public DeliveryEngine(PlayerViewSocket pvs, DataSourceManager dsm){
+		
 		mode = new EngineModeManager();
 		styleManager = new StyleLinkManager();
 		masteryScore = 100;
 
 		playerViewSocket = pvs;
-		deliveryEngineEventsListener = deel;
 		
-		PlayerGinjector injector = GWT.create( PlayerGinjector.class );
-		dataManager = injector.getDataSourceManager();
+		dataManager = dsm;
+		dsm.setDataLoaderEventListener( this );
+		
 		flowManager = new FlowManager(this);
 		sessionDataManager = new SessionDataManager(this);
 		
 		assessmentController = new AssessmentController(playerViewSocket.getAssessmentViewSocket(), flowManager, sessionDataManager);
-		assessmentController.setStyleSocket( dataManager.getStyleProvider() );
 		
 		playerViewSocket.setPlayerViewCarrier(new PlayerViewCarrier());
 		
@@ -111,7 +111,7 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 		assessmentController.init(dataManager.getAssessmentData());
 		flowManager.startFlow();
 		updateAssessmentStyle();
-		deliveryEngineEventsListener.onAssessmentStarted();
+		getDeliveryEngineEventsListener().onAssessmentStarted();
 		updatePageStyle();
 	}
 
@@ -130,13 +130,15 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 	public void onNavigatePageSwitched() {
 		PageReference pr = flowManager.getPageReference();
 		PageData pd = dataManager.generatePageData(pr);
-		dataManager.getStyleProvider().setCurrentPages( pr );
+		
+		// TODO style provider should listen directly to navigation events via HandlerManager or other event bus 
+		getStyleSocket().setCurrentPages( pr );
 		assessmentController.closePage();
 		if (pd.type == PageType.SUMMARY)
 			((PageDataSummary)pd).setSessionData( sessionDataManager.getSessionData() );
 		assessmentController.initPage(pd);
 		if (pd.type == PageType.SUMMARY)
-			deliveryEngineEventsListener.onSummary();
+			getDeliveryEngineEventsListener().onSummary();
 	}
 
 	@Override
@@ -245,14 +247,6 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 			}
 		};
 	}
-	//------------------------- QTI XML CONTENT LOADING --------------------------------
-
-
-	//------------------------- INTERFACE --------------------------------
-	
-	//------------------------- CONTROLLER --------------------------------
-
-	//------------------------- STYLE --------------------------------
 
 	public void updateAssessmentStyle(){
 		String userAgent = styleManager.getUserAgent();
@@ -264,6 +258,24 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 		String userAgent = styleManager.getUserAgent();
 		Vector<String> links = dataManager.getPageStyleLinksForUserAgent(flowManager.getPageReference(), userAgent);
 		styleManager.registerItemStyles( links );
+	}
+
+	@Inject
+	public void setStyleSocket(StyleSocket ss) {
+		this.styleSocket = ss;
+	}
+
+	private StyleSocket getStyleSocket() {
+		return styleSocket;
+	}
+
+	public void setDeliveryEngineEventsListener(
+			DeliveryEngineEventListener deliveryEngineEventsListener) {
+		this.deliveryEngineEventsListener = deliveryEngineEventsListener;
+	}
+
+	public DeliveryEngineEventListener getDeliveryEngineEventsListener() {
+		return deliveryEngineEventsListener;
 	}
 
 }

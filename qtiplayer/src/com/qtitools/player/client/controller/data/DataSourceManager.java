@@ -36,15 +36,11 @@ import com.qtitools.player.client.util.xml.document.XMLData;
 
 public class DataSourceManager implements AssessmentDataLoaderEventListener, ItemDataCollectionLoaderEventListener, StyleDataLoaderEventListener {
 	
-	@Inject
-	public DataSourceManager(DataLoaderEventListener l, StyleDataSourceManager sdsm){
+	public DataSourceManager(){
 		mode = DataSourceManagerMode.NONE;
-		listener = l;
 		assessmentDataManager = new AssessmentDataSourceManager(this);
 		itemDataCollectionManager = new ItemDataSourceCollectionManager(this);
-		styleDataSourceManager = sdsm;
 	}
-	
 	
 	private StyleDataSourceManager styleDataSourceManager;
 	private int styleLoadCounter;
@@ -63,7 +59,7 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 	}
 	
 	public StyleSocket getStyleProvider() {
-		return styleDataSourceManager;
+		return getStyleDataSourceManager();
 	}
 	
 	public int getItemsCount(){
@@ -182,7 +178,7 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 
 	@Override
 	public void onAssessmentDataLoaded() {
-		listener.onAssessmentLoaded();
+		getDataLoaderEventListener().onAssessmentLoaded();
 		mode = DataSourceManagerMode.SERVING;		
 	}
 	
@@ -206,7 +202,7 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 					public void onResponseReceived(Request request, Response response) {
 						styleLoadCounter--;
 						if (response.getStatusCode()==Response.SC_OK) { 
-							styleDataSourceManager.addAssessmentStyle( response.getText() );
+							getStyleDataSourceManager().addAssessmentStyle( response.getText() );
 						} else {
 							// TODO add error handling
 						}
@@ -233,7 +229,7 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 						public void onResponseReceived(Request request, Response response) {
 							styleLoadCounter--;
 							if (response.getStatusCode()==Response.SC_OK) {
-								styleDataSourceManager.addItemStyle(ii, response.getText());
+								getStyleDataSourceManager().addItemStyle(ii, response.getText());
 							} else {
 								// TODO add error handling
 							}
@@ -274,7 +270,7 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 	public void onLoadFinished(){
 		mode = DataSourceManagerMode.SERVING;		
 		OperationLogManager.logEvent(OperationLogEvent.LOADING_FINISHED);
-		listener.onDataReady();		
+		getDataLoaderEventListener().onDataReady();		
 	}
 	
 	public DataSourceManagerMode getMode(){
@@ -287,6 +283,23 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 	
 	public String getItemTitle(int index){
 		return itemDataCollectionManager.getTitlesList()[index];
+	}
+
+	@Inject
+	public void setStyleDataSourceManager(StyleDataSourceManager styleDataSourceManager) {
+		this.styleDataSourceManager = styleDataSourceManager;
+	}
+	
+	public StyleDataSourceManager getStyleDataSourceManager() {
+		return styleDataSourceManager;
+	}
+
+	public void setDataLoaderEventListener(DataLoaderEventListener listener) {
+		this.listener = listener;
+	}
+
+	public DataLoaderEventListener getDataLoaderEventListener() {
+		return listener;
 	}
 
 }
