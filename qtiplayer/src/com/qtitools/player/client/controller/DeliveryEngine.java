@@ -65,21 +65,23 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 	 * C'tor.
 	 */
 	@Inject
-	public DeliveryEngine(PlayerViewSocket pvs, DataSourceManager dsm){
+	public DeliveryEngine(PlayerViewSocket pvs, DataSourceManager dsm, StyleSocket ss){
+		
+		playerViewSocket = pvs;
+		dataManager = dsm;
+		dsm.setDataLoaderEventListener( this );
+		styleSocket = ss;
 		
 		mode = new EngineModeManager();
 		styleManager = new StyleLinkManager();
 		masteryScore = 100;
 
-		playerViewSocket = pvs;
-		
-		dataManager = dsm;
-		dsm.setDataLoaderEventListener( this );
 		
 		flowManager = new FlowManager(this);
 		sessionDataManager = new SessionDataManager(this);
 		
 		assessmentController = new AssessmentController(playerViewSocket.getAssessmentViewSocket(), flowManager, sessionDataManager);
+		assessmentController.setStyleSocket( ss );
 		
 		playerViewSocket.setPlayerViewCarrier(new PlayerViewCarrier());
 		
@@ -132,7 +134,8 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 		PageData pd = dataManager.generatePageData(pr);
 		
 		// TODO style provider should listen directly to navigation events via HandlerManager or other event bus 
-		getStyleSocket().setCurrentPages( pr );
+		styleSocket.setCurrentPages( pr );
+		
 		assessmentController.closePage();
 		if (pd.type == PageType.SUMMARY)
 			((PageDataSummary)pd).setSessionData( sessionDataManager.getSessionData() );
@@ -258,15 +261,6 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 		String userAgent = styleManager.getUserAgent();
 		Vector<String> links = dataManager.getPageStyleLinksForUserAgent(flowManager.getPageReference(), userAgent);
 		styleManager.registerItemStyles( links );
-	}
-
-	@Inject
-	public void setStyleSocket(StyleSocket ss) {
-		this.styleSocket = ss;
-	}
-
-	private StyleSocket getStyleSocket() {
-		return styleSocket;
 	}
 
 	public void setDeliveryEngineEventsListener(
