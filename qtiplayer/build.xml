@@ -122,6 +122,7 @@
       <fileset dir="war/content/demo"/>
     </copy>
     <copy todir="dist/build/content" file="war/content/demo.xml" />
+	<copy todir="dist/build/content" file="war/content/demo.css" />
     <copy todir="dist/build" file="war/demo.html" />
     <copy todir="dist/build" file="war/defaultplayer.css" />
 
