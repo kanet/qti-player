@@ -11,7 +11,10 @@
 	<inherits name="com.google.gwt.json.JSON" />
 	<inherits name='org.vaadin.gwtgraphics.GWTGraphics' />
 	<inherits name='com.allen_sauer.gwt.voices.gwt-voices' />
-
+	
+	<!-- google gin -->
+	<inherits name="com.google.gwt.inject.Inject"/>
+	
 	<set-property name="compiler.emulatedStack" value="true" />
 	<set-configuration-property name="compiler.emulatedStack.recordFileNames" value="true" />
 
