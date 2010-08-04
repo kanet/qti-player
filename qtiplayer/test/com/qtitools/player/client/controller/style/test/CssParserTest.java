@@ -11,7 +11,6 @@ import com.google.gwt.xml.client.XMLParser;
 import com.qtitools.player.client.controller.communication.PageReference;
 import com.qtitools.player.client.controller.communication.PageType;
 import com.qtitools.player.client.controller.data.StyleDataSourceManager;
-import com.qtitools.player.client.controller.data.events.StyleDataLoaderEventListener;
 import com.qtitools.player.client.util.js.JSOModel;
 
 public class CssParserTest extends GWTTestCase {

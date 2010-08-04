@@ -10,7 +10,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.xml.client.Element;
 import com.qtitools.player.client.controller.communication.PageReference;
-import com.qtitools.player.client.controller.data.events.StyleDataLoaderEventListener;
 import com.qtitools.player.client.style.JsCssModel;
 import com.qtitools.player.client.style.StyleSocket;
 import com.qtitools.player.client.util.js.JSOModel;
