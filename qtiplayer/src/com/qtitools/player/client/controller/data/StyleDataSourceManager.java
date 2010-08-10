@@ -26,6 +26,7 @@ public class StyleDataSourceManager implements StyleSocket {
 	List<JavaScriptObject> assessmentStyle;
 
 	// style declarations for all items
+	// TODO consider using WeakHashMap to avoid problems with vector size at lines 50, 96
 	Vector<List<JavaScriptObject>> itemStyle;
 
 	/**
@@ -92,7 +93,8 @@ public class StyleDataSourceManager implements StyleSocket {
 	public void setCurrentPages(PageReference pr) {
 		activeItemStyles = new Vector<List<JavaScriptObject>>( pr.pageIndices.length );
 		for (int pageIndex : pr.pageIndices) {
-			activeItemStyles.add( itemStyle.get(pageIndex) );
+			if (pageIndex<itemStyle.size())
+				activeItemStyles.add( itemStyle.get(pageIndex) );
 		}
 	}
 
