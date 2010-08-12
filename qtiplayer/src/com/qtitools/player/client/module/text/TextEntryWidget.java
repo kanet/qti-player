@@ -51,12 +51,13 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	private String responseIdentifier;
 	/** module state changed listener */
 	private ModuleStateChangedEventsListener stateListener;
-  /** widget id */
-  private String  id;
-  /** text box control */
-  private TextBox textBox;
+	/** widget id */
+	private String  id;
+	/** text box control */
+	private TextBox textBox;
 	/** Last selected value */
 	private String	lastValue = null;
+	private boolean showingAnswers = false;
 
 	/**	
 	 * constructor
@@ -96,7 +97,6 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	@Override
 	public void lock(boolean l) {
 		textBox.setEnabled(!l);
-		
 	}
   
 	/**
@@ -127,6 +127,13 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	 * @see IActivity#showCorrectAnswers()
 	 */
 	public void showCorrectAnswers(boolean show) {
+		if (show  &&  !showingAnswers){
+			showingAnswers = true;
+			textBox.setText(response.correctAnswers.get(0));
+		} else if (!show  &&  showingAnswers) {
+			textBox.setText((response.values.size()>0) ? response.values.get(0) : "");
+			showingAnswers = false;
+		}
 	}
 	
   /**
@@ -137,8 +144,8 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 
 	  String stateString = "";
 	  
-	  if (textBox.getText() != null)
-		  stateString = textBox.getText();
+	  if (response.values.size() > 0)
+		  stateString = response.values.get(0);
 	  
 	  jsonArr.set(0, new JSONString(stateString));
 	  
@@ -180,6 +187,8 @@ public class TextEntryWidget extends InlineHTML implements IInteractionModule{
 	}
 	
 	private void updateResponse(boolean userInteract){
+		if (showingAnswers)
+			return;
 		
 		if(lastValue != null)
 			response.remove(lastValue);

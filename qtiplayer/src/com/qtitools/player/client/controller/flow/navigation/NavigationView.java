@@ -131,9 +131,9 @@ public class NavigationView implements NavigationViewSocket {
 	private ListBox	comboListBox;
 	
 	
-	public void updateButtons(PageType pageType, int pageIndex, int pageCount, FlowOptions flowOptions, boolean isChecked, ItemActivityOptions iao){
-		checkButton.setVisible(!isChecked  &&  pageType == PageType.TEST  &&  !iao.previewMode);
-		continueItemButton.setVisible(isChecked  &&  pageType == PageType.TEST  &&  !iao.previewMode);
+	public void updateButtons(PageType pageType, int pageIndex, int pageCount, FlowOptions flowOptions, boolean isCheck, boolean isAnswers, ItemActivityOptions iao){
+		checkButton.setVisible(!isCheck  &&  !isAnswers  &&  pageType == PageType.TEST  &&  !iao.previewMode);
+		continueItemButton.setVisible((isCheck || isAnswers)  &&  pageType == PageType.TEST  &&  !iao.previewMode);
 		prevButton.setVisible(pageType == PageType.TEST  &&  flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE);
 		prevButton.setEnabled(pageIndex != 0);
 		nextButton.setVisible((pageType == PageType.TEST  &&  flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE)  ||  pageType == PageType.TOC);

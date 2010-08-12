@@ -17,6 +17,7 @@ public class FlowManager implements NavigationSocket {
 		navigationView = new NavigationView(this);
 		flowOptions = new FlowOptions();
 		isCheck = false;
+		isAnswers = false;
 	}
 	
 	private NavigationView navigationView;
@@ -28,6 +29,7 @@ public class FlowManager implements NavigationSocket {
 	private FlowOptions flowOptions;
 	private ItemActivityOptions activityOptions;
 	private boolean isCheck;
+	private boolean isAnswers;
 
 	public void init(int _itemsCount){
 		itemsCount = _itemsCount;
@@ -181,7 +183,7 @@ public class FlowManager implements NavigationSocket {
 
 	@Override
 	public void checkPage() {
-		if (isCheck == false){
+		if (isCheck == false  &&  isAnswers == false){
 			isCheck = true;
 			flowListener.onNavigationIncident(NavigationIncidentType.CHECK);
 			updateNavigation();
@@ -189,10 +191,24 @@ public class FlowManager implements NavigationSocket {
 	}
 
 	@Override
+	public void answersPage() {
+		if (isCheck == false  &&  isAnswers == false){
+			isAnswers = true;
+			flowListener.onNavigationIncident(NavigationIncidentType.SHOW_ANSWERS);
+			updateNavigation();
+		}
+		
+	}
+	@Override
 	public void continuePage() {
 		if (isCheck == true){
 			isCheck = false;
 			flowListener.onNavigationIncident(NavigationIncidentType.CONTINUE);
+			updateNavigation();
+		}
+		if (isAnswers == true){
+			isAnswers = false;
+			flowListener.onNavigationIncident(NavigationIncidentType.HIDE_ANSWERS);
 			updateNavigation();
 		}
 
@@ -201,6 +217,7 @@ public class FlowManager implements NavigationSocket {
 	@Override
 	public void resetPage() {
 		isCheck = false;
+		isAnswers = false;
 		flowListener.onNavigationIncident(NavigationIncidentType.RESET);
 		updateNavigation();
 	}
@@ -214,11 +231,12 @@ public class FlowManager implements NavigationSocket {
 	
 	public void onPageChange(){
 		isCheck = false;
+		isAnswers = false;
 	}
 	
 	public void updateNavigation(){
 		navigationView.updateButtons(currentPageType, currentPageIndex, 
-				(flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE)?itemsCount:1, flowOptions, isCheck, activityOptions);
+				(flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE)?itemsCount:1, flowOptions, isCheck, isAnswers, activityOptions);
 	}
 	
 	public NavigationViewSocket getNavigationViewSocket(){
@@ -256,6 +274,7 @@ public class FlowManager implements NavigationSocket {
 	public int getCurrentPageIndex(){
 		return currentPageIndex;
 	}
+
 
 	
 }

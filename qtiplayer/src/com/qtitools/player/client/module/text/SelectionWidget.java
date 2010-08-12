@@ -59,6 +59,7 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	/** Shuffle? */	private boolean 		shuffle = false;
 	/** Last selected value */
 	private String	lastValue = null;
+	private boolean showingAnswers = false;
 	
 
 	/**
@@ -134,7 +135,25 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	 * @see IActivity#showCorrectAnswers()
 	 */
 	public void showCorrectAnswers(boolean show) {
-	  
+
+		if (show  &&  !showingAnswers){
+			showingAnswers = true;	
+			for(int i = 0; i < listBox.getItemCount(); i++){
+				if( listBox.getValue(i).compareTo(response.correctAnswers.get(0)) == 0){
+					listBox.setSelectedIndex(i);
+					break;
+				}
+			}
+		} else if (!show  &&  showingAnswers) {
+			listBox.setSelectedIndex(-1);
+			for(int i = 0; i < listBox.getItemCount(); i++){
+				if( listBox.getValue(i).compareTo((response.values.size()>0) ? response.values.get(0) : "" ) == 0){
+					listBox.setSelectedIndex(i);
+					break;
+				}
+			}
+			showingAnswers = false;
+		}
 	}
 	
   /**
@@ -225,31 +244,6 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	}
 
 	
-	/**
-	 * @see IBrowserEventListener#getInputsId()
-	 */
-	/*
-	public Vector<String> getInputsId() {
-		Vector<String> v = new Vector<String>();
-		v.add(id);
-		return v;
-	}
-	*/
-	
-	/**
-	 * Process on change event 
-	 */
-	/*
-	public void onChange(Event event){
-		
-		if(lastValue != null)
-			response.remove(lastValue);
-		
-		lastValue = listBox.getValue(listBox.getSelectedIndex());
-		response.add(lastValue);
-	}
-	*/
-	
 	@Override
 	public Vector<InternalEventTrigger> getTriggers() {
 		Vector<InternalEventTrigger> v = new Vector<InternalEventTrigger>();
@@ -263,6 +257,8 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	}
 	
 	private void updateResponse(boolean userInteract){
+		if (showingAnswers)
+			return;
 
 		if(lastValue != null)
 			response.remove(lastValue);

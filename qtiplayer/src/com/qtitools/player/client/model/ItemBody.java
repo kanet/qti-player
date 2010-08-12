@@ -31,6 +31,8 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	private JSONArray stateAsync;
 	private boolean attached = false;
 	private boolean locked = false;
+	private boolean markingAnswers = false;
+	private boolean showingAnswers = false;
 	
 	//private Label traceLabel;
 	
@@ -200,11 +202,25 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	
 	@Override
 	public void markAnswers(boolean mark) {
+		if (showingAnswers)
+			return;
+		markingAnswers = mark;
 		for(Widget currModule : modules){
 			if (currModule instanceof IActivity)
 				((IActivity)currModule).markAnswers(mark);
 		}
 
+	}
+
+	@Override
+	public void showCorrectAnswers(boolean show) {
+		if (markingAnswers)
+			return;
+		showingAnswers = show;
+		for(Widget currModule : modules){
+			if (currModule instanceof IActivity)
+				((IActivity)currModule).showCorrectAnswers(show);
+		}
 	}
 	
 	@Override
@@ -228,15 +244,6 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	
 	public boolean isLocked(){
 		return locked;
-	}
-
-	@Override
-	public void showCorrectAnswers(boolean show) {
-		for(Widget currModule : modules){
-			if (currModule instanceof IActivity)
-				((IActivity)currModule).showCorrectAnswers(show);
-		}
-
 	}
 
 	@Override

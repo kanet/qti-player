@@ -59,6 +59,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 	private Vector<SimpleChoice> interactionElements;
 	
 	private boolean locked = false;
+	private boolean showingAnswers = false;
 		
 	
 	public ChoiceModule(Element element, ModuleSocket moduleSocket, ModuleStateChangedEventsListener stateChangedListener){
@@ -160,18 +161,26 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		}
 	}
 
+	@Override
+	public void showCorrectAnswers(boolean show) {
+		if (show  &&  !showingAnswers){
+			showingAnswers = true;
+			for (SimpleChoice currSC:interactionElements){
+				currSC.setSelected(response.correctAnswers.contains(currSC.getIdentifier()) );
+			}
+		} else if (!show  &&  showingAnswers) {
+			for (SimpleChoice currSC:interactionElements){
+				currSC.setSelected(response.values.contains(currSC.getIdentifier()) );
+			}
+			showingAnswers = false;
+		}
+	}
 
 	@Override
 	public void reset() {
 		for (SimpleChoice currSC:interactionElements){
 			currSC.reset();
 		}
-		
-	}
-
-	@Override
-	public void showCorrectAnswers(boolean show) {
-		
 	}
 
 	@Override
@@ -179,7 +188,8 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		JSONArray  state = new JSONArray();
 
 		for (SimpleChoice currSC:interactionElements){
-			boolean b1 = currSC.isSelected();
+			//boolean b1 = currSC.isSelected();
+			boolean b1 = response.values.contains(currSC.getIdentifier());
 			state.set(state.size(), JSONBoolean.getInstance(b1));
 		}
 		
@@ -265,6 +275,9 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 	}
 	
 	private void updateResponse(SimpleChoice target, boolean userInteract){
+		if (showingAnswers)
+			return;
+		
 		Vector<String> currResponseValues = new Vector<String>();
 		
 		for (SimpleChoice currSC:interactionElements){

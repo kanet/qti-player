@@ -1,10 +1,8 @@
 package com.qtitools.player.client.module.match;
 
 import java.util.Vector;
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -73,6 +71,12 @@ public class MatchModule extends Composite implements IInteractionModule {
 	}
 
 	@Override
+	public void showCorrectAnswers(boolean show) {
+		container.showCorrectAnswers(show);
+
+	}
+
+	@Override
 	public void reset() {
 		container.reset();
 
@@ -85,35 +89,13 @@ public class MatchModule extends Composite implements IInteractionModule {
 	}
 
 	@Override
-	public void showCorrectAnswers(boolean show) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public JSONArray getState() {
-		JSONArray newState = new JSONArray();
-		
-		String currAnswer;
-		for (int c = 0 ; c < container.connections.size() ; c ++){
-			currAnswer = container.connections.get(c).from + " " + container.connections.get(c).to;
-			newState.set(c, new JSONString(currAnswer));
-		}
-		return newState;
+		return container.getState();
 	}
 
 	@Override
 	public void setState(JSONArray newState) {
-		String answer;
-		container.removeAllLines();
-		for (int j = 0 ; j < newState.size() ; j ++){
-			answer = newState.get(j).isString().stringValue();
-			String connectionIdentifiers[] = answer.split(" ");
-			if (connectionIdentifiers.length == 2){
-				container.addLine(connectionIdentifiers[0], connectionIdentifiers[1]);
-			}
-		}
-		container.updateResponse(false);
+		container.setState(newState);
 	}
 
 	@Override

@@ -294,12 +294,18 @@ public class Item implements IStateful {
 		itemBody.lock(true);
 		showScore();
 	}
-
+	
 	public void continueItem(){
 		itemBody.markAnswers(false);
 		itemBody.lock(false);
 		hideScore();
 	}
+	
+	public void showAnswers(boolean show){
+		itemBody.showCorrectAnswers(show);
+		itemBody.lock(show);
+	}
+
 
 	public void resetItem(){
 		responseManager.reset();

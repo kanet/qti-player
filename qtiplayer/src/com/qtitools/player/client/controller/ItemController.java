@@ -87,6 +87,10 @@ public class ItemController implements ModuleStateChangedEventsListener {
 				item.checkItem();
 			} else if (nit == NavigationIncidentType.CONTINUE){
 				item.continueItem();
+			} else if (nit == NavigationIncidentType.SHOW_ANSWERS){
+				item.showAnswers(true);
+			} else if (nit == NavigationIncidentType.HIDE_ANSWERS){
+				item.showAnswers(false);
 			} else if (nit == NavigationIncidentType.RESET){
 				item.resetItem();
 			}

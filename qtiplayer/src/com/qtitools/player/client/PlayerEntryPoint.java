@@ -110,6 +110,10 @@ public class PlayerEntryPoint implements EntryPoint {
 		  	 @com.qtitools.player.client.PlayerEntryPoint::navigateContinueItem()();
 		  }
 
+		  player.navigateShowAnswers = function(){
+		  	 @com.qtitools.player.client.PlayerEntryPoint::navigateShowAnswers()();
+		  }
+		  
 		  player.getEngineMode = function(){
 		  	 return @com.qtitools.player.client.PlayerEntryPoint::getEngineMode()();
 		  }
@@ -219,6 +223,11 @@ public class PlayerEntryPoint implements EntryPoint {
 	public static void navigateCheckItem() {
 		player.getNavigationCommandsListener().checkPage();
 	}
+
+	public static void navigateShowAnswers() {
+		player.getNavigationCommandsListener().answersPage();
+	}
+
 
 	public static void navigateResetAssessment() {
 		

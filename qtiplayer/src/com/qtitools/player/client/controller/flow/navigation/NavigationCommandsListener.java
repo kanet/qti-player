@@ -11,6 +11,7 @@ public interface NavigationCommandsListener {
 	public void gotoSummary();
 	public void gotoTest();
 	public void checkPage();
+	public void answersPage();
 	public void continuePage();
 	public void resetPage();
 	public void previewPage(int index);

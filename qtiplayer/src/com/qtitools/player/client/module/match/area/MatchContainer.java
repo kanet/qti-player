@@ -3,6 +3,8 @@ package com.qtitools.player.client.module.match.area;
 import java.util.Vector;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -45,6 +47,8 @@ public class MatchContainer extends FlowPanel{
 	/** Shuffle? */
 	private boolean shuffle = false;
 	public int maxAssociations = 4;
+	
+	private boolean showingAnswers = false;
 	
 	public MatchContainer(Element element, boolean _shuffle, int _maxAssociations, InlineFeedbackSocket inlineFeedbackSocket, 
 			Response _response, IModuleEventsListener moduleEventsListener, IInteractionModule _moduleReference){
@@ -490,10 +494,63 @@ public class MatchContainer extends FlowPanel{
 			connections.get(c).unmark();
 		}
 	}
+	
+	public void showCorrectAnswers(boolean show){
+		if (show  &&  !showingAnswers){
+			showingAnswers = true;
+			removeAllLines();
+			for (int i = 0 ; i < response.correctAnswers.size() ; i ++){
+				String answer = response.correctAnswers.get(i);
+				String connectionIdentifiers[] = answer.split(" ");
+				if (connectionIdentifiers.length == 2){
+					addLine(connectionIdentifiers[0], connectionIdentifiers[1]);
+				}
+			}
+		} else if (!show  &&  showingAnswers){
+			removeAllLines();
+			for (int i = 0 ; i < response.values.size() ; i ++){
+				String answer = response.values.get(i);
+				String connectionIdentifiers[] = answer.split(" ");
+				if (connectionIdentifiers.length == 2){
+					addLine(connectionIdentifiers[0], connectionIdentifiers[1]);
+				}
+			}
+			showingAnswers = false;
+		}
+	
+	}
+
+	public JSONArray getState() {
+		JSONArray newState = new JSONArray();
+		
+		String currAnswer;
+		//for (int c = 0 ; c < connections.size() ; c ++){
+		//	currAnswer = connections.get(c).from + " " + connections.get(c).to;
+		for (int c = 0 ; c < response.values.size() ; c ++){
+			currAnswer = response.values.get(c);
+			newState.set(c, new JSONString(currAnswer));
+		}
+		return newState;
+	}
+
+	public void setState(JSONArray newState) {
+		String answer;
+		removeAllLines();
+		for (int j = 0 ; j < newState.size() ; j ++){
+			answer = newState.get(j).isString().stringValue();
+			String connectionIdentifiers[] = answer.split(" ");
+			if (connectionIdentifiers.length == 2){
+				addLine(connectionIdentifiers[0], connectionIdentifiers[1]);
+			}
+		}
+		updateResponse(false);
+	}
 
 	
 	public void updateResponse(boolean userInteract){
-		
+		if (showingAnswers)
+			return;
+				
 		Vector<String> currResponseValues = new Vector<String>();
 		
 		for (MatchConnection mc : connections){

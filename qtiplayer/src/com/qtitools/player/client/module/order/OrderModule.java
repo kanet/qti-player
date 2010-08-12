@@ -55,6 +55,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 	private VerticalPanel mainPanel;
 	
 	private boolean locked = false;
+	private boolean showingAnswers = false;
 	
 	public OrderModule(Element element, ModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener) {
 
@@ -236,7 +237,25 @@ public class OrderModule extends Composite implements IInteractionModule {
 		
 	}
 
-	
+	@Override
+	public void showCorrectAnswers(boolean show) {
+		if (show && !showingAnswers){
+			Vector<Integer> optionsIndexes = new Vector<Integer>();
+			for (int i = 0 ; i < response.correctAnswers.size() ; i ++){
+				optionsIndexes.add(optionsIdentifiers.indexOf(response.correctAnswers.get(i)));
+			}
+			container.setElementsOrder(optionsIndexes);
+			showingAnswers = true;
+		} else if (!show && showingAnswers){
+			Vector<Integer> optionsIndexes = new Vector<Integer>();
+			for (int i = 0 ; i < response.values.size() ; i ++){
+				optionsIndexes.add(optionsIdentifiers.indexOf(response.values.get(i)));
+			}
+			container.setElementsOrder(optionsIndexes);
+			showingAnswers = false;
+		}
+	}
+
 	private void markOptionAnswer(int index, boolean correct){
 		AbsolutePanel currOption = options.get(index);
 		if (correct)
@@ -264,14 +283,13 @@ public class OrderModule extends Composite implements IInteractionModule {
 	}
 
 	@Override
-	public void showCorrectAnswers(boolean show) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public JSONArray getState() {
 		
-		Vector<Integer> optionsIndexes = container.getElementsOrder();
+		Vector<Integer> optionsIndexes = new Vector<Integer>();// = container.getElementsOrder();
+				
+		for (int i = 0 ; i < response.values.size() ; i ++){
+			optionsIndexes.add(optionsIdentifiers.indexOf(response.values.get(i)));
+		}
 		
 		JSONArray statesArr = new JSONArray();
 		
@@ -331,6 +349,8 @@ public class OrderModule extends Composite implements IInteractionModule {
 
 	
 	private void updateResponse(boolean userInteract){
+		if (showingAnswers)
+			return;
 		
 		Vector<Integer> optionsIndexes = container.getElementsOrder();
 		
