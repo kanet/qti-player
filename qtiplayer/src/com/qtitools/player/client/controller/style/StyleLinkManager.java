@@ -35,7 +35,7 @@ public class StyleLinkManager {
 	}
 	
 	public native String getUserAgent() /*-{
-		return navigator.userAgent.toLowerCase();
+		return navigator.userAgent;
 	}-*/;
 
 	private native JavaScriptObject appendStyleLink(String link) /*-{
