@@ -509,3 +509,73 @@ color:#990000;
 	stroke-width: 2;
 	stroke: red;
 }
+
+/*
+ *  AudioPlayer
+ */
+.qp-audioplayer-button{
+	width:20px;
+	height:20px;	
+	background-color:#99FF00;
+}
+.qp-audioplayer-button-playing{
+	width:20px;
+	height:20px;	
+	background-color:#993300;
+}
+
+/*
+ *	Identification
+ */
+.qp-identification{
+}
+.qp-identification-option, .qp-identification-option-notselected-correct, .qp-identification-option-notselected-wrong{
+	float:left;
+	padding:0 5px;
+	cursor:hand;
+	cursor:pointer;
+}
+.qp-identification-option-selected{
+	float:left;
+	padding:0 5px;
+	background-color:#99CC00;
+	cursor:hand;
+	cursor:pointer;
+}
+.qp-identification-option-selected-correct{
+	float:left;
+	padding:0 5px;
+	background-color:#00FF00;
+	cursor:hand;
+	cursor:pointer;
+}
+.qp-identification-option-selected-wrong{
+	float:left;
+	padding:0 5px;
+	background-color:#FF0000;
+	cursor:hand;
+	cursor:pointer;
+}
+.qp-identification-separator{
+	float:left;
+}
+.qp-identification-option-cover{
+	width:100%;
+	height:100%;
+	background:url(images/transparent.gif) repeat;	
+}
+
+/* 
+ * Selection
+ */
+ 
+
+.qp-selection-item-correct{
+	padding-left: 20px;
+	background: url(images/correct_icon.png) no-repeat left center;
+}
+
+.qp-selection-item-wrong{
+	padding-left: 20px;
+	background: url(images/wrong_icon.png) no-repeat left center;
+}
