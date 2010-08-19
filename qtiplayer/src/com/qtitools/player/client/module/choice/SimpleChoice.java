@@ -71,7 +71,7 @@ public class SimpleChoice extends Composite {
 		if (multi)
 			button = new AccessibleCheckBox();
 		else
-			button = new AccessibleRadioButton(inputId);
+			button = new AccessibleRadioButton(this.inputId);
 		button.setStyleName("qp-choice-button");
 
 		Vector<String> ignoredTags = new Vector<String>();

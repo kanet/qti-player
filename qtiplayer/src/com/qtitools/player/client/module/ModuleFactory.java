@@ -30,6 +30,7 @@ import com.qtitools.player.client.components.EmptyWidget;
 import com.qtitools.player.client.module.audioplayer.AudioPlayerModule;
 import com.qtitools.player.client.module.choice.ChoiceModule;
 import com.qtitools.player.client.module.debug.DebugModule;
+import com.qtitools.player.client.module.selection.SelectionModule;
 import com.qtitools.player.client.module.match.MatchModule;
 import com.qtitools.player.client.module.mathexpr.MathExprInlineModule;
 import com.qtitools.player.client.module.object.ObjectModule;
@@ -45,11 +46,12 @@ public abstract class ModuleFactory {
 												"textEntryInteraction",
 												"orderInteraction",
 												"matchInteraction",
+												"selectionInteraction",
 												"testInteraction",
 												"object",
 												"math",
-												"qy:comment"
-												,"audioPlayer"};
+												"qy:comment",
+												"audioPlayer"};
 
 	public static boolean isSupported(String test){
 		for (int s= 0 ; s <SUPPORTED_MODULES.length ; s++)
@@ -76,6 +78,8 @@ public abstract class ModuleFactory {
 			widget = new OrderModule(element, moduleSocket, moduleEventsListener);
 		else if(element.getNodeName().compareTo("matchInteraction") == 0)
 			widget = new MatchModule(element, moduleSocket, moduleEventsListener);
+		else if(element.getNodeName().compareTo("selectionInteraction") == 0)
+			widget = new SelectionModule(element, moduleSocket, moduleEventsListener);
 		else if(element.getNodeName().compareTo("math") == 0)
 			widget = new MathExprInlineModule(element);
 		else if(element.getNodeName().compareTo("audioPlayer") == 0)
