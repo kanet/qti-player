@@ -52,7 +52,7 @@ public class IdentificationModule extends Composite implements
 		}
 				
 		panel = new FlowPanel();
-		panel.setStyleName("qp-identification");
+		panel.setStyleName("qp-identification-module");
 		for (int i = 0 ; i < options.size() ; i ++){
 			if (fixeds.get(i))
 				panel.add(options.get(i));
