@@ -58,7 +58,7 @@ public class SimpleChoice extends Composite {
 	public String coverId;
 	
 	
-	public SimpleChoice(Element element, String inputId, String labelId, boolean multi, InlineFeedbackSocket inlineFeedbackSocket) {
+	public SimpleChoice(Element element, String inputId, String labelId, boolean multi, String moduleIdentifier, InlineFeedbackSocket inlineFeedbackSocket) {
 		
 		
 		this.inputId = inputId;
@@ -134,6 +134,10 @@ public class SimpleChoice extends Composite {
 		
 		NodeList inlineFeedbackNodes = element.getElementsByTagName("feedbackInline");
 		for (int f = 0 ; f < inlineFeedbackNodes.getLength() ; f ++){
+			if (! ((Element)inlineFeedbackNodes.item(f)).hasAttribute("identifier") )
+				((Element)inlineFeedbackNodes.item(f)).setAttribute("identifier", identifier);
+			if (! ((Element)inlineFeedbackNodes.item(f)).hasAttribute("outcomeIdentifier") )
+				((Element)inlineFeedbackNodes.item(f)).setAttribute("outcomeIdentifier", moduleIdentifier);
 			inlineFeedbackSocket.add(new InlineFeedback(labelPanel, inlineFeedbackNodes.item(f)));
 		}
 		

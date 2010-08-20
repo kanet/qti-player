@@ -124,7 +124,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 				  option = (Element)optionNodes.item(optionIndex);
 			  }
 
-			  currInteractionElement = new SimpleChoice(option, currInputId, currLabelId, multi, inlineFeedbackSocket);
+			  currInteractionElement = new SimpleChoice(option, currInputId, currLabelId, multi, responseIdentifier, inlineFeedbackSocket);
 			  //interactionElements.add(currInteractionElement);
 			  interactionElements.set(optionIndex, currInteractionElement);
 			  panel.add(currInteractionElement);
