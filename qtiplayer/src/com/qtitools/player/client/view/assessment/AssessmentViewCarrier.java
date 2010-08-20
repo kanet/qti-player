@@ -24,7 +24,9 @@ public class AssessmentViewCarrier {
 	}
 
 	public Widget getTitleView(){
-		return new Label(assessmentTitle);
+		Label assessmentTitleLabel = new Label(assessmentTitle);
+		assessmentTitleLabel.setStyleName("qp-assessment-title");
+		return assessmentTitleLabel;
 	}
 	
 }
