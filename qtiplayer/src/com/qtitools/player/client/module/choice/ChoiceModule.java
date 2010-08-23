@@ -139,8 +139,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 
 	@Override
 	public void onOwnerAttached() {
-		// do nothing
-		
+		// do nothing		
 	}
 
 

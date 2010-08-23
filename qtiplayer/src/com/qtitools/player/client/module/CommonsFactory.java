@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.qtitools.player.client.components.ElementWrapperWidget;
+import com.qtitools.player.client.controller.communication.DisplayContentOptions;
 import com.qtitools.player.client.model.IModuleCreator;
 import com.qtitools.player.client.module.mathexpr.MathExprInlineModule;
 import com.qtitools.player.client.util.xml.XMLConverter;
@@ -39,7 +40,7 @@ public class CommonsFactory {
 				Widget widget = ModuleFactory.createWidget(element, moduleSocket, moduleEventsListener);
 				return widget.getElement();
 			}
-		});
+		}, new DisplayContentOptions());
 			
 		ElementWrapperWidget promptWidget = new ElementWrapperWidget(promptElement);
 		promptWidget.setStyleName("qp-prompt");
@@ -96,7 +97,7 @@ public class CommonsFactory {
 				
 				return widget.getElement();
 			}
-		}, null);
+		}, new Vector<String>());
 			
 		ElementWrapperWidget promptWidget = new ElementWrapperWidget(promptElement);
 		promptWidget.setStyleName("qp-text-inline");

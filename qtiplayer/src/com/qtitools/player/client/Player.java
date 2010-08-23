@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.qtitools.player.client.controller.DeliveryEngine;
 import com.qtitools.player.client.controller.DeliveryEngineEventListener;
+import com.qtitools.player.client.controller.communication.DisplayOptions;
 import com.qtitools.player.client.controller.communication.FlowOptions;
 import com.qtitools.player.client.controller.communication.IAssessmentReport;
 import com.qtitools.player.client.controller.flow.navigation.NavigationCommandsListener;
@@ -164,9 +165,13 @@ public class Player implements DeliveryEngineEventListener {
 	public void setMasteryScore(int mastery){
 		deliveryEngine.setMasteryScore(mastery);
 	}
-	
+
 	public void setFlowOptions(FlowOptions o){
 		deliveryEngine.setFlowOptions(o);
+	}
+	
+	public void setDisplayOptions(DisplayOptions o){
+		deliveryEngine.setDisplayOptions(o);
 	}
   
 	/**

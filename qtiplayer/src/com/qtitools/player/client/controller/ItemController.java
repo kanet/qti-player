@@ -1,5 +1,6 @@
 package com.qtitools.player.client.controller;
 
+import com.qtitools.player.client.controller.communication.DisplayContentOptions;
 import com.qtitools.player.client.controller.communication.ItemData;
 import com.qtitools.player.client.controller.flow.navigation.NavigationIncidentType;
 import com.qtitools.player.client.controller.log.OperationLogEvent;
@@ -34,24 +35,21 @@ public class ItemController implements ModuleStateChangedEventsListener {
 	
 	private ItemNavigationIncidentsStats navigationIncidentsStats;
 	
-	public void init(ItemData data){
-		boolean success = false;
+	public void init(ItemData data, DisplayContentOptions options){
 		try {
-			if (data.data != null){
-				item = new Item(data.data, this, styleSocket);
-				itemIndex = data.itemIndex;
-				item.setState(itemSessionSocket.getState(itemIndex));
-				itemViewSocket.setItemView(new ItemViewCarrier(String.valueOf(itemIndex+1) + ". " + item.getTitle(), item.getContentView(), item.getFeedbackView(), item.getScoreView()));
-				itemSessionSocket.beginItemSession(itemIndex);
-				navigationIncidentsStats = new ItemNavigationIncidentsStats();
-				success = true;
-			}
-		} finally {
-			if (!success){
-				item = null;
-				itemViewSocket.setItemView(new ItemViewCarrier(data.errorMessage));
-				OperationLogManager.logEvent(OperationLogEvent.DISPLAY_ITEM_FAILED);
-			}
+			if (data.data == null)
+				throw new Exception("Item data is null");
+			item = new Item(data.data, options, this, styleSocket);
+			itemIndex = data.itemIndex;
+			item.setState(itemSessionSocket.getState(itemIndex));
+			itemViewSocket.setItemView(new ItemViewCarrier(String.valueOf(itemIndex+1) + ". " + item.getTitle(), item.getContentView(), item.getFeedbackView(), item.getScoreView()));
+			itemSessionSocket.beginItemSession(itemIndex);
+			navigationIncidentsStats = new ItemNavigationIncidentsStats();
+			
+		} catch (Exception e) {
+			item = null;
+			itemViewSocket.setItemView(new ItemViewCarrier(data.errorMessage.length() > 0 ? data.errorMessage : e.getMessage()));
+			OperationLogManager.logEvent(OperationLogEvent.DISPLAY_ITEM_FAILED);
 		}
 		
 	}

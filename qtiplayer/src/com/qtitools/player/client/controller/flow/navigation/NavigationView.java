@@ -10,8 +10,8 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.qtitools.player.client.controller.communication.DisplayOptions;
 import com.qtitools.player.client.controller.communication.FlowOptions;
-import com.qtitools.player.client.controller.communication.ItemActivityOptions;
 import com.qtitools.player.client.controller.communication.PageItemsDisplayMode;
 import com.qtitools.player.client.controller.communication.PageType;
 
@@ -131,16 +131,16 @@ public class NavigationView implements NavigationViewSocket {
 	private ListBox	comboListBox;
 	
 	
-	public void updateButtons(PageType pageType, int pageIndex, int pageCount, FlowOptions flowOptions, boolean isCheck, boolean isAnswers, ItemActivityOptions iao){
-		checkButton.setVisible(!isCheck  &&  !isAnswers  &&  pageType == PageType.TEST  &&  !iao.previewMode);
-		continueItemButton.setVisible((isCheck || isAnswers)  &&  pageType == PageType.TEST  &&  !iao.previewMode);
+	public void updateButtons(PageType pageType, int pageIndex, int pageCount, FlowOptions flowOptions, boolean isCheck, boolean isAnswers, DisplayOptions displayOptions){
+		checkButton.setVisible(!isCheck  &&  !isAnswers  &&  pageType == PageType.TEST  &&  !displayOptions.isPreviewMode());
+		continueItemButton.setVisible((isCheck || isAnswers)  &&  pageType == PageType.TEST  &&  !displayOptions.isPreviewMode());
 		prevButton.setVisible(pageType == PageType.TEST  &&  flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE);
 		prevButton.setEnabled(pageIndex != 0);
 		nextButton.setVisible((pageType == PageType.TEST  &&  flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE)  ||  pageType == PageType.TOC);
 		nextButton.setEnabled(pageIndex < pageCount-1);
-		finishButton.setVisible(pageType == PageType.TEST  &&  flowOptions.showSummary  &&  !iao.previewMode);
+		finishButton.setVisible(pageType == PageType.TEST  &&  flowOptions.showSummary  &&  !displayOptions.isPreviewMode());
 		finishButton.setEnabled(pageIndex == pageCount-1);
-		summaryButton.setVisible(iao.previewMode  &&  pageType == PageType.TEST);
+		summaryButton.setVisible(displayOptions.isPreviewMode()  &&  pageType == PageType.TEST);
 		continueAssessmentButton.setVisible(pageType == PageType.SUMMARY);
 		comboPanel.setVisible(pageType == PageType.TEST  &&  flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE);
 		setComboPageIndex(pageIndex);

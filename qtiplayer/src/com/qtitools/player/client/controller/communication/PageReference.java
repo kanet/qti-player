@@ -2,13 +2,13 @@ package com.qtitools.player.client.controller.communication;
 
 public class PageReference {
 
-	public PageReference(PageType t, int[] pInd, ItemActivityOptions o){
+	public PageReference(PageType t, int[] pInd, DisplayOptions o){
 		type = t;
 		pageIndices = pInd;
-		activityOptions = o;
+		displayOptions = o;
 	}
 	
 	public PageType type;
 	public int[] pageIndices;
-	public ItemActivityOptions activityOptions;
+	public DisplayOptions displayOptions;
 }

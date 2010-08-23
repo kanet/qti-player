@@ -60,8 +60,8 @@ public final class PageController {
 			for (int i = 0 ; i < pageDataTest.datas.length ; i ++){
 				ItemController controller = new ItemController(pageViewSocket.getItemViewSocket(i), pageSessionSocket.getItemSessionSocket());
 				controller.setStyleSocket( styleSocket );
-				controller.init(pageDataTest.datas[i]);
-				if (pageDataTest.activityOptions.previewMode){
+				controller.init(pageDataTest.datas[i], pageDataTest.displayOptions);
+				if (pageDataTest.displayOptions.isPreviewMode()){
 					controller.setPreviewMode();
 				}
 				items[i] = controller;

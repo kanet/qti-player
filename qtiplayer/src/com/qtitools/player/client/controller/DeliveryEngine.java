@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import com.google.inject.Inject;
 import com.qtitools.player.client.controller.communication.ActivityActionType;
+import com.qtitools.player.client.controller.communication.DisplayOptions;
 import com.qtitools.player.client.controller.communication.FlowOptions;
 import com.qtitools.player.client.controller.communication.IAssessmentReport;
 import com.qtitools.player.client.controller.communication.PageData;
@@ -180,6 +181,11 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 	public void setFlowOptions(FlowOptions o){
 		flowManager.setFlowOptions(o);
 	}
+
+	public void setDisplayOptions(DisplayOptions o){
+		flowManager.setDisplayOptions(o);
+	}
+	
 	public IAssessmentReport report(){
 		return new IAssessmentReport() {
 			

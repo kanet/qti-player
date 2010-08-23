@@ -37,9 +37,8 @@ public class Response extends Variable {
 
 	/** List of correct ids */
 	public Vector<String> 	correctAnswers;
-	/** userAnswers set by IResponse interface */
-	//private Set<String>	userAnswers;
-	// userAnswers cannot be HashSet because it does not cover cardinality::ordered functionality
+	/** Determines whether the module corresponding to the response variable exists in the document*/
+	private boolean isModuleAdded = false;
 	
 	public Mapping mapping;
 	
@@ -140,5 +139,13 @@ public class Response extends Variable {
 	public String toString(){
 		
 		return "Id: " + identifier + "\n" + correctAnswers; 
+	}
+	
+	public void setModuleAdded(){
+		isModuleAdded = true;
+	}
+	
+	public boolean isModuleAdded(){
+		return isModuleAdded;
 	}
 }

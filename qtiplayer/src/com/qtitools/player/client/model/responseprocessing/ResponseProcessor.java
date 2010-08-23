@@ -64,6 +64,10 @@ public final class ResponseProcessor {
 		boolean passed;
 		while (iter.hasNext()){
 			currKey = iter.next();
+			
+			if (!responses.get(currKey).isModuleAdded())
+				continue;
+			
 			passed = processMatchCorrect(responses.get(currKey));
 				
 			if (passed)

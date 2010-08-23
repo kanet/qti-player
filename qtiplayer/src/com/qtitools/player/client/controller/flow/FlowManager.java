@@ -1,5 +1,6 @@
 package com.qtitools.player.client.controller.flow;
 
+import com.qtitools.player.client.controller.communication.DisplayOptions;
 import com.qtitools.player.client.controller.communication.FlowOptions;
 import com.qtitools.player.client.controller.communication.ItemActivityOptions;
 import com.qtitools.player.client.controller.communication.PageItemsDisplayMode;
@@ -16,6 +17,7 @@ public class FlowManager implements NavigationSocket {
 		flowListener = fel;
 		navigationView = new NavigationView(this);
 		flowOptions = new FlowOptions();
+		displayOptions = new DisplayOptions();
 		isCheck = false;
 		isAnswers = false;
 	}
@@ -27,13 +29,14 @@ public class FlowManager implements NavigationSocket {
 	private PageType currentPageType;
 	private int itemsCount;
 	private FlowOptions flowOptions;
-	private ItemActivityOptions activityOptions;
+	private DisplayOptions displayOptions;
+	//private ItemActivityOptions activityOptions;
 	private boolean isCheck;
 	private boolean isAnswers;
 
 	public void init(int _itemsCount){
 		itemsCount = _itemsCount;
-		activityOptions = new ItemActivityOptions();
+		//activityOptions = new ItemActivityOptions();
 		currentPageIndex = 0;
 		if (flowOptions.showToC)
 			currentPageType = PageType.TOC;
@@ -46,13 +49,21 @@ public class FlowManager implements NavigationSocket {
 		flowListener.onNavigatePageSwitched();
 		updateNavigation();
 	}
-	
+
 	public void setFlowOptions(FlowOptions o){
 		flowOptions = o;
 	}
 	
 	public FlowOptions getFlowOptions(){
 		return flowOptions;
+	}
+	
+	public void setDisplayOptions(DisplayOptions o){
+		displayOptions = o;
+	}
+	
+	public DisplayOptions getDisplayOptions(){
+		return displayOptions;
 	}
 	
 	@Override
@@ -81,7 +92,7 @@ public class FlowManager implements NavigationSocket {
 	public void gotoSummary() {
 		if (currentPageType != PageType.SUMMARY  &&  flowOptions.showSummary){
 			onPageChange();
-			activityOptions.previewMode = false;
+			displayOptions.setPreviewMode(false);
 			currentPageType = PageType.SUMMARY;
 			currentPageIndex = 0;
 			flowListener.onNavigatePageSwitched();
@@ -225,7 +236,7 @@ public class FlowManager implements NavigationSocket {
 	@Override
 	public void previewPage(int index) {
 		onPageChange();
-		activityOptions.previewMode = true;
+		displayOptions.setPreviewMode(true);
 		gotoPage(index);
 	}
 	
@@ -236,7 +247,7 @@ public class FlowManager implements NavigationSocket {
 	
 	public void updateNavigation(){
 		navigationView.updateButtons(currentPageType, currentPageIndex, 
-				(flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE)?itemsCount:1, flowOptions, isCheck, isAnswers, activityOptions);
+				(flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE)?itemsCount:1, flowOptions, isCheck, isAnswers, displayOptions);
 	}
 	
 	public NavigationViewSocket getNavigationViewSocket(){
@@ -254,21 +265,21 @@ public class FlowManager implements NavigationSocket {
 				currentPageItemsIndices[i] = i;
 			}
 		}
-		PageReference pr = new PageReference(currentPageType, currentPageItemsIndices, activityOptions);
+		PageReference pr = new PageReference(currentPageType, currentPageItemsIndices, displayOptions);
 		
 		return pr;
-	}
+	}/*
 	
 	public ItemActivityOptions getItemActivityOptions(){
 		return activityOptions;
 	}
-
+*/
 	public PageType getPageType(){
 		return currentPageType;
 	}
 	
 	public boolean isPreviewMode(){
-		return activityOptions.previewMode;
+		return displayOptions.isPreviewMode();
 	}
 
 	public int getCurrentPageIndex(){

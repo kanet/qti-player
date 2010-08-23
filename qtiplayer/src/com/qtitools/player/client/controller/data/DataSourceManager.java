@@ -159,7 +159,7 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 				ids[i] = itemDataCollectionManager.getItemData(ref.pageIndices[i]);
 			}
 			
-			pd = new PageDataTest(ids, ref.activityOptions);
+			pd = new PageDataTest(ids, ref.displayOptions);
 		}
 		
 		return pd;

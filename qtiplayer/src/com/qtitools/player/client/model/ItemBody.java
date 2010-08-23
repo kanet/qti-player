@@ -6,6 +6,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
+import com.qtitools.player.client.controller.communication.DisplayContentOptions;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventHandlerInfo;
 import com.qtitools.player.client.model.internalevents.InternalEventManager;
@@ -19,6 +20,7 @@ import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.module.ModuleFactory;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
+import com.qtitools.player.client.module.ResponseSocket;
 import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
 import com.qtitools.player.client.util.xml.XMLConverter;
 
@@ -36,7 +38,7 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 	
 	//private Label traceLabel;
 	
-	public ItemBody(Node itemBodyNode, ModuleSocket moduleSocket, final ModuleStateChangedEventsListener stateChangedListener){
+	public ItemBody(Node itemBodyNode, DisplayContentOptions options, ModuleSocket moduleSocket, final ModuleStateChangedEventsListener stateChangedListener){
 		
 		eventManager = new InternalEventManager();
 		
@@ -82,11 +84,11 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 				Widget widget = ModuleFactory.createWidget(element, moduleSocket, moduleEventsListener);
 
 				if (widget instanceof IInteractionModule)
-					addModule(widget);
+					addModule(widget, moduleSocket);
 				
 				return widget.getElement();
 			}
-		});
+		}, options);
 		
 		//traceLabel = new Label();
 		//dom.appendChild(traceLabel.getElement());
@@ -104,7 +106,7 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 
 	}
 		
-	protected void addModule(Widget newModule){
+	protected void addModule(Widget newModule, ResponseSocket responseSocket){
 		
 		//modules.put(newModule.getInputsId(), newModule);
 		
@@ -117,6 +119,10 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 			if (triggers != null)
 				for (InternalEventTrigger t : triggers)
 					eventManager.register(new InternalEventHandlerInfo(((IBrowserEventHandler)newModule), t));
+		}
+		
+		if (newModule instanceof IInteractionModule){
+			responseSocket.getResponse( ((IInteractionModule)newModule).getIdentifier() ).setModuleAdded();
 		}
 
 	}

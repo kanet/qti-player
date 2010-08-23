@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
+import com.qtitools.player.client.controller.communication.DisplayContentOptions;
 import com.qtitools.player.client.controller.communication.PageReference;
 import com.qtitools.player.client.controller.communication.Result;
 import com.qtitools.player.client.controller.style.StyleLinkDeclaration;
@@ -54,7 +55,7 @@ public class Item implements IStateful {
 
 	private XMLData xmlData;
 			
-	public Item(XMLData data, ModuleStateChangedEventsListener stateChangedListener, StyleSocket ss){
+	public Item(XMLData data, DisplayContentOptions options, ModuleStateChangedEventsListener stateChangedListener, StyleSocket ss){
 
 		xmlData = data;
 		
@@ -85,7 +86,7 @@ public class Item implements IStateful {
 	    
 	    checkVariables();
    
-	    itemBody = new ItemBody((Element)itemBodyNode, moduleSocket, stateChangedListener);
+	    itemBody = new ItemBody((Element)itemBodyNode, options, moduleSocket, stateChangedListener);
 	    
 	    title = ((Element)rootNode).getAttribute("title");
 	    
@@ -243,6 +244,9 @@ public class Item implements IStateful {
 		Iterator<String> iterator = responseManager.getVariablesMap().keySet().iterator();
 		while (iterator.hasNext()){
 			String currKey = iterator.next();
+			
+			if (!responseManager.getVariable(currKey).isModuleAdded())
+				continue;
 			
 			if (responseManager.getVariable(currKey).mapping.lowerBound != null)
 				lowerBound += responseManager.getVariable(currKey).mapping.lowerBound;

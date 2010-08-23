@@ -25,6 +25,7 @@ package com.qtitools.player.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.qtitools.player.client.controller.communication.DisplayOptions;
 import com.qtitools.player.client.controller.communication.FlowOptions;
 import com.qtitools.player.client.controller.communication.PageItemsDisplayMode;
 
@@ -122,9 +123,9 @@ public class PlayerEntryPoint implements EntryPoint {
 		  	@com.qtitools.player.client.PlayerEntryPoint::setFlowOptions(Lcom/google/gwt/core/client/JavaScriptObject;)(obj);
 		  }
 
-		  //player.addStyle = function(){
-		  //	 @com.qtitools.player.client.PlayerEntryPoint::addStyle()();
-		  //}
+		  player.setDisplayOptions = function(obj){
+		  	 @com.qtitools.player.client.PlayerEntryPoint::setDisplayOptions(Lcom/google/gwt/core/client/JavaScriptObject;)(obj);
+		  }
 
 
 		  return player;
@@ -264,4 +265,19 @@ public class PlayerEntryPoint implements EntryPoint {
 		return obj.itemsDisplayMode;
 	}-*/;
 
+	public static void setDisplayOptions(JavaScriptObject o){
+		String[] tags2Ignore = new String[decodeDisplayOptionsObjectArrayLength(o)];
+		for (int i = 0 ; i < decodeDisplayOptionsObjectArrayLength(o) ; i ++){
+			tags2Ignore[i] = decodeDisplayOptionsObjectArrayItem(o, i);
+		}
+		player.setDisplayOptions(new DisplayOptions(tags2Ignore));
+	}
+
+	public native static int decodeDisplayOptionsObjectArrayLength(JavaScriptObject obj)/*-{
+		return obj.length;
+	}-*/;
+
+	public native static String decodeDisplayOptionsObjectArrayItem(JavaScriptObject obj, int index)/*-{
+		return obj[index];
+	}-*/;
 }
