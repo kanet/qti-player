@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p0 imsqti_v2p0.xsd" identifier="order" title="Grand Prix of Bahrain" adaptive="false" timeDependent="false">
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:qy="http://www.ydp.eu/qti/c" 
+xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p0 imsqti_v2p0.xsd" 
+identifier="order" title="Grand Prix of Bahrain" adaptive="false" timeDependent="false">
     <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier">
         <correctResponse>
             <value>ChoiceA</value>
@@ -9,13 +13,22 @@
     <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer"/>
     <itemBody>
 		This is a typical identification exercise, that allows to select one or more of the options listed here:
-		<identificationInteraction responseIdentifier="RESPONSE" shuffle="true" maxSelections="2" separator="/">
-			<simpleChoice identifier="ChoiceA">answer A<feedbackInline outcomeIdentifier="RESPONSE" identifier="ChoiceA" showHide="show">answer A OK!</feedbackInline></simpleChoice>
-			<simpleChoice identifier="ChoiceB">answer B</simpleChoice>
-			<simpleChoice identifier="ChoiceC">answer C</simpleChoice>
-			<feedbackInline outcomeIdentifier="RESPONSE" identifier="ChoiceA;ChoiceB" showHide="show"  senderIdentifier="^RESPONSE$">Good answer!</feedbackInline>
-		</identificationInteraction>
-		Make a good choice!
+		<qy:tag name="tag0">
+			<div style="width:40px;height:20px;background-color:#ff005a"></div>
+		</qy:tag>
+		<qy:tag name="tag1">
+			<div style="width:40px;height:20px;background-color:#2ff05a"></div>
+		</qy:tag>
+		<div style="width:40px;height:20px;background-color:#2f00da"></div>
+		<qy:tag name="tag2">
+			<identificationInteraction responseIdentifier="RESPONSE" shuffle="true" maxSelections="2" separator="/">
+				<simpleChoice identifier="ChoiceA">answer A<feedbackInline outcomeIdentifier="RESPONSE" identifier="ChoiceA" showHide="show">answer A OK!</feedbackInline></simpleChoice>
+				<simpleChoice identifier="ChoiceB">answer B</simpleChoice>
+				<simpleChoice identifier="ChoiceC">answer C</simpleChoice>
+				<feedbackInline outcomeIdentifier="RESPONSE" identifier="ChoiceA;ChoiceB" showHide="show"  senderIdentifier="^RESPONSE$">Good answer!</feedbackInline>
+			</identificationInteraction>
+			Make a good choice!
+		</qy:tag>
     </itemBody>
     <responseProcessing template="http://www.ydp.eu/qti/rptemplates/match_correct_multiple"/>
 </assessmentItem>
