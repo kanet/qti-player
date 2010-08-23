@@ -39,19 +39,19 @@ public class TouchablePanel extends AbsolutePanel {
 			
 	}-*/;
 
+	@SuppressWarnings("unused")
 	private void processOnTouchStartEvent(int x, int y){
 		touchEventsListener.onTouchStart(this.getElement(), x,y);
 	}
 	
+	@SuppressWarnings("unused")
 	private void processOnTouchMoveEvent(int x, int y){
 		touchEventsListener.onTouchMove(this.getElement(), x, y);
 	}
 	
+	@SuppressWarnings("unused")
 	private void processOnTouchEndEvent(){
 		touchEventsListener.onTouchEnd(this.getElement());
 	}
 	
-	private native void alert(String s)/*-{
-		alert(s);
-	}-*/;
 }
