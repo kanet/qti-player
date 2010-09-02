@@ -20,6 +20,7 @@ identifier="match" title="Characters and Plays" adaptive="false" timeDependent="
 	<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
 	<outcomeDeclaration identifier="SCOREHISTORY" cardinality="multiple" baseType="float"/>
 	<outcomeDeclaration identifier="SCORECHANGES" cardinality="multiple" baseType="float"/>
+	<outcomeDeclaration identifier="RESPONSE-LASTCHANGE" cardinality="single" baseType="directedPair"/>
 	<itemBody>
 		<qy:comment>asd</qy:comment>
 		<math><msqrt><msup><mi>x</mi><mn>71</mn></msup></msqrt></math>
@@ -54,7 +55,11 @@ identifier="match" title="Characters and Plays" adaptive="false" timeDependent="
 				<simpleAssociableChoice identifier="T" matchMax="4">The	Tempest<feedbackInline outcomeIdentifier="RESPONSE" identifier=".*L T.*" showHide="show" senderIdentifier="^RESPONSE$"><div style="color:#ff0000">Wrong!</div></feedbackInline></simpleAssociableChoice>
 			</simpleMatchSet>
 			<feedbackInline outcomeIdentifier="RESPONSE" identifier=".*C R.*" showHide="show" senderIdentifier="^RESPONSE$">Capulet correct!</feedbackInline>
+			<feedbackInline outcomeIdentifier="RESPONSE-LASTCHANGE" identifier="+L R" showHide="show" senderIdentifier="^RESPONSE$">Lysander wrong!</feedbackInline>
+			<feedbackInline outcomeIdentifier="RESPONSE-LASTCHANGE" identifier="+P M" showHide="show" senderIdentifier="^RESPONSE$">Prospero wrong!</feedbackInline>
 		</matchInteraction>
+		<br/>
+		<!--audioPlayer src="http://qti-player.googlecode.com/svn/trunk/qtiplayer/war/content/test/click.mp3" /-->
 	</itemBody>
 	<responseProcessing template="http://www.ydp.eu/qti/rptemplates/match_correct_multiple"/>
 	<modalFeedback outcomeIdentifier="SCORECHANGES" identifier=".*;1$" showHide="show"  senderIdentifier="^RESP.*">Score is +1</modalFeedback>
