@@ -281,7 +281,7 @@ public class Item implements IStateful {
 	public void showScore(){
 		Result r = getResult();
 		Label feedbackLabel = new Label(LocalePublisher.getText(LocaleVariable.ITEM_SCORE1) + r.getScore() + LocalePublisher.getText(LocaleVariable.ITEM_SCORE2) + r.getMaxPoints() + LocalePublisher.getText(LocaleVariable.ITEM_SCORE3));
-		feedbackLabel.setStyleName("qp-feedback");
+		feedbackLabel.setStyleName("qp-feedback-score-text");
 		scorePanel.add(feedbackLabel);
 		scorePanel.setStyleName("qp-feedback");
 	}
