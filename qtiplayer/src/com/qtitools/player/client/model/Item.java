@@ -88,6 +88,8 @@ public class Item implements IStateful {
    
 	    itemBody = new ItemBody((Element)itemBodyNode, options, moduleSocket, stateChangedListener);
 	    
+	    feedbackManager.setBodyView(itemBody);
+	    
 	    title = ((Element)rootNode).getAttribute("title");
 	    
 	    scorePanel = new FlowPanel();

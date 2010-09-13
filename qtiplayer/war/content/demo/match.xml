@@ -45,7 +45,7 @@ identifier="match" title="Characters and Plays" adaptive="false" timeDependent="
 		characters to the Shakespeare play they appeared in:</prompt>
 			<simpleMatchSet>
 				<simpleAssociableChoice identifier="C" matchMax="1">Capulet<img src="http://ryb.nspace.pl/lab/11j1.jpg"/></simpleAssociableChoice>
-				<simpleAssociableChoice identifier="D" matchMax="1">Demetrius<feedbackInline outcomeIdentifier="RESPONSE" identifier=".*D M.*" showHide="show" senderIdentifier="^RESPONSE$">Demetrius is great!</feedbackInline></simpleAssociableChoice>
+				<simpleAssociableChoice identifier="D" matchMax="1">Demetrius<feedbackInline outcomeIdentifier="RESPONSE" identifier=".*D M.*" showHide="show" senderIdentifier="^RESPONSE$" align="BOTTOM_CENTER">Demetrius is great!</feedbackInline></simpleAssociableChoice>
 				<simpleAssociableChoice identifier="L" matchMax="1">Lysander</simpleAssociableChoice>
 				<simpleAssociableChoice identifier="P" matchMax="1">Prospero<math><msqrt><msup><mi>x</mi><mn>71</mn></msup></msqrt></math></simpleAssociableChoice>
 			</simpleMatchSet>

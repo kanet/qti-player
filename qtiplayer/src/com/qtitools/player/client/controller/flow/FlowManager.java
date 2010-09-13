@@ -2,7 +2,6 @@ package com.qtitools.player.client.controller.flow;
 
 import com.qtitools.player.client.controller.communication.DisplayOptions;
 import com.qtitools.player.client.controller.communication.FlowOptions;
-import com.qtitools.player.client.controller.communication.ItemActivityOptions;
 import com.qtitools.player.client.controller.communication.PageItemsDisplayMode;
 import com.qtitools.player.client.controller.communication.PageReference;
 import com.qtitools.player.client.controller.communication.PageType;

@@ -22,9 +22,9 @@ identifier="choice" title="Multiple choice" adaptive="false" timeDependent="fals
 
 		<choiceInteraction responseIdentifier="RESPONSE" shuffle="true" maxChoices="0">
 			<prompt>Can you quess which pictures represent Tokyo?</prompt>
-			<simpleChoice identifier="ChoiceA"><img src="media/tokyo1.jpg"/><feedbackInline outcomeIdentifier="RESPONSE" identifier=".*ChoiceA.*" showHide="show">Yes.</feedbackInline></simpleChoice>
-			<simpleChoice identifier="ChoiceB"><img src="media/tokyo2.jpg"/><feedbackInline outcomeIdentifier="RESPONSE" identifier=".*ChoiceB.*" showHide="show">Yes.</feedbackInline></simpleChoice>
-			<simpleChoice identifier="ChoiceC"><img src="media/warsaw.jpg"/><feedbackInline outcomeIdentifier="RESPONSE" identifier=".*ChoiceC.*" showHide="show">No.</feedbackInline></simpleChoice>
+			<simpleChoice identifier="ChoiceA"><img src="media/tokyo1.jpg"/><feedbackInline outcomeIdentifier="RESPONSE" identifier=".*ChoiceA.*" showHide="show" align="BOTTOM_CENTER">Yes.</feedbackInline></simpleChoice>
+			<simpleChoice identifier="ChoiceB"><img src="media/tokyo2.jpg"/><feedbackInline outcomeIdentifier="RESPONSE" identifier=".*ChoiceB.*" showHide="show" align="BOTTOM_RIGHT">Yes.</feedbackInline></simpleChoice>
+			<simpleChoice identifier="ChoiceC"><img src="media/warsaw.jpg"/><feedbackInline outcomeIdentifier="RESPONSE" identifier=".*ChoiceC.*" showHide="show" align="TOP_RIGHT">No.</feedbackInline></simpleChoice>
 			<simpleChoice identifier="ChoiceE" fixed="true">None of the above.</simpleChoice>
 		</choiceInteraction>
 	</itemBody>

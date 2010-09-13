@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Vector;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.variables.Variable;
 import com.qtitools.player.client.model.variables.outcome.Outcome;
@@ -28,6 +29,7 @@ public class FeedbackManager implements InlineFeedbackSocket{
 	
 	public Vector<IItemFeedback> feedbacks; 
 	private FlowPanel container;
+	private Widget bodyView;
 	
 	public Panel getModalFeedbackView(){
 		return container;
@@ -117,7 +119,14 @@ public class FeedbackManager implements InlineFeedbackSocket{
 	@Override
 	public void add(InlineFeedback inlineFeedback) {
 		feedbacks.add(inlineFeedback);
-		
+	}
+	
+	public void setBodyView(Widget bodyView){
+		this.bodyView = bodyView;
+		for (IItemFeedback itemf : feedbacks){
+			if (itemf instanceof InlineFeedback)
+				((InlineFeedback)itemf).setBodyContainer(bodyView);
+		}
 	}
 	
 	public void hideAllInlineFeedbacks(){

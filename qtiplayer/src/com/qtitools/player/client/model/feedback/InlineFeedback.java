@@ -33,6 +33,9 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 			senderIdentifier = node.getAttributes().getNamedItem("senderIdentifier").getNodeValue();
 		else 
 			senderIdentifier = "";
+		
+		if (node.getAttributes().getNamedItem("align") != null)
+			align = InlineFeedbackAlign.fromString(node.getAttributes().getNamedItem("align").getNodeValue());
 				
 		showHide = (node.getAttributes().getNamedItem("showHide").getNodeValue().toLowerCase().compareTo("show") == 0);
 
@@ -60,14 +63,18 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 	private String value;
 	private String senderIdentifier;
 	private boolean showHide;
+	private InlineFeedbackAlign align = InlineFeedbackAlign.TOP_LEFT;
 	
 	private Widget mountingPoint;
+	private Widget bodyView;
 	private FlowPanel containerPanel;
 	private MouseEventPanel contentsPanel;
 	private Vector<com.google.gwt.dom.client.Element> mathElements;
 	
 	private boolean shown;
 	private boolean closed;
+
+	private final int BODY_MARGIN = 10;
 	
 	public void onAttach(){
 		super.onAttach();
@@ -135,7 +142,36 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 	}
 
 	private void updatePosition(){
-		setPopupPosition(mountingPoint.getAbsoluteLeft(), mountingPoint.getAbsoluteTop()-getOffsetHeight());
+		int mountingPointX = 0;
+		int mountingPointY = 0;
+
+		if (InlineFeedbackAlign.isLeft(align)){
+			mountingPointX = mountingPoint.getAbsoluteLeft();
+		} else if (InlineFeedbackAlign.isRight(align)){
+			mountingPointX = mountingPoint.getAbsoluteLeft() + mountingPoint.getOffsetWidth() - getOffsetWidth();
+		} else {
+			mountingPointX = mountingPoint.getAbsoluteLeft() + (mountingPoint.getOffsetWidth() - getOffsetWidth())/2;
+		}
+		
+		if (InlineFeedbackAlign.isTop(align)){
+			mountingPointY = mountingPoint.getAbsoluteTop() - getOffsetHeight();
+		} else {
+			mountingPointY = mountingPoint.getAbsoluteTop() + mountingPoint.getOffsetHeight();
+		}
+		
+		if (bodyView != null){
+			if (mountingPointX < bodyView.getAbsoluteLeft() + BODY_MARGIN){
+				mountingPointX = bodyView.getAbsoluteLeft() + BODY_MARGIN;
+			} else if (mountingPointX + getOffsetWidth() > bodyView.getAbsoluteLeft() + bodyView.getOffsetWidth() - BODY_MARGIN){
+				mountingPointX = bodyView.getAbsoluteLeft() + bodyView.getOffsetWidth() - getOffsetWidth() - BODY_MARGIN;
+			}
+		}
+		
+		setPopupPosition(mountingPointX, mountingPointY);
+	}
+	
+	public void setBodyContainer(Widget bodyView){
+		this.bodyView = bodyView;
 	}
 	
 }
