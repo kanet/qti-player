@@ -11,6 +11,7 @@ public interface IItemFeedback {
 	public String getValue();
 	public boolean hasHTMLContent();
 	public boolean hasSoundContent();
+	public void processSound();
 	public boolean showOnMatch();
 	public void show(ComplexPanel parent);
 	public void hide(ComplexPanel parent);

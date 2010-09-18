@@ -1,6 +1,9 @@
 package com.qtitools.player.client.model.feedback;
 
 import java.util.Vector;
+
+import com.allen_sauer.gwt.voices.client.Sound;
+import com.allen_sauer.gwt.voices.client.SoundController;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -28,6 +31,11 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 			value = node.getAttributes().getNamedItem("identifier").getNodeValue();
 		else 
 			value = "";
+
+		if (node.getAttributes().getNamedItem("sound") != null)
+			soundAddress = node.getAttributes().getNamedItem("sound").getNodeValue();
+		else 
+			soundAddress = "";
 
 		if (node.getAttributes().getNamedItem("senderIdentifier") != null)
 			senderIdentifier = node.getAttributes().getNamedItem("senderIdentifier").getNodeValue();
@@ -61,9 +69,12 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 
 	private String variable;
 	private String value;
+	private String soundAddress;
 	private String senderIdentifier;
 	private boolean showHide;
 	private InlineFeedbackAlign align = InlineFeedbackAlign.TOP_LEFT;
+
+	private String baseUrl;
 	
 	private Widget mountingPoint;
 	private Widget bodyView;
@@ -138,7 +149,18 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 
 	@Override
 	public boolean hasSoundContent() {
-		return false;
+		return soundAddress.length() > 0;
+	}
+	
+	public void processSound(){
+		String combinedAddress;
+		if (soundAddress.startsWith("http://")  ||  soundAddress.startsWith("https://"))
+			combinedAddress = soundAddress;
+		else
+			combinedAddress = baseUrl + soundAddress;
+		SoundController ctrl = new SoundController();
+		Sound sound = ctrl.createSound(Sound.MIME_TYPE_AUDIO_MPEG, combinedAddress);
+		sound.play();
 	}
 
 	private void updatePosition(){
@@ -174,4 +196,7 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 		this.bodyView = bodyView;
 	}
 	
+	public void setBaseUrl(String bUrl){
+		baseUrl = bUrl;
+	}
 }

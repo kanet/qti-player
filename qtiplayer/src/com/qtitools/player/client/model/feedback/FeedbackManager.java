@@ -13,6 +13,8 @@ import com.qtitools.player.client.model.variables.response.Response;
 public class FeedbackManager implements InlineFeedbackSocket{
 
 	public FeedbackManager(NodeList feedbackNodes, String baseUrl){
+		
+		this.baseUrl = baseUrl;
 
 		feedbacks = new Vector<IItemFeedback>();
 		ModalFeedback currFeedback;
@@ -29,7 +31,8 @@ public class FeedbackManager implements InlineFeedbackSocket{
 	
 	public Vector<IItemFeedback> feedbacks; 
 	private FlowPanel container;
-	private Widget bodyView;
+	
+	private String baseUrl;
 	
 	public Panel getModalFeedbackView(){
 		return container;
@@ -108,7 +111,7 @@ public class FeedbackManager implements InlineFeedbackSocket{
 			if (currFeedback.hasSoundContent()){
 				
 				if (condition == currFeedback.showOnMatch())
-					((ModalFeedback)currFeedback).processSound();
+					currFeedback.processSound();
 				
 			}
 			
@@ -122,10 +125,11 @@ public class FeedbackManager implements InlineFeedbackSocket{
 	}
 	
 	public void setBodyView(Widget bodyView){
-		this.bodyView = bodyView;
 		for (IItemFeedback itemf : feedbacks){
-			if (itemf instanceof InlineFeedback)
+			if (itemf instanceof InlineFeedback){
 				((InlineFeedback)itemf).setBodyContainer(bodyView);
+				((InlineFeedback)itemf).setBaseUrl(baseUrl);
+			}
 		}
 	}
 	
