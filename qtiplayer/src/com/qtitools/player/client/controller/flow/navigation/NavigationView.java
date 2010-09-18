@@ -88,10 +88,19 @@ public class NavigationView implements NavigationViewSocket {
 	    continueAssessmentButton.setStylePrimaryName("qp-resultpage-continue");
 	    continueAssessmentButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				listener.gotoLastPage();
+				listener.gotoFirstPage();
 			}
 		});
 	    menuPanel.add(continueAssessmentButton);
+	    
+	    previewAssessmentButton = new PushButton();
+	    previewAssessmentButton.setStylePrimaryName("qp-resultpage-preview");
+	    previewAssessmentButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				listener.previewPage(0);
+			}
+		});
+	    menuPanel.add(previewAssessmentButton);
 
 	    // PAGES COMBO
 
@@ -125,6 +134,7 @@ public class NavigationView implements NavigationViewSocket {
 	private PushButton finishButton; 
 	private PushButton summaryButton;
 	private PushButton continueAssessmentButton;
+	private PushButton previewAssessmentButton;
 	
 	private Panel comboPanel;
 	private Label comboLabel;
@@ -142,6 +152,7 @@ public class NavigationView implements NavigationViewSocket {
 		finishButton.setEnabled(pageIndex == pageCount-1);
 		summaryButton.setVisible(displayOptions.isPreviewMode()  &&  pageType == PageType.TEST);
 		continueAssessmentButton.setVisible(pageType == PageType.SUMMARY);
+		previewAssessmentButton.setVisible(pageType == PageType.SUMMARY);
 		comboPanel.setVisible(pageType == PageType.TEST  &&  flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE);
 		setComboPageIndex(pageIndex);
 		
