@@ -3,6 +3,8 @@ package com.qtitools.player.client.model.responseprocessing;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
+
+import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.variables.Cardinality;
@@ -250,5 +252,48 @@ public final class ResponseProcessor {
 		}
 		
 		return mistakesCounter;
+	}
+	
+	public static void interpretFeedbackAutoMark(Node node, HashMap<String, Response> responses){
+		NodeList feedbacks =  ((Element)node).getElementsByTagName("feedbackInline");
+		
+		for (int f = 0 ; f < feedbacks.getLength() ; f ++){
+			if (feedbacks.item(f).getAttributes().getNamedItem("identifier") != null  &&  feedbacks.item(f).getAttributes().getNamedItem("mark") != null){
+				if (feedbacks.item(f).getAttributes().getNamedItem("mark").getNodeValue().toUpperCase().compareTo("AUTO") == 0){
+					String response = feedbacks.item(f).getAttributes().getNamedItem("outcomeIdentifier").getNodeValue();
+					String value = feedbacks.item(f).getAttributes().getNamedItem("identifier").getNodeValue();
+					if (responses.containsKey(response)){
+						boolean correctness = false;
+						boolean correctnessFound = false;
+						if (value.contains(".")  || 
+							value.contains("*")  ||
+							value.contains("[")  ||
+							value.contains("(")  ||
+							value.contains("\\")  ||
+							value.contains("^")  ||
+							value.contains("$")  ||
+							value.contains("]")  ||
+							value.contains(")")){
+							
+							String responseCorrectAnswers = responses.get(response).getCorrectAnswersValuesShort();
+							correctness = responseCorrectAnswers.matches(value);
+							correctnessFound = true;
+							
+						} else {
+							correctness = responses.get(response).compareValues(value.split(";"));
+							correctnessFound = true;
+						}
+						if (correctnessFound){
+							if (correctness)
+								feedbacks.item(f).getAttributes().getNamedItem("mark").setNodeValue("CORRECT");
+							else
+								feedbacks.item(f).getAttributes().getNamedItem("mark").setNodeValue("WRONG");
+						} else {
+							feedbacks.item(f).getAttributes().getNamedItem("mark").setNodeValue("NONE");
+						}
+					}
+				}
+			}
+		}
 	}
 }

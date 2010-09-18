@@ -23,7 +23,7 @@ public class NavigationView implements NavigationViewSocket {
 	
 	private NavigationCommandsListener listener;
 	
-	public void init(int itemsCount){
+	public void init(int itemsCount, FlowOptions flowOptions){
 
 		// BUTTONS MENU
 		
@@ -104,14 +104,24 @@ public class NavigationView implements NavigationViewSocket {
 
 	    // PAGES COMBO
 
+	    final boolean showToC = flowOptions.showToC;
 	    comboListBox = new ListBox();
 	    comboListBox.setVisibleItemCount(1);
 	    comboListBox.setStyleName("qp-page-counter-list");
+	    if (showToC)
+	    	comboListBox.addItem("Table of Contents");
 	    for (int p = 0 ; p < itemsCount; p ++)
-	    	comboListBox.addItem(String.valueOf(p+1));
+	    	comboListBox.addItem(String.valueOf(p+1));	    
 	    comboListBox.addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
-				listener.gotoPage(((ListBox)event.getSource()).getSelectedIndex());
+				if (showToC){
+					if (((ListBox)event.getSource()).getSelectedIndex() == 0)
+						listener.gotoToc();
+					else
+						listener.gotoPage(((ListBox)event.getSource()).getSelectedIndex()-1);
+				} else {
+					listener.gotoPage(((ListBox)event.getSource()).getSelectedIndex());
+				}
 			}
 		});
 	        
@@ -145,7 +155,7 @@ public class NavigationView implements NavigationViewSocket {
 		checkButton.setVisible(!isCheck  &&  !isAnswers  &&  pageType == PageType.TEST  &&  !displayOptions.isPreviewMode());
 		continueItemButton.setVisible((isCheck || isAnswers)  &&  pageType == PageType.TEST  &&  !displayOptions.isPreviewMode());
 		prevButton.setVisible(pageType == PageType.TEST  &&  flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE);
-		prevButton.setEnabled(pageIndex != 0);
+		prevButton.setEnabled(flowOptions.showToC);
 		nextButton.setVisible((pageType == PageType.TEST  &&  flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE)  ||  pageType == PageType.TOC);
 		nextButton.setEnabled(pageIndex < pageCount-1);
 		finishButton.setVisible(pageType == PageType.TEST  &&  flowOptions.showSummary  &&  !displayOptions.isPreviewMode());
@@ -154,7 +164,10 @@ public class NavigationView implements NavigationViewSocket {
 		continueAssessmentButton.setVisible(pageType == PageType.SUMMARY);
 		previewAssessmentButton.setVisible(pageType == PageType.SUMMARY);
 		comboPanel.setVisible(pageType == PageType.TEST  &&  flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE);
-		setComboPageIndex(pageIndex);
+		if (flowOptions.showToC)
+			setComboPageIndex(pageIndex+1);
+		else
+			setComboPageIndex(pageIndex);
 		
 	}
 	

@@ -1,11 +1,12 @@
 package com.qtitools.player.client.model.feedback;
 
 import java.util.Vector;
-
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -41,10 +42,22 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 			senderIdentifier = node.getAttributes().getNamedItem("senderIdentifier").getNodeValue();
 		else 
 			senderIdentifier = "";
+
+		if (node.getAttributes().getNamedItem("mark") != null)
+			mark = FeedbackMark.fromString( node.getAttributes().getNamedItem("mark").getNodeValue() );
+		else 
+			mark = FeedbackMark.NONE;
 		
 		if (node.getAttributes().getNamedItem("align") != null)
 			align = InlineFeedbackAlign.fromString(node.getAttributes().getNamedItem("align").getNodeValue());
-				
+		else
+			align = InlineFeedbackAlign.TOP_LEFT;
+		
+		if (node.getAttributes().getNamedItem("fadeEffect") != null)
+			fadeEffectTime = Integer.parseInt( node.getAttributes().getNamedItem("fadeEffect").getNodeValue() );
+		else
+			fadeEffectTime = 0;
+		
 		showHide = (node.getAttributes().getNamedItem("showHide").getNodeValue().toLowerCase().compareTo("show") == 0);
 
 		mathElements = new Vector<com.google.gwt.dom.client.Element>();
@@ -62,8 +75,16 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 		});
 		containerPanel.add(contentsPanel);
 		
-		setStyleName("qp-feedback-inline");
+		if (mark == FeedbackMark.CORRECT)
+			setStyleName("qp-feedback-inline-correct");
+		else if (mark == FeedbackMark.WRONG)
+			setStyleName("qp-feedback-inline-wrong");
+		else
+			setStyleName("qp-feedback-inline");
+				
 		setWidget(containerPanel);
+		
+		getElement().setId(Document.get().createUniqueId());
 	}
 	
 
@@ -72,7 +93,9 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 	private String soundAddress;
 	private String senderIdentifier;
 	private boolean showHide;
-	private InlineFeedbackAlign align = InlineFeedbackAlign.TOP_LEFT;
+	private FeedbackMark mark;
+	private int fadeEffectTime;
+	private InlineFeedbackAlign align;
 
 	private String baseUrl;
 	
@@ -117,6 +140,8 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 	public void show(ComplexPanel parent){
 		if (!shown && !closed){
 			super.show();
+			if (fadeEffectTime > 0)
+				fadeInJs(getElement(), fadeEffectTime);
 			shown = true;
 		}
 		updatePosition();
@@ -124,7 +149,17 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 
 	public void hide(ComplexPanel parent){
 		if (shown){
-			super.hide();
+			if (fadeEffectTime <= 0){
+				super.hide();
+			} else {
+				final PopupPanel superPanel = this;
+				(new Timer() {
+					public void run() {
+						superPanel.hide();
+					}
+				}).schedule(fadeEffectTime);
+				fadeOutJs(getElement(), fadeEffectTime);
+			}
 			shown = false;
 			closed = false;
 		}
@@ -132,7 +167,17 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 	
 	public void close(){
 		if (shown){
-			super.hide();
+			if (fadeEffectTime <= 0){
+				super.hide();
+			} else {
+				final PopupPanel superPanel = this;
+				(new Timer() {
+					public void run() {
+						superPanel.hide();
+					}
+				}).schedule(fadeEffectTime);
+				fadeOutJs(getElement(), fadeEffectTime);
+			}
 			closed = true;
 		}
 	}
@@ -199,4 +244,52 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 	public void setBaseUrl(String bUrl){
 		baseUrl = bUrl;
 	}
+		
+	public native void opacityto(com.google.gwt.dom.client.Element elm, int v)/*-{
+	    elm.style.opacity = v/100; 
+	    elm.style.MozOpacity =  v/100; 
+	    elm.style.KhtmlOpacity =  v/100; 
+	    elm.style.filter=" alpha(opacity ="+v+")";
+	}-*/;
+	
+	public native void fadeInJs(com.google.gwt.dom.client.Element element, int fadeEffectTime)/*-{
+		var instance = this;
+	    var _this = element;
+	    this.@com.qtitools.player.client.model.feedback.InlineFeedback::opacityto(Lcom/google/gwt/dom/client/Element;I)(_this, 0);
+	    var out = false;
+	    var delay = fadeEffectTime;
+	    _this.style.zoom = 1; // for ie, set haslayout
+	    _this.style.display="block"; 
+	    for (i = 1; i <= 100; i+=5) {
+	      (function(j) {
+	            setTimeout(function() {  
+	                  if (out==true) 
+	                  	j=100-j;
+	                  instance.@com.qtitools.player.client.model.feedback.InlineFeedback::opacityto(Lcom/google/gwt/dom/client/Element;I)(_this, j);
+	                  },j*delay/100);
+	                 
+	        })(i);     
+	    }
+	}-*/;
+	
+
+	public native void fadeOutJs(com.google.gwt.dom.client.Element element, int fadeEffectTime)/*-{
+	    var instance = this;
+	    var _this = element;
+	    instance.@com.qtitools.player.client.model.feedback.InlineFeedback::opacityto(Lcom/google/gwt/dom/client/Element;I)(_this, 0);
+	    var out = true;
+	    var delay = fadeEffectTime;
+	    _this.style.zoom = 1; // for ie, set haslayout
+	    _this.style.display="block"; 
+	    for (i = 1; i <= 100; i+=5) {
+	      (function(j) {
+	            setTimeout(function() {  
+	                  if (out==true) 
+	                  	j=100-j;
+	                  instance.@com.qtitools.player.client.model.feedback.InlineFeedback::opacityto(Lcom/google/gwt/dom/client/Element;I)(_this, j);
+	                  },j*delay/100);
+	                 
+	        })(i);     
+	    }
+	}-*/;
 }

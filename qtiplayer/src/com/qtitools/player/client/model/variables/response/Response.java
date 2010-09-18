@@ -81,6 +81,19 @@ public class Response extends Variable {
 
 		return correctAnswers.contains(key);
 	}
+	
+	public String getCorrectAnswersValuesShort(){
+		
+		String output = "";
+		
+		for (int i = 0 ; i < correctAnswers.size() ; i ++ ){
+			output += correctAnswers.get(i);
+			if (i < correctAnswers.size()-1)
+				output += ";";
+		}
+		
+		return output;
+	}
 
 	/**
 	 * implementation of IResponse interface

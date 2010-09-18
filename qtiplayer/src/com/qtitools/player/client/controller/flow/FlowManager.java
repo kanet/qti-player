@@ -41,7 +41,7 @@ public class FlowManager implements NavigationSocket {
 			currentPageType = PageType.TOC;
 		else 
 			currentPageType = PageType.TEST;
-		navigationView.init(_itemsCount);
+		navigationView.init(_itemsCount, flowOptions);
 	}
 	
 	public void startFlow(){
@@ -158,6 +158,8 @@ public class FlowManager implements NavigationSocket {
 			} else if (flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE){
 				if (currentPageIndex-1 >= 0  &&  currentPageIndex-1 < itemsCount){
 					gotoPage(currentPageIndex-1);
+				} else if (currentPageIndex == 0){
+					gotoToc();
 				}
 			}
 		}

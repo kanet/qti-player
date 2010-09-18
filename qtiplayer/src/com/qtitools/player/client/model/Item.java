@@ -85,6 +85,8 @@ public class Item implements IStateful {
 	    styleDeclaration = new StyleLinkDeclaration(xmlData.getDocument().getElementsByTagName("styleDeclaration"), data.getBaseURL());
 	    
 	    checkVariables();
+	    
+	    ResponseProcessor.interpretFeedbackAutoMark(itemBodyNode, responseManager.getVariablesMap());
    
 	    itemBody = new ItemBody((Element)itemBodyNode, options, moduleSocket, stateChangedListener);
 	    
