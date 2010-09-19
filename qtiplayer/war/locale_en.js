@@ -17,6 +17,7 @@ window.QtiPlayer.locale = {
 	ITEM_SCORE1: "Score: ",
 	ITEM_SCORE2: " out of ",
 	ITEM_SCORE3: " points.",	
+	COMBO_TOC: "Table of Contents",	
 	SUMMARY_PAGE: "Page", 
 	SUMMARY_INFO_YOURSCOREIS1: "Your score is: ",
 	SUMMARY_INFO_YOURSCOREIS2: "% ",

@@ -49,7 +49,8 @@ public abstract class LocalePublisher {
 			case TOC_PAGE: return "Page";
 			case ITEM_SCORE1: return "Score: ";
 			case ITEM_SCORE2: return " out of ";
-			case ITEM_SCORE3: return " points.";	
+			case ITEM_SCORE3: return " points.";
+			case COMBO_TOC: return "Table of Contents";
 			case SUMMARY_INFO_YOURSCOREIS1: return "Your score is: ";
 			case SUMMARY_INFO_YOURSCOREIS2: return "% ";
 			case SUMMARY_INFO_YOURSCOREIS3: return " points. Time: ";

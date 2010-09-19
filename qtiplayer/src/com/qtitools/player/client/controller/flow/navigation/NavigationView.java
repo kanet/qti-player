@@ -14,6 +14,8 @@ import com.qtitools.player.client.controller.communication.DisplayOptions;
 import com.qtitools.player.client.controller.communication.FlowOptions;
 import com.qtitools.player.client.controller.communication.PageItemsDisplayMode;
 import com.qtitools.player.client.controller.communication.PageType;
+import com.qtitools.player.client.util.localisation.LocalePublisher;
+import com.qtitools.player.client.util.localisation.LocaleVariable;
 
 public class NavigationView implements NavigationViewSocket {
 
@@ -109,7 +111,7 @@ public class NavigationView implements NavigationViewSocket {
 	    comboListBox.setVisibleItemCount(1);
 	    comboListBox.setStyleName("qp-page-counter-list");
 	    if (showToC)
-	    	comboListBox.addItem("Table of Contents");
+	    	comboListBox.addItem(LocalePublisher.getText(LocaleVariable.COMBO_TOC));
 	    for (int p = 0 ; p < itemsCount; p ++)
 	    	comboListBox.addItem(String.valueOf(p+1));	    
 	    comboListBox.addChangeHandler(new ChangeHandler() {
