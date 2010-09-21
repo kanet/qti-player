@@ -92,8 +92,10 @@ public class FeedbackManager implements InlineFeedbackSocket{
 				condition = currVar.compareValues(currFeedback.getValue().split(";"));
 			}
 			
+			boolean senderMatches = true;
+			
 			if (currFeedback.getSenderIdentifier().length() > 0){
-				condition = (condition  && senderIdentifier.matches(currFeedback.getSenderIdentifier()));  
+				senderMatches = senderIdentifier.matches(currFeedback.getSenderIdentifier());  
 			}
 			
 			if (!validated)
@@ -101,7 +103,7 @@ public class FeedbackManager implements InlineFeedbackSocket{
 			
 			if (currFeedback.hasHTMLContent()){
 				
-				if (currFeedback.showOnMatch() == condition)
+				if (currFeedback.showOnMatch() == condition  &&  senderMatches)
 					currFeedback.show(container);
 				else
 					currFeedback.hide(container);
@@ -110,7 +112,7 @@ public class FeedbackManager implements InlineFeedbackSocket{
 
 			if (currFeedback.hasSoundContent()){
 				
-				if (condition == currFeedback.showOnMatch())
+				if (condition == currFeedback.showOnMatch()  &&  senderMatches)
 					currFeedback.processSound();
 				
 			}
