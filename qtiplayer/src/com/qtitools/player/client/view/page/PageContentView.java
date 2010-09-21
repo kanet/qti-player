@@ -87,7 +87,7 @@ public class PageContentView implements PageViewSocket {
 				
 				for (int t = 0 ; t < pvc.titles.length ; t ++){
 					final int tt = t;
-					Label titleLabel = new Label(LocalePublisher.getText(LocaleVariable.TOC_PAGE) + " " + String.valueOf(t+1) + ": " + pvc.titles[t]);
+					Label titleLabel = new Label(LocalePublisher.getText(LocaleVariable.TOC_PAGE) + " " + String.valueOf(t+1) + LocalePublisher.getText(LocaleVariable.TOC_PAGE_DOT) + pvc.titles[t]);
 					titleLabel.setStyleName("qp-toc-item-title");
 					titleLabel.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent event) {

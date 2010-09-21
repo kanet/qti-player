@@ -14,6 +14,7 @@ window.QtiPlayer.locale = {
 	PLAYER_FOOTER: "",	
 	TOC_TITLE: "Table of Contents",
 	TOC_PAGE: "Page",
+	TOC_PAGE_DOT: ": ",
 	ITEM_SCORE1: "Score: ",
 	ITEM_SCORE2: " out of ",
 	ITEM_SCORE3: " points.",	

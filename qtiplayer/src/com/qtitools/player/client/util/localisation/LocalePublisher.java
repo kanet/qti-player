@@ -47,6 +47,7 @@ public abstract class LocalePublisher {
 			case PLAYER_FOOTER: return "";	
 			case TOC_TITLE: return "Table of Contents";
 			case TOC_PAGE: return "Page";
+			case TOC_PAGE_DOT: return ": ";
 			case ITEM_SCORE1: return "Score: ";
 			case ITEM_SCORE2: return " out of ";
 			case ITEM_SCORE3: return " points.";
