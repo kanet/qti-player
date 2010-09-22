@@ -2,6 +2,8 @@ package com.qtitools.player.client.controller.flow;
 
 import com.qtitools.player.client.controller.communication.DisplayOptions;
 import com.qtitools.player.client.controller.communication.FlowOptions;
+import com.qtitools.player.client.controller.communication.ItemParameters;
+import com.qtitools.player.client.controller.communication.ItemParametersSocket;
 import com.qtitools.player.client.controller.communication.PageItemsDisplayMode;
 import com.qtitools.player.client.controller.communication.PageReference;
 import com.qtitools.player.client.controller.communication.PageType;
@@ -23,6 +25,7 @@ public class FlowManager implements NavigationSocket {
 	
 	private NavigationView navigationView;
 	private FlowEventsListener flowListener;
+	private ItemParametersSocket itemParametersSocket;
 	
 	private int currentPageIndex;
 	private PageType currentPageType;
@@ -248,7 +251,7 @@ public class FlowManager implements NavigationSocket {
 	
 	public void updateNavigation(){
 		navigationView.updateButtons(currentPageType, currentPageIndex, 
-				(flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE)?itemsCount:1, flowOptions, isCheck, isAnswers, displayOptions, navigationView.getItemParamters());
+				(flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE)?itemsCount:1, flowOptions, isCheck, isAnswers, displayOptions, getItemParamters());
 	}
 	
 	public NavigationViewSocket getNavigationViewSocket(){
@@ -288,5 +291,16 @@ public class FlowManager implements NavigationSocket {
 	}
 
 
+	@Override
+	public void setItemParamtersSocket(ItemParametersSocket ips) {
+		itemParametersSocket = ips;
+	}
+
+	public ItemParameters getItemParamters() {
+		if (itemParametersSocket != null)
+			return itemParametersSocket.getItemParameters();
+		return new ItemParameters();
+	}
+	
 	
 }

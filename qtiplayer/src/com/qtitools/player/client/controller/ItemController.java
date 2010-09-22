@@ -50,7 +50,7 @@ public class ItemController implements ModuleStateChangedEventsListener {
 			itemViewSocket.setItemView(new ItemViewCarrier(String.valueOf(itemIndex+1) + ". " + item.getTitle(), item.getContentView(), item.getFeedbackView(), item.getScoreView()));
 			itemSessionSocket.beginItemSession(itemIndex);
 			navigationIncidentsStats = new ItemNavigationIncidentsStats();
-			navigationSocket.getNavigationViewSocket().setItemParamtersSocket(new ItemParametersSocket() {
+			navigationSocket.setItemParamtersSocket(new ItemParametersSocket() {
 				public ItemParameters getItemParameters() {
 					return new ItemParameters(item.getModulesCount());
 				}
