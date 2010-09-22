@@ -174,7 +174,7 @@ public class NavigationView implements NavigationViewSocket {
 		checkButton.setVisible(!isCheck  &&  !isAnswers  &&  pageType == PageType.TEST  &&  !displayOptions.isPreviewMode());
 		continueItemButton.setVisible((isCheck || isAnswers)  &&  pageType == PageType.TEST  &&  !displayOptions.isPreviewMode());
 		prevButton.setVisible(pageType == PageType.TEST  &&  flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE);
-		prevButton.setEnabled(flowOptions.showToC);
+		prevButton.setEnabled(flowOptions.showToC  ||  pageIndex > 0);
 		nextButton.setVisible((pageType == PageType.TEST  &&  flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE)  ||  pageType == PageType.TOC);
 		nextButton.setEnabled(pageIndex < pageCount-1);
 		finishButton.setVisible(pageType == PageType.TEST  &&  flowOptions.showSummary  &&  !displayOptions.isPreviewMode());
