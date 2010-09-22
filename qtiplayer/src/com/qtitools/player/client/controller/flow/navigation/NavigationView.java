@@ -107,23 +107,51 @@ public class NavigationView implements NavigationViewSocket {
 	    // PAGES COMBO
 
 	    final boolean showToC = flowOptions.showToC;
+	    final boolean showSummary = flowOptions.showSummary;
 	    comboListBox = new ListBox();
 	    comboListBox.setVisibleItemCount(1);
 	    comboListBox.setStyleName("qp-page-counter-list");
 	    if (showToC)
 	    	comboListBox.addItem(LocalePublisher.getText(LocaleVariable.COMBO_TOC));
 	    for (int p = 0 ; p < itemsCount; p ++)
-	    	comboListBox.addItem(String.valueOf(p+1));	    
+	    	comboListBox.addItem(String.valueOf(p+1));	   
+	    if (showSummary)
+	    	comboListBox.addItem(LocalePublisher.getText(LocaleVariable.COMBO_SUMMARY)); 
 	    comboListBox.addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
+				
+				boolean firstIndex = ((ListBox)event.getSource()).getSelectedIndex() == 0;
+				boolean lastIndex = ((ListBox)event.getSource()).getSelectedIndex() == ((ListBox)event.getSource()).getItemCount()-1;
+				int pagesCount = ((ListBox)event.getSource()).getItemCount();
+				if (showToC)
+					pagesCount--;
+				if (showSummary)
+					pagesCount--;
+				
+				if (firstIndex){
+					if (showToC)
+						listener.gotoToc();
+					else
+						listener.gotoPage(0);
+				} else if (lastIndex){
+					if (showSummary)
+						listener.gotoSummary();
+					else
+						listener.gotoPage(pagesCount-1);
+				} else {
+					listener.gotoPage(((ListBox)event.getSource()).getSelectedIndex() - ((showToC)?1:0));
+				}
+				
+				/*
 				if (showToC){
 					if (((ListBox)event.getSource()).getSelectedIndex() == 0)
 						listener.gotoToc();
-					else
+					else 
 						listener.gotoPage(((ListBox)event.getSource()).getSelectedIndex()-1);
 				} else {
 					listener.gotoPage(((ListBox)event.getSource()).getSelectedIndex());
 				}
+				*/
 			}
 		});
 	        
