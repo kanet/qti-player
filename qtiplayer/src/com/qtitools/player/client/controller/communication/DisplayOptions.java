@@ -3,7 +3,7 @@ package com.qtitools.player.client.controller.communication;
 public class DisplayOptions extends DisplayContentOptions {
 	
 	public DisplayOptions(){
-		tagsIgnored = new String[0];
+		super();
 		previewMode = false;
 	}
 

@@ -248,7 +248,7 @@ public class FlowManager implements NavigationSocket {
 	
 	public void updateNavigation(){
 		navigationView.updateButtons(currentPageType, currentPageIndex, 
-				(flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE)?itemsCount:1, flowOptions, isCheck, isAnswers, displayOptions);
+				(flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE)?itemsCount:1, flowOptions, isCheck, isAnswers, displayOptions, navigationView.getItemParamters());
 	}
 	
 	public NavigationViewSocket getNavigationViewSocket(){

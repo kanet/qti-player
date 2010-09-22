@@ -2,7 +2,10 @@ package com.qtitools.player.client.controller;
 
 import com.qtitools.player.client.controller.communication.DisplayContentOptions;
 import com.qtitools.player.client.controller.communication.ItemData;
+import com.qtitools.player.client.controller.communication.ItemParameters;
+import com.qtitools.player.client.controller.communication.ItemParametersSocket;
 import com.qtitools.player.client.controller.flow.navigation.NavigationIncidentType;
+import com.qtitools.player.client.controller.flow.navigation.NavigationSocket;
 import com.qtitools.player.client.controller.log.OperationLogEvent;
 import com.qtitools.player.client.controller.log.OperationLogManager;
 import com.qtitools.player.client.controller.session.ItemSessionResultAndStats;
@@ -16,8 +19,9 @@ import com.qtitools.player.client.view.item.ItemViewSocket;
 
 public class ItemController implements ModuleStateChangedEventsListener {
 
-	public ItemController(ItemViewSocket ivs, ItemSessionSocket iss){
+	public ItemController(ItemViewSocket ivs, NavigationSocket ns, ItemSessionSocket iss){
 		itemViewSocket = ivs;
+		navigationSocket = ns;
 		itemSessionSocket = iss;
 	}
 	
@@ -27,6 +31,7 @@ public class ItemController implements ModuleStateChangedEventsListener {
 	
 	private ItemViewSocket itemViewSocket;
 	private ItemSessionSocket itemSessionSocket;
+	private NavigationSocket navigationSocket;
 
 	private StyleSocket styleSocket;
 	public void setStyleSocket( StyleSocket ss) {
@@ -45,7 +50,11 @@ public class ItemController implements ModuleStateChangedEventsListener {
 			itemViewSocket.setItemView(new ItemViewCarrier(String.valueOf(itemIndex+1) + ". " + item.getTitle(), item.getContentView(), item.getFeedbackView(), item.getScoreView()));
 			itemSessionSocket.beginItemSession(itemIndex);
 			navigationIncidentsStats = new ItemNavigationIncidentsStats();
-			
+			navigationSocket.getNavigationViewSocket().setItemParamtersSocket(new ItemParametersSocket() {
+				public ItemParameters getItemParameters() {
+					return new ItemParameters(item.getModulesCount());
+				}
+			});
 		} catch (Exception e) {
 			item = null;
 			itemViewSocket.setItemView(new ItemViewCarrier(data.errorMessage.length() > 0 ? data.errorMessage : e.getMessage()));

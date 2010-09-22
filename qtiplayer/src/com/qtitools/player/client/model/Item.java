@@ -217,7 +217,7 @@ public class Item implements IStateful {
 		return title;
 	}
 
-	public int getModuleCount(){
+	public int getModulesCount(){
 		return itemBody.getModuleCount();
 	}
 	
@@ -283,11 +283,13 @@ public class Item implements IStateful {
 	// -------------------------- SCORE -------------------------------
 	
 	public void showScore(){
-		Result r = getResult();
-		Label feedbackLabel = new Label(LocalePublisher.getText(LocaleVariable.ITEM_SCORE1) + r.getScore() + LocalePublisher.getText(LocaleVariable.ITEM_SCORE2) + r.getMaxPoints() + LocalePublisher.getText(LocaleVariable.ITEM_SCORE3));
-		feedbackLabel.setStyleName("qp-feedback-score-text");
-		scorePanel.add(feedbackLabel);
-		scorePanel.setStyleName("qp-feedback");
+		if (itemBody.getModuleCount() > 0){
+			Result r = getResult();
+			Label feedbackLabel = new Label(LocalePublisher.getText(LocaleVariable.ITEM_SCORE1) + r.getScore() + LocalePublisher.getText(LocaleVariable.ITEM_SCORE2) + r.getMaxPoints() + LocalePublisher.getText(LocaleVariable.ITEM_SCORE3));
+			feedbackLabel.setStyleName("qp-feedback-score-text");
+			scorePanel.add(feedbackLabel);
+			scorePanel.setStyleName("qp-feedback");
+		}
 	}
 
 	public void hideScore(){
@@ -296,6 +298,10 @@ public class Item implements IStateful {
 	}
 	
 	// -------------------------- NAVIGATION -------------------------------
+	
+	public int getItemModuleCount(){
+		return itemBody.getModuleCount();
+	}
 
 	public void checkItem(){
 		itemBody.markAnswers(true);

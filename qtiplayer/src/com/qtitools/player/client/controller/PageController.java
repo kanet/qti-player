@@ -58,7 +58,7 @@ public final class PageController {
 			pageViewSocket.setPageViewCarrier(new PageViewCarrier());
 	
 			for (int i = 0 ; i < pageDataTest.datas.length ; i ++){
-				ItemController controller = new ItemController(pageViewSocket.getItemViewSocket(i), pageSessionSocket.getItemSessionSocket());
+				ItemController controller = new ItemController(pageViewSocket.getItemViewSocket(i), navigationSocket, pageSessionSocket.getItemSessionSocket());
 				controller.setStyleSocket( styleSocket );
 				controller.init(pageDataTest.datas[i], pageDataTest.displayOptions);
 				if (pageDataTest.displayOptions.isPreviewMode()){

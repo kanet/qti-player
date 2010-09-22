@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.qtitools.player.client.controller.communication.DisplayOptions;
 import com.qtitools.player.client.controller.communication.FlowOptions;
+import com.qtitools.player.client.controller.communication.ItemParameters;
+import com.qtitools.player.client.controller.communication.ItemParametersSocket;
 import com.qtitools.player.client.controller.communication.PageItemsDisplayMode;
 import com.qtitools.player.client.controller.communication.PageType;
 import com.qtitools.player.client.util.localisation.LocalePublisher;
@@ -169,9 +171,12 @@ public class NavigationView implements NavigationViewSocket {
 	private Label comboLabel;
 	private ListBox	comboListBox;
 	
+	private ItemParametersSocket itemParametersSocket;
 	
-	public void updateButtons(PageType pageType, int pageIndex, int pageCount, FlowOptions flowOptions, boolean isCheck, boolean isAnswers, DisplayOptions displayOptions){
-		checkButton.setVisible(!isCheck  &&  !isAnswers  &&  pageType == PageType.TEST  &&  !displayOptions.isPreviewMode());
+	
+	public void updateButtons(PageType pageType, int pageIndex, int pageCount, FlowOptions flowOptions, boolean isCheck, boolean isAnswers, 
+			DisplayOptions displayOptions, ItemParameters itemParameters){
+		checkButton.setVisible(!isCheck  &&  !isAnswers  &&  pageType == PageType.TEST  &&  !displayOptions.isPreviewMode()  &&  itemParameters.getModulesCount() > 0);
 		continueItemButton.setVisible((isCheck || isAnswers)  &&  pageType == PageType.TEST  &&  !displayOptions.isPreviewMode());
 		prevButton.setVisible(pageType == PageType.TEST  &&  flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE);
 		prevButton.setEnabled(flowOptions.showToC  ||  pageIndex > 0);
@@ -201,6 +206,17 @@ public class NavigationView implements NavigationViewSocket {
 	private void setComboPageIndex(int index){
 		if (comboListBox != null)
 			comboListBox.setSelectedIndex(index);
+	}
+
+	@Override
+	public void setItemParamtersSocket(ItemParametersSocket ips) {
+		itemParametersSocket = ips;
+	}
+
+	public ItemParameters getItemParamters() {
+		if (itemParametersSocket != null)
+			return itemParametersSocket.getItemParameters();
+		return new ItemParameters();
 	}
 	
 }
