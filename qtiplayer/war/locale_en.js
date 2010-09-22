@@ -31,4 +31,6 @@ window.QtiPlayer.locale = {
 	SUMMARY_STATS_CHECKCOUNT_SUFIX: " checks", 
 	SUMMARY_STATS_MISTAKES_SUFIX: " mistakes", 
 	SUMMARY_STATS_MISTAKES_NO: "-", 
+	SUMMARY_NOTSCORED: "not scored",
+	SUMMARY_NOTVISITED: "not visited"
 };

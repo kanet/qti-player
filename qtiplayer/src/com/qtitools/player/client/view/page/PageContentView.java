@@ -136,7 +136,15 @@ public class PageContentView implements PageViewSocket {
 					});
 			    	resultItemsInfo.setWidget(t, 0, titleLabel);
 			    	
-			    	String resultString = String.valueOf(pvc.sessionData.results[t].getScore()).replace(".0", "") + "/" + String.valueOf(pvc.sessionData.results[t].getMaxPoints()-pvc.sessionData.results[t].getMinPoints()).replace(".0", "");
+			    	String resultString = "";
+			    	if (pvc.sessionData.visiteds[t]){
+			    		if (pvc.sessionData.results[t].getMaxPoints() > 0)
+			    			resultString = String.valueOf(pvc.sessionData.results[t].getScore()).replace(".0", "") + "/" + String.valueOf(pvc.sessionData.results[t].getMaxPoints()-pvc.sessionData.results[t].getMinPoints()).replace(".0", "");
+			    		else
+			    			resultString = LocalePublisher.getText(LocaleVariable.SUMMARY_NOTSCORED);
+			    	} else {
+			    		resultString = LocalePublisher.getText(LocaleVariable.SUMMARY_NOTVISITED);
+			    	}
 			    	resultItemsInfo.setText(t, 1, resultString);
 			    	
 			    	resultItemsInfo.setText(t, 2, String.valueOf(pvc.sessionData.times[t])+LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_TIME_SUFIX));

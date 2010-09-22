@@ -87,17 +87,20 @@ public class SessionDataManager implements SessionSocket, StateInterface {
 		sd.times = new int[itemSessionDatas.length];
 		sd.checks = new int[itemSessionDatas.length];
 		sd.mistakes = new int[itemSessionDatas.length];
+		sd.visiteds = new boolean[itemSessionDatas.length];
 		for (int i = 0 ; i < itemSessionDatas.length ; i ++){
 			if (itemSessionDatas[i] != null){
 				sd.results[i] = itemSessionDatas[i].result;
 				sd.times[i] = itemSessionDatas[i].getActualTime();
 				sd.checks[i] = itemSessionDatas[i].checks;
 				sd.mistakes[i] = itemSessionDatas[i].mistakes;
+				sd.visiteds[i] = itemSessionDatas[i].visited;
 			} else {
 				sd.results[i] = new Result();
 				sd.times[i] = 0;
 				sd.checks[i] = 0;
 				sd.mistakes[i] = 0;
+				sd.visiteds[i] = false;
 			}
 		}
 		sd.resultTotal = getAssessmentTotalResult();

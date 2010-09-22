@@ -14,4 +14,5 @@ public class SessionDataCarrier {
 	public int[] mistakes;
 	public Result resultTotal;
 	public int timeTotal;
+	public boolean[] visiteds;
 }

@@ -10,7 +10,9 @@
 
 	<testPart>
 		<assessmentSection identifier="sectionA" title="Section A" visible="true">
-			<!--assessmentItemRef identifier="match" href="demo/script_00002_002.xml"/-->
+			<assessmentItemRef identifier="match" href="demo/ad4_script_00002_002.xml"/>
+			<assessmentItemRef identifier="match" href="demo/ad5_script_00002_007.xml"/>
+			<assessmentItemRef identifier="match" href="demo/gap_script_00002_018.xml"/>
 			<assessmentItemRef identifier="match" href="demo/identification.xml"/>
 			<assessmentItemRef identifier="selection" href="demo/selection.xml"/>
 			<assessmentItemRef identifier="match" href="demo/match.xml"/>

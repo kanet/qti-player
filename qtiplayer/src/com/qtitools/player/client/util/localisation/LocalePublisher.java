@@ -62,7 +62,10 @@ public abstract class LocalePublisher {
 			case SUMMARY_STATS_CHECKCOUNT_NO: return "-"; 
 			case SUMMARY_STATS_CHECKCOUNT_SUFIX: return " checks"; 
 			case SUMMARY_STATS_MISTAKES_SUFIX: return " mistakes"; 
-			case SUMMARY_STATS_MISTAKES_NO: return "-"; 
+			case SUMMARY_STATS_MISTAKES_NO: return "-";
+			case SUMMARY_NOTSCORED: return "not scored";
+			case SUMMARY_NOTVISITED: return "not visited";
+			
 		}
 		return "";
 	}
