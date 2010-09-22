@@ -141,17 +141,6 @@ public class NavigationView implements NavigationViewSocket {
 				} else {
 					listener.gotoPage(((ListBox)event.getSource()).getSelectedIndex() - ((showToC)?1:0));
 				}
-				
-				/*
-				if (showToC){
-					if (((ListBox)event.getSource()).getSelectedIndex() == 0)
-						listener.gotoToc();
-					else 
-						listener.gotoPage(((ListBox)event.getSource()).getSelectedIndex()-1);
-				} else {
-					listener.gotoPage(((ListBox)event.getSource()).getSelectedIndex());
-				}
-				*/
 			}
 		});
 	        
