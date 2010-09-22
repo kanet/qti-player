@@ -57,7 +57,7 @@ public abstract class LocalePublisher {
 			case SUMMARY_INFO_YOURSCOREIS2: return "% ";
 			case SUMMARY_INFO_YOURSCOREIS3: return " points. Time: ";
 			case SUMMARY_INFO_YOURSCOREIS4: return "s";
-			case SUMMARY_STATS_TIME_SUFIX: return " s"; 
+			case SUMMARY_STATS_TIME_SUFIX: return ""; 
 			case SUMMARY_STATS_TIME_NO: return "-"; 
 			case SUMMARY_STATS_CHECKCOUNT_NO: return "-"; 
 			case SUMMARY_STATS_CHECKCOUNT_SUFIX: return " checks"; 

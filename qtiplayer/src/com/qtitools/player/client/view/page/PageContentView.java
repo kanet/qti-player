@@ -146,10 +146,12 @@ public class PageContentView implements PageViewSocket {
 			    		resultString = LocalePublisher.getText(LocaleVariable.SUMMARY_NOTVISITED);
 			    	}
 			    	resultItemsInfo.setText(t, 1, resultString);
-			    	
-			    	resultItemsInfo.setText(t, 2, String.valueOf(pvc.sessionData.times[t])+LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_TIME_SUFIX));
-		    		resultItemsInfo.setText(t, 3, String.valueOf(pvc.sessionData.checks[t])+LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_CHECKCOUNT_SUFIX));
-		    		resultItemsInfo.setText(t, 4, String.valueOf(pvc.sessionData.mistakes[t])+LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_MISTAKES_SUFIX));
+
+					String timeFormatted = String.valueOf( pvc.sessionData.times[t]/60 ) + ":" + ((pvc.sessionData.times[t]%60 < 10)?"0":"") + String.valueOf( pvc.sessionData.times[t]%60 );
+					
+			    	resultItemsInfo.setText(t, 2, timeFormatted + LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_TIME_SUFIX));
+		    		resultItemsInfo.setText(t, 3, String.valueOf(pvc.sessionData.checks[t]) + LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_CHECKCOUNT_SUFIX));
+		    		resultItemsInfo.setText(t, 4, String.valueOf(pvc.sessionData.mistakes[t]) + LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_MISTAKES_SUFIX));
 		    	
 				}
 
