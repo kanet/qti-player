@@ -256,15 +256,12 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 		var instance = this;
 	    var _this = element;
 	    this.@com.qtitools.player.client.model.feedback.InlineFeedback::opacityto(Lcom/google/gwt/dom/client/Element;I)(_this, 0);
-	    var out = false;
 	    var delay = fadeEffectTime;
 	    _this.style.zoom = 1; // for ie, set haslayout
 	    _this.style.display="block"; 
-	    for (i = 1; i <= 100; i+=5) {
+	    for (i = 0; i <= 100; i+=5) {
 	      (function(j) {
 	            setTimeout(function() {  
-	                  if (out==true) 
-	                  	j=100-j;
 	                  instance.@com.qtitools.player.client.model.feedback.InlineFeedback::opacityto(Lcom/google/gwt/dom/client/Element;I)(_this, j);
 	                  },j*delay/100);
 	                 
@@ -277,15 +274,13 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 	    var instance = this;
 	    var _this = element;
 	    instance.@com.qtitools.player.client.model.feedback.InlineFeedback::opacityto(Lcom/google/gwt/dom/client/Element;I)(_this, 0);
-	    var out = true;
 	    var delay = fadeEffectTime;
 	    _this.style.zoom = 1; // for ie, set haslayout
 	    _this.style.display="block"; 
-	    for (i = 1; i <= 100; i+=5) {
+	    for (i = 0; i <= 100; i+=5) {
 	      (function(j) {
-	            setTimeout(function() {  
-	                  if (out==true) 
-	                  	j=100-j;
+	            setTimeout(function() {
+	                  j=100-j;
 	                  instance.@com.qtitools.player.client.model.feedback.InlineFeedback::opacityto(Lcom/google/gwt/dom/client/Element;I)(_this, j);
 	                  },j*delay/100);
 	                 
