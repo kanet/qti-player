@@ -629,7 +629,7 @@ http://www.adobe.com/go/favideo/
 			}
 			str += '</object>';
 		} else {
-			str += '<embed ';
+			str += '<embed scale="tofit" ';
 			for (var i in embedAttrs) {
 				str += i + '="' + embedAttrs[i] + '" ';
 			}
