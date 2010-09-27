@@ -150,8 +150,14 @@ public class PageContentView implements PageViewSocket {
 					String timeFormatted = String.valueOf( pvc.sessionData.times[t]/60 ) + ":" + ((pvc.sessionData.times[t]%60 < 10)?"0":"") + String.valueOf( pvc.sessionData.times[t]%60 );
 					
 			    	resultItemsInfo.setText(t, 2, timeFormatted + LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_TIME_SUFIX));
-		    		resultItemsInfo.setText(t, 3, String.valueOf(pvc.sessionData.checks[t]) + LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_CHECKCOUNT_SUFIX));
-		    		resultItemsInfo.setText(t, 4, String.valueOf(pvc.sessionData.mistakes[t]) + LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_MISTAKES_SUFIX));
+			    	
+			    	if (pvc.sessionData.results[t].getMaxPoints() > 0){
+			    		resultItemsInfo.setText(t, 3, String.valueOf(pvc.sessionData.checks[t]) + LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_CHECKCOUNT_SUFIX));
+			    		resultItemsInfo.setText(t, 4, String.valueOf(pvc.sessionData.mistakes[t]) + LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_MISTAKES_SUFIX));
+			    	} else {
+			    		resultItemsInfo.setText(t, 3, LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_CHECKCOUNT_NO));
+			    		resultItemsInfo.setText(t, 4, LocalePublisher.getText(LocaleVariable.SUMMARY_STATS_MISTAKES_NO));
+			    	}
 		    	
 				}
 
@@ -159,13 +165,29 @@ public class PageContentView implements PageViewSocket {
 				
 	    	    contentPanel.add(pvc.assessmentFeedbackSocket.getFeedbackView((int)((pvc.sessionData.resultTotal.getScore() * 100)/pvc.sessionData.resultTotal.getMaxPoints())));
 				
-	    		Label resultScoreInfo = new Label(LocalePublisher.getText(LocaleVariable.SUMMARY_INFO_YOURSCOREIS1) + (int)((pvc.sessionData.resultTotal.getScore() * 100)/pvc.sessionData.resultTotal.getMaxPoints()) + 
-	    	    		LocalePublisher.getText(LocaleVariable.SUMMARY_INFO_YOURSCOREIS2) + pvc.sessionData.resultTotal.getScore() + 
-	    	    		LocalePublisher.getText(LocaleVariable.SUMMARY_INFO_YOURSCOREIS3) + String.valueOf(pvc.sessionData.timeTotal) + 
-	    	    		LocalePublisher.getText(LocaleVariable.SUMMARY_INFO_YOURSCOREIS4));
-	    	    resultScoreInfo.setStylePrimaryName("qp-resultpage-score");
-	    	    contentPanel.add(resultScoreInfo);
+	    	    FlowPanel resultScorePanel = new FlowPanel();
+	    	    resultScorePanel.setStyleName("qp-resultpage-score");
+	    	    contentPanel.add(resultScorePanel);
 	    	    
+	    		Label resultScoreInfoPercent = new Label(LocalePublisher.getText(LocaleVariable.SUMMARY_INFO_YOURSCOREIS1) + 
+	    				(int)((pvc.sessionData.resultTotal.getScore() * 100)/pvc.sessionData.resultTotal.getMaxPoints()) + 
+	    	    		LocalePublisher.getText(LocaleVariable.SUMMARY_INFO_YOURSCOREIS2)); 
+	    		resultScoreInfoPercent.setStylePrimaryName("qp-resultpage-percents");
+	    		resultScorePanel.add(resultScoreInfoPercent);
+	    	    
+	    		Label resultScoreInfoPoints = new Label(pvc.sessionData.resultTotal.getScore() + 
+	    	    		LocalePublisher.getText(LocaleVariable.SUMMARY_INFO_YOURSCOREIS3));
+	    	    resultScoreInfoPoints.setStylePrimaryName("qp-resultpage-points");
+	    	    resultScorePanel.add(resultScoreInfoPoints);
+	    	    
+	    	    String timeFormatted = String.valueOf( pvc.sessionData.timeTotal/60 ) + ":" + ((pvc.sessionData.timeTotal%60 < 10)?"0":"") + String.valueOf( pvc.sessionData.timeTotal%60 );
+				
+	    		Label resultScoreInfoTime = new Label(LocalePublisher.getText(LocaleVariable.SUMMARY_INFO_YOURSCOREIS4) + 
+	    				timeFormatted + 
+	    	    		LocalePublisher.getText(LocaleVariable.SUMMARY_INFO_YOURSCOREIS5));
+	    	    resultScoreInfoTime.setStylePrimaryName("qp-resultpage-time");
+	    	    resultScorePanel.add(resultScoreInfoTime);
+
 	    	    contentPanel.setStyleName("qp-summary");
 			}
 			

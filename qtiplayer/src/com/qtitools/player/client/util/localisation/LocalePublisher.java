@@ -55,8 +55,9 @@ public abstract class LocalePublisher {
 			case COMBO_SUMMARY: return "Summary";
 			case SUMMARY_INFO_YOURSCOREIS1: return "Your score is: ";
 			case SUMMARY_INFO_YOURSCOREIS2: return "% ";
-			case SUMMARY_INFO_YOURSCOREIS3: return " points. Time: ";
-			case SUMMARY_INFO_YOURSCOREIS4: return "s";
+			case SUMMARY_INFO_YOURSCOREIS3: return " points. ";
+			case SUMMARY_INFO_YOURSCOREIS4: return " Time: ";
+			case SUMMARY_INFO_YOURSCOREIS5: return "";
 			case SUMMARY_STATS_TIME_SUFIX: return ""; 
 			case SUMMARY_STATS_TIME_NO: return "-"; 
 			case SUMMARY_STATS_CHECKCOUNT_NO: return "-"; 

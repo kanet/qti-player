@@ -425,7 +425,22 @@ color:#990000;
 	text-decoration:underline;
 }
 .qp-resultpage-score{
+	float:none;
+	width:100%;
+	height:20px;
+}
+.qp-resultpage-percents{
 	font-weight:bold;
+	float:left;
+}
+.qp-resultpage-points{
+	font-weight:bold;
+	float:left;	
+	padding:0px 8px;
+}
+.qp-resultpage-time{
+	font-weight:bold;
+	float:left;	
 }
 .qp-resultpage-continue{
 	float:left;
