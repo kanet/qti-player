@@ -3,7 +3,11 @@
 
 	<tstamp><format property="tstamp" pattern="yyyyMMddHHmm" timezone="GMT"/></tstamp>
 	<property file="./default.properties" />
-
+	
+	<dirname property="base.dir" file="${ant.file.qtiplayer.build}" />
+	<property name="lib.dir" value="${base.dir}/libs" />	
+	<echo>${lib.dir}</echo>
+	
   <!-- Configure path to GWT SDK -->
   <!--property name="gwt.sdk" location="/home/klangner/lib/gwt-linux-1.7.1" /-->
   <condition property="XstartOnFirstThread" value="-XstartOnFirstThread">
@@ -16,22 +20,19 @@
   <path id="project.class.path">
     <pathelement location="war/WEB-INF/classes"/>
     <!--pathelement location="${gwt.sdk}/gwt-user.jar"/-->
-    <fileset dir="lib" includes="**/*.jar"/>
+    <fileset dir="${lib.dir}" includes="**/*.jar"/>
     <!-- Add any additional non-server libs (such as JUnit) -->
     <fileset dir="war/WEB-INF/lib" includes="**/*.jar"/>
   </path>
 
   <target name="resolve" description="--> retrieve dependencies with ivy">
-  	<ivy:retrieve />
+  	<ivy:retrieve pattern="${lib.dir}/[artifact].[ext]" />
   </target>
     
   <target name="libs" depends="resolve" description="Copy libs to WEB-INF/lib">
     <mkdir dir="war/WEB-INF/lib" />
     <copy todir="war/WEB-INF/lib">
-		<fileset dir="lib" includes="**/*.jar"/>  
-	</copy>
-    <copy todir="war/WEB-INF/lib">
-		<fileset dir="libs" includes="**/*.jar"/>  
+		<fileset dir="${lib.dir}" includes="**/*.jar"/>  
 	</copy>
     <!-- Add any additional server libs that need to be copied -->
   </target>
@@ -77,8 +78,6 @@
       <arg value="com.qtitools.player.Player"/>
     </java>
   </target>
-  
-  
 
   <target name="build" depends="gwtc" description="Build this project" />
 
@@ -90,7 +89,6 @@
     <delete dir="dist"/>
     <delete dir="war/WEB-INF/classes" failonerror="false" />
     <delete dir="war/qtiplayer" failonerror="false" />
-	<delete dir="lib" failonerror="false" />  
   </target>
   
   <target name="buildnumber" description="Update build number">
@@ -125,6 +123,7 @@
 	<copy todir="dist/build/content" file="war/content/demo.css" />
     <copy todir="dist/build" file="war/demo.html" />
     <copy todir="dist/build" file="war/defaultplayer.css" />
+	<copy todir="dist/build" file="war/locale_en.js" />
 
     <zip destfile="dist/qtiplayer.zip" basedir="dist/build/qtiplayer"/>
     <zip destfile="dist/qtiplayer-${version}.zip" basedir="dist/build"/>
