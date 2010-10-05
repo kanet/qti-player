@@ -38,9 +38,9 @@
     		player.load('content/test.xml');
 
     		// Show result
-    		player.onAssessmentFinished = function(result){
-          		alert("score: " + player.getResult().getScore() + " " +
-              		"max: " + player.getResult().getMaxScore());
+    		player.onAssessmentSessionFinished = function(result){
+          alert("score: " + player.getResult().getScore() + " " +
+              "max: " + player.getResult().getMaxScore());
     		}
     	}
     </script>
