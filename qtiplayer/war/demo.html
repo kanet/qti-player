@@ -17,14 +17,21 @@
         // Load assessment
         player1 = qpCreatePlayer('player');
 		//manageState();
-		player1.setFlowOptions({showToC: false, showSummary: true, itemsDisplayMode: "ONE"});
+		player1.setFlowOptions({showToC: true, showSummary: true, itemsDisplayMode: "ONE"});
 		//player1.setDisplayOptions(["untagged", "tag0"]);
         player1.load('content/demo.xml');
         player1.setMasteryScore(10);
 		
 		player1.onAssessmentSessionBegin = function(){
+			// uncomment to show answers on startup (for answers key printing)
 			//player1.navigateShowAnswers();
 		};
+		
+		// Show result
+    	player1.onAssessmentSessionFinished = function(result){
+          alert("score: " + player1.getResult().getScore() + " " +
+              "max: " + player1.getResult().getMaxScore());
+    	}
 		
       }
       
