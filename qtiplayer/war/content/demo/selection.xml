@@ -12,7 +12,7 @@
     <itemBody>
 		This is selection exercise, that allows to select one option for each choice.
 		<selectionInteraction responseIdentifier="RESPONSE" shuffle="true">
-			<prompt>Match the following options:</prompt>
+			<prompt>Match the following options:<br/><br/><br/></prompt>
 			<simpleChoice identifier="ChoiceT">true<feedbackInline outcomeIdentifier="RESPONSE" identifier=".*Item1 ChoiceT.*" showHide="show">First one OK!</feedbackInline></simpleChoice>
 			<simpleChoice identifier="ChoiceF">false</simpleChoice>
 			<simpleChoice identifier="ChoiceU">unknown</simpleChoice>

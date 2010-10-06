@@ -42,7 +42,7 @@ identifier="match" title="Characters and Plays" adaptive="false" timeDependent="
 			  <mi>c</mi>
 			</mrow>
 		  </math>
-		characters to the Shakespeare play they appeared in:</prompt>
+		characters to the Shakespeare play they appeared in:<br/><br/><br/></prompt>
 			<simpleMatchSet>
 				<simpleAssociableChoice identifier="C" matchMax="1">Capulet<img src="http://ryb.nspace.pl/lab/11j1.jpg"/></simpleAssociableChoice>
 				<simpleAssociableChoice identifier="D" matchMax="1">Demetrius<feedbackInline outcomeIdentifier="RESPONSE" identifier=".*D M.*" showHide="show" senderIdentifier="^RESPONSE$" sound="http://qti-player.googlecode.com/svn/trunk/qtiplayer/war/content/test/click.mp3" align="BOTTOM_RIGHT" mark="AUTO" fadeEffect="2000">Demetrius is great!</feedbackInline></simpleAssociableChoice>
@@ -52,7 +52,7 @@ identifier="match" title="Characters and Plays" adaptive="false" timeDependent="
 			<simpleMatchSet>
 				<simpleAssociableChoice identifier="M" matchMax="4">A Midsummer-Night's Dream</simpleAssociableChoice>
 				<simpleAssociableChoice identifier="R" matchMax="4">Romeo and Juliet</simpleAssociableChoice>
-				<simpleAssociableChoice identifier="T" matchMax="4">The	Tempest<feedbackInline outcomeIdentifier="RESPONSE" identifier=".*L T.*" showHide="show" senderIdentifier="^RESPONSE$" mark="AUTO"><div style="color:#00ff00">Wrong!</div></feedbackInline></simpleAssociableChoice>
+				<simpleAssociableChoice identifier="T" matchMax="4">The	Tempest<feedbackInline outcomeIdentifier="RESPONSE" identifier=".*L T.*" showHide="show" senderIdentifier="^RESPONSE$" mark="AUTO"><div style="color:#f02f00">Wrong!</div></feedbackInline></simpleAssociableChoice>
 			</simpleMatchSet>
 			<feedbackInline outcomeIdentifier="RESPONSE" identifier=".*C R.*" showHide="show" senderIdentifier="^RESPONSE$">Capulet correct!</feedbackInline>
 			<feedbackInline outcomeIdentifier="RESPONSE-LASTCHANGE" identifier="+L R" showHide="show" senderIdentifier="^RESPONSE$">Lysander wrong!</feedbackInline>

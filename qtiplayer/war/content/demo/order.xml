@@ -44,7 +44,7 @@
 					  </mrow>
 					</mfrac>
 				  </mrow>
-				</math> correct finishing order?
+				</math> correct finishing order?<br/><br/><br/>
 				</prompt>
             <simpleChoice identifier="DriverA">Rubens Barrichello<feedbackInline outcomeIdentifier="RESPONSE" identifier=".*DriverA$" showHide="show"  senderIdentifier="^RESPONSE$">Barrichello wasn't last!</feedbackInline></simpleChoice>
             <simpleChoice identifier="DriverB">Jenson Button<br/><math><mi>x</mi><mo>=</mo><msqrt><msup><mi>y</mi><mn>9</mn></msup></msqrt></math></simpleChoice>
