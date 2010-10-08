@@ -190,7 +190,7 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 	
 	private void loadStyles() {
 		mode = DataSourceManagerMode.LOADING_STYLES;
-		String userAgent = Navigator.getUserAgent().toLowerCase();
+		String userAgent = Navigator.getUserAgent();
 		try {
 			// load assesment styles
 			List<String> aStyles = assessmentDataManager.getStyleLinksForUserAgent(userAgent);

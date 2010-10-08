@@ -143,6 +143,8 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 		assessmentController.initPage(pd);
 		if (pd.type == PageType.SUMMARY)
 			getDeliveryEngineEventsListener().onSummary();
+
+		updatePageStyle();
 	}
 
 	@Override
