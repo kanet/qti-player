@@ -37,7 +37,7 @@ public class CommonsFactory {
 			public com.google.gwt.dom.client.Element createModule(Element element,
 					ModuleSocket moduleSocket,
 					IModuleEventsListener moduleEventsListener) {
-				Widget widget = ModuleFactory.createWidget(element, moduleSocket, moduleEventsListener);
+				Widget widget = InlineModuleFactory.createWidget(element, null);
 				return widget.getElement();
 			}
 		}, new DisplayContentOptions());

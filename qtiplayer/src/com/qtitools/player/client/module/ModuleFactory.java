@@ -33,6 +33,8 @@ import com.qtitools.player.client.module.debug.DebugModule;
 import com.qtitools.player.client.module.selection.SelectionModule;
 import com.qtitools.player.client.module.identification.IdentificationModule;
 import com.qtitools.player.client.module.match.MatchModule;
+import com.qtitools.player.client.module.math.inline.MathInlineModule;
+import com.qtitools.player.client.module.math.interaction.MathModule;
 import com.qtitools.player.client.module.mathexpr.MathExprInlineModule;
 import com.qtitools.player.client.module.object.ObjectModule;
 import com.qtitools.player.client.module.order.OrderModule;
@@ -52,6 +54,8 @@ public abstract class ModuleFactory {
 												"testInteraction",
 												"object",
 												"math",
+												"mathInline",
+												"mathInteraction",
 												"qy:comment",
 												"audioPlayer"};
 
@@ -86,6 +90,10 @@ public abstract class ModuleFactory {
 			widget = new IdentificationModule(element, moduleSocket, moduleEventsListener);
 		else if(element.getNodeName().compareTo("math") == 0)
 			widget = new MathExprInlineModule(element);
+		else if(element.getNodeName().compareTo("mathInteraction") == 0)
+			widget = new MathModule(element, moduleSocket, moduleEventsListener);
+		else if(element.getNodeName().compareTo("mathInline") == 0)
+			widget = new MathInlineModule(element);
 		else if(element.getNodeName().compareTo("audioPlayer") == 0)
 			widget = new AudioPlayerModule(element);
 		else if(element.getNodeName().compareTo("qy:comment") == 0)

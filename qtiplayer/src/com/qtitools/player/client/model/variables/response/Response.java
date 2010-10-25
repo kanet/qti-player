@@ -35,8 +35,9 @@ import com.qtitools.player.client.model.variables.Variable;
 
 public class Response extends Variable {
 
-	/** List of correct ids */
+	/** List of correct responses */
 	public Vector<String> 	correctAnswers;
+	public Vector<Vector<Integer>> groups;
 	/** Determines whether the module corresponding to the response variable exists in the document*/
 	private boolean isModuleAdded = false;
 	
@@ -53,6 +54,9 @@ public class Response extends Variable {
 		correctAnswers = new Vector<String>();
 		
 		values = new Vector<String>();
+		
+		groups = new Vector<Vector<Integer>>();
+		Vector<String> groupsNames = new Vector<String>();
 
 		identifier = ((Element)responseDeclarationNode).getAttribute("identifier");
 
@@ -62,6 +66,15 @@ public class Response extends Variable {
 		
 		for(int i = 0; i < nodes.getLength(); i++){
 			correctAnswers.add( nodes.item(i).getFirstChild().getNodeValue() );
+			if ( ((Element)nodes.item(i)).hasAttribute("group") ){
+				int currIndex = groupsNames.indexOf( ((Element)nodes.item(i)).getAttribute("group") ); 
+				if (currIndex == -1){
+					groupsNames.add( ((Element)nodes.item(i)).getAttribute("group"));
+					groups.add(new Vector<Integer>());
+					currIndex = groupsNames.size()-1; 
+				}
+				groups.get(currIndex).add(i);
+			}
 		}
 		
 		mapping = new Mapping(((Element)responseDeclarationNode).getElementsByTagName("mapping").item(0));

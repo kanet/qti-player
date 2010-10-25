@@ -11,6 +11,9 @@
 	<inherits name="com.google.gwt.json.JSON" />
 	<inherits name='org.vaadin.gwtgraphics.GWTGraphics' />
 	<inherits name='com.allen_sauer.gwt.voices.gwt-voices' />
+	<inherits name='pl.smath.expression.Expression' />
+	<inherits name='gwt.g2d.g2d'/>
+	<inherits name='pl.smath.renderer.Renderer' />
 	
 	<!-- google gin -->
 	<inherits name="com.google.gwt.inject.Inject"/>
@@ -32,6 +35,7 @@
 	<script src="video/FAVideo.js" />
 
 	<!-- MathJax causes problems when using GWTTestCase - add -Dgwt.args="-runStyle HtmlUnit:IE6 to VM Arguments -->
+	<!-- since qtiplayer 1.3 MathJax was replaced with smath-renderer 0.2 -->
 	<script src="MathJax/MathJax.js" />
 
 	<replace-with

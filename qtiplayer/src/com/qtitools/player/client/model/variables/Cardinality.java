@@ -2,7 +2,7 @@ package com.qtitools.player.client.model.variables;
 
 public enum Cardinality {
 		
-	SINGLE, MULTIPLE, ORDERED, RECORD;
+	SINGLE, MULTIPLE, ORDERED, RECORD, COMMUTATIVE;
 	
 	public static Cardinality fromString(String key){
 		if (key.toLowerCase().compareTo("single") == 0){
@@ -13,6 +13,8 @@ public enum Cardinality {
 			return ORDERED;
 		} else if (key.toLowerCase().compareTo("record") == 0){
 			return RECORD;
+		} else if (key.toLowerCase().compareTo("commutative") == 0){
+			return COMMUTATIVE;
 		}
 		
 		return SINGLE;

@@ -178,6 +178,50 @@ public final class ResponseProcessor {
 				}
 			}
 			
+		} else if (response.cardinality == Cardinality.COMMUTATIVE){
+			if (correctAnswers.size() != userAnswers.size()) {
+				passed = false;
+			} else{
+
+				Vector<Boolean> used = new Vector<Boolean>();
+				for (int g = 0 ; g < correctAnswers.size() ; g ++ ){
+					used.add(false);
+				}
+				
+				for (int correct = 0 ; correct < correctAnswers.size() ; correct ++){
+					
+					int groupIndex = -1;
+					for (int g = 0 ; g < response.groups.size() ; g ++ ){
+						if (response.groups.get(g).contains(correct)){
+							groupIndex = g;
+							break;
+						}
+					}
+					
+					String currUserAnswer = userAnswers.get(correct);
+					
+					if (groupIndex == -1){
+						if (correctAnswers.get(correct).compareTo(currUserAnswer) != 0){
+							passed = false;
+							break;
+						}
+					} else {
+						answerFound = false;
+						for (int a = 0 ; a < response.groups.get(groupIndex).size() ; a ++){
+							int answerIndex = response.groups.get(groupIndex).get(a);
+							if (correctAnswers.get(answerIndex).compareTo(currUserAnswer) == 0  &&  used.get(answerIndex) == false){
+								answerFound = true;
+								used.set(answerIndex, true);
+								break;
+							}
+						}
+						if (!answerFound){
+							passed = false;
+							break;
+						}
+					}
+				}
+			}
 		} else {
 			if (correctAnswers.size() != userAnswers.size()){
 				passed = false;

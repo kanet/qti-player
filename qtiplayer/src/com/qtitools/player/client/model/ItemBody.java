@@ -27,6 +27,7 @@ import com.qtitools.player.client.util.xml.XMLConverter;
 public class ItemBody extends Widget implements IActivity, IStateful {
 
 	public Vector<Widget> modules = new Vector<Widget>();
+	public Vector<IUnattachedComponent> unattachedComponents = new Vector<IUnattachedComponent>();
 	
 	public InternalEventManager eventManager;
 	
@@ -83,8 +84,8 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 			public com.google.gwt.dom.client.Element createModule(Element element, ModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener) {
 				Widget widget = ModuleFactory.createWidget(element, moduleSocket, moduleEventsListener);
 
-				if (widget instanceof IInteractionModule)
-					addModule(widget, moduleSocket);
+				//if (widget instanceof IInteractionModule)
+				addModule(widget, moduleSocket);
 				
 				return widget.getElement();
 			}
@@ -108,9 +109,11 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 		
 	protected void addModule(Widget newModule, ResponseSocket responseSocket){
 		
-		//modules.put(newModule.getInputsId(), newModule);
+		if (newModule instanceof IInteractionModule)
+			modules.add(newModule);
 		
-		modules.add(newModule);
+		if (newModule instanceof IUnattachedComponent)
+			unattachedComponents.add((IUnattachedComponent)newModule);
 		
 		if (newModule instanceof IBrowserEventHandler){
 		
@@ -178,10 +181,10 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 		alert(s);
 	}-*/; 
 
-	public void onAttach(){
-		super.onAttach();
-		if (modules.size() > 0)
-			for (Widget mod : modules){
+	public void onLoad(){
+		super.onLoad();
+		if (unattachedComponents.size() > 0)
+			for (IUnattachedComponent mod : unattachedComponents){
 				if (mod instanceof IUnattachedComponent)
 					((IUnattachedComponent)mod).onOwnerAttached();
 			}
@@ -197,10 +200,6 @@ public class ItemBody extends Widget implements IActivity, IStateful {
 		
 	}
 	
-	public void onLoad(){
-		//MathJaxProcessor.process();
-		//alert("onLoad - after MathJaxProcessor.process()");
-	}
 
 	public int getModuleCount(){
 		return modules.size();
