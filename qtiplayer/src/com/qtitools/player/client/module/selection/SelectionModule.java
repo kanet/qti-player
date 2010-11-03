@@ -21,6 +21,7 @@ import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
+import com.qtitools.player.client.module.IUnattachedComponent;
 import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.util.RandomizedSet;
@@ -30,6 +31,8 @@ public class SelectionModule extends Composite implements IInteractionModule {
 
 	public SelectionModule(Element element, ModuleSocket moduleSocket, IModuleEventsListener moduleEventsListener){
 
+		inlineModules = new Vector<IUnattachedComponent>();
+		
 		shuffle = XMLUtils.getAttributeAsBoolean(element, "shuffle");
 		
 		responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier");
@@ -76,9 +79,12 @@ public class SelectionModule extends Composite implements IInteractionModule {
 	private boolean showingAnswers = false;
 	private boolean locked = false;
 
+	private Vector<IUnattachedComponent> inlineModules;
+
 	@Override
 	public void onOwnerAttached() {
-		// TODO Auto-generated method stub
+		for (IUnattachedComponent uac : inlineModules)
+			uac.onOwnerAttached();
 
 	}
 	
@@ -92,7 +98,7 @@ public class SelectionModule extends Composite implements IInteractionModule {
 			Vector<String> ignoredTags = new Vector<String>();
 			ignoredTags.add("feedbackInline");
 			
-			Widget choiceView = CommonsFactory.getInlineTextView((Element)choices.item(c), ignoredTags);
+			Widget choiceView = CommonsFactory.getInlineTextView((Element)choices.item(c), ignoredTags, inlineModules);
 			choiceView.setStyleName("qp-selection-choice");
 			
 			grid.setWidget(0, c+1, choiceView);
@@ -132,7 +138,7 @@ public class SelectionModule extends Composite implements IInteractionModule {
 			Vector<String> ignoredTags = new Vector<String>();
 			ignoredTags.add("feedbackInline");
 			
-			Widget itemView = CommonsFactory.getInlineTextView((Element)itemNodes.get(i), ignoredTags);
+			Widget itemView = CommonsFactory.getInlineTextView((Element)itemNodes.get(i), ignoredTags, inlineModules);
 			itemView.setStyleName("qp-selection-item");
 			
 			grid.setWidget(i+1, 0, itemView);

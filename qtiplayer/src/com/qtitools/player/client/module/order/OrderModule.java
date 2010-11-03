@@ -28,6 +28,7 @@ import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.ITouchEventsListener;
+import com.qtitools.player.client.module.IUnattachedComponent;
 import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.util.RandomizedSet;
@@ -50,6 +51,8 @@ public class OrderModule extends Composite implements IInteractionModule {
 	private Vector<AbsolutePanel> options;
 	private Vector<String> optionsIdentifiers;
 	private HashMap<String, Integer> tagIdMap;
+
+	private Vector<IUnattachedComponent> inlineModules;
 	
 	private DragContainerPanel container;
 	private VerticalPanel mainPanel;
@@ -71,6 +74,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 		touchEventsListener = (ITouchEventsListener)moduleEventsListener;
 		
 		optionsIdentifiers = new Vector<String>();
+		inlineModules = new Vector<IUnattachedComponent>();
 		
 		extractOptionsWidgets(element, moduleSocket);
 
@@ -146,6 +150,9 @@ public class OrderModule extends Composite implements IInteractionModule {
 		}
 				
 		updateResponse(false);
+		
+		for (IUnattachedComponent uac : inlineModules)
+			uac.onOwnerAttached();
 	}
 
 	private void extractOptionsWidgets(Element element, InlineFeedbackSocket inlineFeedbackSocket){
@@ -175,7 +182,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 			Vector<String> ignoredTags = new Vector<String>();
 			ignoredTags.add("feedbackInline");
 			
-			Widget contentWidget = CommonsFactory.getInlineTextView(option, ignoredTags);
+			Widget contentWidget = CommonsFactory.getInlineTextView(option, ignoredTags, inlineModules);
 			
 			SimplePanel optionContentPanel = new SimplePanel();
 			optionContentPanel.getElement().setId(Document.get().createUniqueId());

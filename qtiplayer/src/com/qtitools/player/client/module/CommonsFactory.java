@@ -8,6 +8,7 @@ import com.google.gwt.xml.client.Element;
 import com.qtitools.player.client.components.ElementWrapperWidget;
 import com.qtitools.player.client.controller.communication.DisplayContentOptions;
 import com.qtitools.player.client.model.IModuleCreator;
+import com.qtitools.player.client.module.math.inline.MathInlineModule;
 import com.qtitools.player.client.module.mathexpr.MathExprInlineModule;
 import com.qtitools.player.client.util.xml.XMLConverter;
 
@@ -48,7 +49,7 @@ public class CommonsFactory {
 		return promptWidget;
 		
 	}
-	public static Widget getInlineTextView(Element contents, Vector<String> ignoredTags){
+	public static Widget getInlineTextView(Element contents, Vector<String> ignoredTags, final Vector<IUnattachedComponent> unattachedComponents){
 		
 		com.google.gwt.dom.client.Element promptElement = XMLConverter.getDOM(contents, null, null, new IModuleCreator() {
 			
@@ -62,6 +63,12 @@ public class CommonsFactory {
 					ModuleSocket moduleSocket,
 					IModuleEventsListener moduleEventsListener) {
 				Widget widget = InlineModuleFactory.createWidget(element, null);
+
+				if (widget instanceof IUnattachedComponent){
+					if ((IUnattachedComponent)widget != null  &&  unattachedComponents != null){
+						unattachedComponents.add((IUnattachedComponent)widget);
+					}
+				}
 				
 				return widget.getElement();
 			}
@@ -76,7 +83,7 @@ public class CommonsFactory {
 	
 
 	
-	public static Widget getFeedbackView(Element contents, final Widget attachedParent, final Vector<com.google.gwt.dom.client.Element> mathElements){
+	public static Widget getFeedbackView(Element contents, final Widget attachedParent, final Vector<IUnattachedComponent> unattachedComponents){
 
 		com.google.gwt.dom.client.Element promptElement = XMLConverter.getDOM(contents, null, null, new IModuleCreator() {
 			
@@ -91,8 +98,10 @@ public class CommonsFactory {
 					IModuleEventsListener moduleEventsListener) {
 				Widget widget = InlineModuleFactory.createWidget(element, attachedParent);
 				
-				if ((MathExprInlineModule)widget != null  &&  mathElements != null){
-					mathElements.add(((MathExprInlineModule)widget).getContentsElement());
+				if (widget instanceof IUnattachedComponent){
+					if ((IUnattachedComponent)widget != null  &&  unattachedComponents != null){
+						unattachedComponents.add((IUnattachedComponent)widget);
+					}
 				}
 				
 				return widget.getElement();

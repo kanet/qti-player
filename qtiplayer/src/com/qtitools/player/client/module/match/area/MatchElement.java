@@ -10,6 +10,7 @@ import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.feedback.InlineFeedback;
 import com.qtitools.player.client.model.feedback.InlineFeedbackSocket;
 import com.qtitools.player.client.module.CommonsFactory;
+import com.qtitools.player.client.module.IUnattachedComponent;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
 public class MatchElement {
@@ -21,10 +22,12 @@ public class MatchElement {
 		identifier = XMLUtils.getAttributeAsString(element, "identifier");
 		matchMax = Integer.parseInt(XMLUtils.getAttributeAsString(element, "matchMax"));
 
+		inlineModules = new Vector<IUnattachedComponent>();
+		
 		Vector<String> ignoredTags = new Vector<String>();
 		ignoredTags.add("feedbackInline");
 		//com.google.gwt.dom.client.Element dom = XMLConverter.getDOM(element, ignoredTags);
-		Widget contentWidget = CommonsFactory.getInlineTextView(element, ignoredTags);
+		Widget contentWidget = CommonsFactory.getInlineTextView(element, ignoredTags, inlineModules);
 		
 		text = new FlowPanel();
 		text.add(contentWidget);	
@@ -78,9 +81,16 @@ public class MatchElement {
 	public FlowPanel textContainer;
 	public FlowPanel text;
 	public FlowPanel slot;
+
+	private Vector<IUnattachedComponent> inlineModules;
 	
 	private int slotAnchorX;
 	private int slotAnchorY;
+	
+	public void onOwnerAttached(){
+		for (IUnattachedComponent uac : inlineModules)
+			uac.onOwnerAttached();
+	}
 	
 	public Panel getView(){
 		return view;

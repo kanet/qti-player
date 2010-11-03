@@ -16,6 +16,7 @@ import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.ITouchEventsListener;
+import com.qtitools.player.client.module.IUnattachedComponent;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.util.RandomizedSet;
 
@@ -145,6 +146,11 @@ public class MatchContainer extends FlowPanel{
 		updateSlotsAnchors(areaWidth, heightPerElement, leftPanelMargin, rightPanelMargin);
 		
 		updateResponse(false);
+	}
+	
+	public void onOwnerAttached() {
+		for (MatchElement e : elements)
+			e.onOwnerAttached();
 	}
 	
 	private void insertElements(){

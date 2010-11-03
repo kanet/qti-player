@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.module.CommonsFactory;
+import com.qtitools.player.client.module.IUnattachedComponent;
 import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
 
 public class ModalFeedback extends Composite implements IItemFeedback {
@@ -41,7 +42,7 @@ public class ModalFeedback extends Composite implements IItemFeedback {
 		
 		//contentsHTML = XMLConverter.getDOM((Element)node, new Vector<String>()).getInnerHTML();
 		
-		mathElements = new Vector<com.google.gwt.dom.client.Element>();
+		mathElements = new Vector<IUnattachedComponent>();
 		
 		contentWidget = CommonsFactory.getFeedbackView((Element)node, this, mathElements);
 		
@@ -73,7 +74,7 @@ public class ModalFeedback extends Composite implements IItemFeedback {
 	private FlowPanel contents;
 	//private InlineHTML contents;
 	
-	private Vector<com.google.gwt.dom.client.Element> mathElements;
+	private Vector<IUnattachedComponent> mathElements;
 	
 	public Widget getView(){
 		return this;
@@ -81,10 +82,10 @@ public class ModalFeedback extends Composite implements IItemFeedback {
 	
 	public void onAttach(){
 		super.onAttach();
-		for (com.google.gwt.dom.client.Element e : mathElements)
-			MathJaxProcessor.addMathExprElement(e);
-		
-		MathJaxProcessor.pushAll();
+		for (IUnattachedComponent e : mathElements)
+			e.onOwnerAttached();
+
+		mathElements.clear();
 	}
 	
 	public String getVariableIdentifier(){

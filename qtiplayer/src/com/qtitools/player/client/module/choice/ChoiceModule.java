@@ -139,7 +139,9 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 
 	@Override
 	public void onOwnerAttached() {
-		// do nothing		
+		for (SimpleChoice c:interactionElements){
+			c.onOwnerAttached();
+		}
 	}
 
 

@@ -15,6 +15,7 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.controller.MouseEventPanel;
 import com.qtitools.player.client.module.CommonsFactory;
+import com.qtitools.player.client.module.IUnattachedComponent;
 import com.qtitools.player.client.module.mathexpr.MathJaxProcessor;
 
 public class InlineFeedback extends PopupPanel implements IItemFeedback {
@@ -60,7 +61,7 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 		
 		showHide = (node.getAttributes().getNamedItem("showHide").getNodeValue().toLowerCase().compareTo("show") == 0);
 
-		mathElements = new Vector<com.google.gwt.dom.client.Element>();
+		mathElements = new Vector<IUnattachedComponent>();
 		
 		containerPanel = new FlowPanel();
 		containerPanel.setStyleName("qp-feedback-inline-container");
@@ -103,7 +104,7 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 	private Widget bodyView;
 	private FlowPanel containerPanel;
 	private MouseEventPanel contentsPanel;
-	private Vector<com.google.gwt.dom.client.Element> mathElements;
+	private Vector<IUnattachedComponent> mathElements;
 	
 	private boolean shown;
 	private boolean closed;
@@ -112,10 +113,9 @@ public class InlineFeedback extends PopupPanel implements IItemFeedback {
 	
 	public void onAttach(){
 		super.onAttach();
-		for (com.google.gwt.dom.client.Element e : mathElements)
-			MathJaxProcessor.addMathExprElement(e);
+		for (IUnattachedComponent e : mathElements)
+			e.onOwnerAttached();
 		
-		MathJaxProcessor.pushAll();
 		mathElements.clear();
 
 		updatePosition();

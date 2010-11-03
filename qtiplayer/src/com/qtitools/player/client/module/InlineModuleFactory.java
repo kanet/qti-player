@@ -23,7 +23,7 @@ public class InlineModuleFactory {
 		if(element.getNodeName().compareTo("math") == 0){
 			widget = new MathExprInlineModule(element, attachedParent == null);
 		} else if(element.getNodeName().compareTo("mathInline") == 0){
-			widget = new MathInlineModule(element, true);
+			widget = new MathInlineModule(element, false);
 		}
 		
 		return widget;

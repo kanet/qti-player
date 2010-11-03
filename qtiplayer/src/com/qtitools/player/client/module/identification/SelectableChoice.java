@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.qtitools.player.client.module.CommonsFactory;
+import com.qtitools.player.client.module.IUnattachedComponent;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
 public class SelectableChoice extends Composite {
@@ -17,9 +18,11 @@ public class SelectableChoice extends Composite {
 		
 		identifier = XMLUtils.getAttributeAsString(element, "identifier");
 		
+		inlineModules = new Vector<IUnattachedComponent>();
+		
 		Vector<String> ignoredTags = new Vector<String>();
 		ignoredTags.add("feedbackInline");
-		Widget contentWidget = CommonsFactory.getInlineTextView(element, ignoredTags);
+		Widget contentWidget = CommonsFactory.getInlineTextView(element, ignoredTags, inlineModules);
 
 		coverId = Document.get().createUniqueId();
 		
@@ -49,6 +52,13 @@ public class SelectableChoice extends Composite {
 	private FlowPanel panel;
 	
 	private String coverId;
+
+	private Vector<IUnattachedComponent> inlineModules;
+	
+	public void onOwnerAttached(){
+		for (IUnattachedComponent uac : inlineModules)
+			uac.onOwnerAttached();
+	}
 	
 	public String getIdentifier(){
 		return identifier;

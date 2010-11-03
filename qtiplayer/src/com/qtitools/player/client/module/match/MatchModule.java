@@ -55,7 +55,7 @@ public class MatchModule extends Composite implements IInteractionModule {
 	@Override
 	public void onOwnerAttached() {
 		container.init();
-
+		container.onOwnerAttached();
 	}
 
 	@Override

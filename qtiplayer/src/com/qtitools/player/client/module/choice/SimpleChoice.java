@@ -40,6 +40,7 @@ import com.qtitools.player.client.components.ElementWrapperWidget;
 import com.qtitools.player.client.model.feedback.InlineFeedback;
 import com.qtitools.player.client.model.feedback.InlineFeedbackSocket;
 import com.qtitools.player.client.module.CommonsFactory;
+import com.qtitools.player.client.module.IUnattachedComponent;
 import com.qtitools.player.client.util.BrowserCompatibility;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
@@ -57,6 +58,8 @@ public class SimpleChoice extends Composite {
 	//public String labelId;
 	public String coverId;
 	
+	private Vector<IUnattachedComponent> inlineModules;
+	
 	
 	public SimpleChoice(Element element, String inputId, String labelId, boolean multi, String moduleIdentifier, InlineFeedbackSocket inlineFeedbackSocket) {
 		
@@ -66,6 +69,8 @@ public class SimpleChoice extends Composite {
 		this.coverId = labelId;
 
 		identifier = XMLUtils.getAttributeAsString(element, "identifier");
+		
+		inlineModules = new Vector<IUnattachedComponent>();
 		
 		// button
 		if (multi)
@@ -79,7 +84,7 @@ public class SimpleChoice extends Composite {
 		//com.google.gwt.dom.client.Element dom = XMLConverter.getDOM(element, ignoredTags);
 		//ElementWrapperWidget domWidget = new ElementWrapperWidget(dom);
 
-		Widget contentWidget = CommonsFactory.getInlineTextView(element, ignoredTags);
+		Widget contentWidget = CommonsFactory.getInlineTextView(element, ignoredTags, inlineModules);
 		
 		cover = new AbsolutePanel();
 		cover.getElement().setId(coverId);
@@ -142,6 +147,11 @@ public class SimpleChoice extends Composite {
 		}
 		
 	    
+	}
+	
+	public void onOwnerAttached(){
+		for (IUnattachedComponent uac : inlineModules)
+			uac.onOwnerAttached();
 	}
 
 	public void markAnswers(boolean mark, boolean correct) {

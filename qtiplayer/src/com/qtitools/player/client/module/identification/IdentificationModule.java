@@ -179,7 +179,8 @@ public class IdentificationModule extends Composite implements
 
 	@Override
 	public void onOwnerAttached() {
-
+		for (SelectableChoice currSC:options)
+			currSC.onOwnerAttached();
 	}
 	
 
