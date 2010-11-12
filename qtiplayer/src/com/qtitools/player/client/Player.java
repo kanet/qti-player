@@ -33,6 +33,7 @@ import com.qtitools.player.client.controller.communication.DisplayOptions;
 import com.qtitools.player.client.controller.communication.FlowOptions;
 import com.qtitools.player.client.controller.communication.IAssessmentReport;
 import com.qtitools.player.client.controller.flow.navigation.NavigationCommandsListener;
+import com.qtitools.player.client.model.ItemVariablesAccessor;
 import com.qtitools.player.client.util.xml.document.XMLData;
 import com.qtitools.player.client.view.ViewEngine;
 /**
@@ -173,6 +174,10 @@ public class Player implements DeliveryEngineEventListener {
 	public void setDisplayOptions(DisplayOptions o){
 		deliveryEngine.setDisplayOptions(o);
 	}
+	
+	public ItemVariablesAccessor getItemVariablesAccessor(){
+		return deliveryEngine.getItemVariablesAccessor();
+	}
   
 	/**
 	 * Return interface to get assessment session state
@@ -214,6 +219,16 @@ public class Player implements DeliveryEngineEventListener {
 	@Override
 	public void onSummary() {
 		FlowEventsJSCallbackCaller.onAssessmentSessionFinishedJS(jsObject);
+	}
+
+	@Override
+	public void onTestPageSwitched() {
+		FlowEventsJSCallbackCaller.onTestPageSwitchedJS(jsObject);
+	}
+
+	@Override
+	public void onTestPageSwitching() {
+		FlowEventsJSCallbackCaller.onTestPageSwitchingJS(jsObject);
 	}
 
 }

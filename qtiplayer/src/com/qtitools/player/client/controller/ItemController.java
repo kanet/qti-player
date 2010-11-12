@@ -11,6 +11,7 @@ import com.qtitools.player.client.controller.log.OperationLogManager;
 import com.qtitools.player.client.controller.session.ItemSessionResultAndStats;
 import com.qtitools.player.client.controller.session.ItemSessionSocket;
 import com.qtitools.player.client.model.Item;
+import com.qtitools.player.client.model.ItemVariablesAccessor;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.style.StyleSocket;
@@ -108,5 +109,9 @@ public class ItemController implements ModuleStateChangedEventsListener {
 	public void setPreviewMode(){
 		if(item != null)
 			item.checkItem();
+	}
+
+	public ItemVariablesAccessor getItemVariablesAccessor(){
+		return item;
 	}
 }

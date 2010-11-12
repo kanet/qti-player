@@ -24,6 +24,7 @@ import com.qtitools.player.client.controller.session.SessionDataManager;
 import com.qtitools.player.client.controller.session.StateInterface;
 import com.qtitools.player.client.controller.session.events.StateChangedEventsListener;
 import com.qtitools.player.client.controller.style.StyleLinkManager;
+import com.qtitools.player.client.model.ItemVariablesAccessor;
 import com.qtitools.player.client.style.StyleSocket;
 import com.qtitools.player.client.util.xml.document.XMLData;
 import com.qtitools.player.client.view.player.PlayerViewCarrier;
@@ -130,6 +131,13 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 	}
 
 	@Override
+	public void onNavigatePageSwitching() {
+		if (flowManager.getCurrentPageType() == PageType.TEST){
+			getDeliveryEngineEventsListener().onTestPageSwitching();
+		}
+	}
+	
+	@Override
 	public void onNavigatePageSwitched() {
 		PageReference pr = flowManager.getPageReference();
 		PageData pd = dataManager.generatePageData(pr);
@@ -138,12 +146,16 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 		styleSocket.setCurrentPages( pr );
 		
 		assessmentController.closePage();
+		
 		if (pd.type == PageType.SUMMARY)
 			((PageDataSummary)pd).setSessionData( sessionDataManager.getSessionData() );
 		assessmentController.initPage(pd);
 		if (pd.type == PageType.SUMMARY)
 			getDeliveryEngineEventsListener().onSummary();
 
+		if (pd.type == PageType.TEST)
+			getDeliveryEngineEventsListener().onTestPageSwitched();
+		
 		updatePageStyle();
 	}
 
@@ -186,6 +198,10 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 
 	public void setDisplayOptions(DisplayOptions o){
 		flowManager.setDisplayOptions(o);
+	}
+	
+	public ItemVariablesAccessor getItemVariablesAccessor(){
+		return assessmentController.getItemVariablesAccessor();
 	}
 	
 	public IAssessmentReport report(){

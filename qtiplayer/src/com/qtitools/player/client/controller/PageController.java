@@ -11,6 +11,7 @@ import com.qtitools.player.client.controller.flow.navigation.NavigationSocket;
 import com.qtitools.player.client.controller.log.OperationLogEvent;
 import com.qtitools.player.client.controller.log.OperationLogManager;
 import com.qtitools.player.client.controller.session.PageSessionSocket;
+import com.qtitools.player.client.model.ItemVariablesAccessor;
 import com.qtitools.player.client.model.Page;
 import com.qtitools.player.client.style.StyleSocket;
 import com.qtitools.player.client.view.page.PageViewCarrier;
@@ -99,5 +100,12 @@ public final class PageController {
 				items[i].onNavigationIncident(nit);
 			}
 		}
+	}
+
+	public ItemVariablesAccessor getItemVariablesAccessor(){
+		if (items != null  &&  items.length > 0)
+			return items[0].getItemVariablesAccessor();
+			
+		return null;
 	}
 }

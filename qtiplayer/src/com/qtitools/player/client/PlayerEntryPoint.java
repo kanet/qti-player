@@ -127,6 +127,20 @@ public class PlayerEntryPoint implements EntryPoint {
 		  	 @com.qtitools.player.client.PlayerEntryPoint::setDisplayOptions(Lcom/google/gwt/core/client/JavaScriptObject;)(obj);
 		  }
 
+		  player.getCurrentItemResponseVariables = function(){
+		  	 var s = @com.qtitools.player.client.PlayerEntryPoint::getCurrentItemResponseVariables()();
+		  	 return s.split(";");
+		  }
+		  
+		  player.getCurrentItemResponseVariableValue = function(obj){
+		  	 return @com.qtitools.player.client.PlayerEntryPoint::getCurrentItemResponseVariableValue(Ljava/lang/String;)(obj);
+		  }
+		  player.getCurrentItemResponseVariableCardinality = function(obj){
+		  	 return @com.qtitools.player.client.PlayerEntryPoint::getCurrentItemResponseVariableCardinality(Ljava/lang/String;)(obj);
+		  }
+		  player.getCurrentItemResponseVariableBaseType = function(obj){
+		  	 return @com.qtitools.player.client.PlayerEntryPoint::getCurrentItemResponseVariableBaseType(Ljava/lang/String;)(obj);
+		  }
 
 		  return player;
 		}
@@ -280,4 +294,27 @@ public class PlayerEntryPoint implements EntryPoint {
 	public native static String decodeDisplayOptionsObjectArrayItem(JavaScriptObject obj, int index)/*-{
 		return obj[index];
 	}-*/;
+
+	public static String getCurrentItemResponseVariables(){
+		if (player.getItemVariablesAccessor() == null)
+			return "";
+		return player.getItemVariablesAccessor().getResponseVariables();
+	}
+
+	public static String getCurrentItemResponseVariableValue(String var){
+		if (player.getItemVariablesAccessor() == null)
+			return "";
+		return player.getItemVariablesAccessor().getResponseVariableValue(var);
+	}
+	public static String getCurrentItemResponseVariableCardinality(String var){
+		if (player.getItemVariablesAccessor() == null)
+			return "";
+		return player.getItemVariablesAccessor().getResponseVariableCardinality(var);
+	}
+	public static String getCurrentItemResponseVariableBaseType(String var){
+		if (player.getItemVariablesAccessor() == null)
+			return "";
+		return player.getItemVariablesAccessor().getResponseVariableBaseType(var);
+	}
+	
 }

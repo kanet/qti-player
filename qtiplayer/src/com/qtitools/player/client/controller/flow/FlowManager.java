@@ -245,6 +245,7 @@ public class FlowManager implements NavigationSocket {
 	}
 	
 	public void onPageChange(){
+		flowListener.onNavigatePageSwitching();
 		isCheck = false;
 		isAnswers = false;
 	}
@@ -288,6 +289,9 @@ public class FlowManager implements NavigationSocket {
 
 	public int getCurrentPageIndex(){
 		return currentPageIndex;
+	}
+	public PageType getCurrentPageType(){
+		return currentPageType;
 	}
 
 

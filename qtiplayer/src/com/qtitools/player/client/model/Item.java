@@ -33,7 +33,7 @@ import com.qtitools.player.client.util.localisation.LocalePublisher;
 import com.qtitools.player.client.util.localisation.LocaleVariable;
 import com.qtitools.player.client.util.xml.document.XMLData;
 
-public class Item implements IStateful {
+public class Item implements IStateful, ItemVariablesAccessor {
 		
 	public ItemBody itemBody;
 	
@@ -341,6 +341,43 @@ public class Item implements IStateful {
 	public void setState(JSONArray newState) {
 		itemBody.setState(newState);
 
+	}
+
+	@Override
+	public String getResponseVariableBaseType(String var) {
+		Response r;
+		if ((r = responseManager.getVariable(var)) == null)
+			return "";
+		return r.baseType.toString();
+	}
+
+	@Override
+	public String getResponseVariableCardinality(String var) {
+		Response r;
+		if ((r = responseManager.getVariable(var)) == null)
+			return "";
+		return r.cardinality.toString();
+	}
+
+	@Override
+	public String getResponseVariableValue(String var) {
+		Response r;
+		if ((r = responseManager.getVariable(var)) == null)
+			return "";
+		return r.getValuesShort();
+	}
+
+	@Override
+	public String getResponseVariables() {
+		String names = "";
+		Iterator<String> iter = responseManager.getVariablesMap().keySet().iterator();
+		while (iter.hasNext()){
+			names += iter.next() + ";";
+		}
+		if (names.length() > 0)
+			names = names.substring(0, names.length()-1);
+		
+		return names;
 	}
 	
 }

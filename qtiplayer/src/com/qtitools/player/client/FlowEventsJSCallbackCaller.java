@@ -28,4 +28,16 @@ public abstract class FlowEventsJSCallbackCaller {
 			player.onItemSessionFinished();
 		}
 	}-*/;
+	
+	public static native void onTestPageSwitchingJS(JavaScriptObject player) /*-{
+		if(typeof player.onTestPageSwitching == 'function') {
+			player.onTestPageSwitching();
+		}
+	}-*/;
+	
+	public static native void onTestPageSwitchedJS(JavaScriptObject player) /*-{
+		if(typeof player.onTestPageSwitched == 'function') {
+			player.onTestPageSwitched();
+		}
+	}-*/;
 }

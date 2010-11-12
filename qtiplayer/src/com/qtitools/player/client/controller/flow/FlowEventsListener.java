@@ -6,6 +6,8 @@ import com.qtitools.player.client.controller.flow.navigation.NavigationIncidentT
 
 public interface FlowEventsListener {
 
+	public void onNavigatePageSwitching();
+	
 	public void onNavigatePageSwitched();
 	
 	public void onActivityAction(ActivityActionType action);
