@@ -1,4 +1,4 @@
-package com.qtitools.player.client.components.htmldnd;
+package com.qtitools.player.client.module.order.dndcomponent;
 
 import java.util.Vector;
 import com.qtitools.player.client.components.Rectangle;

@@ -17,8 +17,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.components.TouchablePanel;
-import com.qtitools.player.client.components.htmldnd.DragContainerPanel;
-import com.qtitools.player.client.components.htmldnd.DragMode;
 import com.qtitools.player.client.model.feedback.InlineFeedback;
 import com.qtitools.player.client.model.feedback.InlineFeedbackSocket;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
@@ -31,6 +29,8 @@ import com.qtitools.player.client.module.ITouchEventsListener;
 import com.qtitools.player.client.module.IUnattachedComponent;
 import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
+import com.qtitools.player.client.module.order.dndcomponent.DragContainerPanel;
+import com.qtitools.player.client.module.order.dndcomponent.DragMode;
 import com.qtitools.player.client.util.RandomizedSet;
 import com.qtitools.player.client.util.xml.XMLUtils;
 

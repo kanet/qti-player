@@ -13,13 +13,13 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
-import com.qtitools.player.client.components.htmldnd.DragContainerPanel;
-import com.qtitools.player.client.components.htmldnd.DragMode;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
+import com.qtitools.player.client.module.order.dndcomponent.DragContainerPanel;
+import com.qtitools.player.client.module.order.dndcomponent.DragMode;
 
 public class TestModule extends Composite implements IInteractionModule {
 

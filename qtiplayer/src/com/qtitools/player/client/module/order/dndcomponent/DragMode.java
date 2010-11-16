@@ -1,4 +1,4 @@
-package com.qtitools.player.client.components.htmldnd;
+package com.qtitools.player.client.module.order.dndcomponent;
 
 public enum DragMode {
 	NONE, FREE, VERTICAL, HORIZONTAL;

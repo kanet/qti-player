@@ -1,4 +1,4 @@
-package com.qtitools.player.client.components.htmldnd;
+package com.qtitools.player.client.module.order.dndcomponent;
 
 import com.google.gwt.user.client.ui.Widget;
 
