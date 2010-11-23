@@ -110,10 +110,16 @@ public abstract class XMLConverter {
 			return "div";
 		if (nodeName.toLowerCase().compareTo("simplechoice") == 0)
 			return "span";
-		if (nodeName.compareTo("feedbackInline") == 0)
+		if (nodeName.toLowerCase().compareTo("feedbackinline") == 0)
 			return "div";
-		if (nodeName.compareTo("modalFeedback") == 0)
+		if (nodeName.toLowerCase().compareTo("modalfeedback") == 0)
 			return "div";
+		if (nodeName.toLowerCase().compareTo("contents") == 0)
+			return "div";
+		if (nodeName.toLowerCase().compareTo("dragelement") == 0)
+			return "span";
+		if (nodeName.toLowerCase().compareTo("simpleassociablechoice") == 0)
+			return "span";
 		
 		return nodeName;
 	}
