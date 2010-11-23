@@ -30,6 +30,7 @@ import com.qtitools.player.client.components.EmptyWidget;
 import com.qtitools.player.client.module.audioplayer.AudioPlayerModule;
 import com.qtitools.player.client.module.choice.ChoiceModule;
 import com.qtitools.player.client.module.debug.DebugModule;
+import com.qtitools.player.client.module.dragdrop.DragDropModule;
 import com.qtitools.player.client.module.selection.SelectionModule;
 import com.qtitools.player.client.module.identification.IdentificationModule;
 import com.qtitools.player.client.module.match.MatchModule;
@@ -41,6 +42,7 @@ import com.qtitools.player.client.module.order.OrderModule;
 import com.qtitools.player.client.module.test.TestModule;
 import com.qtitools.player.client.module.text.SelectionWidget;
 import com.qtitools.player.client.module.text.TextEntryWidget;
+import com.qtitools.player.client.module.vocabox.VocaboxModule;
 
 public abstract class ModuleFactory {
 	
@@ -56,8 +58,10 @@ public abstract class ModuleFactory {
 												"math",
 												"mathInline",
 												"mathInteraction",
+												"dragDropInteraction",
 												"qy:comment",
-												"audioPlayer"};
+												"audioPlayer",
+												"vocabox"};
 
 	public static boolean isSupported(String test){
 		for (int s= 0 ; s <SUPPORTED_MODULES.length ; s++)
@@ -92,10 +96,14 @@ public abstract class ModuleFactory {
 			widget = new MathExprInlineModule(element);
 		else if(element.getNodeName().compareTo("mathInteraction") == 0)
 			widget = new MathModule(element, moduleSocket, moduleEventsListener);
+		else if(element.getNodeName().compareTo("dragDropInteraction") == 0)
+			widget = new DragDropModule(element, moduleSocket, moduleEventsListener);
 		else if(element.getNodeName().compareTo("mathInline") == 0)
 			widget = new MathInlineModule(element);
 		else if(element.getNodeName().compareTo("audioPlayer") == 0)
 			widget = new AudioPlayerModule(element);
+		else if(element.getNodeName().compareTo("vocabox") == 0)
+			widget = new VocaboxModule(element);
 		else if(element.getNodeName().compareTo("qy:comment") == 0)
 			widget = new EmptyWidget();
 		else if(element.getNodeType() == Node.ELEMENT_NODE)
