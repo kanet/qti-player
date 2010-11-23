@@ -35,7 +35,7 @@ public class MathModule extends Widget implements IInteractionModule {
 
 		term = null;
 		container = new FlowPanel();
-		container.setStyleName("math-inline");
+		container.setStyleName("qp-math-inline");
 		if (element.hasAttribute("expression")){
 			try {
 				String expression = element.getAttribute("expression");

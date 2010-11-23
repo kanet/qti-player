@@ -24,7 +24,7 @@ public class MathInlineModule extends Widget implements IUnattachedComponent {
 
 		term = null;
 		owner = new FlowPanel();
-		owner.setStyleName("math-inline");
+		owner.setStyleName("qp-math-inline");
 		if (e.hasAttribute("expression")){
 			try {
 				term = (new ExpressionParser()).parseText(e.getAttribute("expression"));
