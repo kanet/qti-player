@@ -553,14 +553,16 @@ color:#990000;
  *  AudioPlayer
  */
 .qp-audioplayer-button{
-	width:20px;
-	height:20px;	
-	background-color:#99FF00;
+	width:32px;
+	height:32px;	
+	background-image:url(images/audio_play.png);
+	cursor:pointer;
 }
 .qp-audioplayer-button-playing{
-	width:20px;
-	height:20px;	
-	background-color:#993300;
+	width:32px;
+	height:32px;	
+	background-image:url(images/audio_stop.png);
+	cursor:pointer;
 }
 
 /*
@@ -617,4 +619,111 @@ color:#990000;
 .qp-selection-item-wrong{
 	padding-left: 20px;
 	background: url(images/wrong_icon.png) no-repeat left center;
+}
+
+.qp-math-inline {
+	display:inline-block;
+}
+
+.smath-gap{
+	width:24px;
+	height:20px;
+}
+
+.smath-gap-correct{
+	width:24px;
+	height:20px;
+	background-color:#ccffcc;
+}
+
+.smath-gap-wrong{
+	width:24px;
+	height:20px;
+	background-color:#ffcccc;
+}
+
+.qp-dragdrop-slot{
+	width:62px;
+	height:22px;
+	background-color:#FFF;
+	border:1px solid #000;
+}
+
+.qp-dragdrop-slot-correct{
+	width:62px;
+	height:22px;
+	background-color:#0F0;
+	border:1px solid #000;
+}
+
+.qp-dragdrop-slot-wrong{
+	width:62px;
+	height:22px;
+	background-color:#F00;
+	border:1px solid #000;
+}
+.qp-dragdrop-container{
+}
+
+.qp-dragdrop-contents{
+}
+
+.qp-dragdrop-sourcelist{
+	width:100%;
+	height:80px;	
+}
+
+.qp-dragdrop-dragpanel{
+	width:100%;
+	height:100%;
+}
+
+.qp-dragdrop-element-container{
+	width:64px;
+	height:24px;
+	background-color:#999;
+	filter:alpha(opacity=30);
+	opacity: 0.3;
+	-moz-opacity:0.3;
+}
+
+.qp-dragdrop-element-contents{
+	width:100%;
+	height:100%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+.qp-dragdrop-element-cover{
+	width:100%;
+	height:100%;
+	background:url(images/transparent.gif) repeat;	
+}
+
+.qp-vocabox-container{
+	width:280px;
+	height:70px;
+	border:1px solid #CCC;
+}
+
+.qp-vocabox-contents{
+	margin:12px;
+	text-align:justify;
+}
+
+.qp-vocabox-item{
+	cursor:pointer;
+	padding:5px;
+}
+
+.qp-vocabox-item-playing{
+	cursor:pointer;
+	padding:5px;
+	color:#900;
+}
+
+.qp-vocabox-item-played{
+	cursor:pointer;
+	padding:5px;
+	color:#060
 }
