@@ -120,6 +120,8 @@ public abstract class XMLConverter {
 			return "span";
 		if (nodeName.toLowerCase().compareTo("simpleassociablechoice") == 0)
 			return "span";
+		if (nodeName.toLowerCase().compareTo("textentrymultipleinteraction") == 0)
+			return "span";
 		
 		return nodeName;
 	}
