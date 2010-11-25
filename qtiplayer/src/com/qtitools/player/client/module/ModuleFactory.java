@@ -40,8 +40,8 @@ import com.qtitools.player.client.module.mathexpr.MathExprInlineModule;
 import com.qtitools.player.client.module.object.ObjectModule;
 import com.qtitools.player.client.module.order.OrderModule;
 import com.qtitools.player.client.module.test.TestModule;
-import com.qtitools.player.client.module.text.SelectionWidget;
-import com.qtitools.player.client.module.text.TextEntryWidget;
+import com.qtitools.player.client.module.text.InlineChoiceModule;
+import com.qtitools.player.client.module.text.TextEntryModule;
 import com.qtitools.player.client.module.vocabox.VocaboxModule;
 
 public abstract class ModuleFactory {
@@ -79,9 +79,9 @@ public abstract class ModuleFactory {
 	    else if(element.getNodeName().compareTo("object") == 0)
 	    	widget = new ObjectModule(element, moduleSocket, moduleEventsListener);
 	    else if(element.getNodeName().compareTo("inlineChoiceInteraction") == 0)
-			widget = new SelectionWidget(element, moduleSocket, moduleEventsListener);	
+			widget = new InlineChoiceModule(element, moduleSocket, moduleEventsListener);	
 		else if(element.getNodeName().compareTo("textEntryInteraction") == 0)
-			widget = new TextEntryWidget(element, moduleSocket, moduleEventsListener);
+			widget = new TextEntryModule(element, moduleSocket, moduleEventsListener);
 		else if(element.getNodeName().compareTo("testInteraction") == 0)
 			widget = new TestModule(element, moduleSocket, moduleEventsListener);
 		else if(element.getNodeName().compareTo("orderInteraction") == 0)

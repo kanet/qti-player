@@ -30,7 +30,7 @@ import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.InlineHTML;
-import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.feedback.InlineFeedback;
@@ -42,53 +42,46 @@ import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.ModuleSocket;
 import com.qtitools.player.client.module.IStateful;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
-import com.qtitools.player.client.util.RandomizedSet;
 import com.qtitools.player.client.util.xml.XMLUtils;
 
-public class SelectionWidget extends InlineHTML implements IInteractionModule{
+public class TextEntryModule extends InlineHTML implements IInteractionModule{
 
 	/** response processing interface */
-	private Response response;
+	private Response 	response;
 	private String responseIdentifier;
 	/** module state changed listener */
 	private ModuleStateChangedEventsListener stateListener;
 	/** widget id */
 	private String  id;
-	/** panel widget */
-	private ListBox  listBox;
-	/** Shuffle? */	private boolean 		shuffle = false;
+	/** text box control */
+	private TextBox textBox;
 	/** Last selected value */
 	private String	lastValue = null;
 	private boolean showingAnswers = false;
-	
 
-	/**
+	/**	
 	 * constructor
 	 * @param moduleSocket
 	 */
-	public SelectionWidget(Element element, ModuleSocket moduleSocket, ModuleStateChangedEventsListener stateChangedListener){
-		
+	public TextEntryModule(Element element, ModuleSocket moduleSocket, ModuleStateChangedEventsListener stateChangedListener){
+
 		responseIdentifier = XMLUtils.getAttributeAsString(element, "responseIdentifier"); 
 
 		id = Document.get().createUniqueId();
 		response = moduleSocket.getResponse(responseIdentifier);
 		stateListener = stateChangedListener;
-		shuffle = XMLUtils.getAttributeAsBoolean(element, "shuffle");
+		textBox = new TextBox();
+		textBox.setMaxLength(XMLUtils.getAttributeAsInt(element, "expectedLength"));
+		textBox.getElement().setId(id);
 		
-		listBox = new ListBox();
-		if(shuffle)
-			initRandom(element);
-		else
-			init(element);
-
-		listBox.getElement().setId(id);
-		getElement().appendChild(listBox.getElement());
+		if (!response.correctAnswers.get(0).matches(".*[^0-9].*"))
+			textBox.getElement().setAttribute("type", "number");
+		getElement().appendChild(textBox.getElement());
+		setStyleName("qp-text-textentry");
 		
-		setStyleName("qp-text-choice");		
-
 		NodeList inlineFeedbackNodes = element.getElementsByTagName("feedbackInline");
 		for (int f = 0 ; f < inlineFeedbackNodes.getLength() ; f ++){
-			moduleSocket.add(new InlineFeedback(listBox, inlineFeedbackNodes.item(f)));
+			moduleSocket.add(new InlineFeedback(this, inlineFeedbackNodes.item(f)));
 		}
 		
 	}
@@ -103,23 +96,22 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 
 	@Override
 	public void lock(boolean l) {
-		  listBox.setEnabled(!l);
-		
+		textBox.setEnabled(!l);
 	}
-
+  
 	/**
 	 * @see IActivity#markAnswers()
 	 */
 	public void markAnswers(boolean mark) {
 		if (mark){
-			listBox.setEnabled(false);
+			textBox.setEnabled(false);
 			if( response.isCorrectAnswer(lastValue) )
-				setStyleName("qp-text-choice-correct");
+				setStyleName("qp-text-textentry-correct");
 			else
-				setStyleName("qp-text-choice-wrong");
+				setStyleName("qp-text-textentry-wrong");
 		} else {
-			listBox.setEnabled(true);
-			setStyleName("qp-text-choice");
+			textBox.setEnabled(true);
+			setStyleName("qp-text-textentry");
 		}
 	}
 
@@ -127,31 +119,19 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	 * @see IActivity#reset()
 	 */
 	public void reset() {
-	  listBox.setEnabled(true);
-	  setStyleName("qp-text-choice");
+		textBox.setEnabled(true);
+		setStyleName("qp-text-textentry");
 	}
 
 	/**
 	 * @see IActivity#showCorrectAnswers()
 	 */
 	public void showCorrectAnswers(boolean show) {
-
 		if (show  &&  !showingAnswers){
-			showingAnswers = true;	
-			for(int i = 0; i < listBox.getItemCount(); i++){
-				if( listBox.getValue(i).compareTo(response.correctAnswers.get(0)) == 0){
-					listBox.setSelectedIndex(i);
-					break;
-				}
-			}
+			showingAnswers = true;
+			textBox.setText(response.correctAnswers.get(0));
 		} else if (!show  &&  showingAnswers) {
-			listBox.setSelectedIndex(-1);
-			for(int i = 0; i < listBox.getItemCount(); i++){
-				if( listBox.getValue(i).compareTo((response.values.size()>0) ? response.values.get(0) : "" ) == 0){
-					listBox.setSelectedIndex(i);
-					break;
-				}
-			}
+			textBox.setText((response.values.size()>0) ? response.values.get(0) : "");
 			showingAnswers = false;
 		}
 	}
@@ -160,25 +140,23 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
    * @see IStateful#getState()
    */
   public JSONArray getState() {
-	  
 	  JSONArray jsonArr = new JSONArray();
-	  
+
 	  String stateString = "";
 	  
-	  if (lastValue != null)
-		  stateString = lastValue;
+	  if (response.values.size() > 0)
+		  stateString = response.values.get(0);
 	  
 	  jsonArr.set(0, new JSONString(stateString));
 	  
 	  return jsonArr;
   }
 
-  
-  	/**
- 	 * @see IStateful#setState(Serializable)
- 	 */
-  	public void setState(JSONArray newState) {
-	
+  /**
+   * @see IStateful#setState(Serializable)
+   */
+  public void setState(JSONArray newState) {
+		
 		String state = "";
 	
 		if (newState == null){
@@ -189,61 +167,12 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 			lastValue = null;
 		}
 	
-		for(int i = 0; i < listBox.getItemCount(); i++){
-			if( listBox.getValue(i).compareTo(state) == 0){
-				listBox.setSelectedIndex(i);
-				break;
-			}
-		}
+		textBox.setText(state);
+		
 		updateResponse(false);
+		
   }
-  
-	/**
-	 * init widget view
-	 * @param element
-	 */
-	private void init(Element inlineChoiceElement){
-		NodeList nodes = inlineChoiceElement.getChildNodes();
 
-		// Add no answer as first option
-		listBox.addItem("");
-		
-		for(int i = 0; i < nodes.getLength(); i++){
-			if(nodes.item(i).getNodeName().compareTo("inlineChoice") == 0){
-				Element choiceElement = (Element)nodes.item(i);
-				listBox.addItem(XMLUtils.getText(choiceElement), 
-				    XMLUtils.getAttributeAsString(choiceElement, "identifier"));
-			}
-		}
-	}
-	
-	/**
-	 * init widget view. Randomize options
-	 * @param element
-	 */
-	private void initRandom(Element inlineChoiceElement){
-		RandomizedSet<Element>	randomizedNodes = new RandomizedSet<Element>();
-		NodeList nodes = inlineChoiceElement.getChildNodes();
-
-		// Add no answer as first option
-		listBox.addItem("");
-		
-		// Add nodes to temporary list
-		for(int i = 0; i < nodes.getLength(); i++){
-			if(nodes.item(i).getNodeName().compareTo("inlineChoice") == 0){
-				randomizedNodes.push((Element)nodes.item(i));
-			}
-		}
-		
-		while(randomizedNodes.hasMore()){
-			Element choiceElement = randomizedNodes.pull();
-      listBox.addItem(XMLUtils.getText(choiceElement), 
-          XMLUtils.getAttributeAsString(choiceElement, "identifier"));
-		}
-		
-	}
-
-	
 	@Override
 	public Vector<InternalEventTrigger> getTriggers() {
 		Vector<InternalEventTrigger> v = new Vector<InternalEventTrigger>();
@@ -254,22 +183,25 @@ public class SelectionWidget extends InlineHTML implements IInteractionModule{
 	@Override
 	public void handleEvent(String tagID, InternalEvent param) {
 		updateResponse(true);
+		
 	}
 	
 	private void updateResponse(boolean userInteract){
 		if (showingAnswers)
 			return;
-
+		
 		if(lastValue != null)
 			response.remove(lastValue);
 		
-		lastValue = listBox.getValue(listBox.getSelectedIndex());
+		lastValue = textBox.getText();
 		response.add(lastValue);
 		stateListener.onStateChanged(userInteract, this);
+	
 	}
 
 	@Override
 	public String getIdentifier() {
 		return responseIdentifier;
 	}
+
 }
