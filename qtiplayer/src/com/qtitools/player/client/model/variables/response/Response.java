@@ -114,7 +114,7 @@ public class Response extends Variable {
 	 */
 	public void add(String key) {
 		for (String currValue:values)
-			if (currValue == key)
+			if (currValue.equals(key))
 				return;
 		
 		if (cardinality == Cardinality.SINGLE)
@@ -130,7 +130,7 @@ public class Response extends Variable {
 	public void remove(String key) {
 		
 		for (int i = 0 ; i < values.size() ; i ++){
-			if (values.get(i) == key){
+			if (values.get(i).equals(key)){
 				values.remove(i);
 				return;
 			}
@@ -173,5 +173,59 @@ public class Response extends Variable {
 	
 	public boolean isModuleAdded(){
 		return isModuleAdded;
+	}
+	
+	public Vector<Boolean> evaluateAnswer(){
+		
+		Vector<Boolean> evaluation = new Vector<Boolean>();
+		
+		if (cardinality == Cardinality.COMMUTATIVE){
+
+			Vector<Boolean> used = new Vector<Boolean>();
+			for (int g = 0 ; g < correctAnswers.size() ; g ++ ){
+				used.add(false);
+			}
+			
+			for (int correct = 0 ; correct < correctAnswers.size() ; correct ++){
+				
+				boolean passed = true;
+				
+				int groupIndex = -1;
+				for (int g = 0 ; g < groups.size() ; g ++ ){
+					if (groups.get(g).contains(correct)){
+						groupIndex = g;
+						break;
+					}
+				}
+				
+				String currUserAnswer = values.get(correct);
+
+				if (groupIndex == -1){
+					if (correctAnswers.get(correct).compareTo(currUserAnswer) != 0){
+						passed = false;
+					}
+				} else {
+					boolean answerFound = false;
+					for (int a = 0 ; a < groups.get(groupIndex).size() ; a ++){
+						int answerIndex = groups.get(groupIndex).get(a);
+						if (correctAnswers.get(answerIndex).compareTo(currUserAnswer) == 0  &&  used.get(answerIndex) == false){
+							answerFound = true;
+							used.set(answerIndex, true);
+							break;
+						}
+					}
+					if (!answerFound){
+						passed = false;
+					}
+				}
+				
+				if (passed)
+					evaluation.add(true);
+				else
+					evaluation.add(false);
+			}
+		}
+		
+		return evaluation;
 	}
 }

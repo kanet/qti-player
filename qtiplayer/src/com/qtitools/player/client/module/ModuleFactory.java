@@ -42,13 +42,15 @@ import com.qtitools.player.client.module.order.OrderModule;
 import com.qtitools.player.client.module.test.TestModule;
 import com.qtitools.player.client.module.text.InlineChoiceModule;
 import com.qtitools.player.client.module.text.TextEntryModule;
+import com.qtitools.player.client.module.text.TextEntryMultipleModule;
 import com.qtitools.player.client.module.vocabox.VocaboxModule;
 
 public abstract class ModuleFactory {
 	
 	protected static String[] SUPPORTED_MODULES ={"choiceInteraction", 
 												"inlineChoiceInteraction", 
-												"textEntryInteraction",
+												"textEntryInteraction", 
+												"textEntryMultipleInteraction",
 												"orderInteraction",
 												"matchInteraction",
 												"selectionInteraction",
@@ -82,6 +84,8 @@ public abstract class ModuleFactory {
 			widget = new InlineChoiceModule(element, moduleSocket, moduleEventsListener);	
 		else if(element.getNodeName().compareTo("textEntryInteraction") == 0)
 			widget = new TextEntryModule(element, moduleSocket, moduleEventsListener);
+		else if(element.getNodeName().compareTo("textEntryMultipleInteraction") == 0)
+			widget = new TextEntryMultipleModule(element, moduleSocket, moduleEventsListener);
 		else if(element.getNodeName().compareTo("testInteraction") == 0)
 			widget = new TestModule(element, moduleSocket, moduleEventsListener);
 		else if(element.getNodeName().compareTo("orderInteraction") == 0)

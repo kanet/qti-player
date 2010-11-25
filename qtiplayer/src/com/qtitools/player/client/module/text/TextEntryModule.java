@@ -90,7 +90,6 @@ public class TextEntryModule extends InlineHTML implements IInteractionModule{
 
 	@Override
 	public void onOwnerAttached() {
-		// do nothing
 		
 	}
 
