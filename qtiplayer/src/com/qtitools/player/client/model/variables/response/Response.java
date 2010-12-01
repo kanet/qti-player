@@ -179,7 +179,32 @@ public class Response extends Variable {
 		
 		Vector<Boolean> evaluation = new Vector<Boolean>();
 		
-		if (cardinality == Cardinality.COMMUTATIVE){
+		if (cardinality == Cardinality.SINGLE){
+			
+			if (values.size() == 1)
+				evaluation.add(values.get(0).equals(correctAnswers.get(0)));
+		
+		} if (cardinality == Cardinality.MULTIPLE){
+			
+			for (int a = 0 ; a < correctAnswers.size() ; a ++){
+				if (values.indexOf(correctAnswers.get(a)) != -1){
+					evaluation.add(true);
+				} else {
+					evaluation.add(false);
+				}
+			} 
+		
+		} if (cardinality == Cardinality.ORDERED){
+			
+			for (int a = 0 ; a < values.size()  &&  a < correctAnswers.size() ; a ++){
+				if (values.get(a).equals(correctAnswers.get(a))){
+					evaluation.add(true);
+				} else {
+					evaluation.add(false);
+				}
+			} 
+		
+		} else if (cardinality == Cardinality.COMMUTATIVE){
 
 			Vector<Boolean> used = new Vector<Boolean>();
 			for (int g = 0 ; g < correctAnswers.size() ; g ++ ){

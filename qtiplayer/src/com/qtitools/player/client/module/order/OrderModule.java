@@ -217,7 +217,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 		if (mark){
 	
 			lock(true);
-			
+			/*
 			Vector<String> correctAnswers = response.correctAnswers;
 	
 			Vector<Integer> optionsIndexes = container.getElementsOrder();
@@ -230,6 +230,14 @@ public class OrderModule extends Composite implements IInteractionModule {
 			
 			for (int i = 0 ; i < correctAnswers.size()  &&  i < currResponseValues.size() ; i ++){
 				markOptionAnswer(optionsIndexes.get(i), (correctAnswers.get(i).compareTo(currResponseValues.get(i)) == 0));
+			}*/
+
+			Vector<Integer> optionsIndexes = container.getElementsOrder();
+			
+			Vector<Boolean> evaluation = response.evaluateAnswer();
+			
+			for (int e = 0 ; e < evaluation.size() ; e ++ ){
+				markOptionAnswer(optionsIndexes.get(e), evaluation.get(e));
 			}
 			
 		} else {

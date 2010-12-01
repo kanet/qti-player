@@ -286,7 +286,19 @@
 	background: url(images/wrong_icon.png) no-repeat left center;
 }
 
+.qp-textentrymultiple-textbox{
+	width:32px;
+}
 
+.qp-textentrymultiple-text-correct{
+	padding-left: 20px;
+	background: url(images/correct_icon.png) no-repeat left center;
+}
+
+.qp-textentrymultiple-text-wrong{
+	padding-left: 20px;
+	background: url(images/wrong_icon.png) no-repeat left center;
+}
 
 /** 
  * ChoiceModule styles 

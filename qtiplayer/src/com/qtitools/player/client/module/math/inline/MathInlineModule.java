@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.Node;
 import com.qtitools.player.client.module.IUnattachedComponent;
 
 public class MathInlineModule extends Widget implements IUnattachedComponent {
@@ -25,11 +26,14 @@ public class MathInlineModule extends Widget implements IUnattachedComponent {
 		term = null;
 		owner = new FlowPanel();
 		owner.setStyleName("qp-math-inline");
-		if (e.hasAttribute("expression")){
-			try {
-				term = (new ExpressionParser()).parseText(e.getAttribute("expression"));
-			} catch (ExpressionParserException e1) {
+		try {
+			for (int n = 0 ; n < e.getChildNodes().getLength() ; n ++){
+				if (e.getChildNodes().item(n).getNodeType() == Node.ELEMENT_NODE){
+					term = (new ExpressionParser()).processMathML((Element)e.getChildNodes().item(n));
+					break;
+				}
 			}
+		} catch (ExpressionParserException e1) {
 		}
 		
 		setElement(owner.getElement());
@@ -42,7 +46,11 @@ public class MathInlineModule extends Widget implements IUnattachedComponent {
 
 		InteractionManager im = new InteractionManager(owner);
 		try {
-			(new TermWidgetFactory()).createWidget(term, im);
+			if (term != null){
+				TermWidgetFactory twf = new TermWidgetFactory();
+				twf.setFontHeight("22px");
+				twf.createWidget(term, im);
+			}
 		} catch (TermRendererException e) {
 		}
 	}

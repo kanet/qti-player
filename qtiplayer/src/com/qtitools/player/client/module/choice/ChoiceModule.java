@@ -36,6 +36,7 @@ import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.feedback.InlineFeedbackSocket;
 import com.qtitools.player.client.model.internalevents.InternalEvent;
 import com.qtitools.player.client.model.internalevents.InternalEventTrigger;
+import com.qtitools.player.client.model.variables.Cardinality;
 import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.module.IInteractionModule;
@@ -157,8 +158,16 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 	@Override
 	public void markAnswers(boolean mark) {
 		
-		for (SimpleChoice currSC:interactionElements){
-			currSC.markAnswers(mark, response.correctAnswers.contains(currSC.getIdentifier()) );
+		Vector<Boolean> evaluation = response.evaluateAnswer();
+		
+		if (response.cardinality == Cardinality.SINGLE){
+			for (int i = 0 ; i < interactionElements.size() ; i ++){
+				interactionElements.get(i).markAnswers(mark, evaluation.get(0));
+			}
+		} else if (response.cardinality == Cardinality.MULTIPLE){
+			for (SimpleChoice currSC:interactionElements){
+				currSC.markAnswers(mark, response.correctAnswers.contains(currSC.getIdentifier()) );
+			}
 		}
 	}
 

@@ -3,7 +3,7 @@
 <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd" 
 identifier="choice" title="Multiple choice" adaptive="false" timeDependent="false" styleLink="http://rlab.pl/resources/s.css">
-	<responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">
+	<responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier">
 		<correctResponse>
 			<value>ChoiceA</value>
 			<value>ChoiceB</value>

@@ -146,59 +146,15 @@ public class DragDropModule extends Composite implements IInteractionModule {
 			
 			lock(true);
 			
-			Vector<String> currentAnswers = new Vector<String>();
-			for( int i = 0 ; i < dragPanel.getElementsLocations().size() ; i ++){
-				if (dragPanel.getElementsLocations().indexOf(i) == -1) {
-					currentAnswers.add("");
-				} else {
-					currentAnswers.add( elements.get(dragPanel.getElementsLocations().indexOf(i)).getIdentifier() );
-				}
-					
-			}
-
-			Vector<Boolean> used = new Vector<Boolean>();
-			for (int g = 0 ; g < response.correctAnswers.size() ; g ++ ){
-				used.add(false);
+			Vector<Boolean> evaluation = response.evaluateAnswer();
+			
+			for (int e = 0 ; e < evaluation.size() ; e ++ ){
+				if (evaluation.get(e))
+					slots.get(e).setStyleName("qp-dragdrop-slot-correct");
+				else
+					slots.get(e).setStyleName("qp-dragdrop-slot-wrong");
 			}
 			
-			for (int correct = 0 ; correct < response.correctAnswers.size() ; correct ++){
-				
-				boolean passed = true;
-				
-				int groupIndex = -1;
-				for (int g = 0 ; g < response.groups.size() ; g ++ ){
-					if (response.groups.get(g).contains(correct)){
-						groupIndex = g;
-						break;
-					}
-				}
-				
-				String currUserAnswer = currentAnswers.get(correct);
-
-				if (groupIndex == -1){
-					if (response.correctAnswers.get(correct).compareTo(currUserAnswer) != 0){
-						passed = false;
-					}
-				} else {
-					boolean answerFound = false;
-					for (int a = 0 ; a < response.groups.get(groupIndex).size() ; a ++){
-						int answerIndex = response.groups.get(groupIndex).get(a);
-						if (response.correctAnswers.get(answerIndex).compareTo(currUserAnswer) == 0  &&  used.get(answerIndex) == false){
-							answerFound = true;
-							used.set(answerIndex, true);
-							break;
-						}
-					}
-					if (!answerFound){
-						passed = false;
-					}
-				}
-				
-				if (passed)
-					slots.get(correct).setStyleName("qp-dragdrop-slot-correct");
-				else
-					slots.get(correct).setStyleName("qp-dragdrop-slot-wrong");
-			}
 		} else {
 			lock(false);
 			

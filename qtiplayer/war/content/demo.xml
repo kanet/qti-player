@@ -10,6 +10,9 @@
 
 	<testPart>
 		<assessmentSection identifier="sectionA" title="Section A" visible="true">
+			<assessmentItemRef identifier="match" href="demo/math.xml"/>
+			<assessmentItemRef identifier="match" href="demo/text_entry_multiple.xml"/>
+			<assessmentItemRef identifier="match" href="demo/dragdrop.xml"/>
 			<assessmentItemRef identifier="match" href="demo/identification.xml"/>
 			<assessmentItemRef identifier="selection" href="demo/selection.xml"/>
 			<assessmentItemRef identifier="match" href="demo/match.xml"/>
@@ -18,6 +21,7 @@
 			<assessmentItemRef identifier="choice_multiple" href="demo/choice_multiple.xml"/>
 			<assessmentItemRef identifier="inline_choice" href="demo/inline_choice.xml"/>
 			<assessmentItemRef identifier="text_entry" href="demo/text_entry.xml"/>
+			<assessmentItemRef identifier="video" href="demo/video.xml"/>
 			<assessmentFeedback>
 				<assessmentFeedbackCase percentageScore="75">Feedback for 75%</assessmentFeedbackCase>
 				<assessmentFeedbackCase percentageScore="50">Feedback for 50%</assessmentFeedbackCase>
