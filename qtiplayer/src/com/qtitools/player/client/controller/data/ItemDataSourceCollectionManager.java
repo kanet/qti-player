@@ -43,6 +43,8 @@ public class ItemDataSourceCollectionManager {
 	}
 
 	public ItemData getItemData(int index){
+		if (index >= items.length)
+			return new ItemData(0, "There's no item of index " + String.valueOf(index));
 		if (!items[index].isError())
 			return new ItemData(index, items[index].getItemData());
 		else

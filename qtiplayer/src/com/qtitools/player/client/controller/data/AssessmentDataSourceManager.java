@@ -1,7 +1,6 @@
 package com.qtitools.player.client.controller.data;
 
 import java.util.Vector;
-
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
@@ -74,7 +73,11 @@ public class AssessmentDataSourceManager {
 				String[] tmpItemUrls = new String[nodes.getLength()];
 				for(int i = 0; i < nodes.getLength(); i++){
 					Node itemRefNode = nodes.item(i);
-					tmpItemUrls[i] = data.getBaseURL() + ((Element)itemRefNode).getAttribute("href");
+					
+					if (((Element)itemRefNode).getAttribute("href").startsWith("http"))
+						tmpItemUrls[i] = ((Element)itemRefNode).getAttribute("href");
+					else
+						tmpItemUrls[i] = data.getBaseURL() + ((Element)itemRefNode).getAttribute("href");
 			    }
 				itemUrls = tmpItemUrls;
 			} catch (Exception e) {	}

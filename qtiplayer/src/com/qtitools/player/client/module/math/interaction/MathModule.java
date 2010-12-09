@@ -91,6 +91,7 @@ public class MathModule extends Widget implements IInteractionModule {
 		for (int i = 0 ; i < interactionManager.getGapsCount() ; i ++){
 			interactionManager.getGapAt(i).getElement().setId(gapsIds.get(i));
 		}
+		updateResponse(false);
 	}
 	
 	@Override
