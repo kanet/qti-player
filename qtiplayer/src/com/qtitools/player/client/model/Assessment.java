@@ -64,6 +64,9 @@ public class Assessment implements AssessmentFeedbackSocket{
 		
 	    title = ((Element)rootNode).getAttribute("title");
 	    
+	    if (title == null)
+	    	title = "";
+	    
 	}
 	
 	
