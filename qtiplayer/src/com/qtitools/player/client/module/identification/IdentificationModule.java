@@ -181,6 +181,7 @@ public class IdentificationModule extends Composite implements
 	public void onOwnerAttached() {
 		for (SelectableChoice currSC:options)
 			currSC.onOwnerAttached();
+		updateResponse(false);
 	}
 	
 
