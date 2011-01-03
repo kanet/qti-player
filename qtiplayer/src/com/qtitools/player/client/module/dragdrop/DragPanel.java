@@ -55,22 +55,15 @@ public class DragPanel extends AbsolutePanel {
 	}
 	
 	public void registerSlots(Vector<DragSlot> slots){
-		int l = slots.get(0).getAbsoluteLeft();
-		int t = slots.get(0).getAbsoluteTop();
-		int cl = getAbsoluteLeft();
-		int ct = getAbsoluteTop();
-		int s = cl+l;
 		this.slots = slots;
 	}
 	
 	public void placeElements(){
-		for (DragElement de : elements){
-			for (int i = 0 ; i < elements.size() ; i ++){
-				if (elementsLocations.get(i) == -1) {
-					setWidgetPosition(elements.get(i), origins.get(i).getLeft(), origins.get(i).getTop());
-				} else if (elementsLocations.get(i) >= 0  &&  elementsLocations.get(i) < slots.size()){
-					setWidgetPosition(elements.get(i), slots.get(elementsLocations.get(i)).getAbsoluteLeft() - getAbsoluteLeft(), slots.get(elementsLocations.get(i)).getAbsoluteTop() - getAbsoluteTop());
-				}
+		for (int i = 0 ; i < elements.size() ; i ++){
+			if (elementsLocations.get(i) == -1) {
+				setWidgetPosition(elements.get(i), origins.get(i).getLeft(), origins.get(i).getTop());
+			} else if (elementsLocations.get(i) >= 0  &&  elementsLocations.get(i) < slots.size()){
+				setWidgetPosition(elements.get(i), slots.get(elementsLocations.get(i)).getAbsoluteLeft() - getAbsoluteLeft(), slots.get(elementsLocations.get(i)).getAbsoluteTop() - getAbsoluteTop());
 			}
 		}
 		if (elements.size() > 0){
@@ -94,7 +87,6 @@ public class DragPanel extends AbsolutePanel {
 			int width = ds.getOffsetWidth();
 			int height = ds.getOffsetHeight();
 			if (new Rectangle(left, top, width, height).contains(prevMouseX, prevMouseY)){
-				int ind = slots.indexOf(ds);
 				elementsLocations.set(currDragElementIndex, slots.indexOf(ds));
 				found = true;
 				break;
