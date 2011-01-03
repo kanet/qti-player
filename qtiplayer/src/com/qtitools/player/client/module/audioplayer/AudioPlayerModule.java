@@ -19,7 +19,7 @@ public class AudioPlayerModule extends Composite implements IBrowserEventHandler
 
 	public AudioPlayerModule(Element element){
 
-		String address = XMLUtils.getAttributeAsString(element, "src");
+		String address = XMLUtils.getAttributeAsString(element, "data");
 		
 		SoundController soundCtrl = new SoundController();
 		sound = soundCtrl.createSound(Sound.MIME_TYPE_AUDIO_MPEG, address);
