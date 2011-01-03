@@ -272,6 +272,30 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 				
 				return (100*r.getScore()/(r.getMaxPoints() - r.getMinPoints()) >= masteryScore);
 			}
+
+			@Override
+			public Result[] getItemsResults() {
+				Result[] results = sessionDataManager.getSessionData().results;
+				return results;
+			}
+
+			@Override
+			public int[] getItemsMistakes() {
+				int[] mistakes = sessionDataManager.getSessionData().mistakes;
+				return mistakes;
+			}
+
+			@Override
+			public int[] getItemsChecks() {
+				int[] checks = sessionDataManager.getSessionData().checks;
+				return checks;
+			}
+
+			@Override
+			public int[] getItemsTimes() {
+				int[] times = sessionDataManager.getSessionData().times;
+				return times;
+			}
 		};
 	}
 

@@ -34,6 +34,7 @@ import com.qtitools.player.client.controller.communication.FlowOptions;
 import com.qtitools.player.client.controller.communication.IAssessmentReport;
 import com.qtitools.player.client.controller.flow.navigation.NavigationCommandsListener;
 import com.qtitools.player.client.model.ItemVariablesAccessor;
+import com.qtitools.player.client.util.js.JSArrayUtils;
 import com.qtitools.player.client.util.xml.document.XMLData;
 import com.qtitools.player.client.view.ViewEngine;
 /**
@@ -134,15 +135,35 @@ public class Player implements DeliveryEngineEventListener {
 			  lessonStatus = "FAILED";
 	  }
 	  
+	  JavaScriptObject jsItemScores = JSArrayUtils.createArray(report.getItemsResults().length);
+	  JavaScriptObject jsItemScoreMaxs = JSArrayUtils.createArray(report.getItemsResults().length);
+	  for (int i = 0 ; i < report.getItemsResults().length ; i ++){
+		  jsItemScores = JSArrayUtils.fillArray(jsItemScores, i, (int)(report.getItemsResults()[i].getScore() - report.getItemsResults()[i].getMinPoints()));
+		  jsItemScoreMaxs = JSArrayUtils.fillArray(jsItemScoreMaxs, i, (int)(report.getItemsResults()[i].getMaxPoints() - report.getItemsResults()[i].getMinPoints()));
+	  }
+	  
+	  JavaScriptObject jsMistakes = JSArrayUtils.createArray(itemsCount);
+	  for (int i = 0 ; i < itemsCount ; i ++)
+		  jsMistakes = JSArrayUtils.fillArray(jsMistakes, i, report.getItemsMistakes()[i]);
+	  
+	  JavaScriptObject jsChecks = JSArrayUtils.createArray(itemsCount);
+	  for (int i = 0 ; i < itemsCount ; i ++)
+		  jsChecks = JSArrayUtils.fillArray(jsChecks, i, report.getItemsChecks()[i]);
+	  
+	  JavaScriptObject jsTimes = JSArrayUtils.createArray(itemsCount);
+	  for (int i = 0 ; i < itemsCount ; i ++)
+		  jsTimes = JSArrayUtils.fillArray(jsTimes, i, report.getItemsTimes()[i]);
+	  
 	  JavaScriptObject obj = JavaScriptObject.createObject();
 	  
-	  initAssessmentSessionReportJS(obj, assessmentSessionTime, score, max, lessonStatus, itemIndex+1, itemsCount);
+	  initAssessmentSessionReportJS(obj, assessmentSessionTime, score, max, lessonStatus, itemIndex+1, itemsCount, 
+			  jsItemScores, jsItemScoreMaxs, jsMistakes, jsChecks, jsTimes);
 	  
 	  return obj;
   }
-  
   private native static void initAssessmentSessionReportJS(JavaScriptObject obj, int time, int score, int scoreMax, String lessonStatus, 
-		  int itemIndex, int itemsCount) /*-{
+		  int itemIndex, int itemsCount, JavaScriptObject itemsScores, JavaScriptObject itemsScoreMaxs, JavaScriptObject itemsMistakes, 
+		  JavaScriptObject itemChecks, JavaScriptObject itemTimes) /*-{
 	  obj.getTime = function(){
 		  return time;
 	  }
@@ -160,6 +181,21 @@ public class Player implements DeliveryEngineEventListener {
 	  }
 	  obj.getItemsCount = function(){
 		  return itemsCount;
+	  }
+	  obj.getItemScore = function(index){
+	  	return itemsScores[index];
+	  }
+	  obj.getItemScoreMax = function(index){
+	  	return itemsScoreMaxs[index];
+	  }
+	  obj.getItemMistakes = function(index){
+	  	return itemsMistakes[index];
+	  }
+	  obj.getItemChecks = function(index){
+	  	return itemChecks[index];
+	  }
+	  obj.getItemTime = function(index){
+	  	return itemTimes[index];
 	  }
   }-*/;
 

@@ -17,17 +17,17 @@ public abstract class FlowEventsJSCallbackCaller {
 		}
 	}-*/;
 	
-	public static native void onItemSessionBeginJS(JavaScriptObject player) /*-{
-		if(typeof player.onItemSessionBegin == 'function') {
-			player.onItemSessionBegin();
-		}
-	}-*/;
-	
-	public static native void onItemSessionFinishedJS(JavaScriptObject player) /*-{
-		if(typeof player.onItemSessionFinished == 'function') {
-			player.onItemSessionFinished();
-		}
-	}-*/;
+//	public static native void onItemSessionBeginJS(JavaScriptObject player) /*-{
+//		if(typeof player.onItemSessionBegin == 'function') {
+//			player.onItemSessionBegin();
+//		}
+//	}-*/;
+//	
+//	public static native void onItemSessionFinishedJS(JavaScriptObject player) /*-{
+//		if(typeof player.onItemSessionFinished == 'function') {
+//			player.onItemSessionFinished();
+//		}
+//	}-*/;
 	
 	public static native void onTestPageSwitchingJS(JavaScriptObject player) /*-{
 		if(typeof player.onTestPageSwitching == 'function') {

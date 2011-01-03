@@ -23,4 +23,8 @@ public interface IAssessmentReport {
 	public int getAssessmentSessionTime();
 	public boolean getAssessmentMasteryPassed();
 	public int getCurrentItemModulesCount();
+	public Result[] getItemsResults();
+	public int[] getItemsMistakes();
+	public int[] getItemsChecks();
+	public int[] getItemsTimes();
 }
