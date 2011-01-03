@@ -15,7 +15,7 @@ identifier="textEntry" title="Interactive text part 3" adaptive="false" timeDepe
 		<blockquote>
 				<textEntryMultipleInteraction responseIdentifier="RESPONSE">
 					Calculate (expected values are 2 and 4):
-					<textEntry maxLength="9">
+					<textEntry expectedLength="9">
 						<feedbackInline outcomeIdentifier="RESPONSE" identifier="^2;4$" showHide="show"  senderIdentifier="^RESPONSE$">
 							Correct!
 						</feedbackInline>
@@ -24,7 +24,7 @@ identifier="textEntry" title="Interactive text part 3" adaptive="false" timeDepe
 						</feedbackInline>
 					</textEntry>
 					+
-					<textEntry maxLength="9">
+					<textEntry expectedLength="9">
 					</textEntry>
 					= 6
 				</textEntryMultipleInteraction>
