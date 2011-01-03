@@ -71,7 +71,8 @@ public class TextEntryModule extends InlineHTML implements IInteractionModule{
 		response = moduleSocket.getResponse(responseIdentifier);
 		stateListener = stateChangedListener;
 		textBox = new TextBox();
-		textBox.setMaxLength(XMLUtils.getAttributeAsInt(element, "expectedLength"));
+		if (element.hasAttribute("expectedLength"))
+			textBox.setMaxLength(XMLUtils.getAttributeAsInt(element, "expectedLength"));
 		textBox.getElement().setId(id);
 		
 		if (!response.correctAnswers.get(0).matches(".*[^0-9].*"))
