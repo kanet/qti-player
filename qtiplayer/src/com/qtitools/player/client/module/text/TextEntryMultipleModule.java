@@ -68,8 +68,8 @@ public class TextEntryMultipleModule extends Composite implements IInteractionMo
 				TextBox tmpTB = new TextBox();
 				tmpTB.setStyleName("qp-textentrymultiple-textbox");
 				tmpTB.getElement().setId(Document.get().createUniqueId());
-				if (element1.hasAttribute("maxLength"))
-					tmpTB.setMaxLength( Integer.parseInt(element1.getAttribute("maxLength")) );
+				if (element1.hasAttribute("expectedLength"))
+					tmpTB.setMaxLength( Integer.parseInt(element1.getAttribute("expectedLength")) );
 
 				NodeList childNodes = element1.getChildNodes();
 				for (int f = 0 ; f < childNodes.getLength() ; f ++){
