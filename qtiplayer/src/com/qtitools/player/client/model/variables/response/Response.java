@@ -183,6 +183,8 @@ public class Response extends Variable {
 			
 			if (values.size() == 1)
 				evaluation.add(values.get(0).equals(correctAnswers.get(0)));
+			else
+				evaluation.add(false);
 		
 		} if (cardinality == Cardinality.MULTIPLE){
 			
