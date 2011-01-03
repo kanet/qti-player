@@ -296,6 +296,24 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 				int[] times = sessionDataManager.getSessionData().times;
 				return times;
 			}
+
+			@Override
+			public int getTotalMistakes() {
+				int[] mistakes = sessionDataManager.getSessionData().mistakes;
+				int mCount = 0;
+				for (int m : mistakes)
+					mCount += m;
+				return mCount;
+			}
+
+			@Override
+			public int getTotalChecks() {
+				int[] checks = sessionDataManager.getSessionData().checks;
+				int cCount = 0;
+				for (int c : checks)
+					cCount += c;
+				return cCount;
+			}
 		};
 	}
 

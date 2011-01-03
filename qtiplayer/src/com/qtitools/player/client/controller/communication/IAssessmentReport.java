@@ -27,4 +27,6 @@ public interface IAssessmentReport {
 	public int[] getItemsMistakes();
 	public int[] getItemsChecks();
 	public int[] getItemsTimes();
+	public int getTotalMistakes();
+	public int getTotalChecks();
 }

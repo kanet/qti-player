@@ -157,13 +157,13 @@ public class Player implements DeliveryEngineEventListener {
 	  JavaScriptObject obj = JavaScriptObject.createObject();
 	  
 	  initAssessmentSessionReportJS(obj, assessmentSessionTime, score, max, lessonStatus, itemIndex+1, itemsCount, 
-			  jsItemScores, jsItemScoreMaxs, jsMistakes, jsChecks, jsTimes);
+			  jsItemScores, jsItemScoreMaxs, jsMistakes, jsChecks, jsTimes, report.getTotalMistakes(), report.getTotalChecks());
 	  
 	  return obj;
   }
   private native static void initAssessmentSessionReportJS(JavaScriptObject obj, int time, int score, int scoreMax, String lessonStatus, 
 		  int itemIndex, int itemsCount, JavaScriptObject itemsScores, JavaScriptObject itemsScoreMaxs, JavaScriptObject itemsMistakes, 
-		  JavaScriptObject itemChecks, JavaScriptObject itemTimes) /*-{
+		  JavaScriptObject itemChecks, JavaScriptObject itemTimes, int totalMistakes, int totalChecks) /*-{
 	  obj.getTime = function(){
 		  return time;
 	  }
@@ -196,6 +196,12 @@ public class Player implements DeliveryEngineEventListener {
 	  }
 	  obj.getItemTime = function(index){
 	  	return itemTimes[index];
+	  }
+	  obj.getTotalMistakes = function(){
+	  	return totalMistakes;
+	  }
+	  obj.getTotalChecks = function(){
+	  	return totalChecks;
 	  }
   }-*/;
 
