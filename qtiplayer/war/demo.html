@@ -35,6 +35,9 @@
 		player1.onTestPageSwitching = function(){
 			getValues();
 		}
+		player1.onTestPageSwitched = function(){
+			
+		}
 		
       }
       
@@ -52,6 +55,18 @@
         alert("item: " + report.getItemIndex() + " / " + report.getItemsCount());
         
       }
+	  
+	function itemReport(){
+		var selObj = document.getElementById("itemIndexCombo");
+		var valStr = selObj.options[selObj.selectedIndex].value;
+		var valInt = parseInt(valStr);
+        var report = player1.getAssessmentSessionReport();
+        alert("time: " + report.getItemTime(valInt));
+        alert("score: " + report.getItemScore(valInt));
+        alert("max score: " + report.getItemScoreMax(valInt));
+        alert("mistakes: " + report.getItemMistakes(valInt));
+		alert("checks: " + report.getItemChecks(valInt));
+	}
 	       
 	function getValues(){
 		var s = "page: " + player1.getAssessmentSessionReport().getItemIndex();
@@ -79,6 +94,21 @@
 	<INPUT TYPE="button" NAME="button" Value="mode" onClick="alert(player1.getEngineMode().toString());">
 	<INPUT TYPE="button" NAME="button" Value="state" onClick="manageState();">
 	<INPUT TYPE="button" NAME="button" Value="report" onClick="report();">
+	<INPUT TYPE="button" NAME="button" Value="item report" onClick="itemReport();">
+	<SELECT id="itemIndexCombo">
+		<option value="0" selected>0</option>
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+		<option value="5">5</option>
+		<option value="6">6</option>
+		<option value="7">7</option>
+		<option value="8">8</option>
+		<option value="9">9</option>
+		<option value="10">10</option>
+		<option value="11">11</option>
+	</SELECT>
 
 	<div id="player"></div>
 <!--
