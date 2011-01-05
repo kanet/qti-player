@@ -17,7 +17,7 @@
         // Load assessment
         player1 = qpCreatePlayer('player');
 		//manageState();
-		player1.setFlowOptions({showToC: false, showSummary: true, itemsDisplayMode: "ONE"});
+		player1.setFlowOptions({showToC: false, showSummary: true, itemsDisplayMode: "ONE", showCheck: true});
 		//player1.setDisplayOptions(["untagged", "tag0"]);
         player1.load('content/demo.xml');
         player1.setMasteryScore(10);
@@ -53,6 +53,8 @@
         alert("max score: " + report.getScoreMax());
         alert("lesson status: " + report.getLessonStatus());
         alert("item: " + report.getItemIndex() + " / " + report.getItemsCount());
+		alert("mistakes: " + report.getTotalMistakes());
+		alert("checks: " + report.getTotalChecks());
         
       }
 	  
