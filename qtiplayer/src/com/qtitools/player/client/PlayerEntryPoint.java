@@ -261,8 +261,14 @@ public class PlayerEntryPoint implements EntryPoint {
 		FlowOptions fo = new FlowOptions();
 		try {
 			fo.showToC = decodeFlowOptionsObjectShowToC(o);
+		} catch (Exception e) {}
+		try {
 			fo.showSummary = decodeFlowOptionsObjectShowSummary(o);
+		} catch (Exception e) {}
+		try {
 			fo.itemsDisplayMode = (decodeFlowOptionsObjectPageItemsDisplayMode(o).compareTo(PageItemsDisplayMode.ALL.toString()) == 0) ? PageItemsDisplayMode.ALL : PageItemsDisplayMode.ONE;
+		} catch (Exception e) {}
+		try {
 			fo.showCheck = decodeFlowOptionsObjectShowCheck(o);
 		} catch (Exception e) {}
 		player.setFlowOptions(fo);
