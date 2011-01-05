@@ -4,6 +4,7 @@ import java.util.Vector;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
+import com.google.gwt.xml.client.XMLParser;
 import com.qtitools.player.client.controller.data.events.AssessmentDataLoaderEventListener;
 import com.qtitools.player.client.controller.style.StyleLinkDeclaration;
 import com.qtitools.player.client.util.localisation.LocalePublisher;
@@ -36,6 +37,13 @@ public class AssessmentDataSourceManager {
 		if (err.indexOf(":") != -1)
 			detail = err.substring(0, err.indexOf(":"));
 		errorMessage = LocalePublisher.getText(LocaleVariable.ERROR_ASSESSMENT_FAILED_TO_LOAD) + detail;
+	}
+	
+	public void setAssessmentDefaultData(){
+		data = new XMLData(XMLParser.parse("<assessmentTest title=\"\"/>"), "");
+		itemsCount = 1;
+		styleDeclaration = new StyleLinkDeclaration(data.getDocument().getElementsByTagName("styleDeclaration"), data.getBaseURL());
+		listener.onAssessmentDataLoaded();
 	}
 	
 	public XMLData getAssessmentData(){

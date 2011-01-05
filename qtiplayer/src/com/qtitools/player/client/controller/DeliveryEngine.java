@@ -90,7 +90,7 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 	}
 	
 	public void load(String url){
-		dataManager.loadAssessment(url);
+		dataManager.loadMainDocument(url);
 	}
 
 	public void load(XMLData assessmentData, XMLData[] itemsData){
@@ -100,7 +100,6 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 	@Override
 	public void onAssessmentLoaded() {
 		sessionDataManager.init(dataManager.getItemsCount());
-		
 	}
 
 	@Override

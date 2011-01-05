@@ -2,7 +2,6 @@ package com.qtitools.player.client.controller.data;
 
 import java.util.List;
 import java.util.Vector;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -66,7 +65,7 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 		return assessmentDataManager.getItemsCount();
 	}
 	
-	public void loadAssessment(String url){
+	public void loadMainDocument(String url){
 		
 		if (mode == DataSourceManagerMode.LOADING_ASSESSMENT  ||  mode == DataSourceManagerMode.LOADING_ITEMS)
 			return;
@@ -92,8 +91,13 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 		new com.qtitools.player.client.util.xml.XMLDocument(resolvedURL, new IDocumentLoaded(){
 
 			public void finishedLoading(Document document, String baseURL) {
-				assessmentDataManager.setAssessmentData(new XMLData(document, baseURL));
-				loadItems();
+				if (!isItemDocument(document)){
+					assessmentDataManager.setAssessmentData(new XMLData(document, baseURL));
+					loadItems();
+				} else {
+					assessmentDataManager.setAssessmentDefaultData();
+					loadSingleItemData(new XMLData(document, baseURL));
+				}
 			}
 
 			@Override
@@ -135,10 +139,15 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 		
 	}
 	
+	private void loadSingleItemData(XMLData itemData){
+		itemDataCollectionManager.setItemDataCollection(new XMLData[] {itemData});
+	}
+	
 	public void loadData(XMLData ad, XMLData[] ids){
 		assessmentDataManager.setAssessmentData(ad);
 		itemDataCollectionManager.setItemDataCollection(ids);
 	}
+	
 	
 	public PageData generatePageData(PageReference ref){
 		PageData pd;
@@ -302,4 +311,12 @@ public class DataSourceManager implements AssessmentDataLoaderEventListener, Ite
 		return listener;
 	}
 
+	private boolean isItemDocument(Document doc){
+		try {
+			return doc.getDocumentElement().getNodeName().equals("assessmentItem");
+		} catch (Exception e) {
+		}
+		return true;
+	}
+	
 }
