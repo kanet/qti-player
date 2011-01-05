@@ -263,6 +263,7 @@ public class PlayerEntryPoint implements EntryPoint {
 			fo.showToC = decodeFlowOptionsObjectShowToC(o);
 			fo.showSummary = decodeFlowOptionsObjectShowSummary(o);
 			fo.itemsDisplayMode = (decodeFlowOptionsObjectPageItemsDisplayMode(o).compareTo(PageItemsDisplayMode.ALL.toString()) == 0) ? PageItemsDisplayMode.ALL : PageItemsDisplayMode.ONE;
+			fo.showCheck = decodeFlowOptionsObjectShowCheck(o);
 		} catch (Exception e) {}
 		player.setFlowOptions(fo);
 	}
@@ -277,6 +278,10 @@ public class PlayerEntryPoint implements EntryPoint {
 
 	public native static String decodeFlowOptionsObjectPageItemsDisplayMode(JavaScriptObject obj)/*-{
 		return obj.itemsDisplayMode;
+	}-*/;
+
+	public native static boolean decodeFlowOptionsObjectShowCheck(JavaScriptObject obj)/*-{
+		return obj.showCheck;
 	}-*/;
 
 	public static void setDisplayOptions(JavaScriptObject o){

@@ -112,7 +112,7 @@ public class DirectLoadInterfaceTest implements EntryPoint {
 	public void createPlayer(){
 		Player p = new Player("root");
 		// optionally - flow options could be set
-		p.setFlowOptions(new FlowOptions(true, true, PageItemsDisplayMode.ONE));
+		p.setFlowOptions(new FlowOptions(true, true, PageItemsDisplayMode.ONE, true));
 		p.load(assessmentData, itemDatas);
 	}
 }

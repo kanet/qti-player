@@ -173,7 +173,7 @@ public class NavigationView implements NavigationViewSocket {
 	
 	public void updateButtons(PageType pageType, int pageIndex, int pageCount, FlowOptions flowOptions, boolean isCheck, boolean isAnswers, 
 			DisplayOptions displayOptions, ItemParameters itemParameters){
-		checkButton.setVisible(!isCheck  &&  !isAnswers  &&  pageType == PageType.TEST  &&  !displayOptions.isPreviewMode()  &&  itemParameters.getModulesCount() > 0);
+		checkButton.setVisible(flowOptions.showCheck  &&  !isCheck  &&  !isAnswers  &&  pageType == PageType.TEST  &&  !displayOptions.isPreviewMode()  &&  itemParameters.getModulesCount() > 0);
 		continueItemButton.setVisible((isCheck || isAnswers)  &&  pageType == PageType.TEST  &&  !displayOptions.isPreviewMode());
 		prevButton.setVisible(pageType == PageType.TEST  &&  flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE);
 		prevButton.setEnabled(flowOptions.showToC  ||  pageIndex > 0);
