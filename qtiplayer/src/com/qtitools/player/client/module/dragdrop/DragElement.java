@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 import com.qtitools.player.client.module.CommonsFactory;
 import com.qtitools.player.client.module.IUnattachedComponent;
-import com.qtitools.player.client.util.xml.XMLConverter;
 
 public class DragElement extends Composite {
 

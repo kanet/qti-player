@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.xml.client.Element;
-import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.components.ElementWrapperWidget;
 import com.qtitools.player.client.components.Rectangle;
@@ -96,7 +95,7 @@ public class DragDropModule extends Composite implements IInteractionModule {
 		containerPanel.setStyleName("qp-dragdrop-container");
 		
 		backLayerPanel = new FlowPanel();
-		backLayerPanel.setStyleName("bqp-dragdrop-backlayer");
+		backLayerPanel.setStyleName("qp-dragdrop-backlayer");
 		containerPanel.add(backLayerPanel, 0, 0);
 		
 		contentsPanel = new FlowPanel();
