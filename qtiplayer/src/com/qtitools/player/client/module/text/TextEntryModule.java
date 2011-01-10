@@ -91,7 +91,7 @@ public class TextEntryModule extends InlineHTML implements IInteractionModule{
 
 	@Override
 	public void onOwnerAttached() {
-		
+		updateResponse(false);
 	}
 
 	@Override

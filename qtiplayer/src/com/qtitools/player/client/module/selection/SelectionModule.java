@@ -85,6 +85,8 @@ public class SelectionModule extends Composite implements IInteractionModule {
 	public void onOwnerAttached() {
 		for (IUnattachedComponent uac : inlineModules)
 			uac.onOwnerAttached();
+		
+		updateResponse("", false);
 
 	}
 	
@@ -322,7 +324,7 @@ public class SelectionModule extends Composite implements IInteractionModule {
 			}
 		}
 
-		if (!response.compare(currResponseValues)){
+		if (!response.compare(currResponseValues)  ||  !response.isInitialized()){
 			response.set(currResponseValues);
 			stateListener.onStateChanged(userInteract, this);
 		}

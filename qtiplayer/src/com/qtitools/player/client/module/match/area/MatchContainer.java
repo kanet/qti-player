@@ -563,7 +563,7 @@ public class MatchContainer extends FlowPanel{
 			currResponseValues.add(mc.getAsDirectedPair());
 		}
 		
-		if (!response.compare(currResponseValues)){
+		if (!response.compare(currResponseValues)  ||  !response.isInitialized()){
 			response.set(currResponseValues);
 			stateListener.onStateChanged(userInteract, moduleReference);
 		}

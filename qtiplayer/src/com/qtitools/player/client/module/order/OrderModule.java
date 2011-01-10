@@ -375,7 +375,7 @@ public class OrderModule extends Composite implements IInteractionModule {
 			currResponseValues.add(optionsIdentifiers.get(i));
 		}
 		
-		if (!response.compare(currResponseValues)){
+		if (!response.compare(currResponseValues)  ||  !response.isInitialized()){
 			response.set(currResponseValues);
 			stateListener.onStateChanged(userInteract, this);
 		}

@@ -143,6 +143,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 		for (SimpleChoice c:interactionElements){
 			c.onOwnerAttached();
 		}
+		updateResponse(null, false);
 	}
 
 
@@ -299,7 +300,7 @@ public class ChoiceModule extends Composite implements IInteractionModule {
 			//currSC.showFeedback(currSC.isSelected());
 		}
 		
-		if (!response.compare(currResponseValues)){
+		if (!response.compare(currResponseValues)  ||  !response.isInitialized()){
 			response.set(currResponseValues);
 			stateListener.onStateChanged(userInteract, this);
 		}

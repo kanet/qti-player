@@ -128,6 +128,8 @@ public class DragDropModule extends Composite implements IInteractionModule {
 
 		for (IUnattachedComponent uac : inlineModules)
 			uac.onOwnerAttached();
+
+		updateResponse(false);
 	}
 	@Override
 	public String getIdentifier() {
@@ -284,7 +286,7 @@ public class DragDropModule extends Composite implements IInteractionModule {
 			}
 		}
 
-		if (!response.compare(currResponseValues)){
+		if (!response.compare(currResponseValues)  ||  !response.isInitialized()){
 			response.set(currResponseValues);
 			stateListener.onStateChanged(userInteract, this);
 		}

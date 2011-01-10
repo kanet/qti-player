@@ -40,6 +40,7 @@ public class Response extends Variable {
 	public Vector<Vector<Integer>> groups;
 	/** Determines whether the module corresponding to the response variable exists in the document*/
 	private boolean isModuleAdded = false;
+	private boolean initialized = false;
 	
 	public Mapping mapping;
 	
@@ -65,7 +66,12 @@ public class Response extends Variable {
 		baseType = BaseType.fromString( ((Element)responseDeclarationNode).getAttribute("baseType") );
 		
 		for(int i = 0; i < nodes.getLength(); i++){
-			correctAnswers.add( nodes.item(i).getFirstChild().getNodeValue() );
+			String nodeValue;
+			if (nodes.item(i).hasChildNodes())
+				nodeValue = nodes.item(i).getFirstChild().getNodeValue();
+			else
+				nodeValue = "";
+			correctAnswers.add( nodeValue );
 			if ( ((Element)nodes.item(i)).hasAttribute("group") ){
 				int currIndex = groupsNames.indexOf( ((Element)nodes.item(i)).getAttribute("group") ); 
 				if (currIndex == -1){
@@ -121,6 +127,8 @@ public class Response extends Variable {
 			values.clear();
 		
 		values.add(key);
+		
+		initialized = true;
 	}
 
 	/**
@@ -140,6 +148,7 @@ public class Response extends Variable {
 	
 	public void set(Vector<String> keys){
 		values = keys;
+		initialized = true;
 	}
 	
 	public boolean compare(Vector<String> test){
@@ -153,6 +162,10 @@ public class Response extends Variable {
 		
 		return true;
 			
+	}
+	
+	public boolean isInitialized(){
+		return initialized;
 	}
 
 	/**

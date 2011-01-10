@@ -204,7 +204,7 @@ public class TextEntryMultipleModule extends Composite implements IInteractionMo
 			currResponseValues.add(tb.getText());
 		}
 		
-		if (!response.compare(currResponseValues)){
+		if (!response.compare(currResponseValues)  ||  !response.isInitialized()){
 			response.set(currResponseValues);
 			stateListener.onStateChanged(userInteract, this);
 		}

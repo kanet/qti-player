@@ -193,7 +193,7 @@ public class IdentificationModule extends Composite implements
 				currResponseValues.add(currSC.getIdentifier());
 		}
 		
-		if (!response.compare(currResponseValues)){
+		if (!response.compare(currResponseValues)  ||  !response.isInitialized()){
 			response.set(currResponseValues);
 			stateChangedListener.onStateChanged(userInteract, this);
 		}
