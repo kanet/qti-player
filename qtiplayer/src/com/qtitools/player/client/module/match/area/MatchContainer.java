@@ -1,7 +1,6 @@
 package com.qtitools.player.client.module.match.area;
 
 import java.util.Vector;
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONString;
@@ -16,7 +15,6 @@ import com.qtitools.player.client.model.variables.response.Response;
 import com.qtitools.player.client.module.IInteractionModule;
 import com.qtitools.player.client.module.IModuleEventsListener;
 import com.qtitools.player.client.module.ITouchEventsListener;
-import com.qtitools.player.client.module.IUnattachedComponent;
 import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.util.RandomizedSet;
 

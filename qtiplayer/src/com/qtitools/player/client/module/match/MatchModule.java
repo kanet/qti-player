@@ -4,6 +4,7 @@ import java.util.Vector;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.xml.client.Element;
@@ -123,11 +124,11 @@ public class MatchModule extends Composite implements IInteractionModule {
 			return;
 		
 		if (event.getTypeInt() == Event.ONMOUSEDOWN){
-			container.startDrag(tagID, event.getClientX(), event.getClientY());
+			container.startDrag(tagID, event.getClientX() + Window.getScrollLeft(), event.getClientY() + Window.getScrollTop());
 		} else if (event.getTypeInt() == Event.ONMOUSEUP){
-			container.endDrag(tagID, event.getClientX(), event.getClientY());
+			container.endDrag(tagID, event.getClientX() + Window.getScrollLeft(), event.getClientY() + Window.getScrollTop());
 		} else if (event.getTypeInt() == Event.ONMOUSEMOVE){
-			container.processDrag(event.getClientX(), event.getClientY());
+			container.processDrag(event.getClientX() + Window.getScrollLeft(), event.getClientY() + Window.getScrollTop());
 			event.stopPropagation();
 		}  else if (event.getTypeInt() == Event.ONMOUSEOUT){
 			container.endDrag("", -1, -1);
