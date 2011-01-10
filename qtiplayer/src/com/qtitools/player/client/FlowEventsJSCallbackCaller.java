@@ -5,6 +5,12 @@ import com.google.gwt.core.client.JavaScriptObject;
 public abstract class FlowEventsJSCallbackCaller {
 
     
+	public static native void onAssessmentLoadedJS(JavaScriptObject player) /*-{
+		if(typeof player.onAssessmentLoaded == 'function') {
+			player.onAssessmentLoaded();
+	}
+	}-*/;
+    
 	public static native void onAssessmentSessionBeginJS(JavaScriptObject player) /*-{
 		if(typeof player.onAssessmentSessionBegin == 'function') {
 			player.onAssessmentSessionBegin();

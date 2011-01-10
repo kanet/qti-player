@@ -21,6 +21,7 @@ public class FlowManager implements NavigationSocket {
 		displayOptions = new DisplayOptions();
 		isCheck = false;
 		isAnswers = false;
+		isInitalized = false;
 	}
 	
 	private NavigationView navigationView;
@@ -35,6 +36,7 @@ public class FlowManager implements NavigationSocket {
 	//private ItemActivityOptions activityOptions;
 	private boolean isCheck;
 	private boolean isAnswers;
+	private boolean isInitalized;
 
 	public void init(int _itemsCount){
 		itemsCount = _itemsCount;
@@ -46,10 +48,17 @@ public class FlowManager implements NavigationSocket {
 			currentPageType = PageType.TEST;
 		navigationView.init(_itemsCount, flowOptions);
 	}
+
+	public void initFlow(){
+		isInitalized = true;
+		doFlow();
+	}
 	
-	public void startFlow(){
-		flowListener.onNavigatePageSwitched();
-		updateNavigation();
+	private void doFlow(){
+		if (isInitalized){
+			flowListener.onNavigatePageSwitched();
+			updateNavigation();
+		}
 	}
 
 	public void setFlowOptions(FlowOptions o){
@@ -75,16 +84,14 @@ public class FlowManager implements NavigationSocket {
 				onPageChange();
 				currentPageType = PageType.TEST;
 				currentPageIndex = index;
-				flowListener.onNavigatePageSwitched();
-				updateNavigation();
+				doFlow();
 			}
 		} else if (flowOptions.itemsDisplayMode == PageItemsDisplayMode.ONE){
 			if (index >= 0  &&  index < itemsCount){
 				onPageChange();
 				currentPageType = PageType.TEST;
 				currentPageIndex = index;
-				flowListener.onNavigatePageSwitched();
-				updateNavigation();
+				doFlow();
 			}
 		}
 		
@@ -97,8 +104,7 @@ public class FlowManager implements NavigationSocket {
 			displayOptions.setPreviewMode(false);
 			currentPageType = PageType.SUMMARY;
 			currentPageIndex = 0;
-			flowListener.onNavigatePageSwitched();
-			updateNavigation();
+			doFlow();
 		}
 		
 	}
@@ -109,8 +115,7 @@ public class FlowManager implements NavigationSocket {
 			onPageChange();
 			currentPageType = PageType.TOC;
 			currentPageIndex = 0;
-			flowListener.onNavigatePageSwitched();
-			updateNavigation();
+			doFlow();
 		}
 		
 	}

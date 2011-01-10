@@ -112,7 +112,8 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 	public void onDataReady() {
 		flowManager.init(dataManager.getItemsCount());
 		assessmentController.init(dataManager.getAssessmentData());
-		flowManager.startFlow();
+		getDeliveryEngineEventsListener().onAssessmentLoaded();
+		flowManager.initFlow();
 		updateAssessmentStyle();
 		getDeliveryEngineEventsListener().onAssessmentStarted();
 		updatePageStyle();

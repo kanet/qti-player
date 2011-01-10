@@ -251,6 +251,7 @@ public class Player implements DeliveryEngineEventListener {
 
 	@Override
 	public void onAssessmentLoaded() {
+		FlowEventsJSCallbackCaller.onAssessmentLoadedJS(jsObject);
 	}
 
 	@Override

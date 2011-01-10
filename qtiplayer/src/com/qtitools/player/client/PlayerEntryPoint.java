@@ -88,6 +88,18 @@ public class PlayerEntryPoint implements EntryPoint {
 		  	 @com.qtitools.player.client.PlayerEntryPoint::navigatePreviousItem()();
 		  }
 
+		  player.navigateGotoItem = function(index){
+		  	 @com.qtitools.player.client.PlayerEntryPoint::navigateGotoPage(I)(index);
+		  }
+
+		  player.navigateGotoTOC = function(){
+		  	 @com.qtitools.player.client.PlayerEntryPoint::navigateGotoTOC()();
+		  }
+
+		  player.navigateGotoSummary = function(){
+		  	 @com.qtitools.player.client.PlayerEntryPoint::navigateGotoSummary()();
+		  }
+
 		  player.navigateFinishItem = function(){
 		  	 @com.qtitools.player.client.PlayerEntryPoint::navigateFinishItem()();
 		  }
@@ -212,6 +224,18 @@ public class PlayerEntryPoint implements EntryPoint {
 
 	public static void navigatePreviousItem() {
 		player.getNavigationCommandsListener().previousPage();
+	}
+
+	public static void navigateGotoPage(int index) {
+		player.getNavigationCommandsListener().gotoPage(index);
+	}
+
+	public static void navigateGotoTOC() {
+		player.getNavigationCommandsListener().gotoToc();
+	}
+
+	public static void navigateGotoSummary() {
+		player.getNavigationCommandsListener().gotoSummary();
 	}
 
 	public static void navigateFinishItem() {
