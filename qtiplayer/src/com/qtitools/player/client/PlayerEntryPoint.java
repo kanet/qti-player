@@ -96,10 +96,6 @@ public class PlayerEntryPoint implements EntryPoint {
 		  	 @com.qtitools.player.client.PlayerEntryPoint::navigateGotoTOC()();
 		  }
 
-		  player.navigateGotoSummary = function(){
-		  	 @com.qtitools.player.client.PlayerEntryPoint::navigateGotoSummary()();
-		  }
-
 		  player.navigateFinishItem = function(){
 		  	 @com.qtitools.player.client.PlayerEntryPoint::navigateFinishItem()();
 		  }
