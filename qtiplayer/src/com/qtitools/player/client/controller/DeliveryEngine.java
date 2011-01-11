@@ -2,6 +2,11 @@ package com.qtitools.player.client.controller;
 
 import java.util.Vector;
 
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONNull;
+import com.google.gwt.json.client.JSONNumber;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONString;
 import com.google.inject.Inject;
 import com.qtitools.player.client.controller.communication.ActivityActionType;
 import com.qtitools.player.client.controller.communication.DisplayOptions;
@@ -169,8 +174,39 @@ public class DeliveryEngine implements DataLoaderEventListener, FlowEventsListen
 		return flowManager;
 	}
 	
-	public StateInterface getStateInterface(){
-		return sessionDataManager;
+	public String getState(){
+		JSONArray deState = new JSONArray();
+		if (flowManager.getCurrentPageType() == PageType.TEST)
+			deState.set(0, new JSONNumber(flowManager.getCurrentPageIndex()));
+		else if (flowManager.getCurrentPageType() == PageType.TOC  ||  flowManager.getCurrentPageType() == PageType.SUMMARY)
+			deState.set(0, new JSONString(flowManager.getCurrentPageType().toString()));
+		else
+			deState.set(0, JSONNull.getInstance());
+		deState.set(1, sessionDataManager.exportState());
+		return deState.toString();
+	}
+	
+	public void setState(String state){
+		try{
+			JSONArray deState = (JSONArray)JSONParser.parse(state);
+
+			assessmentController.reset();
+			
+			sessionDataManager.importState((JSONArray)deState.get(1));
+			
+			flowManager.deinitFlow();
+			
+			if (deState.get(0).isNumber() != null){
+				flowManager.gotoPage((int)deState.get(0).isNumber().doubleValue());
+			} else if(deState.get(0).isString() != null){
+				if (deState.get(0).isString().stringValue().equals(PageType.TOC.toString()))
+					flowManager.gotoToc();
+				else if (deState.get(0).isString().stringValue().equals(PageType.SUMMARY.toString()))
+					flowManager.gotoSummary();
+			}
+			flowManager.initFlow();
+		} catch (Exception e) {
+		}
 	}
 	
 

@@ -53,6 +53,10 @@ public class FlowManager implements NavigationSocket {
 		isInitalized = true;
 		doFlow();
 	}
+
+	public void deinitFlow(){
+		isInitalized = false;
+	}
 	
 	private void doFlow(){
 		if (isInitalized){

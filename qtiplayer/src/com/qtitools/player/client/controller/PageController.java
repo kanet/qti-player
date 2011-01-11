@@ -86,6 +86,10 @@ public final class PageController {
 		}
 	}
 	
+	public void reset(){
+		items = null;
+	}
+	
 	public void updateState(){
 		if (items != null){
 			for (int i = 0 ; i < items.length ; i ++){

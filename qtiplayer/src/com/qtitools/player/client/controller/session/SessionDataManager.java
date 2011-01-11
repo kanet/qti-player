@@ -1,7 +1,7 @@
 package com.qtitools.player.client.controller.session;
 
 import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONNull;
 import com.qtitools.player.client.controller.communication.Result;
 import com.qtitools.player.client.controller.session.events.StateChangedEventsListener;
 
@@ -53,31 +53,61 @@ public class SessionDataManager implements SessionSocket, StateInterface {
 	public ItemSessionData getSessionData(int itemIndex) {
 		return itemSessionDatas[itemIndex];
 	}
-	
+	/*
 	@Override
 	public void setSessionResultAndStats(int itemIndex, ItemSessionResultAndStats isr) {
 		itemSessionDatas[itemIndex].update(isr);
 	}
-
+	 */
 	@Override
 	public void setSessionResult(int itemIndex, Result result) {
 		if (itemSessionDatas[itemIndex] != null)
 			itemSessionDatas[itemIndex].update(result);
 	}
+
 	@Override
-	public void importState(String st) {
-		  try {
-			  JSONArray statesArr = (JSONArray)JSONParser.parse(st);
-			  state = statesArr;
-			  listener.onStateChanged();
-		  } catch (Exception e) {
+	public void addSessionCheck(int itemIndex) {
+		itemSessionDatas[itemIndex].checks++;
+	}
+
+	@Override
+	public void addSessionMistake(int itemIndex) {
+		itemSessionDatas[itemIndex].mistakes++;
+	}
+	
+	@Override
+	public void importState(JSONArray statesArr) {
+		try {			  
+			JSONArray itemStates = (JSONArray)statesArr.get(1);
+			for (int i = 0 ; i < itemSessionDatas.length ; i ++ ){
+				if (itemStates.get(i).isArray() instanceof JSONArray){
+					itemSessionDatas[i] = new ItemSessionData();  
+					itemSessionDatas[i].setState(itemStates.get(i));
+			  	} else {
+			  		itemSessionDatas[i] = null;
+			  	}
+			}
+			  
+			state = (JSONArray)statesArr.get(0);
+			listener.onStateChanged();
+		} catch (Exception e) {
 		}
 		
 	}
 
 	@Override
-	public String exportState() {
-		return state.toString();
+	public JSONArray exportState() {
+		JSONArray itemStates = new JSONArray();
+		for (ItemSessionData isd : itemSessionDatas){
+			if (isd != null)
+				itemStates.set(itemStates.size(), isd.getState());
+			else
+				itemStates.set(itemStates.size(), JSONNull.getInstance());
+		}
+		JSONArray mainState = new JSONArray();
+		mainState.set(0, state);
+		mainState.set(1, itemStates);
+		return mainState;
 	}
 	
 	public SessionDataCarrier getSessionData(){

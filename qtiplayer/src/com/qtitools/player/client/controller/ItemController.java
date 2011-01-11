@@ -50,6 +50,7 @@ public class ItemController implements ModuleStateChangedEventsListener {
 			item.setState(itemSessionSocket.getState(itemIndex));
 			itemViewSocket.setItemView(new ItemViewCarrier(String.valueOf(itemIndex+1) + ". " + item.getTitle(), item.getContentView(), item.getFeedbackView(), item.getScoreView()));
 			itemSessionSocket.beginItemSession(itemIndex);
+			itemSessionSocket.setSessionResult(itemIndex, item.getResult());
 			navigationIncidentsStats = new ItemNavigationIncidentsStats();
 			navigationSocket.setItemParamtersSocket(new ItemParametersSocket() {
 				public ItemParameters getItemParameters() {
@@ -68,10 +69,7 @@ public class ItemController implements ModuleStateChangedEventsListener {
 		if (item != null){
 			item.close();
 			itemSessionSocket.setState(itemIndex, item.getState());
-			itemSessionSocket.endItemSession(itemIndex);
-			itemSessionSocket.setSessionResultAndStats(itemIndex, 
-					new ItemSessionResultAndStats(item.getResult(), navigationIncidentsStats.getNavigationIncidentsCount(NavigationIncidentType.CHECK), item.getMistakesCount())
-				);
+			itemSessionSocket.endItemSession(itemIndex);			
 		}
 
 	}
@@ -87,12 +85,16 @@ public class ItemController implements ModuleStateChangedEventsListener {
 		item.process(userInteract, sender != null ? sender.getIdentifier() : "");
 		itemSessionSocket.setSessionResult(itemIndex, item.getResult());
 		itemSessionSocket.setState(itemIndex, item.getState());
+		int itemMistakes = item.getMistakesCount();
+		if (itemMistakes > 0)
+			itemSessionSocket.addSessionMistake(itemIndex);
 	}
 	
 	public void onNavigationIncident(NavigationIncidentType nit){
 		if (item != null){
 			if (nit == NavigationIncidentType.CHECK){
 				item.checkItem();
+				itemSessionSocket.addSessionCheck(itemIndex);
 			} else if (nit == NavigationIncidentType.CONTINUE){
 				item.continueItem();
 			} else if (nit == NavigationIncidentType.SHOW_ANSWERS){

@@ -26,6 +26,14 @@ public class ItemSessionResultAndStats {
 		checks += isr.checks;
 		mistakes += isr.mistakes;
 	}
+	
+	public void updateChecks(int ch){
+		checks += ch;
+	}
+
+	public void setResult(Result res){
+		result = res;
+	}
 
 	public void update(Result r){
 		result = r;

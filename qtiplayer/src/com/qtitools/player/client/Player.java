@@ -225,7 +225,7 @@ public class Player implements DeliveryEngineEventListener {
 	 * Return interface to get assessment session state
 	 */
 	public String getState() {  
-		String stateString = deliveryEngine.getStateInterface().exportState().toString();
+		String stateString = deliveryEngine.getState();
 		return stateString;
 	}
   
@@ -233,7 +233,7 @@ public class Player implements DeliveryEngineEventListener {
 	 * Return interface to get assessment session time
 	 */
 	public void setState(String obj) {
-		 deliveryEngine.getStateInterface().importState(obj);
+		 deliveryEngine.setState(obj);
 	}
   
 	public JavaScriptObject getEngineMode(){

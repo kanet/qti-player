@@ -124,14 +124,14 @@ public class Item implements IStateful, ItemVariablesAccessor {
 
 				outcomeManager.variables.put("SCORECHANGES", tmpOutcome);
 			}
-			if (!outcomeManager.getVariablesMap().containsKey("MISTAKES")){
+			if (!outcomeManager.getVariablesMap().containsKey("LASTMISTAKEN")){
 				Outcome tmpOutcome = new Outcome();
-				tmpOutcome.identifier = "MISTAKES";
+				tmpOutcome.identifier = "LASTMISTAKEN";
 				tmpOutcome.cardinality = Cardinality.SINGLE;
 				tmpOutcome.baseType = BaseType.INTEGER;
 				tmpOutcome.values.add("0");
 
-				outcomeManager.variables.put("MISTAKES", tmpOutcome);
+				outcomeManager.variables.put("LASTMISTAKEN", tmpOutcome);
 			}
 			Iterator<String> responseKeys = responseManager.getVariablesMap().keySet().iterator();
 			
@@ -156,14 +156,14 @@ public class Item implements IStateful, ItemVariablesAccessor {
 					outcomeManager.variables.put(currRespIdentifier+"-PREVIOUS", tmpOutcome);
 					
 				}
-				if (!outcomeManager.getVariablesMap().containsKey(currRespIdentifier+"-MISTAKES")){
+				if (!outcomeManager.getVariablesMap().containsKey(currRespIdentifier+"-LASTMISTAKEN")){
 					Outcome tmpOutcome = new Outcome();
-					tmpOutcome.identifier = currRespIdentifier+"-MISTAKES";
+					tmpOutcome.identifier = currRespIdentifier+"-LASTMISTAKEN";
 					tmpOutcome.cardinality = Cardinality.SINGLE;
 					tmpOutcome.baseType = BaseType.INTEGER;
 					tmpOutcome.values.add("0");
 
-					outcomeManager.variables.put(currRespIdentifier+"-MISTAKES", tmpOutcome);
+					outcomeManager.variables.put(currRespIdentifier+"-LASTMISTAKEN", tmpOutcome);
 					
 				}
 			}
@@ -270,10 +270,9 @@ public class Item implements IStateful, ItemVariablesAccessor {
 	}
 	
 	public int getMistakesCount(){
-		if (outcomeManager.getVariablesMap().containsKey("MISTAKES")){
-			if (outcomeManager.getVariable("MISTAKES").values.size() == 1){
-				int mistakesCount = Integer.parseInt( outcomeManager.getVariable("MISTAKES").values.get(0) );
-				outcomeManager.getVariable("MISTAKES").values.set(0, "0");
+		if (outcomeManager.getVariablesMap().containsKey("LASTMISTAKEN")){
+			if (outcomeManager.getVariable("LASTMISTAKEN").values.size() == 1){
+				int mistakesCount = Integer.parseInt( outcomeManager.getVariable("LASTMISTAKEN").values.get(0) );
 				return mistakesCount; 
 			}
 		}

@@ -54,6 +54,10 @@ public class AssessmentController {
 		pageController.close();
 	}
 	
+	public void reset(){
+		pageController.reset();
+	}
+	
 	public void updateState(){
 		pageController.updateState();
 	}

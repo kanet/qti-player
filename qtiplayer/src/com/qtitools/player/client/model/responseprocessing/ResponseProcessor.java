@@ -110,11 +110,10 @@ public final class ResponseProcessor {
 					outcomes.get(currKey+"-PREVIOUS").values.add(responses.get(currKey).values.get(a));
 				}
 			}
-			if (outcomes.containsKey(currKey+"-LASTCHANGE")  &&  outcomes.containsKey(currKey+"-MISTAKES")){
+			if (outcomes.containsKey(currKey+"-LASTCHANGE")  &&  outcomes.containsKey(currKey+"-LASTMISTAKEN")){
 				int mistakes = processCheckMistakes( responses.get(currKey), outcomes.get(currKey+"-LASTCHANGE") );
 				if (userInteract){
-					int currMistakesCount = Integer.parseInt(outcomes.get(currKey+"-MISTAKES").values.get(0));
-					outcomes.get(currKey+"-MISTAKES").values.set(0,  String.valueOf(currMistakesCount + mistakes));
+					outcomes.get(currKey+"-LASTMISTAKEN").values.set(0,  String.valueOf(mistakes));
 				}
 			}
 		}
@@ -135,16 +134,16 @@ public final class ResponseProcessor {
 				outcomes.get("SCORECHANGES").values.add( String.valueOf(currModuleScore - prevModuleScore) );
 			}
 		}
-		if (outcomes.containsKey("MISTAKES")){
+		if (outcomes.containsKey("LASTMISTAKEN")){
 			Integer mistakes = 0;
 			Iterator<String> keys = responses.keySet().iterator();
 			while (keys.hasNext()){
 				String currKey2 = keys.next();
-				if (outcomes.containsKey(currKey2+"-MISTAKES")){
-					mistakes += Integer.parseInt( outcomes.get(currKey2+"-MISTAKES").values.get(0) );
+				if (outcomes.containsKey(currKey2+"-LASTMISTAKEN")){
+					mistakes += Integer.parseInt( outcomes.get(currKey2+"-LASTMISTAKEN").values.get(0) );
 				}
 			}
-			outcomes.get("MISTAKES").values.set(0, mistakes.toString());
+			outcomes.get("LASTMISTAKEN").values.set(0, mistakes.toString());
 		}
 		
 		// MACRO PROCESSING
