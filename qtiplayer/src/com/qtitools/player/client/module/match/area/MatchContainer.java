@@ -138,8 +138,8 @@ public class MatchContainer extends FlowPanel{
 
 		area.setCanvasSize(layoutPanel.getOffsetWidth(), areaHeight);
 		areaPanel.add(area.getView(), 0, 0);
-		areaPanel.setHeight(String.valueOf(areaHeight));
-		layoutPanel.setHeight(String.valueOf(areaHeight));
+		areaPanel.setHeight(String.valueOf(areaHeight) + "px");
+		layoutPanel.setHeight(String.valueOf(areaHeight) + "px");
 		
 		updateSlotsAnchors(areaWidth, heightPerElement, leftPanelMargin, rightPanelMargin);
 		
