@@ -41,6 +41,7 @@ public abstract class LocalePublisher {
 			case MESSAGE_LOADED: return "Contents loaded";
 			case MESSAGE_ASSESSMENT_ERROR: return "Failed to display assessment";
 			case MESSAGE_ITEM_ERROR: return "Failed to display item";
+			case MESSAGE_READOPTIONS_ERROR: return "Failed to read options";
 			case ERROR_ASSESSMENT_FAILED_TO_LOAD: return "Failed to load assessment: ";
 			case ERROR_ITEM_FAILED_TO_LOAD: return "Failed to load item: ";
 			case PLAYER_HEADER: return "";
