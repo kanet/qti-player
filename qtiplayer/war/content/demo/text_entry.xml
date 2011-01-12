@@ -41,7 +41,7 @@ identifier="textEntry" title="Interactive text part 2" adaptive="false" timeDepe
 		<br/>
 		<blockquote>
 			<p>Now is the winter of our discontent<br/> Made glorious summer by this sun of
-                    <textEntryInteraction responseIdentifier="RESPONSE2" expectedLength="15"/>;<br/>
+                    <textEntryInteraction responseIdentifier="RESPONSE2"/>;<br/>
                 And all the clouds that lour'd upon our house<br/> In the deep bosom of the ocean buried.</p>
 		</blockquote>
 	</itemBody>

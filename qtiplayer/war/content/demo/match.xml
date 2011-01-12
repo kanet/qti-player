@@ -46,7 +46,7 @@ identifier="match" title="Characters and Plays" adaptive="false" timeDependent="
 		</matchInteraction>
 		<br/>
 		Here is the audio player:
-		<audioPlayer src="../test/media/demo-sound.mp3" />
+		<audioPlayer data="../test/media/demo-sound.mp3" />
 	</itemBody>
 	<responseProcessing template="http://www.ydp.eu/qti/rptemplates/match_correct_multiple"/>
 	<modalFeedback outcomeIdentifier="SCORECHANGES" identifier=".*;1$" showHide="show"  senderIdentifier="^RESP.*">Score is +1</modalFeedback>

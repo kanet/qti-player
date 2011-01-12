@@ -35,7 +35,15 @@ identifier="choice" title="Video demo" adaptive="false" timeDependent="false">
 	  		You need modern web browser to display this video.
 		  </video>
 	  </div>
-
+		<p>
+			And movie 2	
+		</p>
+	  <div>
+	  	<object type="video/x-flv" data="media/v2.flv">
+			Video is not supported!
+		</object>
+	  </div>
+	  
 		<choiceInteraction responseIdentifier="RESPONSE" shuffle="true" maxChoices="1">
 			<prompt>Who won this race?</prompt>
 			<simpleChoice identifier="ChoiceA">Man.</simpleChoice>
