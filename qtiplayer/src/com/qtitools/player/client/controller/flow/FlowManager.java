@@ -11,13 +11,14 @@ import com.qtitools.player.client.controller.flow.navigation.NavigationIncidentT
 import com.qtitools.player.client.controller.flow.navigation.NavigationSocket;
 import com.qtitools.player.client.controller.flow.navigation.NavigationView;
 import com.qtitools.player.client.controller.flow.navigation.NavigationViewSocket;
+import com.qtitools.player.client.util.config.OptionsReader;
 
 public class FlowManager implements NavigationSocket {
 
 	public FlowManager(FlowEventsListener fel){
 		flowListener = fel;
 		navigationView = new NavigationView(this);
-		flowOptions = new FlowOptions();
+		flowOptions = OptionsReader.getFlowOptions();
 		displayOptions = new DisplayOptions();
 		isCheck = false;
 		isAnswers = false;
