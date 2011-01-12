@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
   <head>
@@ -10,20 +10,22 @@
     <title>QTI Player demo</title>
     
     <script type="text/javascript" language="javascript" src="locale_en.js"></script>    
+    <script type="text/javascript" language="javascript" src="config.js"></script> 
     <script type="text/javascript" language="javascript" src="qtiplayer/qtiplayer.nocache.js"></script>
     <script language="javascript">
     var player1;
       function qpOnAppLoaded(){
         // Load assessment
         player1 = qpCreatePlayer('player');
-		//manageState();
-		player1.setFlowOptions({showToC: true, showSummary: true, itemsDisplayMode: "ONE", showCheck: true});
+		// overrides cofiguration prepared in js file
+		//player1.setFlowOptions({showToC: true, showSummary: true, itemsDisplayMode: "ONE", showCheck: true});
 		//player1.setDisplayOptions(["untagged", "tag0"]);
         player1.load('content/demo.xml');
         player1.setMasteryScore(10);
 		
 		player1.onAssessmentLoaded = function(){
 			// uncomment to init player on the selected page
+			//setState();
 			//player1.navigateGotoItem(3);
 		};
 		player1.onAssessmentSessionBegin = function(){
@@ -31,10 +33,8 @@
 			//player1.navigateShowAnswers();
 		};
 		
-		// Show result
     	player1.onAssessmentSessionFinished = function(result){
-          alert("score: " + player1.getResult().getScore() + " " +
-              "max: " + player1.getResult().getMaxScore());
+          //alert("score: " + player1.getResult().getScore() + " " + "max: " + player1.getResult().getMaxScore());
     	}
 		player1.onTestPageSwitching = function(){
 			getValues();
@@ -45,10 +45,14 @@
 		
       }
       
-      function manageState(){
-      	//var state = player1.getStateString();
-      	//player1.setStateString(state);
-        player1.setStateString('[[["P R","C T"]],[[2,0,1]],[[true,false,false]],[],[],[]]');
+      function getState(){
+      	var state = player1.getStateString();
+	  }
+      function setState(){
+		player1.setStateString('["TOC",[[[[]],[["","",""]],[],[],[],[],[],[],[],[],[],[],[]],[[0,1,0,3,2,10,true],[0,1,0,99,9,10,true],null,null,null,null,null,null,null,null,null,null,null]]]');
+      }
+      function setState2(){
+		player1.setStateString('[0,[[[["id_8181232381612062 id_2578974310308695","id_26106282440014184 id_12673230725340545"]],[["","",""]],[],[],[],[],[],[],[],[],[],[],[]],[[0,1,0,3,4,16,true],[0,1,0,99,9,10,true],null,null,null,null,null,null,null,null,null,null,null]]]');
       }
       function report(){
         var report = player1.getAssessmentSessionReport();
@@ -97,8 +101,11 @@
 	<INPUT TYPE="button" NAME="button" Value="reset item" onClick="player1.navigateResetItem();"><br/>
 	<INPUT TYPE="button" NAME="button" Value="continue item" onClick="player1.navigateContinueItem();">
 	<INPUT TYPE="button" NAME="button" Value="summary" onClick="player1.navigateSummaryAssessment();">
+	<INPUT TYPE="button" NAME="button" Value="goto 2" onClick="player1.navigateGotoItem(1);">
 	<INPUT TYPE="button" NAME="button" Value="mode" onClick="alert(player1.getEngineMode().toString());">
-	<INPUT TYPE="button" NAME="button" Value="state" onClick="manageState();">
+	<INPUT TYPE="button" NAME="button" Value="get state" onClick="getState();">
+	<INPUT TYPE="button" NAME="button" Value="set state 1" onClick="setState();">
+	<INPUT TYPE="button" NAME="button" Value="set state 2" onClick="setState2();">
 	<INPUT TYPE="button" NAME="button" Value="report" onClick="report();">
 	<INPUT TYPE="button" NAME="button" Value="item report" onClick="itemReport();">
 	<SELECT id="itemIndexCombo">
@@ -115,19 +122,8 @@
 		<option value="10">10</option>
 		<option value="11">11</option>
 	</SELECT>
-
+	
 	<div id="player"></div>
-<!--
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-3468179-4");
-pageTracker._trackPageview();
-} catch(err) {}
-</script>
--->
+
   </body>
 </html>
