@@ -64,9 +64,9 @@ public class MatchArea {
 	public void setCanvasSize(int w, int h){
 		canvas.setWidth(w);
 		canvas.setHeight(h);
-		areaContainer.setSize(String.valueOf(w), String.valueOf(h));
-		areaCover.setSize(String.valueOf(w), String.valueOf(h));
-		land.setSize(String.valueOf(w), String.valueOf(h));
+		areaContainer.setSize(String.valueOf(w) + "px", String.valueOf(h) + "px");
+		areaCover.setSize(String.valueOf(w) + "px", String.valueOf(h) + "px");
+		land.setSize(String.valueOf(w) + "px", String.valueOf(h) + "px");
 		lastAreaWidth = w;
 		lastAreaHeight = h;
 	}
@@ -115,10 +115,10 @@ public class MatchArea {
 	
 	public void resetLand(){
 		areaContainer.setWidgetPosition(land, 0, 0);
-		land.setSize(String.valueOf(lastAreaWidth), String.valueOf(lastAreaHeight));
+		land.setSize(String.valueOf(lastAreaWidth) + "px", String.valueOf(lastAreaHeight) + "px");
 	}
 	public void moveLand(int x, int y){
-		land.setSize(String.valueOf(50), String.valueOf(50));
+		land.setSize(String.valueOf(50) + "px", String.valueOf(50) + "px");
 		areaContainer.setWidgetPosition(land, x-25, y-25);
 	}
 
