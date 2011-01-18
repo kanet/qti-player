@@ -119,8 +119,8 @@ public class DragDropModule extends Composite implements IInteractionModule {
 	
 	@Override
 	public void onOwnerAttached() {
-		containerPanel.setWidth( new Integer(contentsPanel.getOffsetWidth()).toString() );
-		containerPanel.setHeight( new Integer(contentsPanel.getOffsetHeight() + sourcelistPanel.getOffsetHeight()).toString() );
+		containerPanel.setWidth( new Integer(contentsPanel.getOffsetWidth()).toString() + "px" );
+		containerPanel.setHeight( new Integer(contentsPanel.getOffsetHeight() + sourcelistPanel.getOffsetHeight()).toString() + "px" );
 
 		dragPanel.registerOrigins(new Rectangle(0, contentsPanel.getOffsetHeight(), sourcelistPanel.getOffsetWidth(), sourcelistPanel.getOffsetHeight()));
 		dragPanel.registerSlots(slots);
