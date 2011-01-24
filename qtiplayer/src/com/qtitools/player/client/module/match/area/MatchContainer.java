@@ -1,11 +1,14 @@
 package com.qtitools.player.client.module.match.area;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
@@ -114,13 +117,16 @@ public class MatchContainer extends FlowPanel{
 		int rightPanelMargin = 0;
 		int hL = 0;
 		int hR = 0;
+		ArrayList<Integer> heights = new ArrayList<Integer>();
 
 		for (int e = 0 ; e < elements.size() ; e ++ ){
 			if (elements.get(e).side == MatchSide.LEFT){
+				heights.add(elements.get(e).getView().getOffsetHeight());
 				hL += elements.get(e).getView().getOffsetHeight();
 				if (leftPanelMargin == 0)
 					leftPanelMargin = elements.get(e).getView().getOffsetWidth();
 			}else if (elements.get(e).side == MatchSide.RIGHT){
+				heights.add(elements.get(e).getView().getOffsetHeight());
 				hR += elements.get(e).getView().getOffsetHeight();
 				if (rightPanelMargin == 0)
 					rightPanelMargin = elements.get(e).getView().getOffsetWidth();
@@ -130,7 +136,6 @@ public class MatchContainer extends FlowPanel{
 		int areaWidth = layoutPanel.getOffsetWidth() - leftPanelMargin - rightPanelMargin;
 		int rightPanelLeft = areaWidth + leftPanelMargin;
 		int areaHeight = (hR > hL) ? hR : hL;
-		int heightPerElement = (hL+hR)/elements.size();
 		
 		// slot size
 		
@@ -141,7 +146,7 @@ public class MatchContainer extends FlowPanel{
 		areaPanel.setHeight(String.valueOf(areaHeight) + "px");
 		layoutPanel.setHeight(String.valueOf(areaHeight) + "px");
 		
-		updateSlotsAnchors(areaWidth, heightPerElement, leftPanelMargin, rightPanelMargin);
+		updateSlotsAnchors(areaWidth, heights, leftPanelMargin, rightPanelMargin);
 		
 		updateResponse(false);
 	}
@@ -179,19 +184,35 @@ public class MatchContainer extends FlowPanel{
 	}
 
 	
-	private void updateSlotsAnchors(int areaWidth, int heightPerElement, int leftMargin, int rightMargin){
+	private void updateSlotsAnchors(int areaWidth, List<Integer> heights, int leftMargin, int rightMargin){
 		
 		int sX, sY;
 		int slotWidth;
+		
+		List<Panel> elementsViews = new ArrayList<Panel>();
+		
+		for (int e = 0 ; e < elements.size() ; e ++ ){
+			elementsViews.add(elements.get(e).getView());
+		}
 		
 		for (int e = 0 ; e < elements.size() ; e ++ ){
 			slotWidth = elements.get(e).slot.getOffsetWidth();
 			if (elements.get(e).side == MatchSide.LEFT){
 				sX = leftMargin-slotWidth/2;
-				sY = heightPerElement * leftPanel.getWidgetIndex(elements.get(e).getView()) + heightPerElement/2;
+				sY = 0;
+				for (int i = 0 ; i < leftPanel.getWidgetIndex(elements.get(e).getView()) ; i ++){
+					int elementsIndex = elementsViews.indexOf(leftPanel.getWidget(i));
+					sY += heights.get(elementsIndex);
+				}
+				sY += heights.get(e)/2;
 			} else {
 				sX = leftMargin + areaWidth + slotWidth/2;
-				sY = heightPerElement * rightPanel.getWidgetIndex(elements.get(e).getView()) + heightPerElement/2;
+				sY = 0;
+				for (int i = 0 ; i < rightPanel.getWidgetIndex(elements.get(e).getView()) ; i ++){
+					int elementsIndex = elementsViews.indexOf(rightPanel.getWidget(i));
+					sY += heights.get(elementsIndex);
+				}
+				sY += heights.get(e)/2;
 			}
 			elements.get(e).setSlotAnchor(sX, sY);
 		}

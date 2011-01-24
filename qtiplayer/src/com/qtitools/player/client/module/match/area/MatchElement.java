@@ -1,7 +1,9 @@
 package com.qtitools.player.client.module.match.area;
 
 import java.util.Vector;
+
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
@@ -50,6 +52,7 @@ public class MatchElement {
 			slot.setStylePrimaryName("qp-match-element-right-slot");
 		
 		view = new HorizontalPanel();
+		view.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		if (side == MatchSide.LEFT)
 			view.setStylePrimaryName("qp-match-element-left-container");
 		else if (side == MatchSide.RIGHT)
