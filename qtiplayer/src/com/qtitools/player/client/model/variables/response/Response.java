@@ -31,6 +31,7 @@ import com.google.gwt.xml.client.NodeList;
 import com.qtitools.player.client.model.variables.BaseType;
 import com.qtitools.player.client.model.variables.Cardinality;
 import com.qtitools.player.client.model.variables.Variable;
+import com.qtitools.player.client.util.StringUtils;
 
 
 public class Response extends Variable {
@@ -201,11 +202,31 @@ public class Response extends Variable {
 		
 		} if (cardinality == Cardinality.MULTIPLE){
 			
-			for (int a = 0 ; a < correctAnswers.size() ; a ++){
-				if (values.indexOf(correctAnswers.get(a)) != -1){
-					evaluation.add(true);
-				} else {
+			Vector<Boolean> used = new Vector<Boolean>();
+			
+			for (int a = 0 ; a < values.size() ; a ++){
+				used.add(false);
+			}
+			
+			for (int a = 0 ; a < values.size() ; a ++){
+				
+				int correctAnswerIndex = -1;
+				
+				for (int i = 0 ; i < correctAnswers.size() ; i ++){
+					if (!used.get(i)  && (
+							correctAnswers.get(i).equals(values.get(a))  ||
+							(baseType.equals(BaseType.PAIR)  &&  correctAnswers.get(i).equals( StringUtils.reverse(values.get(a))) )
+						)){
+						correctAnswerIndex = i;
+						break;
+					}
+				}
+				
+				if (correctAnswerIndex == -1){
 					evaluation.add(false);
+				} else {
+					evaluation.add(true);
+					used.set(correctAnswerIndex, true);
 				}
 			} 
 		
@@ -268,4 +289,6 @@ public class Response extends Variable {
 		
 		return evaluation;
 	}
+
+
 }
