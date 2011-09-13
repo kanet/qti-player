@@ -39,6 +39,7 @@ import com.qtitools.player.client.module.math.interaction.MathModule;
 import com.qtitools.player.client.module.mathexpr.MathExprInlineModule;
 import com.qtitools.player.client.module.object.ObjectModule;
 import com.qtitools.player.client.module.order.OrderModule;
+import com.qtitools.player.client.module.prompt.PromptModule;
 import com.qtitools.player.client.module.test.TestModule;
 import com.qtitools.player.client.module.text.InlineChoiceModule;
 import com.qtitools.player.client.module.text.TextEntryModule;
@@ -61,6 +62,7 @@ public abstract class ModuleFactory {
 												"mathInline",
 												"mathInteraction",
 												"dragDropInteraction",
+												"prompt",
 												"qy:comment",
 												"audioPlayer",
 												"vocabox"};
@@ -107,7 +109,9 @@ public abstract class ModuleFactory {
 		else if(element.getNodeName().compareTo("audioPlayer") == 0)
 			widget = new AudioPlayerModule(element);
 		else if(element.getNodeName().compareTo("vocabox") == 0)
-			widget = new VocaboxModule(element);
+			widget = new VocaboxModule(element);		
+		else if(element.getNodeName().compareTo("prompt") == 0)
+			widget = new PromptModule(element);		
 		else if(element.getNodeName().compareTo("qy:comment") == 0)
 			widget = new EmptyWidget();
 		else if(element.getNodeType() == Node.ELEMENT_NODE)
