@@ -92,7 +92,7 @@
   </target>
   
   <target name="buildnumber" description="Update build number">
-	<ivy:buildnumber organisation="com.klangner" module="qtiplayer" />
+	<ivy:buildnumber organisation="eu.ydp" module="qtiplayer" />
   </target>
   
   <target name="modulelib" depends="javac, buildnumber" description="Create module library">
