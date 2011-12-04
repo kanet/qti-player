@@ -77,7 +77,7 @@ public class TextEntryModule extends InlineHTML implements IInteractionModule{
 		
 		if (!response.correctAnswers.get(0).matches(".*[^0-9].*"))
 			textBox.getElement().setAttribute("type", "number");
-		String width = Integer.toString(response.correctAnswers.get(0).length()*10 + 30);
+		String width = Integer.toString(response.correctAnswers.get(0).length()*10 + 50);
 		textBox.setWidth(width+"px");
 		getElement().appendChild(textBox.getElement());
 		setStyleName("qp-text-textentry");
